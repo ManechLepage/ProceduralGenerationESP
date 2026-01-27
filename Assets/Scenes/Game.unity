@@ -148,7 +148,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bceea76e9faa4a469e9fc4310efaee9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testTexture: {fileID: 2800000, guid: 91c0cb62fcd736948b29da3e56a14c25, type: 3}
+  enableTest: 1
+  testTexture: {fileID: 2800000, guid: ca139afeee542ce4c8d5a6aff1e69126, type: 3}
   testSize: {x: 16, y: 16}
   testMeshGO: {fileID: 552241389}
 --- !u!4 &115618317
@@ -560,6 +561,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &931750844
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 931750845}
+  m_Layer: 0
+  m_Name: SimpleTextureGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &931750845
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931750844}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1857888448
 GameObject:
   m_ObjectHideFlags: 0
@@ -613,3 +645,4 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 1857888450}
   - {fileID: 115618317}
+  - {fileID: 931750845}

@@ -3,14 +3,18 @@ using System.Collections.Generic;
 
 public class SimpleMeshGenerator : MonoBehaviour
 {
+    public bool enableTest = true;
     public Texture2D testTexture;
     public Vector2 testSize = new Vector2(16f, 16f);
     public GameObject testMeshGO;
 
     void Start()
     {
-        Mesh mesh = TextureToMesh(testTexture, 50f, testSize);
-        ShowMesh(mesh);
+        if (enableTest)
+        {
+            Mesh mesh = TextureToMesh(testTexture, 50f, testSize);
+            ShowMesh(mesh);
+        }
     }
 
     public Mesh TextureToMesh(Texture2D texture, float height=1f, Vector2 size=default)
@@ -19,6 +23,7 @@ public class SimpleMeshGenerator : MonoBehaviour
             size = new Vector2(1f, 1f);
 
         Mesh mesh = new Mesh();
+        mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
 
         List<Vector3> vertices = new List<Vector3>();
         List<int> triangles = new List<int>();
