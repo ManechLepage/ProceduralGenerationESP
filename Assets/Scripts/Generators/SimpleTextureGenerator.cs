@@ -43,8 +43,23 @@ public class SimpleTextureGenerator : MonoBehaviour
         {
             for (int y=0; y<texture.height; y++)
             {
-                float sample = Mathf.PerlinNoise(x, y);
-                //sample *= heightCurve.Evaluate(sample);
+                float xCoord = (float)(x + seed) / texture.width / scale;
+                float yCoord = (float)(y + seed) / texture.height / scale;
+
+                float sampleX = Mathf.PerlinNoise(xCoord / 2f, yCoord / 2f);
+                float sampleY = Mathf.PerlinNoise(xCoord / 1.5f, yCoord / 1.5f);
+                yCoord += (sampleY - 0.5f) * 0.01f;
+                xCoord += (sampleX - 0.5f) * 0.01f;
+
+
+                float sample = Mathf.PerlinNoise(xCoord, yCoord);
+                float sample2 = Mathf.PerlinNoise(xCoord / 3f, yCoord / 3f);
+                float sample3 = Mathf.PerlinNoise(xCoord * 10f, yCoord * 10f);
+
+                sample *= heightCurve.Evaluate(sample);
+                float slope = GetCurveSlope(heightCurve, sample);
+
+                sample = sample * 0.7f + sample2 * 0.25f + sample3 * Mathf.Min(0.05f * slope, 0.05f);
                 texture.SetPixel(x, y, new Color(sample, sample, sample));
             }
         }
@@ -60,7 +75,14 @@ public class SimpleTextureGenerator : MonoBehaviour
 
     public void Show(Texture2D texture, Vector2 size)
     {
-        Mesh mesh = meshGenerator.TextureToMesh(texture, 50f, size);
+        Mesh mesh = meshGenerator.TextureToMesh(texture, 50f * (scale / 0.1f), size);
         meshGenerator.ShowMesh(mesh);
+    }
+
+    public float GetCurveSlope(AnimationCurve curve, float value, float delta=0.01f)
+    {
+        float value1 = curve.Evaluate(value);
+        float value2 = curve.Evaluate(value + delta);
+        return (value2 - value1) / delta;
     }
 }
