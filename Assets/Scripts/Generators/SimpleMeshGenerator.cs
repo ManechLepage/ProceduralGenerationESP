@@ -19,7 +19,7 @@ public class SimpleMeshGenerator : MonoBehaviour
 
     public Mesh TextureToMesh(Texture2D texture, float height=1f, Vector2 size=default)
     {
-        if (size == Vector2.zero)
+        if (size == default)
             size = new Vector2(1f, 1f);
 
         Mesh mesh = new Mesh();
