@@ -43,15 +43,18 @@ public class SimpleTextureGenerator : MonoBehaviour
         {
             for (int y=0; y<texture.height; y++)
             {
-                float xCoord = (float)x / texture.width * scale;
-                float yCoord = (float)y / texture.height * scale;
-
-                float sample = Mathf.PerlinNoise((xCoord + seed) / scale, (yCoord + seed) / scale);
-                sample *= heightCurve.Evaluate(sample);
+                float sample = Mathf.PerlinNoise(x, y);
+                //sample *= heightCurve.Evaluate(sample);
                 texture.SetPixel(x, y, new Color(sample, sample, sample));
             }
         }
         texture.Apply();
+
+        // save texture in Assets/Textures/GeneratedTexture.png
+
+        System.IO.File.WriteAllBytes("Assets/Textures/GeneratedTexture.png", texture.EncodeToPNG());
+        UnityEditor.AssetDatabase.Refresh();
+
         return texture;
     }
 
