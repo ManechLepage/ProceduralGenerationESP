@@ -616,26 +616,62 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   textureSize: {x: 256, y: 256}
-  seed: 0
-  scale: 1
+  seed: 8265138
+  scale: 0.35
   heightCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
-      tangentMode: 34
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
+    - serializedVersion: 3
+      time: 0.20226687
+      value: 0.12394801
+      inSlope: 0.51804185
+      outSlope: 0.51804185
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.7318337
+    - serializedVersion: 3
+      time: 0.4061424
+      value: 0.39447615
+      inSlope: 0.22288157
+      outSlope: 0.22288157
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.4290468
+    - serializedVersion: 3
+      time: 0.6278798
+      value: 0.5049921
+      inSlope: 1.491978
+      outSlope: 1.491978
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7197586
+      value: 0.81313735
+      inSlope: 1.7731344
+      outSlope: 1.7731344
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.21496235
     - serializedVersion: 3
       time: 1
       value: 1
       inSlope: 0
       outSlope: 0
-      tangentMode: 34
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
