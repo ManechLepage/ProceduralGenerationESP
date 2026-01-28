@@ -12,14 +12,14 @@ public class SimpleMeshGenerator : MonoBehaviour
     {
         if (enableTest)
         {
-            Mesh mesh = TextureToMesh(testTexture, 50f, testSize);
+            Mesh mesh = TextureToMesh(testTexture, 50f, testSize, true);
             ShowMesh(mesh);
         }
     }
 
-    public Mesh TextureToMesh(Texture2D texture, float height=1f, Vector2 size=default)
+    public Mesh TextureToMesh(Texture2D texture, float height=1f, Vector2 size=default, bool smoothing=false)
     {
-        List<List<float>> heightMap = GameManager.Instance.TextureHelpers.TextureToHeightMap(texture);
+        List<List<float>> heightMap = GameManager.Instance.TextureHelpers.TextureToHeightMap(texture, smoothing);
         return HeightMapToMesh(heightMap, height, size);
     }
 

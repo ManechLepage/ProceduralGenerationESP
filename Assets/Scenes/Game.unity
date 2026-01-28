@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enableTest: 1
-  testTexture: {fileID: 2800000, guid: 49352b33286d081479eb8019b71390fa, type: 3}
+  testTexture: {fileID: 2800000, guid: ca139afeee542ce4c8d5a6aff1e69126, type: 3}
   testSize: {x: 16, y: 16}
   testMeshGO: {fileID: 552241389}
 --- !u!4 &115618317
@@ -758,7 +758,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1635788097
 MonoBehaviour:
   m_ObjectHideFlags: 0
