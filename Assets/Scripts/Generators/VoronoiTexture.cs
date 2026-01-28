@@ -15,8 +15,8 @@ public class VoronoiTexture : MonoBehaviour
         
         System.IO.File.WriteAllBytes(Application.dataPath + "/Textures/Voronoi/VoronoiTexture.png", texture.EncodeToPNG());
         
-        // Mesh mesh = meshGenerator.TextureToMesh(texture, 50f, new Vector2(16.0f, 16.0f));
-        // meshGenerator.ShowMesh(mesh);
+        Mesh mesh = meshGenerator.TextureToMesh(texture, 50f, new Vector2(16f, 16f));
+        meshGenerator.ShowMesh(mesh);
     }
     Texture2D GenerateVoronoiTexture(int width, int height, int numPoints)
     {
@@ -36,7 +36,7 @@ public class VoronoiTexture : MonoBehaviour
                 Vector2 pixel = new Vector2(x, y);
                 float minDist = GetMinDistance(pixel, points);
                 float intensity = Mathf.InverseLerp(0, Mathf.Sqrt(width * width + height * height), minDist);
-                Debug.Log(intensity);
+                // Debug.Log(intensity);
                 Color color = new Color(intensity, intensity, intensity);
                 texture.SetPixel(x, y, color);
             }
@@ -90,7 +90,7 @@ public class VoronoiTexture : MonoBehaviour
                 Color color = texture.GetPixel(x, y);
                 float intensity = color.r;
                 float normalizedIntensity = (intensity - minIntensity) / (maxIntensity - minIntensity);
-                Debug.Log(normalizedIntensity);
+                // Debug.Log(normalizedIntensity);
                 texture.SetPixel(x, y, new Color(normalizedIntensity, normalizedIntensity, normalizedIntensity));
             }
         }

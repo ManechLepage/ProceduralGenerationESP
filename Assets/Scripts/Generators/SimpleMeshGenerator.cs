@@ -26,6 +26,8 @@ public class SimpleMeshGenerator : MonoBehaviour
         // the final mesh size should be size.
 
         Mesh mesh = new Mesh();
+        mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+
         List<Vector3> vertices = new List<Vector3>();
         List<int> triangles = new List<int>();
 
