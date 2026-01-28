@@ -7,8 +7,8 @@ public class GameManager : MonoBehaviour
     Le GameManager est toujours présent dans la hiérarchie, dans toutes les scènes.
     */
 
-
     public static GameManager Instance;
+    public TextureHelpers TextureHelpers;
 
     void Awake()
     {

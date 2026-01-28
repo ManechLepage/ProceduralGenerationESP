@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class VoronoiTexture : MonoBehaviour
 {
@@ -10,17 +11,19 @@ public class VoronoiTexture : MonoBehaviour
 
     void Start()
     {
-        Texture2D texture = GenerateVoronoiTexture(textureWidth, textureHeight, numberOfPoints);
+        List<List<float>> heightMap = GenerateVoronoiHeightMap(textureWidth, textureHeight, numberOfPoints);
+        Texture2D texture = GameManager.Instance.TextureHelpers.HeightMapToTexture(heightMap);
         texture = NormalizeTexture(texture);
         
         System.IO.File.WriteAllBytes(Application.dataPath + "/Textures/Voronoi/VoronoiTexture.png", texture.EncodeToPNG());
         
-        Mesh mesh = meshGenerator.TextureToMesh(texture, 50f, new Vector2(16f, 16f));
+        Mesh mesh = meshGenerator.HeightMapToMesh(heightMap, 50f, new Vector2(16f, 16f));
         meshGenerator.ShowMesh(mesh);
     }
-    Texture2D GenerateVoronoiTexture(int width, int height, int numPoints)
+
+    List<List<float>> GenerateVoronoiHeightMap(int width, int height, int numPoints)
     {
-        Texture2D texture = new Texture2D(width, height);
+        List<List<float>> heightMap = new List<List<float>>();
         Vector2[] points = new Vector2[numPoints];
 
 
@@ -31,19 +34,18 @@ public class VoronoiTexture : MonoBehaviour
 
         for (int y = 0; y < height; y++)
         {
+            heightMap.Add(new List<float>());
             for (int x = 0; x < width; x++)
             {
                 Vector2 pixel = new Vector2(x, y);
                 float minDist = GetMinDistance(pixel, points);
                 float intensity = Mathf.InverseLerp(0, Mathf.Sqrt(width * width + height * height), minDist);
                 // Debug.Log(intensity);
-                Color color = new Color(intensity, intensity, intensity);
-                texture.SetPixel(x, y, color);
+                heightMap[y].Add(intensity);
             }
         }
 
-        texture.Apply();
-        return texture;
+        return heightMap;
     }
 
     float Distance(Vector2 a, Vector2 b)

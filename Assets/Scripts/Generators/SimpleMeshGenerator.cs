@@ -19,7 +19,7 @@ public class SimpleMeshGenerator : MonoBehaviour
 
     public Mesh TextureToMesh(Texture2D texture, float height=1f, Vector2 size=default)
     {
-        List<List<float>> heightMap = Texture2DToHeightMap(texture);
+        List<List<float>> heightMap = GameManager.Instance.TextureHelpers.TextureToHeightMap(texture);
         return HeightMapToMesh(heightMap, height, size);
     }
 
@@ -69,24 +69,6 @@ public class SimpleMeshGenerator : MonoBehaviour
         mesh.RecalculateNormals();
 
         return mesh;
-    }
-
-    public List<List<float>> Texture2DToHeightMap(Texture2D texture)
-    {
-        List<List<float>> heightMap = new List<List<float>>();
-
-        for (int y = 0; y < texture.height; y++)
-        {
-            List<float> row = new List<float>();
-            for (int x = 0; x < texture.width; x++)
-            {
-                float pixelHeight = texture.GetPixel(x, y).grayscale;
-                row.Add(pixelHeight);
-            }
-            heightMap.Add(row);
-        }
-
-        return heightMap;
     }
 
     public void ShowMesh(Mesh mesh)

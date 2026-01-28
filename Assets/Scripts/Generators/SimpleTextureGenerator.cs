@@ -32,8 +32,8 @@ public class SimpleTextureGenerator : MonoBehaviour
         seed = Random.Range(0, 10000000);
 
         List<List<float>> heightMap = Generate(textureSize);
-        Texture2D texture = HeightMapToTexture(heightMap);
-        SaveTexture(texture, "Assets/Textures/GeneratedTexture.png");
+        Texture2D texture = GameManager.Instance.TextureHelpers.HeightMapToTexture(heightMap);
+        GameManager.Instance.TextureHelpers.SaveTexture(texture, "Assets/Textures/GeneratedTexture.png");
 
         ShowHeightMap(heightMap, previewSize);
     }
@@ -70,28 +70,6 @@ public class SimpleTextureGenerator : MonoBehaviour
         }
 
         return heightMap;
-    }
-
-    public Texture2D HeightMapToTexture(List<List<float>> heightMap)
-    {
-        Texture2D texture = new Texture2D((int)heightMap.Count, (int)heightMap[0].Count);
-
-        for (int x=0; x<texture.width; x++)
-        {
-            for (int y=0; y<texture.height; y++)
-            {
-                texture.SetPixel(x, y, new Color(heightMap[x][y], heightMap[x][y], heightMap[x][y]));
-            }
-        }
-        texture.Apply();
-
-        return texture;
-    }
-
-    public void SaveTexture(Texture2D texture, string path)
-    {
-        System.IO.File.WriteAllBytes(path, texture.EncodeToPNG());
-        UnityEditor.AssetDatabase.Refresh();
     }
 
     public void ShowTexture(Texture2D texture, Vector2 size)
