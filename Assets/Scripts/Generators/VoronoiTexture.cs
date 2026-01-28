@@ -101,6 +101,6 @@ public class VoronoiTexture : MonoBehaviour
 
     Texture AddTextures(Texture texture1, Texture texture2, Vector2 position)
     {
-        
+        return texture1;
     }
 }
