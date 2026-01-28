@@ -19,6 +19,12 @@ public class SimpleMeshGenerator : MonoBehaviour
 
     public Mesh TextureToMesh(Texture2D texture, float height=1f, Vector2 size=default)
     {
+        List<List<float>> heightMap = Texture2DToHeightMap(texture);
+        return HeightMapToMesh(heightMap, height, size);
+    }
+
+    public Mesh HeightMapToMesh(List<List<float>> heightMap, float height=1f, Vector2 size=default)
+    {
         if (size == default)
             size = new Vector2(1f, 1f);
 
@@ -31,28 +37,28 @@ public class SimpleMeshGenerator : MonoBehaviour
         List<Vector3> vertices = new List<Vector3>();
         List<int> triangles = new List<int>();
 
-        float sizeXPerPixel = size.x / texture.width;
-        float sizeYPerPixel = size.y / texture.height;
+        float sizeXPerPixel = size.x / heightMap[0].Count;
+        float sizeYPerPixel = size.y / heightMap.Count;
 
-        for (int x = 0; x < texture.width + 1; x++)
+        for (int y = 0; y < heightMap.Count + 1; y++)
         {
-            for (int y = 0; y < texture.height + 1; y++)
+            for (int x = 0; x < heightMap[0].Count + 1; x++)
             {
-                float pixelHeight = texture.GetPixel(Mathf.Min(x, texture.width - 1), Mathf.Min(y, texture.height - 1)).grayscale * height;
-                vertices.Add(new Vector3(x * sizeXPerPixel, -pixelHeight, y * sizeYPerPixel));
+                float pixelHeight = heightMap[Mathf.Min(y, heightMap.Count - 1)][Mathf.Min(x, heightMap[0].Count - 1)] * height;
+                vertices.Add(new Vector3(x * sizeXPerPixel, pixelHeight, y * sizeYPerPixel));
 
-                if (y < texture.height && x < texture.width)
+                if (y < heightMap.Count && x < heightMap[0].Count)
                 {
-                    int i = x * (texture.height + 1) + y;
+                    int i = y * (heightMap[0].Count + 1) + x;
 
                     // First triangle
                     triangles.Add(i);
-                    triangles.Add(i + texture.height + 1);
-                    triangles.Add(i + texture.height + 2);
+                    triangles.Add(i + heightMap[0].Count + 1);
+                    triangles.Add(i + heightMap[0].Count + 2);
 
                     // Second triangle
                     triangles.Add(i);
-                    triangles.Add(i + texture.height + 2);
+                    triangles.Add(i + heightMap[0].Count + 2);
                     triangles.Add(i + 1);
                 }
             }
@@ -63,6 +69,24 @@ public class SimpleMeshGenerator : MonoBehaviour
         mesh.RecalculateNormals();
 
         return mesh;
+    }
+
+    public List<List<float>> Texture2DToHeightMap(Texture2D texture)
+    {
+        List<List<float>> heightMap = new List<List<float>>();
+
+        for (int y = 0; y < texture.height; y++)
+        {
+            List<float> row = new List<float>();
+            for (int x = 0; x < texture.width; x++)
+            {
+                float pixelHeight = texture.GetPixel(x, y).grayscale;
+                row.Add(pixelHeight);
+            }
+            heightMap.Add(row);
+        }
+
+        return heightMap;
     }
 
     public void ShowMesh(Mesh mesh)

@@ -30,21 +30,26 @@ public class SimpleTextureGenerator : MonoBehaviour
     void Regenerate()
     {
         seed = Random.Range(0, 10000000);
-        Texture2D texture = Generate(textureSize);
-        Show(texture, previewSize);
+
+        List<List<float>> heightMap = Generate(textureSize);
+        Texture2D texture = HeightMapToTexture(heightMap);
+        SaveTexture(texture, "Assets/Textures/GeneratedTexture.png");
+
+        ShowHeightMap(heightMap, previewSize);
     }
 
-    public Texture2D Generate(Vector2 size=default)
+    public List<List<float>> Generate(Vector2 size=default)
     {
         if (size == default) size = textureSize;
-        Texture2D texture = new Texture2D((int)size.x, (int)size.y);
+        List<List<float>> heightMap = new List<List<float>>();
 
-        for (int x=0; x<texture.width; x++)
+        for (int x=0; x<size.x; x++)
         {
-            for (int y=0; y<texture.height; y++)
+            heightMap.Add(new List<float>());
+            for (int y=0; y<size.y; y++)
             {
-                float xCoord = (float)(x + seed) / texture.width / scale;
-                float yCoord = (float)(y + seed) / texture.height / scale;
+                float xCoord = (float)(x + seed) / size.x / scale;
+                float yCoord = (float)(y + seed) / size.y / scale;
 
                 float sampleX = Mathf.PerlinNoise(xCoord / 2f, yCoord / 2f);
                 float sampleY = Mathf.PerlinNoise(xCoord / 1.5f, yCoord / 1.5f);
@@ -59,23 +64,45 @@ public class SimpleTextureGenerator : MonoBehaviour
                 sample *= heightCurve.Evaluate(sample);
                 float slope = GetCurveSlope(heightCurve, sample);
 
-                sample = sample * 0.7f + sample2 * 0.25f + sample3 * Mathf.Min(0.05f * slope, 0.05f);
-                texture.SetPixel(x, y, new Color(sample, sample, sample));
+                sample = sample * 0.7f + sample2 * 0.275f + sample3 * Mathf.Min(0.025f * slope, 0.025f);
+                heightMap[x].Add(sample);
+            }
+        }
+
+        return heightMap;
+    }
+
+    public Texture2D HeightMapToTexture(List<List<float>> heightMap)
+    {
+        Texture2D texture = new Texture2D((int)heightMap.Count, (int)heightMap[0].Count);
+
+        for (int x=0; x<texture.width; x++)
+        {
+            for (int y=0; y<texture.height; y++)
+            {
+                texture.SetPixel(x, y, new Color(heightMap[x][y], heightMap[x][y], heightMap[x][y]));
             }
         }
         texture.Apply();
 
-        // save texture in Assets/Textures/GeneratedTexture.png
-
-        System.IO.File.WriteAllBytes("Assets/Textures/GeneratedTexture.png", texture.EncodeToPNG());
-        UnityEditor.AssetDatabase.Refresh();
-
         return texture;
     }
 
-    public void Show(Texture2D texture, Vector2 size)
+    public void SaveTexture(Texture2D texture, string path)
+    {
+        System.IO.File.WriteAllBytes(path, texture.EncodeToPNG());
+        UnityEditor.AssetDatabase.Refresh();
+    }
+
+    public void ShowTexture(Texture2D texture, Vector2 size)
     {
         Mesh mesh = meshGenerator.TextureToMesh(texture, 50f * (scale / 0.1f), size);
+        meshGenerator.ShowMesh(mesh);
+    }
+
+    public void ShowHeightMap(List<List<float>> heightMap, Vector2 size)
+    {
+        Mesh mesh = meshGenerator.HeightMapToMesh(heightMap, 50f * (scale / 0.1f), size);
         meshGenerator.ShowMesh(mesh);
     }
 
