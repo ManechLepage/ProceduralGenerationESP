@@ -46,6 +46,23 @@ public class TextureHelpers : MonoBehaviour
         return texture;
     }
 
+    public List<List<float>> AddHeightMaps(List<List<float>> mapA, List<List<float>> mapB, float ratioB)
+    {
+        List<List<float>> resultMap = new List<List<float>>();
+
+        for (int x = 0; x < mapA.Count; x++)
+        {
+            resultMap.Add(new List<float>());
+            for (int y = 0; y < mapA[0].Count; y++)
+            {
+                float combinedHeight = mapA[x][y] * (1 - ratioB) + mapB[x][y] * ratioB;
+                resultMap[x].Add(combinedHeight);
+            }
+        }
+
+        return resultMap;
+    }
+
     public void SaveTexture(Texture2D texture, string path)
     {
         System.IO.File.WriteAllBytes(path, texture.EncodeToPNG());

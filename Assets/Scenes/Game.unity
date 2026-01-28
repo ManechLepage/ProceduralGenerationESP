@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enableTest: 1
-  testTexture: {fileID: 2800000, guid: ca139afeee542ce4c8d5a6aff1e69126, type: 3}
+  testTexture: {fileID: 2800000, guid: 66f0c6e1b56cd874faace072eaf1cbe7, type: 3}
   testSize: {x: 16, y: 16}
   testMeshGO: {fileID: 552241389}
 --- !u!4 &115618317
@@ -553,6 +553,56 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 552241389}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &716181105
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 716181107}
+  - component: {fileID: 716181108}
+  m_Layer: 0
+  m_Name: VoronoiGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &716181107
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 716181105}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.1603, y: 0, z: -1.27372}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1635788098}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &716181108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 716181105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54fce754a1d0a4f4b8726e64bed77551, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VoronoiGenerator
+  voronoiTexture: {fileID: 1635788097}
+  textureHelpers: {fileID: 2078962228}
+  textureGenerator: {fileID: 931750846}
+  noiseRatio: 0.3
+  textureSize: {x: 512, y: 512}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -649,7 +699,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &931750845
 Transform:
   m_ObjectHideFlags: 0
@@ -758,7 +808,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1635788097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -771,10 +821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24b841445ae44e04197915caf27c978c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VoronoiTexture
-  textureWidth: 512
-  textureHeight: 512
   numberOfPoints: 10
-  meshGenerator: {fileID: 115618316}
 --- !u!4 &1635788098
 Transform:
   m_ObjectHideFlags: 0
@@ -783,12 +830,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1635788096}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.48205, y: -0, z: -4.35181}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.64235, y: 0, z: -3.07809}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 716181107}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1857888448
 GameObject:
@@ -892,4 +939,4 @@ SceneRoots:
   - {fileID: 901289674}
   - {fileID: 115618317}
   - {fileID: 931750845}
-  - {fileID: 1635788098}
+  - {fileID: 716181107}

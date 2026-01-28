@@ -16,7 +16,7 @@ public class SimpleTextureGenerator : MonoBehaviour
 
     void Start()
     {
-        Regenerate();
+        // Regenerate();
     }
 
     void Update()

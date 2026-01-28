@@ -3,22 +3,15 @@ using System.Collections.Generic;
 
 public class VoronoiTexture : MonoBehaviour
 {
-    public int textureWidth = 512;
-    public int textureHeight = 512;
     public int numberOfPoints = 10;
 
-    public SimpleMeshGenerator meshGenerator;
-
-    void Start()
+    public Texture2D LoadVoronoiTexture(int textureWidth = 512, int textureHeight = 512)
     {
         List<List<float>> heightMap = GenerateVoronoiHeightMap(textureWidth, textureHeight, numberOfPoints);
         Texture2D texture = GameManager.Instance.TextureHelpers.HeightMapToTexture(heightMap);
         texture = NormalizeTexture(texture);
         
-        System.IO.File.WriteAllBytes(Application.dataPath + "/Textures/Voronoi/VoronoiTexture.png", texture.EncodeToPNG());
-        
-        Mesh mesh = meshGenerator.HeightMapToMesh(heightMap, 50f, new Vector2(16f, 16f));
-        meshGenerator.ShowMesh(mesh);
+        return texture;
     }
 
     List<List<float>> GenerateVoronoiHeightMap(int width, int height, int numPoints)
