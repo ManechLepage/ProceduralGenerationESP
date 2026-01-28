@@ -1,9 +1,26 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+[ExecuteInEditMode]
 public class VoronoiTexture : MonoBehaviour
 {
+    public TextureHelpers textureHelpers;
+    [Header("Voronoi Settings")]
     public int numberOfPoints = 10;
+    public Vector2 textureSize = new Vector2(256, 256);
+    [Space]
+    public bool GenerateTexture = false;
+
+    void Update()
+    {
+        if (GenerateTexture)
+        {
+            GenerateTexture = false;
+            List<List<float>> heightMap = LoadVoronoiTexture((int)textureSize.x, (int)textureSize.y);
+            Texture2D texture = textureHelpers.HeightMapToTexture(heightMap);
+            textureHelpers.SaveTexture(texture, "Assets/Textures/Previews/Voronoi.png");
+        }
+    }
 
     public List<List<float>> LoadVoronoiTexture(int textureWidth = 512, int textureHeight = 512)
     {

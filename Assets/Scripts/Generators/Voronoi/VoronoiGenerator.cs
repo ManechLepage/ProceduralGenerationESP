@@ -5,7 +5,7 @@ public class VoronoiGenerator : MonoBehaviour
 {
     public VoronoiTexture voronoiTexture;
     public TextureHelpers textureHelpers;
-    public SimpleTextureGenerator textureGenerator;
+    public NoiseGenerator noiseGenerator;
     public SimpleMeshGenerator meshGenerator;
 
     [Header("Settings")]
@@ -27,7 +27,7 @@ public class VoronoiGenerator : MonoBehaviour
         Texture2D voronoiTex = textureHelpers.HeightMapToTexture(voronoiHeightMap);
         textureHelpers.SaveTexture(voronoiTex, "Assets/Textures/Voronoi/VoronoiBase.png");
 
-        List<List<float>> noiseHeightMap = textureGenerator.Generate(textureSize);
+        List<List<float>> noiseHeightMap = noiseGenerator.GenerateDefaultNoise(textureSize);
         Texture2D noiseTex = textureHelpers.HeightMapToTexture(noiseHeightMap);
         textureHelpers.SaveTexture(noiseTex, "Assets/Textures/Voronoi/NoiseLayer.png");
 

@@ -583,6 +583,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1662759008}
   - {fileID: 1635788098}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -600,10 +601,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VoronoiGenerator
   voronoiTexture: {fileID: 1635788097}
   textureHelpers: {fileID: 2078962228}
-  textureGenerator: {fileID: 931750846}
+  noiseGenerator: {fileID: 1662759007}
   meshGenerator: {fileID: 115618316}
-  noiseRatio: 0.3
-  textureSize: {x: 512, y: 512}
+  multiplyLayers: 0
+  noiseRatio: 0.03
+  TerrainSize: {x: 8, y: 8}
+  textureSize: {x: 1024, y: 1024}
+  heightMultiplier: 40
   drawToMesh: 1
 --- !u!1 &832575517
 GameObject:
@@ -823,7 +827,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24b841445ae44e04197915caf27c978c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VoronoiTexture
+  textureHelpers: {fileID: 2078962228}
   numberOfPoints: 10
+  textureSize: {x: 512, y: 512}
+  GenerateTexture: 0
 --- !u!4 &1635788098
 Transform:
   m_ObjectHideFlags: 0
@@ -834,6 +841,58 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -2.64235, y: 0, z: -3.07809}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 716181107}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1662759006
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1662759008}
+  - component: {fileID: 1662759007}
+  m_Layer: 0
+  m_Name: NoiseGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1662759007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1662759006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b733e11cf679d84b864bc37023f69a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NoiseGenerator
+  textureHelpers: {fileID: 2078962228}
+  textureSize: {x: 512, y: 512}
+  octaves: 8
+  scale: 30
+  persistence: 0.5
+  lacunarity: 2
+  offset: {x: 0, y: 0}
+  GenerateTexture: 0
+--- !u!4 &1662759008
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1662759006}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.1603, y: 0, z: 1.27372}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
