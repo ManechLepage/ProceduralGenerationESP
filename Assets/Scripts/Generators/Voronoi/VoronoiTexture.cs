@@ -5,13 +5,13 @@ public class VoronoiTexture : MonoBehaviour
 {
     public int numberOfPoints = 10;
 
-    public Texture2D LoadVoronoiTexture(int textureWidth = 512, int textureHeight = 512)
+    public List<List<float>> LoadVoronoiTexture(int textureWidth = 512, int textureHeight = 512)
     {
         List<List<float>> heightMap = GenerateVoronoiHeightMap(textureWidth, textureHeight, numberOfPoints);
-        Texture2D texture = GameManager.Instance.TextureHelpers.HeightMapToTexture(heightMap);
-        texture = NormalizeTexture(texture);
+        // Texture2D texture = GameManager.Instance.TextureHelpers.HeightMapToTexture(heightMap);
+        List<List<float>> normalizedHeightMap = NormalizeHeightMap(heightMap);
         
-        return texture;
+        return normalizedHeightMap;
     }
 
     List<List<float>> GenerateVoronoiHeightMap(int width, int height, int numPoints)
@@ -60,38 +60,35 @@ public class VoronoiTexture : MonoBehaviour
         return minDist;
     }
 
-    Texture2D NormalizeTexture(Texture2D texture)
+    List<List<float>> NormalizeHeightMap(List<List<float>> heightMap)
     {
-        int width = texture.width;
-        int height = texture.height;
-        float minIntensity = float.MaxValue;
-        float maxIntensity = float.MinValue;
+        float minVal = float.MaxValue;
+        float maxVal = float.MinValue;
 
-        for (int y = 0; y < height; y++)
+        for (int y = 0; y < heightMap.Count; y++)
         {
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < heightMap[0].Count; x++)
             {
-                Color color = texture.GetPixel(x, y);
-                float intensity = color.r;
-                if (intensity < minIntensity) minIntensity = intensity;
-                if (intensity > maxIntensity) maxIntensity = intensity;
+                if (heightMap[y][x] < minVal)
+                    minVal = heightMap[y][x];
+                if (heightMap[y][x] > maxVal)
+                    maxVal = heightMap[y][x];
             }
         }
 
-        for (int y = 0; y < height; y++)
+        List<List<float>> normalizedMap = new List<List<float>>();
+
+        for (int y = 0; y < heightMap.Count; y++)
         {
-            for (int x = 0; x < width; x++)
+            normalizedMap.Add(new List<float>());
+            for (int x = 0; x < heightMap[0].Count; x++)
             {
-                Color color = texture.GetPixel(x, y);
-                float intensity = color.r;
-                float normalizedIntensity = (intensity - minIntensity) / (maxIntensity - minIntensity);
-                // Debug.Log(normalizedIntensity);
-                texture.SetPixel(x, y, new Color(normalizedIntensity, normalizedIntensity, normalizedIntensity));
+                float normalizedValue = (heightMap[y][x] - minVal) / (maxVal - minVal);
+                normalizedMap[y].Add(normalizedValue);
             }
         }
 
-        texture.Apply();
-        return texture;    
+        return normalizedMap;
     }
 
     Texture AddTextures(Texture texture1, Texture texture2, Vector2 position)
