@@ -604,7 +604,7 @@ MonoBehaviour:
   noiseGenerator: {fileID: 1662759007}
   meshGenerator: {fileID: 115618316}
   multiplyLayers: 0
-  noiseRatio: 0.03
+  noiseRatio: 0.02
   TerrainSize: {x: 8, y: 8}
   textureSize: {x: 1024, y: 1024}
   heightMultiplier: 40
@@ -828,7 +828,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VoronoiTexture
   textureHelpers: {fileID: 2078962228}
-  numberOfPoints: 10
+  numberOfPoints: 4
   textureSize: {x: 512, y: 512}
   GenerateTexture: 0
 --- !u!4 &1635788098
