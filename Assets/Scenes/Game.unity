@@ -605,9 +605,9 @@ MonoBehaviour:
   meshGenerator: {fileID: 115618316}
   multiplyLayers: 0
   noiseRatio: 0.02
-  TerrainSize: {x: 8, y: 8}
+  TerrainSize: {x: 16, y: 16}
   textureSize: {x: 1024, y: 1024}
-  heightMultiplier: 40
+  heightMultiplier: 60
   drawToMesh: 1
 --- !u!1 &832575517
 GameObject:
