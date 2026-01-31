@@ -553,6 +553,61 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 552241389}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &689062181
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 689062182}
+  - component: {fileID: 689062183}
+  m_Layer: 0
+  m_Name: DomainWarping
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &689062182
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 689062181}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &689062183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 689062181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88e8ced4180e9694c980c4a60630affe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  noiseGenerator: {fileID: 1662759007}
+  meshGenerator: {fileID: 115618316}
+  textureHelpers: {fileID: 2078962228}
+  isEnabled: 1
+  size: {x: 256, y: 256}
+  octaves: 8
+  scale: 0.2
+  persistence: 0.5
+  lacunarity: 2
+  terrainSize: {x: 16, y: 16}
+  terrainHeight: 100
 --- !u!1 &716181105
 GameObject:
   m_ObjectHideFlags: 0
@@ -579,7 +634,7 @@ Transform:
   m_GameObject: {fileID: 716181105}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.1603, y: 0, z: -1.27372}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -603,6 +658,7 @@ MonoBehaviour:
   textureHelpers: {fileID: 2078962228}
   noiseGenerator: {fileID: 1662759007}
   meshGenerator: {fileID: 115618316}
+  isEnabled: 0
   multiplyLayers: 0
   noiseRatio: 0.3
   TerrainSize: {x: 16, y: 16}
@@ -1057,4 +1113,5 @@ SceneRoots:
   - {fileID: 115618317}
   - {fileID: 931750845}
   - {fileID: 716181107}
+  - {fileID: 689062182}
   - {fileID: 807678029}

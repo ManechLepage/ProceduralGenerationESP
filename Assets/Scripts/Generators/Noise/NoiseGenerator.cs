@@ -42,36 +42,57 @@ public class NoiseGenerator : MonoBehaviour
             heightMap.Add(new List<float>());
             for (int y = 0; y < size.y; y++)
             {
-                float amplitude = 1;
-                float frequency = 1;
-                float noiseHeight = 0;
+                float xCoord = (float)(x + offset.x) / size.x;
+                float yCoord = (float)(y + offset.y) / size.y;
 
-                for (int i = 0; i < octaves; i++)
-                {
-                    float xCoord = (float)(x + offset.x) / size.x * scale * frequency;
-                    float yCoord = (float)(y + offset.y) / size.y * scale * frequency;
-                    
-                    float sample = Mathf.PerlinNoise(xCoord, yCoord) * 2f - 1f;
+                float noiseHeight = GetNoiseValue(
+                    xCoord, yCoord,
+                    octaves, scale, persistence, lacunarity,
+                    absoluteNoise, heightCurve
+                );
 
-                    if (absoluteNoise)
-                        sample = Mathf.Abs(sample);
-
-                    noiseHeight += sample * amplitude;
-
-                    amplitude *= persistence;
-                    frequency *= lacunarity;
-                }
-                
-                if (!absoluteNoise)
-                    noiseHeight = (noiseHeight + 1f) / 2f; // Normalize to [0,1]
-                
-                noiseHeight *= heightCurve.Evaluate(noiseHeight);
                 heightMap[x].Add(noiseHeight);
             }
         }
 
         return heightMap;
     }
+
+    public float GetNoiseValue(
+        float x, float y,
+        int octaves=6, float scale=1f, float persistence=0.5f, float lacunarity=2f,
+        bool absolute=false, AnimationCurve heightCurve=null
+    )
+    {
+        float amplitude = 1;
+        float frequency = 1;
+        float noiseHeight = 0;
+
+        for (int i = 0; i < octaves; i++)
+        {
+            float xCoord = x * scale * frequency;
+            float yCoord = y * scale * frequency;
+
+            float sample = Mathf.PerlinNoise(xCoord, yCoord) * 2f - 1f;
+
+            if (absolute)
+                sample = Mathf.Abs(sample);
+
+            noiseHeight += sample * amplitude;
+
+            amplitude *= persistence;
+            frequency *= lacunarity;
+        }
+
+        if (!absolute)
+            noiseHeight = (noiseHeight + 1f) / 2f; // Normalize to [0,1]
+
+        if (heightCurve != null)
+            noiseHeight *= heightCurve.Evaluate(noiseHeight);
+        
+        return noiseHeight;
+    }
+
     public List<List<float>> GenerateSimpleNoise(Vector2 size, float scale)
     {
         List<List<float>> heightMap = new List<List<float>>();

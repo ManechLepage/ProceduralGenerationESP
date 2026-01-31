@@ -9,6 +9,7 @@ public class VoronoiGenerator : MonoBehaviour
     public SimpleMeshGenerator meshGenerator;
 
     [Header("Settings")]
+    public bool isEnabled = false;
     public bool multiplyLayers = false;
     public float noiseRatio = 0.2f;
     public Vector2 TerrainSize = new Vector2(16f, 16f);
@@ -19,7 +20,8 @@ public class VoronoiGenerator : MonoBehaviour
 
     void Start()
     {
-        GenerateTexture(drawToMesh);
+        if (isEnabled)
+            GenerateTexture(drawToMesh);
     }
     public void GenerateTexture(bool drawMesh)
     {

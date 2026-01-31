@@ -23,7 +23,7 @@ public class SimpleMeshGenerator : MonoBehaviour
         return HeightMapToMesh(heightMap, height, size);
     }
 
-    public Mesh HeightMapToMesh(List<List<float>> heightMap, float height=1f, Vector2 size=default)
+    public Mesh HeightMapToMesh(List<List<float>> heightMap, float height=1f, Vector2 size=default, bool colorMesh=false)
     {
         if (size == default)
             size = new Vector2(1f, 1f);
@@ -36,6 +36,7 @@ public class SimpleMeshGenerator : MonoBehaviour
 
         List<Vector3> vertices = new List<Vector3>();
         List<int> triangles = new List<int>();
+        List<Color> colors = new List<Color>();
 
         float sizeXPerPixel = size.x / heightMap[0].Count;
         float sizeYPerPixel = size.y / heightMap.Count;
@@ -44,7 +45,8 @@ public class SimpleMeshGenerator : MonoBehaviour
         {
             for (int x = 0; x < heightMap[0].Count + 1; x++)
             {
-                float pixelHeight = heightMap[Mathf.Min(y, heightMap.Count - 1)][Mathf.Min(x, heightMap[0].Count - 1)] * height;
+                float mapHeight = heightMap[Mathf.Min(y, heightMap.Count - 1)][Mathf.Min(x, heightMap[0].Count - 1)];
+                float pixelHeight = mapHeight * height;
                 vertices.Add(new Vector3(x * sizeXPerPixel, pixelHeight, y * sizeYPerPixel));
 
                 if (y < heightMap.Count && x < heightMap[0].Count)
@@ -61,11 +63,25 @@ public class SimpleMeshGenerator : MonoBehaviour
                     triangles.Add(i + heightMap[0].Count + 2);
                     triangles.Add(i + 1);
                 }
+
+                if (colorMesh)
+                {
+                    colors.Add(new Color(
+                        Random.Range(0, 1f),
+                        Random.Range(0, 1f),
+                        Random.Range(0, 1f)
+                    ));
+                    Debug.Log("Pixel Color Added: " + colors[colors.Count - 1]);
+                }
             }
         }
 
         mesh.vertices = vertices.ToArray();
         mesh.triangles = triangles.ToArray();
+
+        if (colorMesh)
+            mesh.colors = colors.ToArray();
+        
         mesh.RecalculateNormals();
 
         return mesh;
