@@ -13,6 +13,9 @@ public class NoiseGenerator : MonoBehaviour
     public float lacunarity = 2f;
     public Vector2 offset = Vector2.zero;
     [Space]
+    public bool absoluteNoise = false;
+    public AnimationCurve heightCurve;
+    [Space]
     public bool GenerateTexture = false;
 
     void Update()
@@ -47,15 +50,23 @@ public class NoiseGenerator : MonoBehaviour
                 {
                     float xCoord = (float)(x + offset.x) / size.x * scale * frequency;
                     float yCoord = (float)(y + offset.y) / size.y * scale * frequency;
+                    
+                    float sample = Mathf.PerlinNoise(xCoord, yCoord) * 2f - 1f;
 
-                    float sample = Mathf.PerlinNoise(xCoord, yCoord) * 2 - 1;
+                    if (absoluteNoise)
+                        sample = Mathf.Abs(sample);
+
                     noiseHeight += sample * amplitude;
 
                     amplitude *= persistence;
                     frequency *= lacunarity;
                 }
-
-                heightMap[x].Add((noiseHeight + 1) / 2); // Normalize to [0,1]
+                
+                if (!absoluteNoise)
+                    noiseHeight = (noiseHeight + 1f) / 2f; // Normalize to [0,1]
+                
+                noiseHeight *= heightCurve.Evaluate(noiseHeight);
+                heightMap[x].Add(noiseHeight);
             }
         }
 

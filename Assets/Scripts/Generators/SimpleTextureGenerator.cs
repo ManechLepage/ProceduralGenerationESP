@@ -38,6 +38,11 @@ public class SimpleTextureGenerator : MonoBehaviour
         ShowHeightMap(heightMap, previewSize);
     }
 
+    public float SignedPerlinNoise(float x, float y)
+    {
+        return Mathf.PerlinNoise(x, y) * 2f - 1f;
+    }
+
     public List<List<float>> Generate(Vector2 size=default)
     {
         if (size == default) size = textureSize;
