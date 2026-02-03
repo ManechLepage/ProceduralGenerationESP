@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class SimpleMeshGenerator : MonoBehaviour
 {
     public bool enableTest = true;
+    public int smoothingLevel = 0;
     public Texture2D testTexture;
     public Vector2 testSize = new Vector2(16f, 16f);
     public GameObject testMeshGO;
@@ -12,12 +13,12 @@ public class SimpleMeshGenerator : MonoBehaviour
     {
         if (enableTest)
         {
-            Mesh mesh = TextureToMesh(testTexture, 50f, testSize, true);
+            Mesh mesh = TextureToMesh(testTexture, 50f, testSize, smoothingLevel);
             ShowMesh(mesh);
         }
     }
 
-    public Mesh TextureToMesh(Texture2D texture, float height=1f, Vector2 size=default, bool smoothing=false)
+    public Mesh TextureToMesh(Texture2D texture, float height=1f, Vector2 size=default, int smoothing=0)
     {
         List<List<float>> heightMap = GameManager.Instance.TextureHelpers.TextureToHeightMap(texture, smoothing);
         return HeightMapToMesh(heightMap, height, size);

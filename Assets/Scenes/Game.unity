@@ -148,8 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bceea76e9faa4a469e9fc4310efaee9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableTest: 0
-  testTexture: {fileID: 2800000, guid: 9243af01f420b244eb9de7f524e23d64, type: 3}
+  enableTest: 1
+  smoothingLevel: 1
+  testTexture: {fileID: 2800000, guid: 66f0c6e1b56cd874faace072eaf1cbe7, type: 3}
   testSize: {x: 16, y: 16}
   testMeshGO: {fileID: 552241389}
 --- !u!4 &115618317
@@ -285,13 +286,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.30070576, y: 0, z: 0, w: 0.953717}
-  m_LocalPosition: {x: 125, y: 200, z: -95}
+  m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
+  m_LocalPosition: {x: 125, y: 250, z: -10.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 35, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -569,7 +570,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &689062182
 Transform:
   m_ObjectHideFlags: 0
@@ -606,8 +607,14 @@ MonoBehaviour:
   scale: 0.2
   persistence: 0.5
   lacunarity: 2
+  warpValues1: {x: 5.2, y: 1.3}
+  warpValues2: {x: 1.7, y: 9.2}
+  warpValues3: {x: 8.3, y: 2.8}
+  warpStrength: 4
   terrainSize: {x: 16, y: 16}
   terrainHeight: 100
+  autoUpdate: 0
+  updateInterval: 0.5
 --- !u!1 &716181105
 GameObject:
   m_ObjectHideFlags: 0
@@ -792,7 +799,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &931750845
 Transform:
   m_ObjectHideFlags: 0

@@ -14,15 +14,54 @@ public class DomainWarping : MonoBehaviour
     public float scale = 20f;
     public float persistence = 0.5f;
     public float lacunarity = 2f;
+    [Space]
+    public Vector2 warpValues1 = new Vector2(5.2f, 1.3f);
+    public Vector2 warpValues2 = new Vector2(1.7f, 9.2f);
+    public Vector2 warpValues3 = new Vector2(8.3f, 2.8f);
+    public float warpStrength = 4f;
 
     [Header("Render Settings")]
     public Vector2 terrainSize = new Vector2(16f, 16f);
     public float terrainHeight = 50f;
+    [Space]
+    public bool autoUpdate = false;
+    public float updateInterval = 1f;
+    private float accumulatedTime = 0f;
 
     public void Start()
     {
         if (isEnabled)
             GenerateAndShow();
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (isEnabled)
+                GenerateAndShow();
+        }
+        
+        if (!autoUpdate)
+            return;
+
+        accumulatedTime += Time.deltaTime;
+        if (accumulatedTime >= updateInterval)
+        {
+            accumulatedTime = 0f;
+            
+            warpValues1.x -= updateInterval * 0.01f;
+            warpValues1.y += updateInterval * 0.015f;
+
+            warpValues2.x += updateInterval * 0.012f;
+            warpValues2.y -= updateInterval * 0.008f;
+
+            warpValues3.x -= updateInterval * 0.009f;
+            warpValues3.y += updateInterval * 0.011f;
+
+            if (isEnabled)
+                GenerateAndShow();
+        }
     }
 
     public void GenerateAndShow()
@@ -60,17 +99,17 @@ public class DomainWarping : MonoBehaviour
     {
         Vector2 warp1 = new Vector2(
             GetNoiseValue(x, y),
-            GetNoiseValue(x + 5.2f, y + 1.3f)
+            GetNoiseValue(x + warpValues1.x, y + warpValues1.y)
         );
 
         Vector2 warp2 = new Vector2(
-            GetNoiseValue(x + 4f * warp1.x + 1.7f, y + 4f * warp1.y + 9.2f),
-            GetNoiseValue(x + 4f * warp1.x + 8.3f, y + 4f * warp1.y + 2.8f)
+            GetNoiseValue(x + warpStrength * warp1.x + warpValues2.x, y + warpStrength * warp1.y + warpValues2.y),
+            GetNoiseValue(x + warpStrength * warp1.x + warpValues3.x, y + warpStrength * warp1.y + warpValues3.y)
         );
 
         return GetNoiseValue(
-            x + 4f * warp2.x,
-            y + 4f * warp2.y
+            x + warpStrength * warp2.x,
+            y + warpStrength * warp2.y
         ) * 1.5f;
     }
 

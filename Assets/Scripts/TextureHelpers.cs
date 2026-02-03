@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class TextureHelpers : MonoBehaviour
 {
-    public List<List<float>> TextureToHeightMap(Texture2D texture, bool smoothing=false)
+    public List<List<float>> TextureToHeightMap(Texture2D texture, int smoothing=0)
     {
         List<List<float>> heightMap = new List<List<float>>();
 
@@ -13,9 +13,9 @@ public class TextureHelpers : MonoBehaviour
             for (int x = 0; x < texture.width; x++)
             {
                 float pixelHeight;
-                if (smoothing)
+                if (smoothing > 0)
                 {
-                    pixelHeight = SampleSmoothed(texture, x, y, 1);
+                    pixelHeight = SampleSmoothed(texture, x, y, smoothing);
                 }
                 else
                 {
