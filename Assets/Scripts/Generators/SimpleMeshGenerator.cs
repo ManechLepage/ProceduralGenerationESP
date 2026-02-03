@@ -5,6 +5,7 @@ public class SimpleMeshGenerator : MonoBehaviour
 {
     public bool enableTest = true;
     public int smoothingLevel = 0;
+    public float height = 50f;
     public Texture2D testTexture;
     public Vector2 testSize = new Vector2(16f, 16f);
     public GameObject testMeshGO;
@@ -13,7 +14,7 @@ public class SimpleMeshGenerator : MonoBehaviour
     {
         if (enableTest)
         {
-            Mesh mesh = TextureToMesh(testTexture, 50f, testSize, smoothingLevel);
+            Mesh mesh = TextureToMesh(testTexture, height, testSize, smoothingLevel);
             ShowMesh(mesh);
         }
     }

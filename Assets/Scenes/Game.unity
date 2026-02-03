@@ -150,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enableTest: 1
   smoothingLevel: 1
+  height: 50
   testTexture: {fileID: 2800000, guid: 66f0c6e1b56cd874faace072eaf1cbe7, type: 3}
   testSize: {x: 16, y: 16}
   testMeshGO: {fileID: 552241389}
