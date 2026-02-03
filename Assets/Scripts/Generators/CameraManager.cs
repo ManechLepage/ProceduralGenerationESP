@@ -31,7 +31,7 @@ public class CameraManager : MonoBehaviour
         if (scroll != 0f)
         {
             moveSpeed += speedModifier * scroll * 100f;
-            moveSpeed = Mathf.Max(0f, moveSpeed);
+            moveSpeed = Mathf.Max(10f, moveSpeed);
         }
 
         float localMoveSpeed = moveSpeed;
