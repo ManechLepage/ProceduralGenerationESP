@@ -33,7 +33,7 @@ public class SimpleTextureGenerator : MonoBehaviour
 
         List<List<float>> heightMap = Generate(textureSize);
         Texture2D texture = GameManager.Instance.TextureHelpers.HeightMapToTexture(heightMap);
-        GameManager.Instance.TextureHelpers.SaveTexture(texture, "Assets/Textures/GeneratedTexture.png");
+        GameManager.Instance.TextureHelpers.SaveTexture(texture, "Assets/Textures/GeneratedTexture.exr");
 
         ShowHeightMap(heightMap, previewSize);
     }

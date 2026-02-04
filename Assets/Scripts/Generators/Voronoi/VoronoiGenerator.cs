@@ -27,11 +27,11 @@ public class VoronoiGenerator : MonoBehaviour
     {
         List<List<float>> voronoiHeightMap = voronoiTexture.LoadVoronoiTexture((int)textureSize.x, (int)textureSize.y);
         Texture2D voronoiTex = textureHelpers.HeightMapToTexture(voronoiHeightMap);
-        textureHelpers.SaveTexture(voronoiTex, "Assets/Textures/Voronoi/VoronoiBase.png");
+        textureHelpers.SaveTexture(voronoiTex, "Assets/Textures/Voronoi/VoronoiBase.exr");
 
         List<List<float>> noiseHeightMap = noiseGenerator.GenerateDefaultNoise(textureSize);
         Texture2D noiseTex = textureHelpers.HeightMapToTexture(noiseHeightMap);
-        textureHelpers.SaveTexture(noiseTex, "Assets/Textures/Voronoi/NoiseLayer.png");
+        textureHelpers.SaveTexture(noiseTex, "Assets/Textures/Voronoi/NoiseLayer.exr");
 
         List<List<float>> combinedHeightMap;
         if (multiplyLayers)
@@ -44,12 +44,13 @@ public class VoronoiGenerator : MonoBehaviour
         }
 
         Texture2D finalTexture = textureHelpers.HeightMapToTexture(combinedHeightMap);
-        textureHelpers.SaveTexture(finalTexture, "Assets/Textures/Voronoi/VoronoiFinal.png");
+        textureHelpers.SaveTexture(finalTexture, "Assets/Textures/Voronoi/VoronoiFinal.exr");
 
         if (!drawMesh)
             return;
         
-        Mesh mesh = meshGenerator.HeightMapToMesh(combinedHeightMap, heightMultiplier, TerrainSize);
+        //Mesh mesh = meshGenerator.HeightMapToMesh(combinedHeightMap, heightMultiplier, TerrainSize);
+        Mesh mesh = meshGenerator.TextureToMesh(finalTexture, heightMultiplier, TerrainSize);
         meshGenerator.ShowMesh(mesh);
     }
 }

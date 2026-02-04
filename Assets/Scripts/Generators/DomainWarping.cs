@@ -69,7 +69,7 @@ public class DomainWarping : MonoBehaviour
         List<List<float>> warpedNoiseHeightMap = GenerateWarpedNoise(size);
 
         Texture2D warpedTexture = textureHelpers.HeightMapToTexture(warpedNoiseHeightMap);
-        textureHelpers.SaveTexture(warpedTexture, "Assets/Textures/Warping/WarpedTexture.png");
+        textureHelpers.SaveTexture(warpedTexture, "Assets/Textures/Warping/WarpedTexture.exr");
 
         Mesh mesh = meshGenerator.HeightMapToMesh(warpedNoiseHeightMap, terrainHeight, terrainSize, false);
         meshGenerator.ShowMesh(mesh);

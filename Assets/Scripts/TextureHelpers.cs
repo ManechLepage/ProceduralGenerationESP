@@ -19,7 +19,7 @@ public class TextureHelpers : MonoBehaviour
                 }
                 else
                 {
-                    pixelHeight = texture.GetPixel(x, y).grayscale;
+                    pixelHeight = texture.GetPixel(x, y).r;
                 }
 
                 row.Add(pixelHeight);
@@ -32,13 +32,13 @@ public class TextureHelpers : MonoBehaviour
 
     public Texture2D HeightMapToTexture(List<List<float>> heightMap)
     {
-        Texture2D texture = new Texture2D((int)heightMap.Count, (int)heightMap[0].Count);
+        Texture2D texture = new Texture2D((int)heightMap.Count, (int)heightMap[0].Count, TextureFormat.RFloat, false, true);
 
         for (int x=0; x<texture.width; x++)
         {
             for (int y=0; y<texture.height; y++)
             {
-                texture.SetPixel(x, y, new Color(heightMap[x][y], heightMap[x][y], heightMap[x][y]));
+                texture.SetPixel(x, y, new Color(heightMap[x][y], 0, 0, 1));
             }
         }
         texture.Apply();
@@ -82,7 +82,7 @@ public class TextureHelpers : MonoBehaviour
 
     public void SaveTexture(Texture2D texture, string path)
     {
-        System.IO.File.WriteAllBytes(path, texture.EncodeToPNG());
+        System.IO.File.WriteAllBytes(path, texture.EncodeToEXR(Texture2D.EXRFlags.OutputAsFloat));
         UnityEditor.AssetDatabase.Refresh();
     }
 
@@ -98,7 +98,7 @@ public class TextureHelpers : MonoBehaviour
                 int sx = Mathf.Clamp(x + dx, 0, tex.width - 1);
                 int sy = Mathf.Clamp(y + dy, 0, tex.height - 1);
 
-                sum += tex.GetPixel(sx, sy).grayscale;
+                sum += tex.GetPixel(sx, sy).r;
                 count++;
             }
         }
