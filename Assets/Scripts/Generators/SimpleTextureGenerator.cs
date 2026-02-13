@@ -32,8 +32,8 @@ public class SimpleTextureGenerator : MonoBehaviour
         seed = Random.Range(0, 10000000);
 
         List<List<float>> heightMap = Generate(textureSize);
-        Texture2D texture = GameManager.Instance.TextureHelpers.HeightMapToTexture(heightMap);
-        GameManager.Instance.TextureHelpers.SaveTexture(texture, "Assets/Textures/GeneratedTexture.exr");
+        Texture2D texture = GameManager.Instance.textureHelpers.HeightMapToTexture(heightMap);
+        GameManager.Instance.textureHelpers.SaveTexture(texture, "Assets/Textures/GeneratedTexture.exr");
 
         ShowHeightMap(heightMap, previewSize);
     }

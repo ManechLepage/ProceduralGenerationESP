@@ -21,7 +21,7 @@ public class SimpleMeshGenerator : MonoBehaviour
 
     public Mesh TextureToMesh(Texture2D texture, float height=1f, Vector2 size=default, int smoothing=0)
     {
-        List<List<float>> heightMap = GameManager.Instance.TextureHelpers.TextureToHeightMap(texture, smoothing);
+        List<List<float>> heightMap = GameManager.Instance.textureHelpers.TextureToHeightMap(texture, smoothing);
         return HeightMapToMesh(heightMap, height, size);
     }
 

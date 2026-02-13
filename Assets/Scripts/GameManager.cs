@@ -8,7 +8,13 @@ public class GameManager : MonoBehaviour
     */
 
     public static GameManager Instance;
-    public TextureHelpers TextureHelpers;
+
+    [Header("Helpers")]
+    public TextureHelpers textureHelpers;
+    public SimpleMeshGenerator meshGenerator;
+
+    [Header("Algorithms")]
+    public FBMGenerator fbmGenerator;
 
     void Awake()
     {
