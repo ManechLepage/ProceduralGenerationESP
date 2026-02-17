@@ -170,6 +170,50 @@ Transform:
   - {fileID: 552241390}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &177086419
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 177086420}
+  - component: {fileID: 177086421}
+  m_Layer: 0
+  m_Name: AlgorithmHelpers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &177086420
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 177086419}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &177086421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 177086419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d2cec0b3f0068e47ad295e578444fab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &248608663
 GameObject:
   m_ObjectHideFlags: 0
@@ -589,7 +633,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &689062182
 Transform:
   m_ObjectHideFlags: 0
@@ -620,7 +664,7 @@ MonoBehaviour:
   noiseGenerator: {fileID: 1662759007}
   meshGenerator: {fileID: 115618316}
   textureHelpers: {fileID: 2078962228}
-  isEnabled: 1
+  isEnabled: 0
   size: {x: 256, y: 256}
   octaves: 8
   scale: 0.2
@@ -832,6 +876,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1329771681}
+  - {fileID: 1836517391}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &931750844
@@ -1143,6 +1188,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 716181107}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1836517390
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1836517391}
+  - component: {fileID: 1836517392}
+  m_Layer: 0
+  m_Name: Voronoi
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1836517391
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836517390}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 912389473}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1836517392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836517390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bda20db9b6fb4f04dbd7f81967e00eff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &1857888448
 GameObject:
   m_ObjectHideFlags: 0
@@ -1173,8 +1262,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textureHelpers: {fileID: 2078962228}
+  algorithmHelpers: {fileID: 177086421}
   meshGenerator: {fileID: 115618316}
-  fbmGenerator: {fileID: 1329771682}
+  fbmAlgorithm: {fileID: 1329771682}
+  voronoiAlgorithm: {fileID: 1836517392}
 --- !u!4 &1857888450
 Transform:
   m_ObjectHideFlags: 0
@@ -1264,9 +1355,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   isEnabled: 1
-  pixelSize: {x: 512, y: 512}
+  pixelSize: {x: 256, y: 256}
   physicalSize: {x: 16, y: 16}
   height: 75
+  algorithmType: 1
   fbmSettings:
     seed: 0
     scale: 1
@@ -1326,6 +1418,12 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+  voronoiSettings:
+    seed: 0
+    scale: 5
+    offset: {x: 0, y: 0}
+    variation: 0.5
+    inverted: 0
   autoUpdate: 1
   updateInterval: 0.1
 --- !u!4 &2142488535
@@ -1353,6 +1451,7 @@ SceneRoots:
   - {fileID: 248608664}
   - {fileID: 1857888450}
   - {fileID: 2078962229}
+  - {fileID: 177086420}
   - {fileID: 1013882039}
   - {fileID: 2142488535}
   - {fileID: 912389473}

@@ -1,5 +1,11 @@
 using UnityEngine;
 
+public enum AlgorithmType
+{
+    FBM,
+    Voronoi
+}
+
 public class GameManager : MonoBehaviour
 {
     /*
@@ -11,10 +17,12 @@ public class GameManager : MonoBehaviour
 
     [Header("Helpers")]
     public TextureHelpers textureHelpers;
+    public AlgorithmHelpers algorithmHelpers;
     public SimpleMeshGenerator meshGenerator;
 
     [Header("Algorithms")]
-    public FBMGenerator fbmGenerator;
+    public FBMAlgorithm fbmAlgorithm;
+    public VoronoiAlgorithm voronoiAlgorithm;
 
     void Awake()
     {

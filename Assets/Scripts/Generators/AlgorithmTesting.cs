@@ -9,22 +9,31 @@ public class AlgorithmTesting : MonoBehaviour
     public float height = 50f;
 
     [Header("Settings")]
+    public AlgorithmType algorithmType = AlgorithmType.FBM;
     public FBMSettings fbmSettings;
+    public VoronoiSettings voronoiSettings;
 
     [Header("Animation")]
     public bool autoUpdate = false;
     public float updateInterval = 0.1f;
     private float accumulatedTime = 0f;
 
-    private FBMSettings lastSettings;
+    private FBMSettings lastFBMSettings;
+    private VoronoiSettings lastVoronoiSettings;
     private float lastHeight;
 
     void Start()
     {
-        lastSettings = fbmSettings.GetCopy();
+        lastFBMSettings = fbmSettings.GetCopy();
+        lastVoronoiSettings = voronoiSettings.GetCopy();
         lastHeight = height;
         if (isEnabled)
-            GenerateFBM();
+        {
+            if (algorithmType == AlgorithmType.FBM)
+                GenerateFBM();
+            else
+                GenerateVoronoi();
+        }
     }
 
     void Update()
@@ -32,23 +41,54 @@ public class AlgorithmTesting : MonoBehaviour
         if (isEnabled)
         {
             accumulatedTime += Time.deltaTime;
-            if (autoUpdate && accumulatedTime >= updateInterval && (!fbmSettings.SameSettings(lastSettings) || lastHeight != height))
+            if (autoUpdate && accumulatedTime >= updateInterval && (!fbmSettings.SameSettings(lastFBMSettings) || !voronoiSettings.SameSettings(lastVoronoiSettings) || lastHeight != height))
             {
                 accumulatedTime = 0f;
-                GenerateFBM();
+                if (algorithmType == AlgorithmType.FBM)
+                {
+                    GenerateFBM();
+                    lastFBMSettings = fbmSettings.GetCopy();
+                }
+                else
+                {
+                    GenerateVoronoi();
+                    lastVoronoiSettings = voronoiSettings.GetCopy();
 
-                lastSettings = fbmSettings.GetCopy();
+                }
+
                 lastHeight = height;
             }
             else if (Input.GetKeyDown(KeyCode.F))
-                GenerateFBM();
+            {
+                if (algorithmType == AlgorithmType.FBM)
+                    GenerateFBM();
+                else
+                    GenerateVoronoi();
+            }
         }
     }
 
     public void GenerateFBM()
     {
-        List<List<float>> fbmHeightMap = GameManager.Instance.fbmGenerator.GetHeightMap(pixelSize, fbmSettings);
+        List<List<float>> fbmHeightMap = GameManager.Instance.fbmAlgorithm.GetHeightMap(pixelSize, fbmSettings);
         Mesh mesh = GameManager.Instance.meshGenerator.HeightMapToMesh(fbmHeightMap, height / fbmSettings.scale, physicalSize, false);
         GameManager.Instance.meshGenerator.ShowMesh(mesh);
+
+        SaveHeightMap(fbmHeightMap, "fbm_heightmap.exr");
+    }
+
+    public void GenerateVoronoi()
+    {
+        List<List<float>> voronoiHeightMap = GameManager.Instance.voronoiAlgorithm.GetHeightMap(pixelSize, voronoiSettings);
+        Mesh mesh = GameManager.Instance.meshGenerator.HeightMapToMesh(voronoiHeightMap, height / voronoiSettings.scale, physicalSize, false);
+        GameManager.Instance.meshGenerator.ShowMesh(mesh);
+
+        SaveHeightMap(voronoiHeightMap, "voronoi_heightmap.exr");
+    }
+
+    void SaveHeightMap(List<List<float>> heightMap, string path)
+    {
+        Texture2D texture = GameManager.Instance.textureHelpers.HeightMapToTexture(heightMap);
+        GameManager.Instance.textureHelpers.SaveTexture(texture, Application.dataPath + "/Textures/Previews/" + path);
     }
 }
