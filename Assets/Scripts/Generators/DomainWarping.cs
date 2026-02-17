@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class DomainWarping : MonoBehaviour
 {
     public NoiseGenerator noiseGenerator;
-    public SimpleMeshGenerator meshGenerator;
+    public MeshGenerator meshGenerator;
     public TextureHelpers textureHelpers;
     public bool isEnabled = false;
 
@@ -28,10 +28,14 @@ public class DomainWarping : MonoBehaviour
     public float updateInterval = 1f;
     private float accumulatedTime = 0f;
 
+    private GameObject meshGO;
+
     public void Start()
     {
         if (isEnabled)
+        {
             GenerateAndShow();
+        }
     }
 
     public void Update()
@@ -71,8 +75,14 @@ public class DomainWarping : MonoBehaviour
         Texture2D warpedTexture = textureHelpers.HeightMapToTexture(warpedNoiseHeightMap);
         textureHelpers.SaveTexture(warpedTexture, "Assets/Textures/Warping/WarpedTexture.exr");
 
+        if (meshGO == null)
+            meshGO = GameManager.Instance.meshGenerator.CreateMeshObject(transform);
+
         Mesh mesh = meshGenerator.HeightMapToMesh(warpedNoiseHeightMap, terrainHeight, terrainSize, false);
-        meshGenerator.ShowMesh(mesh);
+
+        if (meshGO == null)
+            meshGO = GameManager.Instance.meshGenerator.CreateMeshObject(transform);
+        meshGenerator.UpdateMesh(meshGO, mesh, terrainSize);
     }
 
     public List<List<float>> GenerateWarpedNoise(Vector2 size)

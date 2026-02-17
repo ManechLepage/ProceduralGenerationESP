@@ -1,21 +1,26 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class SimpleMeshGenerator : MonoBehaviour
+public class MeshGenerator : MonoBehaviour
 {
     public bool enableTest = true;
     public int smoothingLevel = 0;
     public float height = 50f;
     public Texture2D testTexture;
     public Vector2 testSize = new Vector2(16f, 16f);
-    public GameObject testMeshGO;
+
+    [Space]
+    public GameObject meshPrefab;
+
+    private GameObject testMeshGO;
 
     void Start()
     {
         if (enableTest)
         {
+            testMeshGO = CreateMeshObject(transform);
             Mesh mesh = TextureToMesh(testTexture, height, testSize, smoothingLevel);
-            ShowMesh(mesh);
+            UpdateMesh(testMeshGO, mesh, testSize);
         }
     }
 
@@ -89,9 +94,16 @@ public class SimpleMeshGenerator : MonoBehaviour
         return mesh;
     }
 
-    public void ShowMesh(Mesh mesh)
+    public GameObject CreateMeshObject(Transform parent)
     {
-        testMeshGO.GetComponent<MeshFilter>().mesh = mesh;
-        testMeshGO.transform.localScale = new Vector3(testSize.x, 1f, testSize.y);
+        GameObject meshGO = Instantiate(meshPrefab, parent);
+        meshGO.SetActive(true);
+        return meshGO;
+    }
+
+    public void UpdateMesh(GameObject meshGO, Mesh mesh, Vector2 size)
+    {
+        meshGO.GetComponent<MeshFilter>().mesh = mesh;
+        meshGO.transform.localScale = new Vector3(size.x, 1f, size.y);
     }
 }

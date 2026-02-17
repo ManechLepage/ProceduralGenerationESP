@@ -12,7 +12,9 @@ public class SimpleTextureGenerator : MonoBehaviour
     public Vector2 previewSize = new Vector2(16, 16);
 
     [Space]
-    public SimpleMeshGenerator meshGenerator;
+    public MeshGenerator meshGenerator;
+
+    private GameObject meshGO;
 
     void Start()
     {
@@ -80,13 +82,17 @@ public class SimpleTextureGenerator : MonoBehaviour
     public void ShowTexture(Texture2D texture, Vector2 size)
     {
         Mesh mesh = meshGenerator.TextureToMesh(texture, 50f * (scale / 0.1f), size);
-        meshGenerator.ShowMesh(mesh);
+        if (meshGO == null)
+            meshGO = GameManager.Instance.meshGenerator.CreateMeshObject(transform);
+        meshGenerator.UpdateMesh(meshGO, mesh, size);
     }
 
     public void ShowHeightMap(List<List<float>> heightMap, Vector2 size)
     {
         Mesh mesh = meshGenerator.HeightMapToMesh(heightMap, 50f * (scale / 0.1f), size);
-        meshGenerator.ShowMesh(mesh);
+        if (meshGO == null)
+            meshGO = GameManager.Instance.meshGenerator.CreateMeshObject(transform);
+        meshGenerator.UpdateMesh(meshGO, mesh, size);
     }
 
     public float GetCurveSlope(AnimationCurve curve, float value, float delta=0.01f)

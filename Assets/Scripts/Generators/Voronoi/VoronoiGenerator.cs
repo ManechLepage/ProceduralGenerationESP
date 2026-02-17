@@ -6,17 +6,18 @@ public class VoronoiGenerator : MonoBehaviour
     public VoronoiTexture voronoiTexture;
     public TextureHelpers textureHelpers;
     public NoiseGenerator noiseGenerator;
-    public SimpleMeshGenerator meshGenerator;
+    public MeshGenerator meshGenerator;
 
     [Header("Settings")]
     public bool isEnabled = false;
     public bool multiplyLayers = false;
     public float noiseRatio = 0.2f;
-    public Vector2 TerrainSize = new Vector2(16f, 16f);
+    public Vector2 terrainSize = new Vector2(16f, 16f);
     public Vector2 textureSize = new Vector2(512, 512);
     public float heightMultiplier = 50f;
 
     public bool drawToMesh = false;
+    private GameObject meshGO;
 
     void Start()
     {
@@ -49,8 +50,10 @@ public class VoronoiGenerator : MonoBehaviour
         if (!drawMesh)
             return;
         
-        //Mesh mesh = meshGenerator.HeightMapToMesh(combinedHeightMap, heightMultiplier, TerrainSize);
-        Mesh mesh = meshGenerator.TextureToMesh(finalTexture, heightMultiplier, TerrainSize);
-        meshGenerator.ShowMesh(mesh);
+        //Mesh mesh = meshGenerator.HeightMapToMesh(combinedHeightMap, heightMultiplier, terrainSize);
+        Mesh mesh = meshGenerator.TextureToMesh(finalTexture, heightMultiplier, terrainSize);
+        if (meshGO == null)
+            meshGO = GameManager.Instance.meshGenerator.CreateMeshObject(transform);
+        meshGenerator.UpdateMesh(meshGO, mesh, terrainSize);
     }
 }

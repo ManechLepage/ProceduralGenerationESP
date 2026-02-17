@@ -2,6 +2,12 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 
+public enum DistanceType
+{
+    Euclidean,
+    Manhattan
+}
+
 public class VoronoiAlgorithm : MonoBehaviour
 {
     private VoronoiSettings baseSettings;
@@ -18,20 +24,42 @@ public class VoronoiAlgorithm : MonoBehaviour
         float scaledX = x * settings.scale;
         float scaledY = y * settings.scale;
 
+        Vector2 scaledPoint = new Vector2(scaledX, scaledY);
+
         int gridX = Mathf.FloorToInt(scaledX);
         int gridY = Mathf.FloorToInt(scaledY);
 
-        List<Vector2> corners = new List<Vector2>()
+        bool evenX = settings.neighborhoodSize.x % 2 == 0;
+        bool evenY = settings.neighborhoodSize.y % 2 == 0;
+        int halfSizeX = evenX ? settings.neighborhoodSize.x / 2 : (settings.neighborhoodSize.x + 1) / 2;
+        int halfSizeY = evenY ? settings.neighborhoodSize.y / 2 : (settings.neighborhoodSize.y + 1) / 2;
+
+        float closestDistance = float.MaxValue;
+
+        for (int i = -(evenX ? halfSizeX : halfSizeY - 1); i <= halfSizeX; i++)
         {
-            GetModifiedCorner(new Vector2Int(gridX, gridY), settings.variation, settings.seed),
-            GetModifiedCorner(new Vector2Int(gridX + 1, gridY), settings.variation, settings.seed),
-            GetModifiedCorner(new Vector2Int(gridX, gridY + 1), settings.variation, settings.seed),
-            GetModifiedCorner(new Vector2Int(gridX + 1, gridY + 1), settings.variation, settings.seed)
-        };
+            for (int j = -(evenY ? halfSizeY : halfSizeX - 1); j <= halfSizeY; j++)
+            {
+                Vector2 corner = GetModifiedCorner(new Vector2Int(gridX + i, gridY + j), settings.variation, settings.seed);
 
-        float closestDistance = GetClosestDistance(corners, new Vector2(scaledX, scaledY));
+                float distance = 0f;
+            
+                switch (settings.distanceType)
+                {
+                    case DistanceType.Euclidean:
+                        distance = GetFastEucleideanDistance(scaledPoint, corner);
+                        break;
+                    case DistanceType.Manhattan:
+                        distance = GetManhattanDistance(scaledPoint, corner);
+                        break;
+                }
 
-        float maxDistance = Mathf.Sqrt(2) * settings.variation;
+                if (distance < closestDistance)
+                    closestDistance = distance;
+            }
+        }
+
+        float maxDistance = Mathf.Sqrt(2) + Mathf.Sqrt(settings.variation) / 2;
         closestDistance = closestDistance / maxDistance;
 
         return settings.inverted ? 1 - closestDistance : closestDistance;
@@ -59,16 +87,16 @@ public class VoronoiAlgorithm : MonoBehaviour
         return heightMap;
     }
 
-    public float GetClosestDistance(List<Vector2> corners, Vector2 point)
+    public float GetFastEucleideanDistance(Vector2 a, Vector2 b)
     {
-        float closestDistance = float.MaxValue;
-        foreach (Vector2 corner in corners)
-        {
-            float distance = Vector2.Distance(point, corner);
-            if (distance < closestDistance)
-                closestDistance = distance;
-        }
-        return closestDistance;
+        float dx = a.x - b.x;
+        float dy = a.y - b.y;
+        return dx * dx + dy * dy;
+    }
+
+    public float GetManhattanDistance(Vector2 a, Vector2 b)
+    {
+        return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
     }
 
     public Vector2 GetModifiedCorner(Vector2Int corner, float variation, int seed)
@@ -93,7 +121,9 @@ public class VoronoiSettings
     [Space]
     public float scale = 1;
     public Vector2 offset = Vector2.zero;
-    public float variation = 0.5f;
+    public float variation = 0.75f;
+    public DistanceType distanceType = DistanceType.Euclidean;
+    public Vector2Int neighborhoodSize = new Vector2Int(3, 3);
 
     [Space]
     public bool inverted = false;
@@ -106,6 +136,8 @@ public class VoronoiSettings
             scale = this.scale,
             offset = this.offset,
             variation = this.variation,
+            distanceType = this.distanceType,
+            neighborhoodSize = this.neighborhoodSize,
             inverted = this.inverted
         };
     }
@@ -117,6 +149,8 @@ public class VoronoiSettings
             this.scale == other.scale &&
             this.offset == other.offset &&
             this.variation == other.variation &&
+            this.distanceType == other.distanceType &&
+            this.neighborhoodSize == other.neighborhoodSize &&
             this.inverted == other.inverted;
     }
 }

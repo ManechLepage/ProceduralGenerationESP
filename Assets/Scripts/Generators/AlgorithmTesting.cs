@@ -22,6 +22,8 @@ public class AlgorithmTesting : MonoBehaviour
     private VoronoiSettings lastVoronoiSettings;
     private float lastHeight;
 
+    private GameObject meshGO;
+
     void Start()
     {
         lastFBMSettings = fbmSettings.GetCopy();
@@ -29,6 +31,7 @@ public class AlgorithmTesting : MonoBehaviour
         lastHeight = height;
         if (isEnabled)
         {
+            meshGO = GameManager.Instance.meshGenerator.CreateMeshObject(transform);
             if (algorithmType == AlgorithmType.FBM)
                 GenerateFBM();
             else
@@ -40,6 +43,7 @@ public class AlgorithmTesting : MonoBehaviour
     {
         if (isEnabled)
         {
+            
             accumulatedTime += Time.deltaTime;
             if (autoUpdate && accumulatedTime >= updateInterval && (!fbmSettings.SameSettings(lastFBMSettings) || !voronoiSettings.SameSettings(lastVoronoiSettings) || lastHeight != height))
             {
@@ -72,8 +76,8 @@ public class AlgorithmTesting : MonoBehaviour
     {
         List<List<float>> fbmHeightMap = GameManager.Instance.fbmAlgorithm.GetHeightMap(pixelSize, fbmSettings);
         Mesh mesh = GameManager.Instance.meshGenerator.HeightMapToMesh(fbmHeightMap, height / fbmSettings.scale, physicalSize, false);
-        GameManager.Instance.meshGenerator.ShowMesh(mesh);
-
+        
+        UpdateMesh(mesh);
         SaveHeightMap(fbmHeightMap, "fbm_heightmap.exr");
     }
 
@@ -81,9 +85,17 @@ public class AlgorithmTesting : MonoBehaviour
     {
         List<List<float>> voronoiHeightMap = GameManager.Instance.voronoiAlgorithm.GetHeightMap(pixelSize, voronoiSettings);
         Mesh mesh = GameManager.Instance.meshGenerator.HeightMapToMesh(voronoiHeightMap, height / voronoiSettings.scale, physicalSize, false);
-        GameManager.Instance.meshGenerator.ShowMesh(mesh);
-
+        
+        UpdateMesh(mesh);
         SaveHeightMap(voronoiHeightMap, "voronoi_heightmap.exr");
+    }
+
+    void UpdateMesh(Mesh mesh)
+    {
+        if (meshGO == null)
+            meshGO = GameManager.Instance.meshGenerator.CreateMeshObject(transform);
+        
+        GameManager.Instance.meshGenerator.UpdateMesh(meshGO, mesh, physicalSize);
     }
 
     void SaveHeightMap(List<List<float>> heightMap, string path)

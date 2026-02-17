@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     [Header("Helpers")]
     public TextureHelpers textureHelpers;
     public AlgorithmHelpers algorithmHelpers;
-    public SimpleMeshGenerator meshGenerator;
+    public MeshGenerator meshGenerator;
 
     [Header("Algorithms")]
     public FBMAlgorithm fbmAlgorithm;
