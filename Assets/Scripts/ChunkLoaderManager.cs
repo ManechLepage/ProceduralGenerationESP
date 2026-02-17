@@ -17,7 +17,7 @@ public class ChunkLoader
     public Vector2Int chunkSize = new Vector2Int(32, 32);
     public Vector2 chunkPhysicalSize = new Vector2(16f, 16f);
     public float height = 50f;
-    public float debugScaleFactor = 1f;
+    public Vector2Int chunkOffset = Vector2Int.zero;
 
     [Space]
     public GameObject chunkPrefab;
@@ -33,22 +33,24 @@ public class ChunkLoader
     {
         int chunksRadius = Mathf.CeilToInt(loadDistance / chunkPhysicalSize.x);
 
-        Vector3 initialPosition = new Vector3(position.x, 0f, position.y) - new Vector3(0.5f * chunkPhysicalSize.x, 0f, 0.5f * chunkPhysicalSize.y);
+        Vector3 initialPosition = new Vector3(position.x, 0f, position.y);
 
         for (int i = -chunksRadius; i <= chunksRadius; i++)
         {
             chunks.Add(new List<Chunk>());
             for (int j = -chunksRadius; j <= chunksRadius; j++)
             {
-                Vector2 offset = new Vector2(i, j);
+                Vector2 offset = new Vector2(
+                    j + position.y / chunkPhysicalSize.y,
+                    i + position.x / chunkPhysicalSize.x
+                ) * chunkSize;
+
                 Chunk chunk = CreateChunk(offset, scaleFactor);
 
                 Vector3 positionOffset = new Vector3(i * chunkPhysicalSize.x, 0f, j * chunkPhysicalSize.y);
                 chunk.meshGO.transform.position = positionOffset + initialPosition;
 
                 chunks[chunks.Count - 1].Add(chunk);
-
-                //Debug.Log($"Chunk {i} {j}, offset: {offset}, size: {chunkSize}");
             }
         }
 
@@ -62,7 +64,7 @@ public class ChunkLoader
 
     public Chunk CreateChunk(Vector2 offset, float scaleFactor = 1f)
     {
-        List<List<float>> heightMap = heightMapFunction(chunkSize, offset);
+        List<List<float>> heightMap = heightMapFunction(chunkSize + new Vector2Int(1, 1), offset);
         Mesh mesh = GameManager.Instance.meshGenerator.HeightMapToMesh(heightMap, height / scaleFactor, chunkSize);
         GameObject chunkGO = GameManager.Instance.meshGenerator.CreateMeshObject(chunkParent.transform);
         GameManager.Instance.meshGenerator.UpdateMesh(chunkGO, mesh, chunkPhysicalSize / chunkSize);

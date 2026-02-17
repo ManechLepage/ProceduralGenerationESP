@@ -938,11 +938,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   isEnabled: 1
   chunkLoader:
-    loadDistance: 4
+    loadDistance: 64
     chunkSize: {x: 32, y: 32}
     chunkPhysicalSize: {x: 32, y: 32}
     height: 16
-    debugScaleFactor: 1
+    debugScaleFactor: 32
+    chunkOffset: {x: 0, y: 0}
     chunkPrefab: {fileID: 552241389}
     chunkParent: {fileID: 930688339}
   fbmSettings:

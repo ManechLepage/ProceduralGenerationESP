@@ -9,26 +9,34 @@ public class ChunkTesting : MonoBehaviour
 
     [Space]
     public GameObject camera;
+    private Vector2Int lastGridOrigin = Vector2Int.zero;
 
     void Start()
     {
+        camera.transform.position = new Vector3(0f, 50f, 0f);
+
         chunkLoader.heightMapFunction = HeightMapFunction;
+        lastGridOrigin = GetChunkOrigin(GetCameraPosition());
 
         if (isEnabled)
         {
-            Vector2 gridOrigin = GetChunkOrigin(GetCameraPosition());
-            chunkLoader.ReloadChunks(gridOrigin, this);
+            chunkLoader.chunkOffset = lastGridOrigin;
+            chunkLoader.ReloadChunks(lastGridOrigin, this);
         }
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        Vector2Int gridOrigin = GetChunkOrigin(GetCameraPosition());
+
+        if (Input.GetKeyDown(KeyCode.R) || lastGridOrigin != gridOrigin)
         {
             if (isEnabled)
             {
-                Vector2 gridOrigin = GetChunkOrigin(GetCameraPosition());
-                chunkLoader.ReloadChunks(gridOrigin, this);
+                lastGridOrigin = gridOrigin;
+
+                chunkLoader.chunkOffset = lastGridOrigin;
+                chunkLoader.ReloadChunks(lastGridOrigin, this);
             }
         }
     }
@@ -46,13 +54,16 @@ public class ChunkTesting : MonoBehaviour
         return new Vector2(camera.transform.position.x, camera.transform.position.z);
     }
 
-    Vector2 GetChunkOrigin(Vector2 position)
+    Vector2Int GetChunkOrigin(Vector2 position)
     {
         float chunkSizeX = chunkLoader.chunkPhysicalSize.x;
         float chunkSizeY = chunkLoader.chunkPhysicalSize.y;
-        return new Vector2(
-            Mathf.Round(position.x / chunkSizeX) * chunkSizeX,
-            Mathf.Round(position.y / chunkSizeY) * chunkSizeY
+
+        Vector2 centeredPosition = new Vector2(position.x - 0.5f * chunkSizeX, position.y - 0.5f * chunkSizeY);
+
+        return new Vector2Int(
+            (int)(Mathf.Round(centeredPosition.x / chunkSizeX) * chunkSizeX),
+            (int)(Mathf.Round(centeredPosition.y / chunkSizeY) * chunkSizeY)
         );
     }
 }
