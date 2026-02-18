@@ -14,10 +14,10 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  m_FogMode: 3
-  m_FogDensity: 0.01
+  m_Fog: 1
+  m_FogColor: {r: 0.14901961, g: 0.15294118, b: 0.16078432, a: 1}
+  m_FogMode: 2
+  m_FogDensity: 0.025
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
@@ -938,11 +938,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   isEnabled: 1
   chunkLoader:
-    loadDistance: 64
+    loadDistance: 96
     chunkSize: {x: 32, y: 32}
     chunkPhysicalSize: {x: 32, y: 32}
     height: 16
-    debugScaleFactor: 32
     chunkOffset: {x: 0, y: 0}
     chunkPrefab: {fileID: 552241389}
     chunkParent: {fileID: 930688339}
