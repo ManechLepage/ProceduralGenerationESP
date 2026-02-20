@@ -5,65 +5,83 @@ public class ChunkTesting : MonoBehaviour
 {
     public bool isEnabled = true;
     public ChunkLoader chunkLoader;
+
+    public AlgorithmType algorithmType = AlgorithmType.FBM;
     public FBMSettings fbmSettings;
+    public VoronoiSettings voronoiSettings;
 
     [Space]
-    public GameObject camera;
+    public GameObject mainCamera;
     private Vector2Int lastGridOrigin = Vector2Int.zero;
+
+    private AlgorithmType lastAlgorithmType;
 
     void Start()
     {
-        camera.transform.position = new Vector3(0f, 50f, 0f);
+        lastAlgorithmType = algorithmType;
+
+        mainCamera.transform.position = new Vector3(0f, 50f, 0f);
 
         chunkLoader.heightMapFunction = HeightMapFunction;
-        lastGridOrigin = GetChunkOrigin(GetCameraPosition());
+        lastGridOrigin = chunkLoader.SnapToChunk(GetCameraPosition());
 
         if (isEnabled)
         {
             chunkLoader.chunkOffset = lastGridOrigin;
-            chunkLoader.ReloadChunks(lastGridOrigin, this);
+            chunkLoader.UpdateChunks(
+                chunkLoader.PositionToChunk(lastGridOrigin),
+                this
+            );
         }
     }
 
     void Update()
     {
-        Vector2Int gridOrigin = GetChunkOrigin(GetCameraPosition());
+        Vector2Int gridOrigin = chunkLoader.SnapToChunk(GetCameraPosition());
 
-        if (Input.GetKeyDown(KeyCode.R) || lastGridOrigin != gridOrigin)
+        if (lastAlgorithmType != algorithmType)
+        {
+            chunkLoader.ReloadChunks(
+                chunkLoader.PositionToChunk(lastGridOrigin),
+                this
+            );
+            lastAlgorithmType = algorithmType;
+        }
+        else if (Input.GetKeyDown(KeyCode.R) || lastGridOrigin != gridOrigin)
         {
             if (isEnabled)
             {
                 lastGridOrigin = gridOrigin;
-
                 chunkLoader.chunkOffset = lastGridOrigin;
-                chunkLoader.ReloadChunks(lastGridOrigin, this);
+                chunkLoader.UpdateChunks(
+                    chunkLoader.PositionToChunk(lastGridOrigin),
+                    this
+                );
             }
         }
     }
 
     public List<List<float>> HeightMapFunction(Vector2 size, Vector2 offset)
     {
-        fbmSettings.offset += offset;
-        List<List<float>> heightMap = GameManager.Instance.fbmAlgorithm.GetHeightMap(size, fbmSettings);
-        fbmSettings.offset -= offset;
+        List<List<float>> heightMap;
+        if (algorithmType == AlgorithmType.FBM)
+        {
+            fbmSettings.offset += offset;
+            heightMap = GameManager.Instance.fbmAlgorithm.GetHeightMap(size, fbmSettings);
+            fbmSettings.offset -= offset;
+        }
+        else
+        {
+            voronoiSettings.offset += offset;
+            heightMap = GameManager.Instance.voronoiAlgorithm.GetHeightMap(size, voronoiSettings);
+            voronoiSettings.offset -= offset;
+        }
+
         return heightMap;
     }
 
     Vector2 GetCameraPosition()
     {
-        return new Vector2(camera.transform.position.x, camera.transform.position.z);
-    }
-
-    Vector2Int GetChunkOrigin(Vector2 position)
-    {
-        float chunkSizeX = chunkLoader.chunkPhysicalSize.x;
-        float chunkSizeY = chunkLoader.chunkPhysicalSize.y;
-
-        Vector2 centeredPosition = new Vector2(position.x - 0.5f * chunkSizeX, position.y - 0.5f * chunkSizeY);
-
-        return new Vector2Int(
-            (int)(Mathf.Round(centeredPosition.x / chunkSizeX) * chunkSizeX),
-            (int)(Mathf.Round(centeredPosition.y / chunkSizeY) * chunkSizeY)
-        );
+        return new Vector2(mainCamera.transform.position.x, mainCamera.transform.position.z);
     }
 }

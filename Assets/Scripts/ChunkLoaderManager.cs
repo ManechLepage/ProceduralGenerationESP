@@ -27,73 +27,120 @@ public class ChunkLoader
     public Func<Vector2, Vector2, List<List<float>>> heightMapFunction;  // Arguments: Vector2 size, Vector2 offset
 
     [HideInInspector]
-    public List<List<Chunk>> chunks = new List<List<Chunk>>();
+    public Dictionary<Vector2Int, Chunk> chunks = new Dictionary<Vector2Int, Chunk>();
 
-    public IEnumerator InitializeChunks(Vector2 position, float scaleFactor = 1f)
+    public IEnumerator InitializeChunks(Vector2Int position, float scaleFactor = 1f)
     {
         int chunksRadius = Mathf.CeilToInt(loadDistance / chunkPhysicalSize.x);
 
-        Vector3 initialPosition = new Vector3(position.x, 0f, position.y);
-
         for (int i = -chunksRadius; i <= chunksRadius; i++)
         {
-            chunks.Add(new List<Chunk>());
             for (int j = -chunksRadius; j <= chunksRadius; j++)
             {
-                Vector2 offset = new Vector2(
-                    j + position.y / chunkPhysicalSize.y,
-                    i + position.x / chunkPhysicalSize.x
-                ) * chunkSize;
+                Vector2Int chunkPos = new Vector2Int(
+                    i + position.x,
+                    j + position.y
+                );
 
-                Chunk chunk = CreateChunk(offset, scaleFactor);
-
-                Vector3 positionOffset = new Vector3(i * chunkPhysicalSize.x, 0f, j * chunkPhysicalSize.y);
-                chunk.meshGO.transform.position = positionOffset + initialPosition;
-
-                chunks[chunks.Count - 1].Add(chunk);
+                Chunk chunk = LoadChunk(chunkPos, scaleFactor);
+                chunks.Add(chunkPos, chunk);
             }
         }
 
         yield return new WaitForSeconds(0);
     }
 
-    public IEnumerator UpdateLoadedChunks(Vector2 position)
+    public IEnumerator UpdateLoadedChunks(Vector2Int position, float scaleFactor = 1f)
     {
+        List<Chunk> loadedChunks = new List<Chunk>();
+
+        int chunksRadius = Mathf.CeilToInt(loadDistance / chunkPhysicalSize.x);
+
+        for (int i = -chunksRadius; i <= chunksRadius; i++)
+        {
+            for (int j = -chunksRadius; j <= chunksRadius; j++)
+            {
+                Vector2Int chunkPos = new Vector2Int(
+                    i + position.x,
+                    j + position.y
+                );
+
+                if (!chunks.ContainsKey(chunkPos))
+                {
+                    Chunk newChunk = LoadChunk(chunkPos, scaleFactor);
+                    chunks.Add(chunkPos, newChunk);
+                    loadedChunks.Add(newChunk);
+                }
+                else
+                {
+                    loadedChunks.Add(chunks[chunkPos]);
+                }
+            }
+        }
+
+        List<Vector2Int> chunksToRemove = new List<Vector2Int>();
+
+        foreach (Chunk chunk in chunks.Values)
+        {
+            if (!loadedChunks.Contains(chunk))
+            {
+                DeleteChunk(chunk);
+                chunksToRemove.Add(chunk.position);
+            }
+        }
+
+        foreach (Vector2Int chunkPos in chunksToRemove)
+        {
+            chunks.Remove(chunkPos);
+        }
+
         yield return new WaitForSeconds(0);
     }
 
-    public Chunk CreateChunk(Vector2 offset, float scaleFactor = 1f)
+    public Chunk LoadChunk(Vector2Int position, float scaleFactor = 1f)
     {
+        Vector2 offset = new Vector2(
+            position.y,
+            position.x
+        ) * chunkSize;
+        
         List<List<float>> heightMap = heightMapFunction(chunkSize + new Vector2Int(1, 1), offset);
         Mesh mesh = GameManager.Instance.meshGenerator.HeightMapToMesh(heightMap, height / scaleFactor, chunkSize);
         GameObject chunkGO = GameManager.Instance.meshGenerator.CreateMeshObject(chunkParent.transform);
         GameManager.Instance.meshGenerator.UpdateMesh(chunkGO, mesh, chunkPhysicalSize / chunkSize);
+        chunkGO.transform.position = new Vector3(
+            position.x * chunkPhysicalSize.x,
+            0f,
+            position.y * chunkPhysicalSize.y
+        );
 
         Chunk chunk = new Chunk
         {
-            offset = offset,
+            position = position,
             meshGO = chunkGO
         };
 
         return chunk;
     }
 
-    public void ReloadChunks(Vector2 position, MonoBehaviour runner)
+    public void ReloadChunks(Vector2Int position, MonoBehaviour runner)
     {
         ClearChunks();
         runner.StartCoroutine(InitializeChunks(position));
     }
 
+    public void UpdateChunks(Vector2Int position, MonoBehaviour runner)
+    {
+        runner.StartCoroutine(UpdateLoadedChunks(position));
+    }
+
     public void ClearChunks()
     {
-        foreach (List<Chunk> chunkRow in chunks)
+        foreach (Chunk chunk in chunks.Values)
         {
-            foreach (Chunk chunk in chunkRow)
+            if (chunk.meshGO != null)
             {
-                if (chunk.meshGO != null)
-                {
-                    DeleteChunk(chunk);
-                }
+                DeleteChunk(chunk);
             }
         }
 
@@ -108,11 +155,32 @@ public class ChunkLoader
             chunk.meshGO = null;
         }
     }
+
+    public Vector2Int SnapToChunk(Vector2 position)
+    {
+        float chunkSizeX = chunkPhysicalSize.x;
+        float chunkSizeY = chunkPhysicalSize.y;
+
+        Vector2 centeredPosition = new Vector2(position.x - 0.5f * chunkSizeX, position.y - 0.5f * chunkSizeY);
+
+        return new Vector2Int(
+            (int)(Mathf.Round(centeredPosition.x / chunkSizeX) * chunkSizeX),
+            (int)(Mathf.Round(centeredPosition.y / chunkSizeY) * chunkSizeY)
+        );
+    }
+
+    public Vector2Int PositionToChunk(Vector2 position)
+    {
+        return new Vector2Int(
+            (int)(position.x / chunkPhysicalSize.x),
+            (int)(position.y / chunkPhysicalSize.y)
+        );
+    }
 }
 
 [System.Serializable]
 public class Chunk
 {
-    public Vector2 offset;
+    public Vector2Int position;
     public GameObject meshGO;
 }
