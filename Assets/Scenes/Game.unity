@@ -332,8 +332,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
-  m_LocalPosition: {x: 125, y: 250, z: -10.5}
+  m_LocalRotation: {x: -0.008816746, y: -0.78320783, z: -0.011109561, w: 0.6215983}
+  m_LocalPosition: {x: 65.68937, y: 8.968948, z: -158.13344}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -585,7 +585,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b3e5d61a6cfa94548ba90035602c70b1, type: 2}
+  - {fileID: 2100000, guid: 91bdb45e8734adc438f9569058a6cfa3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -938,11 +938,103 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   isEnabled: 1
   chunkLoader:
-    loadDistance: 256
-    chunkSize: {x: 32, y: 32}
+    loadDistance: 128
+    chunkSize: {x: 64, y: 64}
     chunkPhysicalSize: {x: 32, y: 32}
     height: 32
     chunkOffset: {x: 0, y: 0}
+    colorSettings:
+      isEnabled: 1
+      slopeGradient:
+        serializedVersion: 2
+        key0: {r: 0.11014587, g: 0.3433962, b: 0.07451045, a: 1}
+        key1: {r: 0.1975821, g: 0.4339623, b: 0.0712353, a: 1}
+        key2: {r: 0.2679245, g: 0.17494029, b: 0.05206833, a: 0}
+        key3: {r: 0.2679245, g: 0.2679245, b: 0.2679245, a: 0}
+        key4: {r: 0.15471691, g: 0.15471691, b: 0.15471691, a: 0}
+        key5: {r: 0.15471691, g: 0.15471691, b: 0.15471691, a: 0}
+        key6: {r: 0, g: 0, b: 0, a: 0}
+        key7: {r: 0, g: 0, b: 0, a: 0}
+        ctime0: 0
+        ctime1: 13801
+        ctime2: 19815
+        ctime3: 26445
+        ctime4: 65535
+        ctime5: 65535
+        ctime6: 0
+        ctime7: 0
+        atime0: 0
+        atime1: 65535
+        atime2: 0
+        atime3: 0
+        atime4: 0
+        atime5: 0
+        atime6: 0
+        atime7: 0
+        m_Mode: 0
+        m_ColorSpace: 0
+        m_NumColorKeys: 5
+        m_NumAlphaKeys: 2
+      tempGradient:
+        serializedVersion: 2
+        key0: {r: 0.11014587, g: 0.3433962, b: 0.07451045, a: 1}
+        key1: {r: 0.1975821, g: 0.4339623, b: 0.0712353, a: 1}
+        key2: {r: 0.2679245, g: 0.17494029, b: 0.05206833, a: 0}
+        key3: {r: 0.2679245, g: 0.2679245, b: 0.2679245, a: 0}
+        key4: {r: 0.15471691, g: 0.15471691, b: 0.15471691, a: 0}
+        key5: {r: 0.15471691, g: 0.15471691, b: 0.15471691, a: 0}
+        key6: {r: 0, g: 0, b: 0, a: 0}
+        key7: {r: 0, g: 0, b: 0, a: 0}
+        ctime0: 0
+        ctime1: 13801
+        ctime2: 19815
+        ctime3: 26445
+        ctime4: 65535
+        ctime5: 65535
+        ctime6: 0
+        ctime7: 0
+        atime0: 0
+        atime1: 65535
+        atime2: 0
+        atime3: 0
+        atime4: 0
+        atime5: 0
+        atime6: 0
+        atime7: 0
+        m_Mode: 0
+        m_ColorSpace: 0
+        m_NumColorKeys: 5
+        m_NumAlphaKeys: 2
+      tempTempGradient:
+        serializedVersion: 2
+        key0: {r: 0.54901963, g: 0.31345743, b: 0.078431375, a: 1}
+        key1: {r: 0.5924529, g: 0.357899, b: 0.079366334, a: 1}
+        key2: {r: 0.554717, g: 0.25924605, b: 0.082684174, a: 0}
+        key3: {r: 0.4641509, g: 0.0888429, b: 0.027148426, a: 0}
+        key4: {r: 0.6377357, g: 0.21438263, b: 0.032488372, a: 0}
+        key5: {r: 0.7509433, g: 0.12211032, b: 0.04392306, a: 0}
+        key6: {r: 0.509434, g: 0.16392449, b: 0.068244934, a: 0}
+        key7: {r: 0, g: 0, b: 0, a: 0}
+        ctime0: 0
+        ctime1: 13801
+        ctime2: 19815
+        ctime3: 26445
+        ctime4: 33076
+        ctime5: 65535
+        ctime6: 65535
+        ctime7: 0
+        atime0: 0
+        atime1: 65535
+        atime2: 0
+        atime3: 0
+        atime4: 0
+        atime5: 0
+        atime6: 0
+        atime7: 0
+        m_Mode: 0
+        m_ColorSpace: 0
+        m_NumColorKeys: 6
+        m_NumAlphaKeys: 2
     chunkPrefab: {fileID: 552241389}
     chunkParent: {fileID: 930688339}
   algorithmType: 0
@@ -967,31 +1059,49 @@ MonoBehaviour:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.3095267
-        value: 0.15388127
-        inSlope: 1.6438152
-        outSlope: 1.6438152
+        time: 0.19860667
+        value: 0.058598645
+        inSlope: 0.6799649
+        outSlope: 0.6799649
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
+        inWeight: 0.58913076
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.30618504
+        value: 0.20908757
+        inSlope: 1.0233499
+        outSlope: 1.0233499
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.57115775
         outWeight: 0.4062169
       - serializedVersion: 3
-        time: 0.4994252
-        value: 0.675602
-        inSlope: 1.8439709
-        outSlope: 1.8439709
+        time: 0.48941544
+        value: 0.5862449
+        inSlope: 3.4585118
+        outSlope: 3.4585118
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.09175166
+        outWeight: 0.53380096
+      - serializedVersion: 3
+        time: 0.57459456
+        value: 0.8868074
+        inSlope: 0.6622388
+        outSlope: 0.6622388
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: -0.04197658
-        outSlope: -0.04197658
+        inSlope: 0.11670858
+        outSlope: 0.11670858
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.38818207
+        inWeight: 0.46052074
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2

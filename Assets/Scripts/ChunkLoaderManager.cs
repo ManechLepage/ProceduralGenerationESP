@@ -20,6 +20,9 @@ public class ChunkLoader
     public Vector2Int chunkOffset = Vector2Int.zero;
 
     [Space]
+    public MeshColorSettings colorSettings = new MeshColorSettings();
+
+    [Space]
     public GameObject chunkPrefab;
     public GameObject chunkParent;
 
@@ -110,15 +113,20 @@ public class ChunkLoader
             position.x
         ) * chunkSize;
         
-        List<List<float>> heightMap = heightMapFunction(chunkSize + new Vector2Int(1, 1), offset);
-        Mesh mesh = GameManager.Instance.meshGenerator.HeightMapToMesh(heightMap, height / scaleFactor, chunkSize);
+        List<List<float>> heightMap = heightMapFunction(chunkSize + new Vector2Int(2, 2), offset - new Vector2(1, 1) * chunkSize);
+
+        Mesh mesh = GameManager.Instance.meshGenerator.HeightMapToMesh(heightMap, height / scaleFactor, chunkSize, borderNormals: true, colorSettings: colorSettings);
         GameObject chunkGO = GameManager.Instance.meshGenerator.CreateMeshObject(chunkParent.transform);
+
         GameManager.Instance.meshGenerator.UpdateMesh(chunkGO, mesh, chunkPhysicalSize / chunkSize);
+
         chunkGO.transform.position = new Vector3(
             position.x * chunkPhysicalSize.x,
             0f,
             position.y * chunkPhysicalSize.y
         );
+
+        chunkGO.name = $"Chunk ({position.x}, {position.y})";
 
         Chunk chunk = new Chunk
         {

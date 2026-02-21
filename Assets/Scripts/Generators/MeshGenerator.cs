@@ -13,6 +13,11 @@ public class MeshGenerator : MonoBehaviour
     public GameObject meshPrefab;
 
     private GameObject testMeshGO;
+    private MeshColorSettings defaultColorSettings = new MeshColorSettings
+    {
+        isEnabled = false,
+        slopeGradient = new Gradient()
+    };
 
     void Start()
     {
@@ -30,10 +35,13 @@ public class MeshGenerator : MonoBehaviour
         return HeightMapToMesh(heightMap, height, size);
     }
 
-    public Mesh HeightMapToMesh(List<List<float>> heightMap, float height=1f, Vector2 size=default, bool colorMesh=false)
+    public Mesh HeightMapToMesh(List<List<float>> heightMap, float height=1f, Vector2 size=default, bool borderNormals=false, MeshColorSettings colorSettings = default)
     {
         if (size == default)
             size = new Vector2(1f, 1f);
+        
+        if (colorSettings == default)
+            colorSettings = defaultColorSettings;
 
         // fill the mesh with the data from the texture2d, using the greyscale as height (and multiply by height)
         // the final mesh size should be size.
@@ -44,41 +52,59 @@ public class MeshGenerator : MonoBehaviour
         List<Vector3> vertices = new List<Vector3>();
         List<int> triangles = new List<int>();
         List<Color> colors = new List<Color>();
+        List<Vector3> normals = new List<Vector3>();
 
-        float sizeXPerPixel = size.x / heightMap[0].Count;
-        float sizeYPerPixel = size.y / heightMap.Count;
+        int startX = borderNormals ? 1 : 0;
+        int startY = borderNormals ? 1 : 0;
+        int endX = borderNormals ? heightMap[0].Count : heightMap[0].Count + 1;
+        int endY = borderNormals ? heightMap.Count : heightMap.Count + 1;
 
-        for (int y = 0; y < heightMap.Count + 1; y++)
+        int verticesPerRow = endX - startX;
+        int rows = endY - startY;
+
+        float sizeXPerPixel = size.x / (verticesPerRow - 1f);
+        float sizeYPerPixel = size.y / (rows - 1f);
+
+        for (int y = startY; y < endY; y++)
         {
-            for (int x = 0; x < heightMap[0].Count + 1; x++)
+            for (int x = startX; x < endX; x++)
             {
-                float mapHeight = heightMap[Mathf.Min(y, heightMap.Count - 1)][Mathf.Min(x, heightMap[0].Count - 1)];
-                float pixelHeight = mapHeight * height;
+                float pixelHeight = SampleHeightMap(heightMap, x, y, height);
                 vertices.Add(new Vector3(x * sizeXPerPixel, pixelHeight, y * sizeYPerPixel));
 
-                if (y < heightMap.Count && x < heightMap[0].Count)
+                // Compute normals
+                float hL = SampleHeightMap(heightMap, x - 1, y, height);
+                float hR = SampleHeightMap(heightMap, x + 1, y, height);
+                float hD = SampleHeightMap(heightMap, x, y - 1, height);
+                float hU = SampleHeightMap(heightMap, x, y + 1, height);
+
+                Vector3 normal = new Vector3(hL - hR, 2f, hD - hU).normalized;
+
+                normals.Add(normal);
+
+                int localX = x - startX;
+                int localY = y - startY;
+
+                if (localX < verticesPerRow - 1 && localY < rows - 1)
                 {
-                    int i = y * (heightMap[0].Count + 1) + x;
+                    int i = localY * verticesPerRow + localX;
 
                     // First triangle
                     triangles.Add(i);
-                    triangles.Add(i + heightMap[0].Count + 1);
-                    triangles.Add(i + heightMap[0].Count + 2);
+                    triangles.Add(i + verticesPerRow);
+                    triangles.Add(i + verticesPerRow + 1);
 
                     // Second triangle
                     triangles.Add(i);
-                    triangles.Add(i + heightMap[0].Count + 2);
+                    triangles.Add(i + verticesPerRow + 1);
                     triangles.Add(i + 1);
                 }
 
-                if (colorMesh)
+                if (colorSettings.isEnabled)
                 {
-                    colors.Add(new Color(
-                        Random.Range(0, 1f),
-                        Random.Range(0, 1f),
-                        Random.Range(0, 1f)
-                    ));
-                    Debug.Log("Pixel Color Added: " + colors[colors.Count - 1]);
+                    float slope = Vector3.Angle(normal, Vector3.up) / 90f;
+
+                    colors.Add(colorSettings.slopeGradient.Evaluate(slope));
                 }
             }
         }
@@ -86,12 +112,20 @@ public class MeshGenerator : MonoBehaviour
         mesh.vertices = vertices.ToArray();
         mesh.triangles = triangles.ToArray();
 
-        if (colorMesh)
+        mesh.normals = normals.ToArray();
+
+        if (colorSettings.isEnabled)
             mesh.colors = colors.ToArray();
-        
-        mesh.RecalculateNormals();
 
         return mesh;
+    }
+
+    float SampleHeightMap(List<List<float>> heightMap, int x, int y, float height)
+    {
+        x = Mathf.Clamp(x, 0, heightMap[0].Count - 1);
+        y = Mathf.Clamp(y, 0, heightMap.Count - 1);
+
+        return heightMap[y][x] * height;
     }
 
     public GameObject CreateMeshObject(Transform parent)
@@ -106,4 +140,14 @@ public class MeshGenerator : MonoBehaviour
         meshGO.GetComponent<MeshFilter>().mesh = mesh;
         meshGO.transform.localScale = new Vector3(size.x, 1f, size.y);
     }
+}
+
+
+[System.Serializable]
+public class MeshColorSettings
+{
+    public bool isEnabled = false;
+    public Gradient slopeGradient;
+    public Gradient tempGradient;
+    public Gradient tempTempGradient;
 }
