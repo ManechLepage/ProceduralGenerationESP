@@ -41,10 +41,7 @@ public class ChunkTesting : MonoBehaviour
 
         if (lastAlgorithmType != algorithmType)
         {
-            chunkLoader.ReloadChunks(
-                chunkLoader.PositionToChunk(lastGridOrigin),
-                this
-            );
+            ReloadChunks();
             lastAlgorithmType = algorithmType;
         }
         else if (Input.GetKeyDown(KeyCode.R) || lastGridOrigin != gridOrigin)
@@ -59,6 +56,16 @@ public class ChunkTesting : MonoBehaviour
                 );
             }
         }
+    }
+
+    public void ReloadChunks()
+    {
+        lastGridOrigin = chunkLoader.SnapToChunk(GetCameraPosition());
+        chunkLoader.chunkOffset = lastGridOrigin;
+        chunkLoader.ReloadChunks(
+            chunkLoader.PositionToChunk(lastGridOrigin),
+            this
+        );
     }
 
     public List<List<float>> HeightMapFunction(Vector2 size, Vector2 offset)

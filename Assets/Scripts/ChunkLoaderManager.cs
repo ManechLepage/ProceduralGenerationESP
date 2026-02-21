@@ -29,7 +29,7 @@ public class ChunkLoader
     [HideInInspector]
     public Dictionary<Vector2Int, Chunk> chunks = new Dictionary<Vector2Int, Chunk>();
 
-    public IEnumerator InitializeChunks(Vector2Int position, float scaleFactor = 1f)
+    public IEnumerator InitializeChunks(Vector2Int position, float scaleFactor = 1f, bool circular = true)
     {
         int chunksRadius = Mathf.CeilToInt(loadDistance / chunkPhysicalSize.x);
 
@@ -37,6 +37,9 @@ public class ChunkLoader
         {
             for (int j = -chunksRadius; j <= chunksRadius; j++)
             {
+                if (circular && new Vector2(i, j).magnitude * chunkPhysicalSize.x > loadDistance)
+                    continue;
+
                 Vector2Int chunkPos = new Vector2Int(
                     i + position.x,
                     j + position.y
@@ -50,7 +53,7 @@ public class ChunkLoader
         yield return new WaitForSeconds(0);
     }
 
-    public IEnumerator UpdateLoadedChunks(Vector2Int position, float scaleFactor = 1f)
+    public IEnumerator UpdateLoadedChunks(Vector2Int position, float scaleFactor = 1f, bool circular = true)
     {
         List<Chunk> loadedChunks = new List<Chunk>();
 
@@ -60,6 +63,9 @@ public class ChunkLoader
         {
             for (int j = -chunksRadius; j <= chunksRadius; j++)
             {
+                if (circular && new Vector2(i, j).magnitude * chunkPhysicalSize.x > loadDistance)
+                    continue;
+
                 Vector2Int chunkPos = new Vector2Int(
                     i + position.x,
                     j + position.y
@@ -97,7 +103,7 @@ public class ChunkLoader
         yield return new WaitForSeconds(0);
     }
 
-    public Chunk LoadChunk(Vector2Int position, float scaleFactor = 1f)
+    public Chunk LoadChunk(Vector2Int position, float scaleFactor = 1f, bool animate = true)
     {
         Vector2 offset = new Vector2(
             position.y,

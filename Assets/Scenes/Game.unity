@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  m_Fog: 1
+  m_Fog: 0
   m_FogColor: {r: 0.14901961, g: 0.15294118, b: 0.16078432, a: 1}
   m_FogMode: 2
   m_FogDensity: 0.025
@@ -941,14 +941,14 @@ MonoBehaviour:
     loadDistance: 256
     chunkSize: {x: 32, y: 32}
     chunkPhysicalSize: {x: 32, y: 32}
-    height: 16
+    height: 32
     chunkOffset: {x: 0, y: 0}
     chunkPrefab: {fileID: 552241389}
     chunkParent: {fileID: 930688339}
   algorithmType: 0
   fbmSettings:
     seed: 0
-    scale: 1
+    scale: 0.25
     octaves: 8
     persistence: 0.5
     lacunarity: 2
@@ -961,19 +961,37 @@ MonoBehaviour:
         time: 0
         value: 0
         inSlope: 0
-        outSlope: 1
+        outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 1
-        outSlope: 0
+        time: 0.3095267
+        value: 0.15388127
+        inSlope: 1.6438152
+        outSlope: 1.6438152
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0
+        inWeight: 0.33333334
+        outWeight: 0.4062169
+      - serializedVersion: 3
+        time: 0.4994252
+        value: 0.675602
+        inSlope: 1.8439709
+        outSlope: 1.8439709
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.09175166
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: -0.04197658
+        outSlope: -0.04197658
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.38818207
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
