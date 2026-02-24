@@ -8,6 +8,7 @@ public class Node : ScriptableObject
 {
     public string nodeName;
     public List<InputOutputType> inputs = new List<InputOutputType>();
+    public List<string> inputNames = new List<string>();
     public List<InputOutputType> outputs = new List<InputOutputType>();
 }
 

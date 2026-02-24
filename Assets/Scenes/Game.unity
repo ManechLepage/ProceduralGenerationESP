@@ -939,8 +939,8 @@ MonoBehaviour:
   isEnabled: 1
   chunkLoader:
     loadDistance: 128
-    chunkSize: {x: 32, y: 32}
-    chunkPhysicalSize: {x: 16, y: 16}
+    chunkSize: {x: 16, y: 16}
+    chunkPhysicalSize: {x: 8, y: 8}
     height: 24
     chunkOffset: {x: 0, y: 0}
     colorSettings:

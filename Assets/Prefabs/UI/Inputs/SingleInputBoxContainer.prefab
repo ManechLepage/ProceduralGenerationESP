@@ -247,8 +247,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 83.825, y: -10}
-  m_SizeDelta: {x: 37.3395, y: 17.967}
+  m_AnchoredPosition: {x: 57.045, y: -10}
+  m_SizeDelta: {x: 56.07, y: 17.967}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3654567034151384253
 CanvasRenderer:
@@ -638,11 +638,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7568734819834686234, guid: 6cfac09dc4f7a1b4192caaa70c1669a2, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 61.51
+      value: 24.01
       objectReference: {fileID: 0}
     - target: {fileID: 7568734819834686234, guid: 6cfac09dc4f7a1b4192caaa70c1669a2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 30.755
+      value: 12.005
       objectReference: {fileID: 0}
     - target: {fileID: 7568734819834686234, guid: 6cfac09dc4f7a1b4192caaa70c1669a2, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -654,11 +654,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7579181003891356191, guid: 6cfac09dc4f7a1b4192caaa70c1669a2, type: 3}
       propertyPath: m_Name
-      value: IntInputContainer
+      value: SingleInputBoxContainer
       objectReference: {fileID: 0}
     - target: {fileID: 7595249875917164801, guid: 6cfac09dc4f7a1b4192caaa70c1669a2, type: 3}
       propertyPath: m_text
-      value: Nom de vari
+      value: Seed
       objectReference: {fileID: 0}
     - target: {fileID: 7595249875917164801, guid: 6cfac09dc4f7a1b4192caaa70c1669a2, type: 3}
       propertyPath: m_fontSize
@@ -678,7 +678,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7781086014051261226, guid: 6cfac09dc4f7a1b4192caaa70c1669a2, type: 3}
       propertyPath: m_Spacing
-      value: -10
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7781086014051261226, guid: 6cfac09dc4f7a1b4192caaa70c1669a2, type: 3}
+      propertyPath: m_ChildScaleWidth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7781086014051261226, guid: 6cfac09dc4f7a1b4192caaa70c1669a2, type: 3}
+      propertyPath: m_ChildControlWidth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7781086014051261226, guid: 6cfac09dc4f7a1b4192caaa70c1669a2, type: 3}
+      propertyPath: m_ChildForceExpandWidth
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -687,10 +699,32 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6658338451883656261}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7579181003891356191, guid: 6cfac09dc4f7a1b4192caaa70c1669a2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1726373153726228011}
     - targetCorrespondingSourceObject: {fileID: 2344157208133079539, guid: 6cfac09dc4f7a1b4192caaa70c1669a2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2765638057136248964}
   m_SourcePrefab: {fileID: 100100000, guid: 6cfac09dc4f7a1b4192caaa70c1669a2, type: 3}
+--- !u!1 &1512536012004937382 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7579181003891356191, guid: 6cfac09dc4f7a1b4192caaa70c1669a2, type: 3}
+  m_PrefabInstance: {fileID: 9066647145727098041}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1726373153726228011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512536012004937382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 816a084a29505b746857e92e05bf6b90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SingleInputBehaviour
+  inputType: 0
+  inputField: {fileID: 1892613016702415275}
 --- !u!1 &6727019968454389066 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2344157208133079539, guid: 6cfac09dc4f7a1b4192caaa70c1669a2, type: 3}
