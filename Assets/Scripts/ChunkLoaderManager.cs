@@ -113,7 +113,7 @@ public class ChunkLoader
             position.x
         ) * chunkSize;
         
-        float scale = chunkPhysicalSize.x / 32f;
+        float scale = chunkPhysicalSize.x / 32f; //* chunkSize.x / 32f;
 
         List<List<float>> heightMap = heightMapFunction(chunkSize + new Vector2Int(2, 2), offset - new Vector2(1, 1) * chunkSize, scale);
 

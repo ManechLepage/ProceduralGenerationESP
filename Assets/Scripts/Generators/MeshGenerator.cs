@@ -103,8 +103,21 @@ public class MeshGenerator : MonoBehaviour
                 if (colorSettings.isEnabled)
                 {
                     float slope = Vector3.Angle(normal, Vector3.up) / 90f;
+                    float colorHeight = pixelHeight / height;
 
-                    colors.Add(colorSettings.slopeGradient.Evaluate(slope));
+                    Color color = Color.white;
+
+                    foreach (ColorConstraint constraint in colorSettings.constraints)
+                    {
+                        if (slope >= constraint.slopeRange.x && slope <= constraint.slopeRange.y &&
+                            colorHeight >= constraint.heightRange.x && colorHeight <= constraint.heightRange.y)
+                        {
+                            color = constraint.color;
+                            break;
+                        }
+                    }
+
+                    colors.Add(color);
                 }
             }
         }
@@ -147,7 +160,18 @@ public class MeshGenerator : MonoBehaviour
 public class MeshColorSettings
 {
     public bool isEnabled = false;
+    public List<ColorConstraint> constraints = new List<ColorConstraint>();
     public Gradient slopeGradient;
     public Gradient tempGradient;
     public Gradient tempTempGradient;
+    public List<ColorConstraint> constraintsTemp;
+}
+
+
+[System.Serializable]
+public class ColorConstraint
+{
+    public Color color;
+    public Vector2 slopeRange;
+    public Vector2 heightRange;
 }
