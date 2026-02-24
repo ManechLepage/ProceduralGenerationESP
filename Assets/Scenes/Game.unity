@@ -14,10 +14,10 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  m_Fog: 0
-  m_FogColor: {r: 0.14901961, g: 0.15294118, b: 0.16078432, a: 1}
-  m_FogMode: 2
-  m_FogDensity: 0.025
+  m_Fog: 1
+  m_FogColor: {r: 0.08687073, g: 0.41247594, b: 0.554717, a: 1}
+  m_FogMode: 3
+  m_FogDensity: 0.0075
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 06d906ebd389a154ba1d549b8d04b445, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -282,7 +282,7 @@ Camera:
   m_GameObject: {fileID: 330585543}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.14909929, g: 0.15421894, b: 0.16226411, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -397,7 +397,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   moveSpeed: 75
   rotateSpeed: 2.5
-  panSpeed: 2000
+  panSpeed: 0
   speedModifier: 2
   initialFoV: 60
 --- !u!1 &410087039
@@ -438,7 +438,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.5
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -939,29 +939,29 @@ MonoBehaviour:
   isEnabled: 1
   chunkLoader:
     loadDistance: 128
-    chunkSize: {x: 64, y: 64}
-    chunkPhysicalSize: {x: 32, y: 32}
-    height: 32
+    chunkSize: {x: 32, y: 32}
+    chunkPhysicalSize: {x: 16, y: 16}
+    height: 24
     chunkOffset: {x: 0, y: 0}
     colorSettings:
       isEnabled: 1
       slopeGradient:
         serializedVersion: 2
-        key0: {r: 0.11014587, g: 0.3433962, b: 0.07451045, a: 1}
-        key1: {r: 0.1975821, g: 0.4339623, b: 0.0712353, a: 1}
-        key2: {r: 0.2679245, g: 0.17494029, b: 0.05206833, a: 0}
-        key3: {r: 0.2679245, g: 0.2679245, b: 0.2679245, a: 0}
-        key4: {r: 0.15471691, g: 0.15471691, b: 0.15471691, a: 0}
+        key0: {r: 0.07046601, g: 0.3886792, b: 0.022734046, a: 1}
+        key1: {r: 0.15154926, g: 0.43092623, b: 0.012982651, a: 1}
+        key2: {r: 0.26666668, g: 0.1764706, b: 0.050980393, a: 0}
+        key3: {r: 0.26689732, g: 0.1932401, b: 0.090760514, a: 0}
+        key4: {r: 0.23773581, g: 0.23773581, b: 0.23773581, a: 0}
         key5: {r: 0.15471691, g: 0.15471691, b: 0.15471691, a: 0}
-        key6: {r: 0, g: 0, b: 0, a: 0}
+        key6: {r: 0.15471691, g: 0.15471691, b: 0.15471691, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
-        ctime1: 13801
-        ctime2: 19815
-        ctime3: 26445
-        ctime4: 65535
+        ctime1: 15343
+        ctime2: 18273
+        ctime3: 23053
+        ctime4: 25520
         ctime5: 65535
-        ctime6: 0
+        ctime6: 65535
         ctime7: 0
         atime0: 0
         atime1: 65535
@@ -973,7 +973,7 @@ MonoBehaviour:
         atime7: 0
         m_Mode: 0
         m_ColorSpace: 0
-        m_NumColorKeys: 5
+        m_NumColorKeys: 6
         m_NumAlphaKeys: 2
       tempGradient:
         serializedVersion: 2
@@ -1040,7 +1040,7 @@ MonoBehaviour:
   algorithmType: 0
   fbmSettings:
     seed: 0
-    scale: 0.25
+    scale: 0.5
     octaves: 8
     persistence: 0.5
     lacunarity: 2
@@ -1108,7 +1108,7 @@ MonoBehaviour:
       m_RotationOrder: 4
   voronoiSettings:
     seed: 0
-    scale: 5
+    scale: 1
     offset: {x: 0, y: 0}
     variation: 0.75
     distanceType: 0

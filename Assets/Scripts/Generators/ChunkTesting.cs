@@ -68,20 +68,24 @@ public class ChunkTesting : MonoBehaviour
         );
     }
 
-    public List<List<float>> HeightMapFunction(Vector2 size, Vector2 offset)
+    public List<List<float>> HeightMapFunction(Vector2 size, Vector2 offset, float scale=1f)
     {
         List<List<float>> heightMap;
         if (algorithmType == AlgorithmType.FBM)
         {
             fbmSettings.offset += offset;
+            fbmSettings.scale *= scale;
             heightMap = GameManager.Instance.fbmAlgorithm.GetHeightMap(size, fbmSettings);
             fbmSettings.offset -= offset;
+            fbmSettings.scale /= scale;
         }
         else
         {
             voronoiSettings.offset += offset;
+            voronoiSettings.scale *= scale;
             heightMap = GameManager.Instance.voronoiAlgorithm.GetHeightMap(size, voronoiSettings);
             voronoiSettings.offset -= offset;
+            voronoiSettings.scale /= scale;
         }
 
         return heightMap;

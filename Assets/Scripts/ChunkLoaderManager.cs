@@ -27,7 +27,7 @@ public class ChunkLoader
     public GameObject chunkParent;
 
     [HideInInspector]
-    public Func<Vector2, Vector2, List<List<float>>> heightMapFunction;  // Arguments: Vector2 size, Vector2 offset
+    public Func<Vector2, Vector2, float, List<List<float>>> heightMapFunction;  // Arguments: Vector2 size, Vector2 offset, float scale
 
     [HideInInspector]
     public Dictionary<Vector2Int, Chunk> chunks = new Dictionary<Vector2Int, Chunk>();
@@ -113,7 +113,9 @@ public class ChunkLoader
             position.x
         ) * chunkSize;
         
-        List<List<float>> heightMap = heightMapFunction(chunkSize + new Vector2Int(2, 2), offset - new Vector2(1, 1) * chunkSize);
+        float scale = chunkPhysicalSize.x / 32f;
+
+        List<List<float>> heightMap = heightMapFunction(chunkSize + new Vector2Int(2, 2), offset - new Vector2(1, 1) * chunkSize, scale);
 
         Mesh mesh = GameManager.Instance.meshGenerator.HeightMapToMesh(heightMap, height / scaleFactor, chunkSize, borderNormals: true, colorSettings: colorSettings);
         GameObject chunkGO = GameManager.Instance.meshGenerator.CreateMeshObject(chunkParent.transform);
