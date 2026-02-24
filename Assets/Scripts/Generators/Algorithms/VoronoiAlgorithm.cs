@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using System.Threading;
+using Unity.Jobs;
+using Unity.Collections;
 
 public enum DistanceType
 {
@@ -84,6 +87,69 @@ public class VoronoiAlgorithm : MonoBehaviour
             }
         }
         
+        return heightMap;
+    }
+
+    public List<List<float>> GetHeightMapThreading(Vector2 size, VoronoiSettings settings = null, int threads=8)
+    {
+        settings = settings ?? baseSettings;
+
+        int totalCells = (int)(size.x * size.y);
+
+        NativeArray<float> results = new NativeArray<float>(totalCells, Allocator.TempJob);
+
+        CalculateHeightJob job = new CalculateHeightJob
+        {
+            width = (int)size.x,
+            height = (int)size.y,
+            //settings = settings,
+            results = results
+        };
+
+        JobHandle handle = job.Schedule(totalCells, 64);
+        handle.Complete();
+
+        List<List<float>> heightMap = CombineResults(results, size);
+
+        results.Dispose();
+
+        return heightMap;
+    }
+
+    struct CalculateHeightJob : IJobParallelFor
+    {
+        public int width;
+        public int height;
+        //public VoronoiSettings settings;
+        [WriteOnly] public NativeArray<float> results;
+
+        public void Execute(int index)
+        {
+            int x = index % width;
+            int y = index / width;
+
+            float xCoord = (float)x / width; //(float)(x + settings.offset.x) / width;
+            float yCoord = (float)y / height; //(float)(y + settings.offset.y) / height;
+
+
+            results[index] = Mathf.PerlinNoise(xCoord, yCoord); //GetValue(xCoord, yCoord, settings);
+        }
+    }
+
+    List<List<float>> CombineResults(NativeArray<float> results, Vector2 size)
+    {
+        List<List<float>> heightMap = new List<List<float>>();
+
+        for (int x = 0; x < size.x; x++)
+        {
+            heightMap.Add(new List<float>());
+            for (int y = 0; y < size.y; y++)
+            {
+                int index = x * (int)size.y + y;
+                heightMap[heightMap.Count - 1].Add(results[index]);
+            }
+        }
+
         return heightMap;
     }
 
