@@ -83,7 +83,7 @@ public class ChunkTesting : MonoBehaviour
         {
             voronoiSettings.offset += offset;
             voronoiSettings.scale *= scale;
-            heightMap = GameManager.Instance.voronoiAlgorithm.GetHeightMap(size, voronoiSettings);
+            heightMap = GameManager.Instance.voronoiAlgorithm.GetHeightMapThreading(size, voronoiSettings);
             voronoiSettings.offset -= offset;
             voronoiSettings.scale /= scale;
         }
