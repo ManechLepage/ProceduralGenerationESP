@@ -332,13 +332,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.008816746, y: -0.78320783, z: -0.011109561, w: 0.6215983}
-  m_LocalPosition: {x: 65.68937, y: 8.968948, z: -158.13344}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -937,10 +937,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   isEnabled: 1
+  algorithmType: 1
   chunkLoader:
-    loadDistance: 128
-    chunkSize: {x: 16, y: 16}
-    chunkPhysicalSize: {x: 8, y: 8}
+    loadDistance: 256
+    chunkSize: {x: 32, y: 32}
+    chunkPhysicalSize: {x: 16, y: 16}
     height: 24
     chunkOffset: {x: 0, y: 0}
     colorSettings:
@@ -1078,7 +1079,6 @@ MonoBehaviour:
         heightRange: {x: 0, y: 1}
     chunkPrefab: {fileID: 552241389}
     chunkParent: {fileID: 930688339}
-  algorithmType: 0
   fbmSettings:
     seed: 0
     scale: 0.5

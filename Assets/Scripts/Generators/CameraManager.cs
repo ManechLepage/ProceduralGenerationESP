@@ -35,12 +35,19 @@ public class CameraManager : MonoBehaviour
         }
 
         float localMoveSpeed = moveSpeed;
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftControl))
         {
             localMoveSpeed *= 2f;
         }
 
-        Vector3 move = new Vector3(h, 0, v) * localMoveSpeed * Time.deltaTime;
+        float up = 0f;
+
+        if (Input.GetKey(KeyCode.Space))
+            up = 1f;
+        else if (Input.GetKey(KeyCode.LeftShift))
+            up = -1f;
+
+        Vector3 move = new Vector3(h, up, v) * localMoveSpeed * Time.deltaTime;
         transform.Translate(move, Space.Self);
 
         // Right click: rotate camera

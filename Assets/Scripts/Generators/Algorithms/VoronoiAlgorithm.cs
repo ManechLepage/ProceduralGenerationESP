@@ -4,6 +4,7 @@ using System;
 using System.Threading;
 using Unity.Jobs;
 using Unity.Collections;
+using Unity.Burst;
 
 public enum DistanceType
 {
@@ -62,7 +63,7 @@ public class VoronoiAlgorithm : MonoBehaviour
             }
         }
 
-        float maxDistance = Mathf.Sqrt(2) + Mathf.Sqrt(settings.variation) / 2;
+        float maxDistance = Mathf.Pow(Mathf.Sqrt(2) + settings.variation, 2);
         closestDistance = closestDistance / maxDistance;
 
         return settings.inverted ? 1 - closestDistance : closestDistance;
@@ -90,23 +91,52 @@ public class VoronoiAlgorithm : MonoBehaviour
         return heightMap;
     }
 
-    public List<List<float>> GetHeightMapThreading(Vector2 size, VoronoiSettings settings = null, int threads=8)
+    public List<List<float>> GetHeightMapThreading(Vector2 size, VoronoiSettings settings = null)
     {
         settings = settings ?? baseSettings;
 
-        int totalCells = (int)(size.x * size.y);
+        
+        int width = (int)size.x;
+        int height = (int)size.y;
+        int totalCells = width * height;
 
         NativeArray<float> results = new NativeArray<float>(totalCells, Allocator.TempJob);
 
+        /*NativeArray<Unity.Mathematics.float2> sites = new NativeArray<Unity.Mathematics.float2>(width*height, Allocator.TempJob);
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                int index = y * width + x;
+
+                uint h = Unity.Mathematics.math.hash(new Unity.Mathematics.int2(x, y)) + (uint)settings.seed;
+                if (h == 0) h = 1;
+
+                float jitterX = (HashToFloat(h) - 0.5f) * settings.variation;
+                float jitterY = (HashToFloat(h ^ 0x9E3779B9u) - 0.5f) * settings.variation;
+
+                sites[index] = new Unity.Mathematics.float2(x + jitterX, y + jitterY);
+            }
+        }*/
+
         CalculateHeightJob job = new CalculateHeightJob
         {
-            width = (int)size.x,
-            height = (int)size.y,
-            //settings = settings,
+            //sites = sites,
+            width = width,
+            height = height,
+            seed = settings.seed,
+            scale = settings.scale,
+            offset = (Unity.Mathematics.float2)settings.offset,
+            //chunkOffset = new Unity.Mathematics.float2(settings.offset.x / size.x, settings.offset.y / size.y),
+            variation = settings.variation,
+            distanceType = settings.distanceType,
+            neighborhoodSize = new Unity.Mathematics.int2(settings.neighborhoodSize.x, settings.neighborhoodSize.y),
+            inverted = settings.inverted,
+            maxDistance = Mathf.Pow(Mathf.Sqrt(2) + settings.variation, 2),
             results = results
         };
 
-        JobHandle handle = job.Schedule(totalCells, 64);
+        JobHandle handle = job.Schedule(totalCells, 256);
         handle.Complete();
 
         List<List<float>> heightMap = CombineResults(results, size);
@@ -116,11 +146,32 @@ public class VoronoiAlgorithm : MonoBehaviour
         return heightMap;
     }
 
+    static float HashToFloat(uint x)
+    {
+        x ^= x >> 16;
+        x *= 0x7feb352d;
+        x ^= x >> 15;
+        x *= 0x846ca68b;
+        x ^= x >> 16;
+        return (x & 0x00FFFFFF) / 16777216f;
+    }
+
+    [BurstCompile]
     struct CalculateHeightJob : IJobParallelFor
     {
-        public int width;
-        public int height;
-        //public VoronoiSettings settings;
+        //[ReadOnly] public NativeArray<Unity.Mathematics.float2> sites;
+        [ReadOnly] public int width;
+        [ReadOnly] public int height;
+        [ReadOnly] public int seed;
+        [ReadOnly] public float scale;
+        [ReadOnly] public Unity.Mathematics.float2 offset;
+        //[ReadOnly] public Unity.Mathematics.float2 chunkOffset;
+        [ReadOnly] public float variation;
+        [ReadOnly] public DistanceType distanceType;
+        [ReadOnly] public Unity.Mathematics.int2 neighborhoodSize;
+        [ReadOnly] public bool inverted;
+        [ReadOnly] public float maxDistance;
+
         [WriteOnly] public NativeArray<float> results;
 
         public void Execute(int index)
@@ -128,11 +179,96 @@ public class VoronoiAlgorithm : MonoBehaviour
             int x = index % width;
             int y = index / width;
 
-            float xCoord = (float)x / width; //(float)(x + settings.offset.x) / width;
-            float yCoord = (float)y / height; //(float)(y + settings.offset.y) / height;
+            float xCoord = (float)(x + offset.x) / width;
+            float yCoord = (float)(y + offset.y) / height;
 
+            results[index] = GetValueJob(xCoord, yCoord);
+        }
 
-            results[index] = Mathf.PerlinNoise(xCoord, yCoord); //GetValue(xCoord, yCoord, settings);
+        float GetValueJob(float x, float y)
+        {
+            float scaledX = x * scale;
+            float scaledY = y * scale;
+
+            Vector2 scaledPoint = new Vector2(scaledX, scaledY);
+
+            int gridX = Mathf.FloorToInt(scaledX);
+            int gridY = Mathf.FloorToInt(scaledY);
+
+            bool evenX = neighborhoodSize.x % 2 == 0;
+            bool evenY = neighborhoodSize.y % 2 == 0;
+            int halfSizeX = evenX ? neighborhoodSize.x / 2 : (neighborhoodSize.x + 1) / 2;
+            int halfSizeY = evenY ? neighborhoodSize.y / 2 : (neighborhoodSize.y + 1) / 2;
+
+            float closestDistance = float.MaxValue;
+
+            for (int i = -(evenX ? halfSizeX : halfSizeY - 1); i <= halfSizeX; i++)
+            {
+                for (int j = -(evenY ? halfSizeY : halfSizeX - 1); j <= halfSizeY; j++)
+                {
+                    Unity.Mathematics.float2 corner = GetModifiedCornerJob(new Unity.Mathematics.float2(gridX + i, gridY + j));
+                    /*int nx = gridX + i;
+                    int ny = gridY + j;
+                    if (nx < 0 || ny < 0 || nx >= width || ny >= height)
+                        continue;
+                    int nIndex = ny * width + nx;
+
+                    Unity.Mathematics.float2 corner = (sites[nIndex] - offset) / new Unity.Mathematics.float2(width, height) * scale;
+                    //Debug.Log($"Corner: {corner}, ScaledPoint: {scaledPoint.x}, {scaledPoint.y}");
+                    */
+
+                    float distance = 0f;
+                
+                    switch (distanceType)
+                    {
+                        case DistanceType.Euclidean:
+                            distance = GetFastEucleideanDistanceJob(scaledPoint, corner);
+                            break;
+                        case DistanceType.Manhattan:
+                            distance = GetManhattanDistanceJob(scaledPoint, corner);
+                            break;
+                    }
+
+                    if (distance < closestDistance)
+                        closestDistance = distance;
+                }
+            }
+
+            closestDistance = closestDistance / maxDistance;
+
+            return inverted ? 1 - closestDistance : closestDistance;
+        }
+
+        Unity.Mathematics.float2 GetModifiedCornerJob(Unity.Mathematics.float2 corner)
+        {
+            uint s = Unity.Mathematics.math.hash(new Unity.Mathematics.int2((int)corner.x, (int)corner.y)) + (uint)seed;
+            if (s == 0) s = 1u;
+
+            float offsetX = (HashToFloat(s) - 0.5f) * variation;
+            float offsetY = (HashToFloat(s ^ 0x9E3779B9u) - 0.5f) * variation;
+            return new Unity.Mathematics.float2(corner.x + offsetX, corner.y + offsetY);
+        }
+
+        float GetFastEucleideanDistanceJob(Vector2 a, Vector2 b)
+        {
+            float dx = a.x - b.x;
+            float dy = a.y - b.y;
+            return dx * dx + dy * dy;
+        }
+
+        float GetManhattanDistanceJob(Vector2 a, Vector2 b)
+        {
+            return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
+        }
+
+        static float HashToFloat(uint x)
+        {
+            x ^= x >> 16;
+            x *= 0x7feb352d;
+            x ^= x >> 15;
+            x *= 0x846ca68b;
+            x ^= x >> 16;
+            return (x & 0x00FFFFFF) / 16777216f;
         }
     }
 
@@ -145,8 +281,8 @@ public class VoronoiAlgorithm : MonoBehaviour
             heightMap.Add(new List<float>());
             for (int y = 0; y < size.y; y++)
             {
-                int index = x * (int)size.y + y;
-                heightMap[heightMap.Count - 1].Add(results[index]);
+                int index = y * (int)size.x + x;
+                heightMap[x].Add(results[index]);
             }
         }
 
@@ -167,13 +303,12 @@ public class VoronoiAlgorithm : MonoBehaviour
 
     public Vector2 GetModifiedCorner(Vector2Int corner, float variation, int seed)
     {
-        // Cantor pairing function
-        int newSeed = (corner.x + corner.y) * (corner.x + corner.y + 1) / 2 + corner.y;
-        newSeed += seed;
+        uint s = Unity.Mathematics.math.hash(new Unity.Mathematics.int2(corner.x, corner.y)) + (uint)seed;
+        if (s == 0) s = 1u;
 
-        System.Random random = new System.Random(newSeed);
-        float offsetX = (float)random.NextDouble() * variation;
-        float offsetY = (float)random.NextDouble() * variation;
+        Unity.Mathematics.Random random = new Unity.Mathematics.Random(s);
+        float offsetX = (random.NextFloat() - 0.5f) * variation;
+        float offsetY = (random.NextFloat() - 0.5f) * variation;
         return new Vector2(corner.x + offsetX, corner.y + offsetY);
     }
 }

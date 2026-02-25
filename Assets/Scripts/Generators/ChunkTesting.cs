@@ -4,14 +4,18 @@ using System.Collections.Generic;
 public class ChunkTesting : MonoBehaviour
 {
     public bool isEnabled = true;
+    public AlgorithmType algorithmType = AlgorithmType.FBM;
+
+    [Header("Chunk Settings")]
     public ChunkLoader chunkLoader;
 
-    public AlgorithmType algorithmType = AlgorithmType.FBM;
+    [Header("Algorithm Settings")]
     public FBMSettings fbmSettings;
     public VoronoiSettings voronoiSettings;
 
-    [Space]
+    [Header("Other References")]
     public GameObject mainCamera;
+
     private Vector2Int lastGridOrigin = Vector2Int.zero;
 
     private AlgorithmType lastAlgorithmType;
