@@ -44,6 +44,18 @@ PrefabInstance:
       propertyPath: m_CharacterValidation
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2796264651202228979, guid: c3d636f8378d04b4ba10a60a51ed5ad6, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 7.715
+      objectReference: {fileID: 0}
+    - target: {fileID: 2796264651202228979, guid: c3d636f8378d04b4ba10a60a51ed5ad6, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 3.8575
+      objectReference: {fileID: 0}
+    - target: {fileID: 3334589863162046778, guid: c3d636f8378d04b4ba10a60a51ed5ad6, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2f132d3387114e640ab6364e070844c2, type: 3}
     - target: {fileID: 3890554398300249786, guid: c3d636f8378d04b4ba10a60a51ed5ad6, type: 3}
       propertyPath: m_text
       value: "0\u200B"
@@ -58,7 +70,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6658338451883656261, guid: c3d636f8378d04b4ba10a60a51ed5ad6, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 57.045
+      value: 48.665848
       objectReference: {fileID: 0}
     - target: {fileID: 6658338451883656261, guid: c3d636f8378d04b4ba10a60a51ed5ad6, type: 3}
       propertyPath: m_AnchoredPosition.y

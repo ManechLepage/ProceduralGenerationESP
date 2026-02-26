@@ -6,7 +6,6 @@ public class UIDraggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private RectTransform rectTransform;
     private Canvas canvas;
     private Vector2 offset;
-    public float pixelsPerUnit = 1f;
 
     private void Awake()
     {
@@ -40,10 +39,6 @@ public class UIDraggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             out localPoint))
         {
             Vector2 pos = localPoint - offset;
-
-            pos.x = Mathf.Round(pos.x * pixelsPerUnit) / pixelsPerUnit;
-            pos.y = Mathf.Round(pos.y * pixelsPerUnit) / pixelsPerUnit;
-
             rectTransform.localPosition = pos;
         }
     }
