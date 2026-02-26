@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 8270082663637029091}
   - component: {fileID: 7485908917567184198}
   - component: {fileID: 4380383957051010011}
+  - component: {fileID: 2449575699839599571}
   m_Layer: 5
   m_Name: Node
   m_TagString: Untagged
@@ -153,6 +154,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NodeBehaviour
   nodeData: {fileID: 11400000, guid: 083cfec586ecd6149b08e78e9ce911b7, type: 2}
+--- !u!114 &2449575699839599571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4905050211979275109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d234b6d802eb9b42a46d3ce5c16192f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIDraggable
 --- !u!1 &8186507934456859861
 GameObject:
   m_ObjectHideFlags: 0
