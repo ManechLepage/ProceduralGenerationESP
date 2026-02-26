@@ -937,9 +937,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   isEnabled: 1
-  algorithmType: 1
+  algorithmType: 0
   chunkLoader:
-    loadDistance: 64
+    loadDistance: 256
     chunkSize: {x: 32, y: 32}
     chunkPhysicalSize: {x: 16, y: 16}
     height: 24
