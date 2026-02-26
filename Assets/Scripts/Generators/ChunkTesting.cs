@@ -79,7 +79,7 @@ public class ChunkTesting : MonoBehaviour
         {
             fbmSettings.offset += offset;
             fbmSettings.scale *= scale;
-            heightMap = GameManager.Instance.fbmAlgorithm.GetHeightMap(size, fbmSettings);
+            heightMap = GameManager.Instance.fbmAlgorithm.GetHeightMapThreading(size, fbmSettings);
             fbmSettings.offset -= offset;
             fbmSettings.scale /= scale;
         }
