@@ -11,6 +11,7 @@ public class MeshGenerator : MonoBehaviour
 
     [Space]
     public GameObject meshPrefab;
+    public Material coloredMeshMaterial;
 
     private GameObject testMeshGO;
     private MeshColorSettings defaultColorSettings = new MeshColorSettings
@@ -141,10 +142,12 @@ public class MeshGenerator : MonoBehaviour
         return heightMap[y][x] * height;
     }
 
-    public GameObject CreateMeshObject(Transform parent)
+    public GameObject CreateMeshObject(Transform parent, bool colored = false)
     {
         GameObject meshGO = Instantiate(meshPrefab, parent);
         meshGO.SetActive(true);
+        if (colored)
+            meshGO.GetComponent<MeshRenderer>().material = coloredMeshMaterial;
         return meshGO;
     }
 

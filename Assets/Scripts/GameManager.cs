@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     [Header("Algorithms")]
     public FBMAlgorithm fbmAlgorithm;
     public VoronoiAlgorithm voronoiAlgorithm;
+    public ErosionAlgorithm erosionAlgorithm;
 
     void Awake()
     {

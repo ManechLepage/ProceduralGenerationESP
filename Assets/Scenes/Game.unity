@@ -154,6 +154,7 @@ MonoBehaviour:
   testTexture: {fileID: 2800000, guid: 66f0c6e1b56cd874faace072eaf1cbe7, type: 3}
   testSize: {x: 16, y: 16}
   meshPrefab: {fileID: 552241389}
+  coloredMeshMaterial: {fileID: 2100000, guid: 91bdb45e8734adc438f9569058a6cfa3, type: 2}
 --- !u!4 &115618317
 Transform:
   m_ObjectHideFlags: 0
@@ -212,6 +213,50 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d2cec0b3f0068e47ad295e578444fab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+--- !u!1 &193810717
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 193810718}
+  - component: {fileID: 193810719}
+  m_Layer: 0
+  m_Name: Erosion
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &193810718
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193810717}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 912389473}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &193810719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193810717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d803299a6e4c77d4fb4d366be81602a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
 --- !u!1 &248608663
@@ -585,7 +630,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 91bdb45e8734adc438f9569058a6cfa3, type: 2}
+  - {fileID: 2100000, guid: b3e5d61a6cfa94548ba90035602c70b1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -890,6 +935,7 @@ Transform:
   m_Children:
   - {fileID: 1329771681}
   - {fileID: 1836517391}
+  - {fileID: 193810718}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &930688339
@@ -936,7 +982,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e5f53408abbcfe47a295d1dd2192ad7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  isEnabled: 1
+  isEnabled: 0
   algorithmType: 0
   chunkLoader:
     loadDistance: 256
@@ -1543,6 +1589,7 @@ MonoBehaviour:
   meshGenerator: {fileID: 115618316}
   fbmAlgorithm: {fileID: 1329771682}
   voronoiAlgorithm: {fileID: 1836517392}
+  erosionAlgorithm: {fileID: 193810719}
 --- !u!4 &1857888450
 Transform:
   m_ObjectHideFlags: 0
@@ -1602,6 +1649,194 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2138856450
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2138856451}
+  - component: {fileID: 2138856452}
+  m_Layer: 0
+  m_Name: ErosionTesting
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2138856451
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2138856450}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -32, y: 0, z: -32}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2138856452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2138856450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9aaa193eccfe5b43853498069ce950d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  isEnabled: 1
+  textureSize: {x: 256, y: 256}
+  previewSize: {x: 8, y: 8}
+  terrainHeight: 25
+  fbmSettings:
+    seed: 0
+    scale: 1.5
+    octaves: 8
+    persistence: 0.45
+    lacunarity: 2
+    offset: {x: 0, y: 0}
+    absolute: 0
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  erosionSettings:
+    steps: 20000
+    dropSize: 2
+    intensity: 1
+    maxStepsPerDrop: 100
+  colorSettings:
+    isEnabled: 1
+    constraints:
+    - color: {r: 0.07058824, g: 0.3882353, b: 0.023529412, a: 0}
+      slopeRange: {x: 0, y: 0.11}
+      heightRange: {x: 0, y: 1}
+    - color: {r: 0.26666668, g: 0.1764706, b: 0.050980393, a: 0}
+      slopeRange: {x: 0.11, y: 0.11}
+      heightRange: {x: 0, y: 1}
+    - color: {r: 0.3056603, g: 0.3056603, b: 0.3056603, a: 0}
+      slopeRange: {x: 0.11, y: 1}
+      heightRange: {x: 0, y: 1}
+    slopeGradient:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_ColorSpace: -1
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    tempGradient:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_ColorSpace: -1
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    tempTempGradient:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_ColorSpace: -1
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    constraintsTemp: []
 --- !u!1 &2142488533
 GameObject:
   m_ObjectHideFlags: 0
@@ -1739,5 +1974,6 @@ SceneRoots:
   - {fileID: 931750845}
   - {fileID: 716181107}
   - {fileID: 689062182}
+  - {fileID: 2138856451}
   - {fileID: 930688340}
   - {fileID: 807678029}

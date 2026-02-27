@@ -118,7 +118,7 @@ public class ChunkLoader
         List<List<float>> heightMap = heightMapFunction(chunkSize + new Vector2Int(2, 2), offset - new Vector2(1, 1) * chunkSize, scale);
 
         Mesh mesh = GameManager.Instance.meshGenerator.HeightMapToMesh(heightMap, height / scaleFactor, chunkSize, borderNormals: true, colorSettings: colorSettings);
-        GameObject chunkGO = GameManager.Instance.meshGenerator.CreateMeshObject(chunkParent.transform);
+        GameObject chunkGO = GameManager.Instance.meshGenerator.CreateMeshObject(chunkParent.transform, colorSettings.isEnabled);
 
         GameManager.Instance.meshGenerator.UpdateMesh(chunkGO, mesh, chunkPhysicalSize / chunkSize);
 
