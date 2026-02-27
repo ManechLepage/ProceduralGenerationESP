@@ -17,12 +17,18 @@ public class ErosionAlgorithm : MonoBehaviour
         new Vector2Int(-1, 1) // NW
     };
 
-    public void ApplyErosionStep(List<List<float>> heightMap, float dropSize, float intensity, int maxSteps=100)
+    public void ApplyErosionStep(List<List<float>> heightMap, float dropSize, float intensity, int maxSteps=100, float delayPerStep=0.25f, Action<float, float> onProgress=null)
     {
         int width = heightMap.Count;
         int height = heightMap[0].Count;
 
-        List<Tuple<int, int, float>> dropModifications = new List<Tuple<int, int, float>>();
+        List<List<float>> heightMapCopy = new List<List<float>>();
+        for (int i = 0; i < heightMap.Count; i++)
+        {
+            heightMapCopy.Add(new List<float>(heightMap[i]));
+        }
+
+        //List<Tuple<int, int, float>> dropModifications = new List<Tuple<int, int, float>>();
 
         Vector2Int dropPositionInt = new Vector2Int(UnityEngine.Random.Range(0, width), UnityEngine.Random.Range(0, height));
         Vector2 dropSpeed = Vector2.zero;
@@ -30,17 +36,17 @@ public class ErosionAlgorithm : MonoBehaviour
         
         for (int i = 0; i < maxSteps; i++)
         {
-            float lastHeight = heightMap[dropPositionInt.x][dropPositionInt.y];
-            Vector2 gradient = CalculateGradient(heightMap, dropPositionInt.x, dropPositionInt.y);
+            float lastHeight = heightMapCopy[dropPositionInt.x][dropPositionInt.y];
+            Vector2 gradient = CalculateGradient(heightMapCopy, dropPositionInt.x, dropPositionInt.y);
 
             Vector2 combinedDirection = new Vector2(
-                (gradient.x + dropSpeed.x) * 0.5f,
-                (gradient.y + dropSpeed.y) * 0.5f
+                gradient.x * 2f + dropSpeed.x,
+                gradient.y * 2f + dropSpeed.y
             );
 
-            Vector2Int newPositionInt = MoveDrop(heightMap, dropPositionInt, combinedDirection);
+            Vector2Int newPositionInt = MoveDrop(heightMapCopy, dropPositionInt, combinedDirection);
 
-            float newHeight = heightMap[newPositionInt.x][newPositionInt.y];
+            float newHeight = heightMapCopy[newPositionInt.x][newPositionInt.y];
 
             float dy = newHeight - lastHeight;
             float dx = dropPositionInt.x - newPositionInt.x;
@@ -51,7 +57,7 @@ public class ErosionAlgorithm : MonoBehaviour
             Vector2 slope = new Vector2(slopeX, slopeY);
             float slopeValue = slope.magnitude;
 
-            dropSpeed += slope * 0.1f;
+            dropSpeed += slope * 20f;
 
             float sedimentOutcome = dy > 0f ? -slopeValue : slopeValue;
             dropSediment -= sedimentOutcome;
@@ -60,40 +66,60 @@ public class ErosionAlgorithm : MonoBehaviour
                 sedimentOutcome -= dropSediment;
                 dropSediment = 0f;
             }
+
+            if (dropSediment > 0f)
+                dropSediment /= 2f;
     
             float radius = dropSize * 3f;
             float amount = sedimentOutcome / 25f * intensity;
 
-            //Debug.Log($"Drop moved from {dropPositionInt} to {newPositionInt}, height difference {dy}, with slope {slope.x}, {slope.y}, sediment outcome {sedimentOutcome}, drop sediment {dropSediment}, amount {amount}");
+            //Debug.Log($"Speed: {dropSpeed}, Gradient: {gradient}, Slope: {slope}, Sediment Outcome: {sedimentOutcome}, Drop Sediment: {dropSediment}, dropSize: {dropSize}, Amount: {amount}");
 
-            ModifyTerrain(width, height, dropModifications, dropPositionInt, -amount, radius);
+            ModifyTerrain(width, height, heightMap, dropPositionInt, -amount, radius);
 
-            dropSize -= 0.1f * slopeValue;
+            dropSize *= 0.975f;
+            dropSpeed *= 0.975f;
             if (dropSize <= 0f)
                 break;
             
             dropPositionInt = newPositionInt;
+            /*if (onProgress != null)
+                onProgress?.Invoke(i + 1, maxSteps);*/
+            //yield return new WaitForSeconds(delayPerStep);
         }
 
-        foreach (var mod in dropModifications)
+        /*foreach (var mod in dropModifications)
         {
             heightMap[mod.Item1][mod.Item2] += mod.Item3;
             if (heightMap[mod.Item1][mod.Item2] < 0f)
                 heightMap[mod.Item1][mod.Item2] = 0f;
-        }
+        }*/
+
+        //yield return null;
     }
 
-    public void ApplyErosion(List<List<float>> heightMap, ErosionSettings settings)
+    public IEnumerator ApplyErosion(List<List<float>> heightMap, ErosionSettings settings, Action<float, float> onProgress=null)
     {
         for (int i = 1; i < settings.steps + 1; i++)
         {
-            ApplyErosionStep(heightMap, settings.dropSize, settings.intensity, settings.maxStepsPerDrop);
-            if (i % 100 == 0)
+            ApplyErosionStep(heightMap, settings.dropSize, settings.intensity, settings.maxStepsPerDrop, 0.1f, onProgress);
+            if (i % 50 == 0)
+            {
                 Debug.Log($"Erosion step {i}/{settings.steps}");
+                onProgress?.Invoke(i, settings.steps);
+                yield return new WaitForSeconds(0.1f);
+            }
         }
+
+        yield return null;
     }
 
-    private void ModifyTerrain(int width, int height, List<Tuple<int, int, float>> dropModifications, Vector2Int position, float amount, float radius)
+    public void ErosionProcess(List<List<float>> heightMap, ErosionSettings settings, Action<float, float> onProgress=null)
+    {
+        StartCoroutine(ApplyErosion(heightMap, settings, onProgress));
+    }
+
+    private void ModifyTerrain(int width, int height, List<List<float>> heightMap, Vector2Int position, float amount, float radius)
     {
         int radiusInt = Mathf.CeilToInt(radius);
         int startX = Mathf.Max(0, position.x - radiusInt);
@@ -109,7 +135,8 @@ public class ErosionAlgorithm : MonoBehaviour
                 if (distance < radiusInt)
                 {
                     float influence = 1f - (distance / radiusInt);
-                    dropModifications.Add(new Tuple<int, int, float>(x, y, amount * influence * (radius / radiusInt)));
+                    //dropModifications.Add(new Tuple<int, int, float>(x, y, amount * influence * (radius / radiusInt)));
+                    heightMap[x][y] += amount * influence * (radius / radiusInt);
                 }
             }
         }

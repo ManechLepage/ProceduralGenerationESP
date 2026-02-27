@@ -1711,27 +1711,63 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
+        time: 0.19860667
+        value: 0.058598645
+        inSlope: 0.6799649
+        outSlope: 0.6799649
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.58913076
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.30618504
+        value: 0.20908757
+        inSlope: 1.0233499
+        outSlope: 1.0233499
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.57115775
+        outWeight: 0.4062169
+      - serializedVersion: 3
+        time: 0.48941544
+        value: 0.5862449
+        inSlope: 3.4585118
+        outSlope: 3.4585118
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.53380096
+      - serializedVersion: 3
+        time: 0.57459456
+        value: 0.8868074
+        inSlope: 0.6622388
+        outSlope: 0.6622388
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
+        inSlope: 0.11670858
+        outSlope: 0.11670858
+        tangentMode: 0
         weightedMode: 0
-        inWeight: 0
+        inWeight: 0.46052074
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
   erosionSettings:
-    steps: 20000
-    dropSize: 2
+    steps: 50000
+    dropSize: 1
     intensity: 1
     maxStepsPerDrop: 100
   colorSettings:
@@ -1836,7 +1872,16 @@ MonoBehaviour:
       m_ColorSpace: -1
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
-    constraintsTemp: []
+    constraintsTemp:
+    - color: {r: 0.07058824, g: 0.3882353, b: 0.023529412, a: 0}
+      slopeRange: {x: 0, y: 0.11}
+      heightRange: {x: 0, y: 1}
+    - color: {r: 0.26666668, g: 0.1764706, b: 0.050980393, a: 0}
+      slopeRange: {x: 0.11, y: 0.11}
+      heightRange: {x: 0, y: 1}
+    - color: {r: 0.3056603, g: 0.3056603, b: 0.3056603, a: 0}
+      slopeRange: {x: 0.11, y: 1}
+      heightRange: {x: 0, y: 1}
 --- !u!1 &2142488533
 GameObject:
   m_ObjectHideFlags: 0

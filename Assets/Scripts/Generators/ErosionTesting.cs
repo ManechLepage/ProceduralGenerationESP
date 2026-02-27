@@ -58,7 +58,14 @@ public class ErosionTesting : MonoBehaviour
 
     public void ErodeTerrain()
     {
-        GameManager.Instance.erosionAlgorithm.ApplyErosion(heightMap, erosionSettings);
+        GameManager.Instance.erosionAlgorithm.ErosionProcess(heightMap, erosionSettings, OnProgress);
+    }
+
+    public void OnProgress(float current, float total)
+    {
+        float progress = current / total;
+        Debug.Log($"Erosion progress: {progress * 100f}%");
+        UpdateMesh();
     }
 
     public void UpdateMesh()
