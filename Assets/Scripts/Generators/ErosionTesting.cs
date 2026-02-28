@@ -45,6 +45,7 @@ public class ErosionTesting : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
+            GameManager.Instance.erosionAlgorithm.StopAllCoroutines();
             GenerateBaseTerrain();
             UpdateMesh();
             didErode = false;
