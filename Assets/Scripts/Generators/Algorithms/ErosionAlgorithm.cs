@@ -36,6 +36,7 @@ public class ErosionAlgorithm : MonoBehaviour
         float sediment = 0f;
         float waterQuantity = dropSize;
         
+        Vector2Int lastPosition = position;
         for (int i = 0; i < maxSteps; i++)
         {
             List<Vector2Int> neighborHeights = GetNeighbors(position.x, position.y, width, height);
@@ -80,14 +81,14 @@ public class ErosionAlgorithm : MonoBehaviour
 
             if (heightDelta > 0f || sediment > sedimentCapacity)
             {
-                float depositionSediment = Mathf.Min(sediment / 2f, Mathf.Abs(heightDelta));
+                float depositionSediment = Mathf.Min(sediment / 5f, Mathf.Abs(heightDelta / 2f));
                 deposition += depositionSediment;
                 sediment -= depositionSediment;
             }
             else
             {
                 float erosion = (sedimentCapacity - sediment) / 5f * slopeMagnitude * 25f;
-                erosion = Mathf.Min(erosion, -heightDelta); // Don't erode more than the height difference
+                erosion = Mathf.Min(erosion, -heightDelta / 2f); // Don't erode more than the height difference
                 deposition -= erosion;
                 sediment += erosion;
             }
@@ -98,10 +99,19 @@ public class ErosionAlgorithm : MonoBehaviour
             //Debug.Log($"Position: {position.x}, {position.y}, Gradient: {gradient.x}, {gradient.y}, Movement: {newPosition.x - position.x}, {newPosition.y - position.y}, Speed: {flowSpeed.x}, {flowSpeed.y}, Sediment: {sediment}, Capacity: {sedimentCapacity}, Deposition: {deposition}");
 
             //float deposition = newPosition == position ? 0f : intensity / 100f;
+            
+            if (lastPosition == newPosition && i != 0)
+            {
+                deposition += sediment / 5f;
+                ModifyTerrain(width, height, heightMap, newPosition, deposition, waterQuantity * radiusMultiplier);
+                break; // Drop is stuck, end the simulation for this drop
+            }
 
             ModifyTerrain(width, height, heightMap, newPosition, deposition, waterQuantity * radiusMultiplier);
-            
+
+            lastPosition = position;
             position = newPosition;
+
             //if (onProgress != null)
             //    onProgress?.Invoke(i + 1, maxSteps);
             //yield return new WaitForSeconds(delayPerStep);

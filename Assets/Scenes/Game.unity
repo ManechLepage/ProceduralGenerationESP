@@ -1730,9 +1730,9 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   erosionSettings:
-    steps: 2500
+    steps: 5000
     dropSize: 2
-    intensity: 1
+    intensity: 0.5
     maxStepsPerDrop: 50
   colorSettings:
     isEnabled: 1
