@@ -5,156 +5,99 @@ using System;
 
 public class ErosionAlgorithm : MonoBehaviour
 {
-    private Vector2Int[] directions = new Vector2Int[]
-    {
-        new Vector2Int(1, 0), // E
-        new Vector2Int(1, 1), // NE
-        new Vector2Int(0, 1), // N
-        new Vector2Int(-1, 1), // NW
-        new Vector2Int(-1, 0), // W
-        new Vector2Int(-1, -1), // SW
-        new Vector2Int(-1, -1), // S
-        new Vector2Int(1, -1) // SE
-    };
-
-    public void ApplyErosionStep(List<List<float>> heightMap, float dropSize, float intensity, int maxSteps=50, float delayPerStep=0.25f, Action<float, float> onProgress=null)
+    public void ApplyErosionStep(List<List<float>> heightMap, float dropSize, float intensity, int maxSteps=50, float radius=2f, float delayPerStep=0.25f, Action<float, float> onProgress=null)
     {
         int width = heightMap.Count;
         int height = heightMap[0].Count;
 
-        List<List<float>> heightMapCopy = new List<List<float>>();
-        for (int i = 0; i < heightMap.Count; i++)
-        {
-            heightMapCopy.Add(new List<float>(heightMap[i]));
-        }
-
-        //List<Tuple<int, int, float>> dropModifications = new List<Tuple<int, int, float>>();
-
-        Vector2Int position = new Vector2Int(UnityEngine.Random.Range(0, width), UnityEngine.Random.Range(0, height));
-        Vector2 flowSpeed = Vector2.zero;
-        float sedimentCapacity = 0f;
+        Vector2 position = new Vector2(UnityEngine.Random.Range(0, width - 1), UnityEngine.Random.Range(0, height - 1));
+        Vector2 direction = Vector2.zero;
+        float speed = 1f;
+        float water = dropSize;
         float sediment = 0f;
-        float waterQuantity = dropSize;
+
+        float inertia = 0.05f;
         
-        Vector2Int lastPosition = position;
         for (int i = 0; i < maxSteps; i++)
         {
-            List<Vector2Int> neighborHeights = GetNeighbors(position.x, position.y, width, height);
-            float minHeight = float.MaxValue;
-            Vector2Int lowestNeighbor = position;
-            foreach (Vector2Int neighborHeight in neighborHeights)
+            Vector2Int gridPosition = new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.y));
+            Vector2 dropOffset = position - gridPosition;
+
+            Tuple<Vector2, float> gradientAndNewHeight = GetGradientAndHeight(heightMap, position);
+            Vector2 gradient = gradientAndNewHeight.Item1;
+            float currentHeight = gradientAndNewHeight.Item2;
+
+            direction = direction * inertia - gradient * (1f - inertia);
+            if (direction.magnitude != 0)
+                direction.Normalize();
+
+            position += direction;
+
+            if (position.x < 0 || position.x >= width - 1 || position.y < 0 || position.y >= height - 1 || (direction == Vector2.zero))
+                break;
+            
+            float newHeight = GetGradientAndHeight(heightMap, position).Item2;
+            float heightDelta = newHeight - currentHeight;
+
+            float capacity = Mathf.Max(-heightDelta * speed * water * intensity, 0.01f);
+
+            if (sediment > capacity || heightDelta > 0)
             {
-                float neighborHeightValue = heightMapCopy[neighborHeight.x][neighborHeight.y];
-                if (neighborHeightValue < minHeight)
-                {
-                    minHeight = neighborHeightValue;
-                    lowestNeighbor = neighborHeight;
-                }
-            }
-
-            Vector2Int movement = lowestNeighbor - position;
-
-            //Vector2 gradient = -CalculateGradient(heightMapCopy, position.x, position.y);
-
-            Vector2 direction = (movement + flowSpeed) / 2f; // Combine gradient and flow speed for movement direction
-
-            Vector2Int newPosition = MoveDrop(heightMapCopy, position, direction);
-
-            float startHeight = heightMapCopy[position.x][position.y];
-            float newHeight = heightMapCopy[newPosition.x][newPosition.y];
-
-            float heightDelta = newHeight - startHeight;
-            float xDelta = newPosition.x - position.x;
-            float yDelta = newPosition.y - position.y;
-
-            float speedX = xDelta == 0f ? 0f : heightDelta / xDelta;
-            float speedY = yDelta == 0f ? 0f : heightDelta / yDelta;
-
-            Vector2 speedDelta = new Vector2(-speedX, -speedY);
-            float slopeMagnitude = speedDelta.magnitude;
-            flowSpeed += speedDelta * 5f; // Increase when downhill, decrease when uphill
-
-            //Debug.Log($"Position: {position.x}, {position.y}, Direction: {direction.x}, {direction.y}, Speed: {flowSpeed.x}, {flowSpeed.y}, Height Delta: {heightDelta}, Speed Delta: {speedDelta.x}, {speedDelta.y}");
-
-            sedimentCapacity = Mathf.Max(flowSpeed.magnitude / 5f * waterQuantity / 20f, 0.01f); // Capacity increases with speed and water quantity
-            float deposition = 0f;
-
-            if (heightDelta > 0f || sediment > sedimentCapacity)
-            {
-                float depositionSediment = Mathf.Min(sediment / 5f, Mathf.Abs(heightDelta / 2f));
-                deposition += depositionSediment;
-                sediment -= depositionSediment;
+                float deposition;
+                if (heightDelta > 0) deposition = Mathf.Min(sediment, heightDelta);
+                else deposition = (sediment - capacity) * 0.3f;
+                sediment -= deposition;
+                
+                // Bilinear interpolation for the 4 neighboring points
+                heightMap[gridPosition.x][gridPosition.y] += deposition * (1f - dropOffset.x) * (1f - dropOffset.y);
+                heightMap[gridPosition.x + 1][gridPosition.y] += deposition * dropOffset.x * (1f - dropOffset.y);
+                heightMap[gridPosition.x][gridPosition.y + 1] += deposition * (1f - dropOffset.x) * dropOffset.y;
+                heightMap[gridPosition.x + 1][gridPosition.y + 1] += deposition * dropOffset.x * dropOffset.y;
             }
             else
             {
-                float erosion = (sedimentCapacity - sediment) / 5f * slopeMagnitude * 25f;
-                erosion = Mathf.Min(erosion, -heightDelta / 2f); // Don't erode more than the height difference
-                deposition -= erosion;
+                float erosion = Mathf.Min((capacity - sediment) * 0.3f, -heightDelta);
                 sediment += erosion;
+                ModifyTerrain2(width, height, heightMap, gridPosition, -erosion, radius);
             }
 
-            waterQuantity *= 0.975f; // Evaporation
-            float radiusMultiplier = deposition < 0f ? 2f : 0;
-
-            //Debug.Log($"Position: {position.x}, {position.y}, Gradient: {gradient.x}, {gradient.y}, Movement: {newPosition.x - position.x}, {newPosition.y - position.y}, Speed: {flowSpeed.x}, {flowSpeed.y}, Sediment: {sediment}, Capacity: {sedimentCapacity}, Deposition: {deposition}");
-
-            //float deposition = newPosition == position ? 0f : intensity / 100f;
-            
-            if (lastPosition == newPosition && i != 0)
-            {
-                deposition += sediment / 5f;
-                ModifyTerrain(width, height, heightMap, newPosition, deposition, waterQuantity * radiusMultiplier);
-                break; // Drop is stuck, end the simulation for this drop
-            }
-
-            ModifyTerrain(width, height, heightMap, newPosition, deposition, waterQuantity * radiusMultiplier);
-
-            lastPosition = position;
-            position = newPosition;
-
-            //if (onProgress != null)
-            //    onProgress?.Invoke(i + 1, maxSteps);
-            //yield return new WaitForSeconds(delayPerStep);
+            speed = Mathf.Sqrt(speed * speed + heightDelta * 2f);
+            water *= 0.99f; // Evaporation
         }
-
-        //yield return null;
     }
 
-    List<Vector2Int> GetNeighbors(int x, int y, int width, int height)
+    Tuple<Vector2, float> GetGradientAndHeight(List<List<float>> heightMap, Vector2 position)
     {
-        List<Vector2Int> neighbors = new List<Vector2Int>();
+        Vector2Int gridPosition = new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.y));
+        Vector2 dropOffset = position - gridPosition;
 
-        for (int dx = -1; dx <= 1; dx++)
-        {
-            for (int dy = -1; dy <= 1; dy++)
-            {
-                if (dx == 0 && dy == 0) continue;
+        float h00 = heightMap[gridPosition.x][gridPosition.y];
+        float h01 = heightMap[gridPosition.x][gridPosition.y + 1];
+        float h10 = heightMap[gridPosition.x + 1][gridPosition.y];
+        float h11 = heightMap[gridPosition.x + 1][gridPosition.y + 1];
 
-                int nx = x + dx;
-                int ny = y + dy;
+        Vector2 gradient = new Vector2(
+            (h10 - h00) * (1f - dropOffset.y) + (h11 - h01) * dropOffset.y,
+            (h01 - h00) * (1f - dropOffset.x) + (h11 - h10) * dropOffset.x
+        );
 
-                if (nx >= 0 && nx < width && ny >= 0 && ny < height)
-                {
-                    neighbors.Add(new Vector2Int(nx, ny));
-                }
-            }
-        }
+        float height = h00 * (1f - dropOffset.x) * (1f - dropOffset.y) + h10 * dropOffset.x * (1f - dropOffset.y) + h01 * (1f - dropOffset.x) * dropOffset.y + h11 * dropOffset.x * dropOffset.y;
 
-        return neighbors;
+        return new Tuple<Vector2, float>(gradient, height);
     }
 
     public IEnumerator ApplyErosion(List<List<float>> heightMap, ErosionSettings settings, Action<float, float> onProgress=null)
     {
         for (int i = 1; i < settings.steps + 1; i++)
         {
-            //yield return StartCoroutine(ApplyErosionStep(heightMap, settings.dropSize, settings.intensity, settings.maxStepsPerDrop, 0.1f, onProgress));
-            ApplyErosionStep(heightMap, settings.dropSize, settings.intensity, settings.maxStepsPerDrop, 0.1f, onProgress);
+            float currentDropSize = ProcessDropSize(settings.waterQuantity, i, settings.steps);
+            ApplyErosionStep(heightMap, currentDropSize, settings.intensity, settings.maxStepsPerDrop, settings.radius, 0.1f, onProgress);
 
-            if (i % 50 == 0)
+            if (i % 1000 == 0)
             {
                 Debug.Log($"Erosion step {i}/{settings.steps}");
                 onProgress?.Invoke(i, settings.steps);
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(0.01f);
             }
         }
 
@@ -166,71 +109,45 @@ public class ErosionAlgorithm : MonoBehaviour
         StartCoroutine(ApplyErosion(heightMap, settings, onProgress));
     }
 
-    private void ModifyTerrain(int width, int height, List<List<float>> heightMap, Vector2Int position, float amount, float radius)
+    public float ProcessDropSize(float dropSize, float current, float total)
     {
-        int radiusInt = Mathf.CeilToInt(radius);
-        int startX = Mathf.Max(0, position.x - radiusInt);
-        int startY = Mathf.Max(0, position.y - radiusInt);
-        int endX = Mathf.Min(width - 1, position.x + radiusInt);
-        int endY = Mathf.Min(height - 1, position.y + radiusInt);
+        float progress = current / total;
+        return dropSize / (progress + 1f);
+    }
 
-        for (int x = startX; x < endX; x++)
+    private void ModifyTerrain2(int width, int height, List<List<float>> heightMap, Vector2Int pos, float amount, float radius)
+    {
+        int rInt = Mathf.CeilToInt(radius);
+        int startX = Mathf.Max(0, pos.x - rInt);
+        int startY = Mathf.Max(0, pos.y - rInt);
+        int endX   = Mathf.Min(width - 1, pos.x + rInt);
+        int endY   = Mathf.Min(height - 1, pos.y + rInt);
+
+        var cells = new List<(int x, int y, float w)>();
+        float weightSum = 0f;
+
+        for (int x = startX; x <= endX; x++)
+        for (int y = startY; y <= endY; y++)
         {
-            for (int y = startY; y < endY; y++)
+            float dx = x - pos.x;
+            float dy = y - pos.y;
+            float sqr = dx*dx + dy*dy;
+            if (sqr < radius * radius)
             {
-                float distance = Vector2.Distance(new Vector2(x, y), position);
-                if (distance < radiusInt)
-                {
-                    float influence = 1f - (distance / radiusInt);
-                    //dropModifications.Add(new Tuple<int, int, float>(x, y, amount * influence * (radius / radiusInt)));
-                    heightMap[x][y] += amount * influence * (radius / radiusInt);
-                }
+                float dist = Mathf.Sqrt(sqr);
+                float w = 1f - (dist / radius);
+                if (w > 0f) { cells.Add((x,y,w)); weightSum += w; }
             }
         }
-    }
 
-    public Vector2Int MoveDrop(List<List<float>> heightMap, Vector2Int position, Vector2 direction)
-    {
-        //float angle = Mathf.Atan2(direction.y, direction.x);
-        //int closestDirectionIndex = Mathf.RoundToInt(angle / (Mathf.PI / 4f)) % 8;
+        if (weightSum <= 0f) return;
 
-        //if (closestDirectionIndex < 0)
-        //    closestDirectionIndex += 8;
-
-        direction = direction.normalized;
-
-        Vector2Int offset = new Vector2Int(
-            Mathf.RoundToInt(direction.x),
-            Mathf.RoundToInt(direction.y)
-        );
-
-        Vector2Int newPosition = position + offset;
-        newPosition.x = Mathf.Max(0, Mathf.Min(heightMap.Count - 1, newPosition.x));
-        newPosition.y = Mathf.Max(0, Mathf.Min(heightMap[0].Count - 1, newPosition.y));
-        return newPosition;
-    }
-
-    public Vector2 CalculateGradient(List<List<float>> heightMap, int x, int y)
-    {
-        float hL = SampleHeightMap(heightMap, x - 1, y);
-        float hR = SampleHeightMap(heightMap, x + 1, y);
-        float hD = SampleHeightMap(heightMap, x, y - 1);
-        float hU = SampleHeightMap(heightMap, x, y + 1);
-
-        return new Vector2(hR - hL, hU - hD).normalized;
-    }
-
-    private float SampleHeightMap(List<List<float>> heightMap, int x, int y)
-    {
-        int width = heightMap.Count;
-        int height = heightMap[0].Count;
-
-        if (x < 0) x = 0;
-        if (x >= width) x = width - 1;
-        if (y < 0) y = 0;
-        if (y >= height) y = height - 1;
-
-        return heightMap[x][y];
+        float invSum = 1f / weightSum;
+        foreach (var c in cells)
+        {
+            float influence = c.w * invSum;
+            heightMap[c.x][c.y] += amount * influence;
+        }
     }
 }
 
@@ -239,7 +156,8 @@ public class ErosionAlgorithm : MonoBehaviour
 public class ErosionSettings
 {
     public int steps = 1000;
-    public float dropSize = 1f;
+    public float waterQuantity = 1f;
     public float intensity = 1f;
+    public float radius = 2f;
     public int maxStepsPerDrop = 100;
 }

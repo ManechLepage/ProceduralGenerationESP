@@ -1700,10 +1700,10 @@ MonoBehaviour:
   fbmSettings:
     seed: 0
     scale: 1.5
-    octaves: 4
+    octaves: 12
     persistence: 0.45
     lacunarity: 2
-    offset: {x: 0, y: 0}
+    offset: {x: 50, y: 50}
     absolute: 0
     curve:
       serializedVersion: 2
@@ -1711,18 +1711,18 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0
@@ -1730,9 +1730,10 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   erosionSettings:
-    steps: 5000
-    dropSize: 2
-    intensity: 0.5
+    steps: 50000
+    waterQuantity: 1
+    intensity: 3
+    radius: 3
     maxStepsPerDrop: 50
   colorSettings:
     isEnabled: 1
@@ -1740,11 +1741,11 @@ MonoBehaviour:
     - color: {r: 0.07058824, g: 0.3882353, b: 0.023529412, a: 0}
       slopeRange: {x: 0, y: 0.11}
       heightRange: {x: 0, y: 1}
-    - color: {r: 0.26666668, g: 0.1764706, b: 0.050980393, a: 0}
-      slopeRange: {x: 0.11, y: 0.11}
+    - color: {r: 0.2528302, g: 0.21688397, b: 0.16553223, a: 0}
+      slopeRange: {x: 0.11, y: 0.15}
       heightRange: {x: 0, y: 1}
-    - color: {r: 0.3056603, g: 0.3056603, b: 0.3056603, a: 0}
-      slopeRange: {x: 0.11, y: 1}
+    - color: {r: 0.115920246, g: 0.115920246, b: 0.2528302, a: 0}
+      slopeRange: {x: 0.15, y: 1}
       heightRange: {x: 0, y: 1}
     slopeGradient:
       serializedVersion: 2
