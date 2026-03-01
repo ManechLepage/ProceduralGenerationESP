@@ -74,7 +74,7 @@ public class ErosionTesting : MonoBehaviour
         if (meshGO == null)
             meshGO = GameManager.Instance.meshGenerator.CreateMeshObject(transform, colorSettings.isEnabled);
         
-        Mesh mesh = GameManager.Instance.meshGenerator.HeightMapToMesh(heightMap, terrainHeight, previewSize, false, colorSettings);
+        Mesh mesh = GameManager.Instance.meshGenerator.HeightMapToMesh(heightMap, terrainHeight, previewSize, false, colorSettings, lowBorders: true);
         GameManager.Instance.meshGenerator.UpdateMesh(meshGO, mesh, previewSize);
     }
 }

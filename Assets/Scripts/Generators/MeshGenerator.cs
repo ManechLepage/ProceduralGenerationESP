@@ -36,7 +36,7 @@ public class MeshGenerator : MonoBehaviour
         return HeightMapToMesh(heightMap, height, size);
     }
 
-    public Mesh HeightMapToMesh(List<List<float>> heightMap, float height=1f, Vector2 size=default, bool borderNormals=false, MeshColorSettings colorSettings = default)
+    public Mesh HeightMapToMesh(List<List<float>> heightMap, float height=1f, Vector2 size=default, bool borderNormals=false, MeshColorSettings colorSettings = default, bool lowBorders = false)
     {
         if (size == default)
             size = new Vector2(1f, 1f);
@@ -60,6 +60,16 @@ public class MeshGenerator : MonoBehaviour
         int endX = borderNormals ? heightMap[0].Count : heightMap[0].Count + 1;
         int endY = borderNormals ? heightMap.Count : heightMap.Count + 1;
 
+        float lowBorderValue = -0.25f;
+
+        if (lowBorders)
+        {
+            startX -= 1;
+            startY -= 1;
+            endX += 1;
+            endY += 1;
+        }
+
         int verticesPerRow = endX - startX;
         int rows = endY - startY;
 
@@ -70,14 +80,34 @@ public class MeshGenerator : MonoBehaviour
         {
             for (int x = startX; x < endX; x++)
             {
-                float pixelHeight = SampleHeightMap(heightMap, x, y, height);
-                vertices.Add(new Vector3(x * sizeXPerPixel, pixelHeight, y * sizeYPerPixel));
+                float pixelHeight = SampleHeightMap(heightMap, x, y, height, lowBorders: true, lowBorderValue: lowBorderValue);
+
+                Vector3 vertexPosition = new Vector3(
+                    x * sizeXPerPixel, 
+                    pixelHeight, 
+                    y * sizeYPerPixel
+                );
+
+                if (lowBorders)
+                {
+                    if (x == startX)
+                        vertexPosition.x = (x + 1) * sizeXPerPixel;
+                    else if (x == endX - 1)
+                        vertexPosition.x = (x - 2) * sizeXPerPixel;
+                    
+                    if (y == startY)
+                        vertexPosition.z = (y + 1) * sizeYPerPixel;
+                    else if (y == endY - 1)
+                        vertexPosition.z = (y - 2) * sizeYPerPixel;
+                }
+
+                vertices.Add(vertexPosition);
 
                 // Compute normals
-                float hL = SampleHeightMap(heightMap, x - 1, y, height);
-                float hR = SampleHeightMap(heightMap, x + 1, y, height);
-                float hD = SampleHeightMap(heightMap, x, y - 1, height);
-                float hU = SampleHeightMap(heightMap, x, y + 1, height);
+                float hL = SampleHeightMap(heightMap, x - 1, y, height, lowBorders: true, lowBorderValue: lowBorderValue);
+                float hR = SampleHeightMap(heightMap, x + 1, y, height, lowBorders: true, lowBorderValue: lowBorderValue);
+                float hD = SampleHeightMap(heightMap, x, y - 1, height, lowBorders: true, lowBorderValue: lowBorderValue);
+                float hU = SampleHeightMap(heightMap, x, y + 1, height, lowBorders: true, lowBorderValue: lowBorderValue);
 
                 Vector3 normal = new Vector3(hL - hR, 2f, hD - hU).normalized;
 
@@ -134,8 +164,11 @@ public class MeshGenerator : MonoBehaviour
         return mesh;
     }
 
-    float SampleHeightMap(List<List<float>> heightMap, int x, int y, float height)
+    float SampleHeightMap(List<List<float>> heightMap, int x, int y, float height, bool lowBorders = false, float lowBorderValue = 0f)
     {
+        if (lowBorders && (x == -1 || y == -1 || x == heightMap[0].Count || y == heightMap.Count))
+            return lowBorderValue * height;
+        
         x = Mathf.Clamp(x, 0, heightMap[0].Count - 1);
         y = Mathf.Clamp(y, 0, heightMap.Count - 1);
 
