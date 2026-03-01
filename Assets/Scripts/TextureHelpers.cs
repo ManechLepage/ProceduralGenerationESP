@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEditor;
 
 public class TextureHelpers : MonoBehaviour
 {
@@ -80,10 +81,18 @@ public class TextureHelpers : MonoBehaviour
         return resultMap;
     }
 
-    public void SaveTexture(Texture2D texture, string path)
+    public void SaveTexture(Texture2D texture, string path, bool refreshAssetDatabase = true, bool makeReadable = false)
     {
         System.IO.File.WriteAllBytes(path, texture.EncodeToEXR(Texture2D.EXRFlags.OutputAsFloat));
-        UnityEditor.AssetDatabase.Refresh();
+        if (refreshAssetDatabase)
+            UnityEditor.AssetDatabase.Refresh();
+        
+        if (makeReadable)
+        {
+            TextureImporter importer = (TextureImporter)UnityEditor.AssetImporter.GetAtPath(path);
+            importer.isReadable = true;
+            importer.SaveAndReimport();
+        }
     }
 
     float SampleSmoothed(Texture2D tex, int x, int y, int radius)

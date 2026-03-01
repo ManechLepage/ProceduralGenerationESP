@@ -12,6 +12,8 @@ public class ErosionTesting : MonoBehaviour
 
 
     [Header("Algorithm Settings")]
+    public AlgorithmType algorithmType = AlgorithmType.FBM;
+    public Texture2D heightMapTexture;
     public FBMSettings fbmSettings;
     public ErosionSettings erosionSettings;
 
@@ -54,7 +56,14 @@ public class ErosionTesting : MonoBehaviour
 
     public void GenerateBaseTerrain()
     {
-        heightMap = GameManager.Instance.fbmAlgorithm.GetHeightMapThreading(textureSize, fbmSettings);
+        if (algorithmType == AlgorithmType.Texture)
+        {
+            heightMap = GameManager.Instance.textureHelpers.TextureToHeightMap(heightMapTexture);
+        }
+        else
+        {
+            heightMap = GameManager.Instance.fbmAlgorithm.GetHeightMapThreading(textureSize, fbmSettings);
+        }
     }
 
     public void ErodeTerrain()

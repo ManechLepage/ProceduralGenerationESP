@@ -3,7 +3,8 @@ using UnityEngine;
 public enum AlgorithmType
 {
     FBM,
-    Voronoi
+    Voronoi,
+    Texture
 }
 
 public class GameManager : MonoBehaviour
