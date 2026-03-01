@@ -169,8 +169,8 @@ MonoBehaviour:
   paintMaterial: {fileID: 2100000, guid: 7fd4ab90729ba624a840e0feb82333ff, type: 2}
   brushSize: 24
   brushOpacity: 0.1
-  brushIndex: 1
-  holdTimeToPaint: 0.05
+  brushIndex: 2
+  holdTimeToPaint: 0.025
   brushes:
   - brushName: Default
     texture: {fileID: 2800000, guid: e5891959d46c017439c946ad08de4a59, type: 3}

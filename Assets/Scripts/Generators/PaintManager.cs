@@ -101,6 +101,17 @@ public class PaintManager : MonoBehaviour
         {
             SavePaintTexture();
         }
+
+        // Number = brush
+        for (int i = 1; i <= 9; i++)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha0 + i))
+            {
+                brushIndex = i - 1;
+                if (brushIndex >= brushes.Count)
+                    brushIndex = brushes.Count - 1;
+            }
+        }
     }
 
     public void InitializePainting()
