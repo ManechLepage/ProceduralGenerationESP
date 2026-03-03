@@ -18,6 +18,9 @@ public class PaintManager : MonoBehaviour
 
     public List<BrushSettings> brushes = new List<BrushSettings>();
 
+    [Header("Mouse Settings")]
+    public GameObject brushGO;
+
     [Header("Others")]
     public Transform paintParent;
     public Canvas canvas;
@@ -112,8 +115,34 @@ public class PaintManager : MonoBehaviour
                     brushIndex = brushes.Count - 1;
             }
         }
+
+        UpdateBrushGO();
     }
 
+    void UpdateBrushGO()
+    {
+        Texture2D brushTexture = brushes[brushIndex].texture;
+
+        if (brushTexture != null)
+        {
+            brushGO.GetComponent<RawImage>().texture = brushTexture;
+        }
+
+        brushGO.transform.position = new Vector3(
+            Input.mousePosition.x,
+            Input.mousePosition.y,
+            -5f
+        );
+
+        brushGO.GetComponent<RectTransform>().sizeDelta = new Vector2(
+            brushSize * 100f / paintSize.x,
+            brushSize * 100f / paintSize.y
+        ) * physicalScale;
+
+        brushGO.transform.SetAsLastSibling();
+
+        brushGO.SetActive(true);
+    }
     public void InitializePainting()
     {
         if (paintGO == null)
