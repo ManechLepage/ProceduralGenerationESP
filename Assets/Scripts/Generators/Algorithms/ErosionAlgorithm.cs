@@ -36,7 +36,7 @@ public class ErosionAlgorithm : MonoBehaviour
             if (position.x < 0 || position.x >= width - 1 || position.y < 0 || position.y >= height - 1 || (direction == Vector2.zero))
                 break;
             
-            float newHeight = GetGradientAndHeight(heightMap, position).Item2;
+            float newHeight = GetGradientAndHeight(heightMap, position, calculateGradient: false).Item2;
             float heightDelta = newHeight - currentHeight;
 
             float capacity = Mathf.Max(-heightDelta * speed * water * intensity, 0.01f);
@@ -66,7 +66,7 @@ public class ErosionAlgorithm : MonoBehaviour
         }
     }
 
-    Tuple<Vector2, float> GetGradientAndHeight(List<List<float>> heightMap, Vector2 position)
+    Tuple<Vector2, float> GetGradientAndHeight(List<List<float>> heightMap, Vector2 position, bool calculateGradient=true)
     {
         Vector2Int gridPosition = new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.y));
         Vector2 dropOffset = position - gridPosition;
@@ -76,10 +76,14 @@ public class ErosionAlgorithm : MonoBehaviour
         float h10 = heightMap[gridPosition.x + 1][gridPosition.y];
         float h11 = heightMap[gridPosition.x + 1][gridPosition.y + 1];
 
-        Vector2 gradient = new Vector2(
-            (h10 - h00) * (1f - dropOffset.y) + (h11 - h01) * dropOffset.y,
-            (h01 - h00) * (1f - dropOffset.x) + (h11 - h10) * dropOffset.x
-        );
+        Vector2 gradient = Vector2.zero;
+        if (calculateGradient)
+        {
+            gradient = new Vector2(
+                (h10 - h00) * (1f - dropOffset.y) + (h11 - h01) * dropOffset.y,
+                (h01 - h00) * (1f - dropOffset.x) + (h11 - h10) * dropOffset.x
+            );
+        }
 
         float height = h00 * (1f - dropOffset.x) * (1f - dropOffset.y) + h10 * dropOffset.x * (1f - dropOffset.y) + h01 * (1f - dropOffset.x) * dropOffset.y + h11 * dropOffset.x * dropOffset.y;
 
