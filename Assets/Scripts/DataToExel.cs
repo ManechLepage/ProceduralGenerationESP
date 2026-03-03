@@ -5,7 +5,7 @@ using System.Text;
 public class DataToCSV : MonoBehaviour
 {
 
-     private string filePath = Application.persistentDataPath + "/GenData.csv";
+     private string filePath = Application.persistentDataPath + "/GenData.xlsx";
 
      public void WriteDataToCSV()
     {
