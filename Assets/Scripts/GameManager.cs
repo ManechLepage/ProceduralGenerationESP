@@ -7,6 +7,12 @@ public enum AlgorithmType
     Texture
 }
 
+public enum ErosionType
+{
+    Hydraulic,
+    Thermal
+}
+
 public class GameManager : MonoBehaviour
 {
     /*
@@ -24,7 +30,8 @@ public class GameManager : MonoBehaviour
     [Header("Algorithms")]
     public FBMAlgorithm fbmAlgorithm;
     public VoronoiAlgorithm voronoiAlgorithm;
-    public ErosionAlgorithm erosionAlgorithm;
+    public HydraulicErosionAlgorithm hydraulicErosionAlgorithm;
+    public ThermalErosionAlgorithm thermalErosionAlgorithm;
 
     void Awake()
     {

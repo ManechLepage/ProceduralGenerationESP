@@ -15,14 +15,17 @@ public class ErosionTesting : MonoBehaviour
     public AlgorithmType algorithmType = AlgorithmType.FBM;
     public Texture2D heightMapTexture;
     public FBMSettings fbmSettings;
-    public ErosionSettings erosionSettings;
+    public VoronoiSettings voronoiSettings;
+    public HydraulicErosionSettings hydraulicErosionSettings;
+    public ThermalErosionSettings thermalErosionSettings;
 
     [Header("Color Settings")]
     public MeshColorSettings colorSettings;
 
     private List<List<float>> heightMap;
     private GameObject meshGO;
-    private bool didErode = false;
+    private bool didHydraulicErosion = false;
+    private bool didThermalErosion = false;
 
     void Start()
     {
@@ -37,20 +40,30 @@ public class ErosionTesting : MonoBehaviour
     {
         if (!isEnabled) return;
 
-        if (Input.GetKeyDown(KeyCode.E) && !didErode)
+        if (Input.GetKeyDown(KeyCode.E) && !didHydraulicErosion)
         {
-            Debug.Log("Erosion started!");
-            ErodeTerrain();
+            Debug.Log("Hydraulic Erosion started!");
+            StartHydraulicErosion();
             UpdateMesh();
-            didErode = true;
+            //didHydraulicErosion = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.T) && !didThermalErosion)
+        {
+            Debug.Log("Thermal erosion started!");
+            StartThermalErosion();
+            UpdateMesh();
+            //didThermalErosion = true;
         }
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            GameManager.Instance.erosionAlgorithm.StopAllCoroutines();
+            GameManager.Instance.hydraulicErosionAlgorithm.StopAllCoroutines();
+            GameManager.Instance.thermalErosionAlgorithm.StopAllCoroutines();
             GenerateBaseTerrain();
             UpdateMesh();
-            didErode = false;
+            didHydraulicErosion = false;
+            didThermalErosion = false;
         }
     }
 
@@ -62,13 +75,26 @@ public class ErosionTesting : MonoBehaviour
         }
         else
         {
-            heightMap = GameManager.Instance.fbmAlgorithm.GetHeightMapThreading(textureSize, fbmSettings);
+            if (algorithmType == AlgorithmType.Voronoi)
+            {
+                heightMap = GameManager.Instance.voronoiAlgorithm.GetHeightMapThreading(textureSize, voronoiSettings);
+            }
+            else
+            {
+                heightMap = GameManager.Instance.fbmAlgorithm.GetHeightMapThreading(textureSize, fbmSettings);
+            }
         }
     }
 
-    public void ErodeTerrain()
+    public void StartHydraulicErosion()
     {
-        GameManager.Instance.erosionAlgorithm.ErosionProcess(heightMap, erosionSettings, OnProgress);
+        GameManager.Instance.hydraulicErosionAlgorithm.ErosionProcess(heightMap, hydraulicErosionSettings, OnProgress);
+    }
+
+    public void StartThermalErosion()
+    {
+        float pixelDistanceFactor = previewSize.x / textureSize.x * 100f / terrainHeight;
+        GameManager.Instance.thermalErosionAlgorithm.ErosionProcess(heightMap, thermalErosionSettings, pixelDistanceFactor, OnProgress);
     }
 
     public void OnProgress(float current, float total)

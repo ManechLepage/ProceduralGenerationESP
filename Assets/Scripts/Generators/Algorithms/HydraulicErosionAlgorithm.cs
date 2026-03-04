@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class ErosionAlgorithm : MonoBehaviour
+public class HydraulicErosionAlgorithm : MonoBehaviour
 {
     public void ApplyErosionStep(List<List<float>> heightMap, float dropSize, float intensity, int maxSteps=50, float radius=2f, float delayPerStep=0.25f, Action<float, float> onProgress=null)
     {
@@ -58,7 +58,7 @@ public class ErosionAlgorithm : MonoBehaviour
             {
                 float erosion = Mathf.Min((capacity - sediment) * 0.3f, -heightDelta);
                 sediment += erosion;
-                ModifyTerrain2(width, height, heightMap, gridPosition, -erosion, radius);
+                ModifyTerrain(width, height, heightMap, gridPosition, -erosion, radius);
             }
 
             speed = Mathf.Sqrt(speed * speed + heightDelta * 2f);
@@ -90,7 +90,7 @@ public class ErosionAlgorithm : MonoBehaviour
         return new Tuple<Vector2, float>(gradient, height);
     }
 
-    public IEnumerator ApplyErosion(List<List<float>> heightMap, ErosionSettings settings, Action<float, float> onProgress=null)
+    public IEnumerator ApplyErosion(List<List<float>> heightMap, HydraulicErosionSettings settings, Action<float, float> onProgress=null)
     {
         for (int i = 1; i < settings.steps + 1; i++)
         {
@@ -108,7 +108,7 @@ public class ErosionAlgorithm : MonoBehaviour
         yield return null;
     }
 
-    public void ErosionProcess(List<List<float>> heightMap, ErosionSettings settings, Action<float, float> onProgress=null)
+    public void ErosionProcess(List<List<float>> heightMap, HydraulicErosionSettings settings, Action<float, float> onProgress=null)
     {
         StartCoroutine(ApplyErosion(heightMap, settings, onProgress));
     }
@@ -119,7 +119,7 @@ public class ErosionAlgorithm : MonoBehaviour
         return dropSize / (progress + 1f);
     }
 
-    private void ModifyTerrain2(int width, int height, List<List<float>> heightMap, Vector2Int pos, float amount, float radius)
+    private void ModifyTerrain(int width, int height, List<List<float>> heightMap, Vector2Int pos, float amount, float radius)
     {
         int rInt = Mathf.CeilToInt(radius);
         int startX = Mathf.Max(0, pos.x - rInt);
@@ -157,7 +157,7 @@ public class ErosionAlgorithm : MonoBehaviour
 
 
 [System.Serializable]
-public class ErosionSettings
+public class HydraulicErosionSettings
 {
     public int steps = 1000;
     public float waterQuantity = 1f;

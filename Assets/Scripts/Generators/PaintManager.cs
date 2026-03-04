@@ -15,6 +15,7 @@ public class PaintManager : MonoBehaviour
     public bool isEnabled = true;
     public Vector2Int paintSize = new Vector2Int(64, 64);
     public float physicalScale = 1f;
+    public float zoom = 1f;
     public Material paintMaterial;
 
     [Header("Brush Settings")]
@@ -42,10 +43,13 @@ public class PaintManager : MonoBehaviour
     private Texture2D paintTexture;
     private GameObject paintGO;
     private float lastPaintTime = 0f;
+    private Vector2 holdOffset = Vector2.zero;
+    private Vector2 initialPaintScale;
 
     void Start()
     {
         InitializePainting();
+        initialPaintScale = paintGO.transform.localScale;
 
         if (brushes.Count == 0)
         {
@@ -96,8 +100,8 @@ public class PaintManager : MonoBehaviour
         {
             lastPaintTime = 0f;
 
-            Vector2 downLeftPaintPos = paintGO.transform.position - paintGO.transform.localScale * 100f / 2f * canvas.scaleFactor;
             Vector2 paintScreenSize = paintGO.transform.localScale * 100f * canvas.scaleFactor;
+            Vector2 downLeftPaintPos = new Vector2(paintGO.transform.position.x, paintGO.transform.position.y) - paintScreenSize / 2f;
 
             Vector2 mousePosition = Input.mousePosition;
 
@@ -106,7 +110,6 @@ public class PaintManager : MonoBehaviour
                 Mathf.FloorToInt((mousePosition.y - downLeftPaintPos.y) / paintScreenSize.y * paintSize.y)
             );
             
-            
             brushes[brushIndex].Apply(paintTexture, paintPosition, GetToolParameters(toolType), remove: remove);
             paintTexture.Apply();
         }
@@ -114,11 +117,25 @@ public class PaintManager : MonoBehaviour
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0f)
         {
-            ToolParameters tool = GetToolParameters(toolType);
-            if (tool != null)
+            if (Input.GetKey(KeyCode.LeftControl))
             {
-                tool.size -= Mathf.RoundToInt(scroll * 5f * (tool.size / 10f));
-                tool.size = Mathf.Clamp(tool.size, 1f, 100f);
+                float lastZoom = zoom;
+                zoom *= 1f + scroll * 0.5f;
+                zoom = Mathf.Clamp(zoom, 0.1f, 10f);
+
+                Vector3 mouseWorldPos = Input.mousePosition;
+                Vector3 zoomCenter = paintGO.transform.position;
+                Vector3 offset = mouseWorldPos - zoomCenter;
+                paintGO.transform.position += offset * (1f - zoom / lastZoom);
+            }
+            else
+            {
+                ToolParameters tool = GetToolParameters(toolType);
+                if (tool != null)
+                {
+                    tool.size -= Mathf.RoundToInt(scroll * 5f * (tool.size / 10f));
+                    tool.size = Mathf.Clamp(tool.size, 1f, 100f);
+                }
             }
         }
 
@@ -151,7 +168,18 @@ public class PaintManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z))
             Undo();
+        
+        if (Input.GetMouseButtonDown(2))
+        {
+            holdOffset = Input.mousePosition - paintGO.transform.position;
+        }
 
+        if (Input.GetMouseButton(2))
+        {
+            paintGO.transform.position = Input.mousePosition - new Vector3(holdOffset.x, holdOffset.y, 0f);
+        }
+
+        UpdatePaintGO();
         UpdateBrushGO();
     }
 
@@ -210,14 +238,20 @@ public class PaintManager : MonoBehaviour
         float brushSize = GetToolParameters(toolType)?.size ?? 10f;
 
         brushGO.GetComponent<RectTransform>().sizeDelta = new Vector2(
-            brushSize * 100f / paintSize.x,
-            brushSize * 100f / paintSize.y
+            brushSize * 100f / paintSize.x * zoom,
+            brushSize * 100f / paintSize.y * zoom
         ) * physicalScale;
 
         brushGO.transform.SetAsLastSibling();
 
         brushGO.SetActive(true);
     }
+
+    public void UpdatePaintGO()
+    {
+        paintGO.transform.localScale = initialPaintScale * zoom;
+    }
+
     public void InitializePainting()
     {
         if (paintGO == null)
