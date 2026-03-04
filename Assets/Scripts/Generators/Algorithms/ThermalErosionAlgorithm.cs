@@ -19,11 +19,12 @@ public class ThermalErosionAlgorithm : MonoBehaviour
 
                 List<Vector2Int> neighbors = GetNeighbors(heightMap, currentPos);
 
+                float randomFactorBedrock = UnityEngine.Random.Range(1f - settings.randomness, 1f + settings.randomness) / 50f;
+
                 float bedrockSlope = GetBedrockSlope(heightMap, currentPos, neighbors, pixelDistance);
-                if (bedrockSlope > settings.talusAngle)
+                if (bedrockSlope + randomFactorBedrock > settings.talusAngle)
                 {
-                    float randomFactor = UnityEngine.Random.Range(1f - settings.randomness, 1f + settings.randomness);
-                    float productionAmount = bedrockSlope * settings.talusProduction * randomFactor / 10f;
+                    float productionAmount = bedrockSlope * settings.talusProduction / 10f;
 
                     heightMap[i][j] -= productionAmount;
                     sedimentMap[i][j] += productionAmount;
@@ -34,10 +35,11 @@ public class ThermalErosionAlgorithm : MonoBehaviour
                     float heightDifference = heightMap[i][j] - (heightMap[neighbor.x][neighbor.y] + sedimentMap[neighbor.x][neighbor.y]);
                     float diff = heightDifference / pixelDistance;
 
-                    if (diff > settings.talusAngle)
+                    float randomFactorSediment = UnityEngine.Random.Range(1f - settings.randomness, 1f + settings.randomness) / 50f;
+
+                    if (diff + randomFactorSediment > settings.talusAngle)
                     {
-                        float randomFactor = UnityEngine.Random.Range(1f - settings.randomness, 1f + settings.randomness);
-                        float erosionAmount = Mathf.Min(diff * settings.intensity * randomFactor / 10f, sedimentMap[i][j]);
+                        float erosionAmount = Mathf.Min(diff * settings.intensity / 10f, sedimentMap[i][j]);
 
                         sedimentMap[i][j] -= erosionAmount;
                         sedimentMap[neighbor.x][neighbor.y] += erosionAmount;
