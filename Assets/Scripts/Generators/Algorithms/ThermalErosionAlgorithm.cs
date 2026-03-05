@@ -15,34 +15,43 @@ public class ThermalErosionAlgorithm : MonoBehaviour
             for (int j = 0; j < height; j++)
             {
                 Vector2Int currentPos = new Vector2Int(i, j);
-                float currentHeight = heightMap[i][j] + sedimentMap[i][j];
+                float currentHeight = settings.sedimentMap ? bedrockMap[i][j] + sedimentMap[i][j] : heightMap[i][j];
 
                 List<Vector2Int> neighbors = GetNeighbors(heightMap, currentPos);
 
-                float randomFactorBedrock = UnityEngine.Random.Range(1f - settings.randomness, 1f + settings.randomness) / 50f;
+                float randomFactor = UnityEngine.Random.Range(1f - settings.randomness, 1f + settings.randomness) / 50f;
 
-                float bedrockSlope = GetBedrockSlope(heightMap, currentPos, neighbors, pixelDistance);
-                if (bedrockSlope + randomFactorBedrock > settings.talusAngle)
+                if (settings.sedimentMap)
                 {
-                    float productionAmount = bedrockSlope * settings.talusProduction / 10f;
+                    float bedrockSlope = GetBedrockSlope(bedrockMap, currentPos, neighbors, pixelDistance);
+                    if (bedrockSlope + randomFactor > settings.talusAngle)
+                    {
+                        float productionAmount = bedrockSlope * settings.talusProduction / 10f;
 
-                    heightMap[i][j] -= productionAmount;
-                    sedimentMap[i][j] += productionAmount;
+                        bedrockMap[i][j] -= productionAmount;
+                        sedimentMap[i][j] += productionAmount;
+                    }
                 }
 
                 foreach (Vector2Int neighbor in neighbors)
                 {
-                    float heightDifference = heightMap[i][j] - (heightMap[neighbor.x][neighbor.y] + sedimentMap[neighbor.x][neighbor.y]);
+                    float neighborHeight = settings.sedimentMap ? bedrockMap[neighbor.x][neighbor.y] + sedimentMap[neighbor.x][neighbor.y] : heightMap[neighbor.x][neighbor.y];
+                    float heightDifference = heightMap[i][j] - neighborHeight;
                     float diff = heightDifference / pixelDistance;
 
-                    float randomFactorSediment = UnityEngine.Random.Range(1f - settings.randomness, 1f + settings.randomness) / 50f;
-
-                    if (diff + randomFactorSediment > settings.talusAngle)
+                    if (diff + randomFactor > settings.talusAngle)
                     {
-                        float erosionAmount = Mathf.Min(diff * settings.intensity / 10f, sedimentMap[i][j]);
+                        float erosionAmount;
+                        if (settings.sedimentMap)
+                            erosionAmount = Mathf.Min(diff * settings.intensity / 10f, sedimentMap[i][j]);
+                        else
+                            erosionAmount = diff * settings.intensity / 10f;
 
-                        sedimentMap[i][j] -= erosionAmount;
-                        sedimentMap[neighbor.x][neighbor.y] += erosionAmount;
+                        if (settings.sedimentMap)
+                        {
+                            sedimentMap[i][j] -= erosionAmount;
+                            sedimentMap[neighbor.x][neighbor.y] += erosionAmount;
+                        }
                         
                         heightMap[i][j] -= erosionAmount;
                         heightMap[neighbor.x][neighbor.y] += erosionAmount;
@@ -63,9 +72,12 @@ public class ThermalErosionAlgorithm : MonoBehaviour
                 if (i == 0 && j == 0) continue;
 
                 Vector2Int neighborPos = new Vector2Int(
-                    Mathf.Clamp(position.x + i, 0, heightMap.Count - 1),
-                    Mathf.Clamp(position.y + j, 0, heightMap[0].Count - 1)
+                    position.x + i,
+                    position.y + j
                 );
+
+                if (neighborPos.x < 0 || neighborPos.x >= heightMap.Count || neighborPos.y < 0 || neighborPos.y >= heightMap[0].Count)
+                    continue;
 
                 neighbors.Add(neighborPos);
             }
@@ -96,24 +108,26 @@ public class ThermalErosionAlgorithm : MonoBehaviour
     public IEnumerator ApplyErosion(List<List<float>> heightMap, ThermalErosionSettings settings, float pixelDistance, Action<float, float> onProgress=null)
     {
         List<List<float>> sedimentMap = new List<List<float>>();
-
-        for (int i = 0; i < heightMap.Count; i++)
-        {
-            sedimentMap.Add(new List<float>());
-            for (int j = 0; j < heightMap[0].Count; j++)
-            {
-                sedimentMap[i].Add(0f);
-            }
-        }
-
         List<List<float>> bedrockMap = new List<List<float>>();
 
-        for (int i = 0; i < heightMap.Count; i++)
+        if (settings.sedimentMap)
         {
-            bedrockMap.Add(new List<float>());
-            for (int j = 0; j < heightMap[0].Count; j++)
+            for (int i = 0; i < heightMap.Count; i++)
             {
-                bedrockMap[i].Add(heightMap[i][j]);
+                sedimentMap.Add(new List<float>());
+                for (int j = 0; j < heightMap[0].Count; j++)
+                {
+                    sedimentMap[i].Add(0f);
+                }
+            }
+
+            for (int i = 0; i < heightMap.Count; i++)
+            {
+                bedrockMap.Add(new List<float>());
+                for (int j = 0; j < heightMap[0].Count; j++)
+                {
+                    bedrockMap[i].Add(heightMap[i][j]);
+                }
             }
         }
 
@@ -146,4 +160,5 @@ public class ThermalErosionSettings
     public float talusProduction = 0.5f;
     public float talusAngle = 0.5f;
     public float randomness = 0.1f;
+    public bool sedimentMap = true;
 }
