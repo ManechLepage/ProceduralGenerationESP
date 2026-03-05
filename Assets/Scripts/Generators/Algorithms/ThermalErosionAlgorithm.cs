@@ -121,11 +121,11 @@ public class ThermalErosionAlgorithm : MonoBehaviour
         {
             ApplyErosionStep(heightMap, bedrockMap, sedimentMap, settings, pixelDistance, onProgress);
 
-            if (i % 5 == 0)
+            if (i % 2 == 0)
             {
                 Debug.Log($"Erosion step {i}/{settings.steps}");
                 onProgress?.Invoke(i, settings.steps);
-                yield return new WaitForSeconds(0.02f);
+                yield return new WaitForSeconds(0.01f);
             }
         }
 

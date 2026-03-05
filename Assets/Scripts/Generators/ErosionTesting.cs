@@ -93,7 +93,7 @@ public class ErosionTesting : MonoBehaviour
 
     public void StartThermalErosion()
     {
-        float pixelDistanceFactor = previewSize.x / textureSize.x * 100f / terrainHeight;
+        float pixelDistanceFactor = previewSize.x / textureSize.x * 5f; // * terrainHeight;
         GameManager.Instance.thermalErosionAlgorithm.ErosionProcess(heightMap, thermalErosionSettings, pixelDistanceFactor, OnProgress);
     }
 
