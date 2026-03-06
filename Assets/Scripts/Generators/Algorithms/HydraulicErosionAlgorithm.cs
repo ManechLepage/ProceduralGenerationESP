@@ -11,7 +11,7 @@ public class HydraulicErosionAlgorithm : MonoBehaviour
         int height = heightMap[0].Count;
 
         Vector2 position = new Vector2(UnityEngine.Random.Range(0, width - 1), UnityEngine.Random.Range(0, height - 1));
-        Vector2 direction = Vector2.zero;
+        Vector2 direction = settings.windDirection.normalized * settings.windStrength / 100f;
 
         float speed = 1f;
         float water = dropSize;
