@@ -5,29 +5,38 @@ using System;
 
 public class HydraulicErosionAlgorithm : MonoBehaviour
 {
-    public void ApplyErosionStep(List<List<float>> heightMap, float dropSize, float intensity, int maxSteps=50, float radius=2f, float delayPerStep=0.25f, Action<float, float> onProgress=null)
+    public void ApplyErosionStep(List<List<float>> heightMap, float dropSize, HydraulicErosionSettings settings, float delayPerStep=0.25f, Action<float, float> onProgress=null)
     {
         int width = heightMap.Count;
         int height = heightMap[0].Count;
 
         Vector2 position = new Vector2(UnityEngine.Random.Range(0, width - 1), UnityEngine.Random.Range(0, height - 1));
         Vector2 direction = Vector2.zero;
+
         float speed = 1f;
         float water = dropSize;
         float sediment = 0f;
 
         float inertia = 0.05f;
         
-        for (int i = 0; i < maxSteps; i++)
+        for (int i = 0; i < settings.maxStepsPerDrop; i++)
         {
             Vector2Int gridPosition = new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.y));
             Vector2 dropOffset = position - gridPosition;
 
             Tuple<Vector2, float> gradientAndNewHeight = GetGradientAndHeight(heightMap, position);
             Vector2 gradient = gradientAndNewHeight.Item1;
+
             float currentHeight = gradientAndNewHeight.Item2;
 
-            direction = direction * inertia - gradient * (1f - inertia);
+            Vector2 windFactor = Vector2.zero;
+            if (settings.windEnabled)
+            {
+                windFactor = settings.windDirection.normalized * settings.windStrength;
+            }
+
+            Vector2 externalForces = -gradient + windFactor / 100f;
+            direction = direction * inertia + externalForces * (1f - inertia);
             if (direction.magnitude != 0)
                 direction.Normalize();
 
@@ -39,7 +48,7 @@ public class HydraulicErosionAlgorithm : MonoBehaviour
             float newHeight = GetGradientAndHeight(heightMap, position, calculateGradient: false).Item2;
             float heightDelta = newHeight - currentHeight;
 
-            float capacity = Mathf.Max(-heightDelta * speed * water * intensity, 0.01f);
+            float capacity = Mathf.Max(-heightDelta * speed * water * settings.intensity, 0.01f);
 
             if (sediment > capacity || heightDelta > 0)
             {
@@ -58,7 +67,7 @@ public class HydraulicErosionAlgorithm : MonoBehaviour
             {
                 float erosion = Mathf.Min((capacity - sediment) * 0.3f, -heightDelta);
                 sediment += erosion;
-                ModifyTerrain(width, height, heightMap, gridPosition, -erosion, radius);
+                ModifyTerrain(width, height, heightMap, gridPosition, -erosion, settings.radius);
             }
 
             speed = Mathf.Sqrt(speed * speed + heightDelta * 2f);
@@ -95,7 +104,7 @@ public class HydraulicErosionAlgorithm : MonoBehaviour
         for (int i = 1; i < settings.steps + 1; i++)
         {
             float currentDropSize = ProcessDropSize(settings.waterQuantity, i, settings.steps);
-            ApplyErosionStep(heightMap, currentDropSize, settings.intensity, settings.maxStepsPerDrop, settings.radius, 0.1f, onProgress);
+            ApplyErosionStep(heightMap, currentDropSize, settings, 0.1f, onProgress);
 
             if (i % 1000 == 0)
             {
@@ -164,4 +173,9 @@ public class HydraulicErosionSettings
     public float intensity = 1f;
     public float radius = 2f;
     public int maxStepsPerDrop = 100;
+
+    [Header("Wind")]
+    public bool windEnabled = false;
+    public Vector2 windDirection = new Vector2(1f, 0f);
+    public float windStrength = 1f;
 }

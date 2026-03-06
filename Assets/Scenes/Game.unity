@@ -1836,6 +1836,9 @@ MonoBehaviour:
     intensity: 2
     radius: 2
     maxStepsPerDrop: 50
+    windEnabled: 1
+    windDirection: {x: 1, y: 0}
+    windStrength: 1
   thermalErosionSettings:
     steps: 25
     intensity: 0.025
