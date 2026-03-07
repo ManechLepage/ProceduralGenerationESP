@@ -1833,9 +1833,9 @@ MonoBehaviour:
   isEnabled: 1
   textureSize: {x: 256, y: 256}
   previewSize: {x: 8, y: 8}
-  terrainHeight: 10
-  algorithmType: 2
-  heightMapTexture: {fileID: 2800000, guid: fa7ba9855c07dab4db33903346ed7b23, type: 3}
+  terrainHeight: 25
+  algorithmType: 0
+  heightMapTexture: {fileID: 2800000, guid: 7aadda1d333011f44957bdac9ddca151, type: 3}
   fbmSettings:
     seed: 0
     scale: 1.5
@@ -1894,8 +1894,10 @@ MonoBehaviour:
     sedimentMap: 1
   fluvialErosionSettings:
     waterQuantity: 1
-    erosionIntensity: 2
-    fluvialErosionType: 0
+    erosionIntensity: 10
+    erosionType: 1
+    riverThreshold: 1
+    riverIntensity: 1
   colorSettings:
     isEnabled: 1
     constraints:
