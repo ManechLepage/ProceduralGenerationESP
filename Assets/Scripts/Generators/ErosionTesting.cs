@@ -75,6 +75,12 @@ public class ErosionTesting : MonoBehaviour
             didHydraulicErosion = false;
             didThermalErosion = false;
         }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Debug.Log("Saving terrain...");
+            SaveTerrain();
+        }
     }
 
     public void GenerateBaseTerrain()
@@ -121,5 +127,11 @@ public class ErosionTesting : MonoBehaviour
         
         Mesh mesh = GameManager.Instance.meshGenerator.HeightMapToMesh(heightMap, terrainHeight, previewSize, false, colorSettings, lowBorders: true);
         GameManager.Instance.meshGenerator.UpdateMesh(meshGO, mesh, previewSize);
+    }
+
+    public void SaveTerrain()
+    {
+        Texture2D heightMapTexture = GameManager.Instance.textureHelpers.HeightMapToTexture(heightMap);
+        GameManager.Instance.textureHelpers.SaveTexture(heightMapTexture, "Assets/Textures/Erosion/HeightMapTexture.exr", makeReadable: true);
     }
 }
