@@ -18,6 +18,7 @@ public class ErosionTesting : MonoBehaviour
     public VoronoiSettings voronoiSettings;
     public HydraulicErosionSettings hydraulicErosionSettings;
     public ThermalErosionSettings thermalErosionSettings;
+    public FluvialErosionSettings fluvialErosionSettings;
 
     [Header("Color Settings")]
     public MeshColorSettings colorSettings;
@@ -26,6 +27,7 @@ public class ErosionTesting : MonoBehaviour
     private GameObject meshGO;
     private bool didHydraulicErosion = false;
     private bool didThermalErosion = false;
+    private bool didFluvialErosion = false;
 
     void Start()
     {
@@ -54,6 +56,14 @@ public class ErosionTesting : MonoBehaviour
             StartThermalErosion();
             UpdateMesh();
             //didThermalErosion = true;
+        }
+        
+        if (Input.GetKeyDown(KeyCode.F) && !didFluvialErosion)
+        {
+            Debug.Log("Fluvial erosion started!");
+            GameManager.Instance.fluvialErosionAlgorithm.ApplyErosion(heightMap, fluvialErosionSettings);
+            UpdateMesh();
+            //didFluvialErosion = true;
         }
 
         if (Input.GetKeyDown(KeyCode.R))

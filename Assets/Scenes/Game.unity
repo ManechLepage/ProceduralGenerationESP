@@ -981,6 +981,7 @@ Transform:
   - {fileID: 1836517391}
   - {fileID: 193810718}
   - {fileID: 1957425703}
+  - {fileID: 1309461695}
   - {fileID: 815508547}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1388,6 +1389,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1309461694
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1309461695}
+  - component: {fileID: 1309461696}
+  m_Layer: 0
+  m_Name: Fluvial Erosion
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1309461695
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309461694}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 912389473}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1309461696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309461694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3171dcaa3be870c4d80103e68216c16f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &1329771680
 GameObject:
   m_ObjectHideFlags: 0
@@ -1637,6 +1682,7 @@ MonoBehaviour:
   voronoiAlgorithm: {fileID: 1836517392}
   hydraulicErosionAlgorithm: {fileID: 193810719}
   thermalErosionAlgorithm: {fileID: 1957425704}
+  fluvialErosionAlgorithm: {fileID: 1309461696}
 --- !u!4 &1857888450
 Transform:
   m_ObjectHideFlags: 0
@@ -1789,7 +1835,7 @@ MonoBehaviour:
   previewSize: {x: 8, y: 8}
   terrainHeight: 10
   algorithmType: 2
-  heightMapTexture: {fileID: 2800000, guid: 7d0719e3f7641874a8bb62273c3d436a, type: 3}
+  heightMapTexture: {fileID: 2800000, guid: fa7ba9855c07dab4db33903346ed7b23, type: 3}
   fbmSettings:
     seed: 0
     scale: 1.5
@@ -1836,7 +1882,7 @@ MonoBehaviour:
     intensity: 2
     radius: 2
     maxStepsPerDrop: 50
-    windEnabled: 1
+    windEnabled: 0
     windDirection: {x: 1, y: 0}
     windStrength: 1
   thermalErosionSettings:
@@ -1846,6 +1892,10 @@ MonoBehaviour:
     talusAngle: 0.125
     randomness: 0.1
     sedimentMap: 1
+  fluvialErosionSettings:
+    waterQuantity: 1
+    erosionIntensity: 2
+    fluvialErosionType: 0
   colorSettings:
     isEnabled: 1
     constraints:

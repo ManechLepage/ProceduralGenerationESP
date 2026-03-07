@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public VoronoiAlgorithm voronoiAlgorithm;
     public HydraulicErosionAlgorithm hydraulicErosionAlgorithm;
     public ThermalErosionAlgorithm thermalErosionAlgorithm;
+    public FluvialErosionAlgorithm fluvialErosionAlgorithm;
 
     void Awake()
     {
