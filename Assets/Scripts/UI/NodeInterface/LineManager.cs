@@ -5,20 +5,19 @@ public class LineManager : MonoBehaviour
     public bool isLinked;
     public ConnectorBehaviour input;
     public ConnectorBehaviour output;
+    private UILineRenderer lineRenderer;
+
+    void Start()
+    {
+        lineRenderer = GetComponent<UILineRenderer>();
+    }
 
     void Update()
     {
-        Vector3 startPos = input.transform.position;
+        lineRenderer.points[0] = input.transform.position;
         if (isLinked)
-        {
-            Vector3 endPos = output.transform.position;
-            
-        }
+            lineRenderer.points[1] = output.transform.position;
         else
-        {
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePos.z = 0;
-            
-        }
+            lineRenderer.points[1] = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 }
