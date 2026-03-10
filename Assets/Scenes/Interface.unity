@@ -229,7 +229,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 880654842345117290, guid: d0efc8b0045093f4090f0513bf4688ca, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 54.01
       objectReference: {fileID: 0}
     - target: {fileID: 880654842345117290, guid: d0efc8b0045093f4090f0513bf4688ca, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -243,6 +243,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HeightmapToTexture
       objectReference: {fileID: 0}
+    - target: {fileID: 7607243242045610276, guid: d0efc8b0045093f4090f0513bf4688ca, type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 2023136765}
     - target: {fileID: 7645698296077882265, guid: d0efc8b0045093f4090f0513bf4688ca, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -409,6 +413,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TextureToHeightmap
       objectReference: {fileID: 0}
+    - target: {fileID: 7607243242045610276, guid: 8cde24052d44ed240a5fe88589c6efac, type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 2023136765}
     - target: {fileID: 7645698296077882265, guid: 8cde24052d44ed240a5fe88589c6efac, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -670,6 +678,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7607243242045610276, guid: 660ee81aa576a85409d7ed8e6a2ca186, type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 2023136765}
     - target: {fileID: 7645698296077882265, guid: 660ee81aa576a85409d7ed8e6a2ca186, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1446,6 +1458,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -10
       objectReference: {fileID: 0}
+    - target: {fileID: 7607243242045610276, guid: 927d70961faa30d479a7ebc986b64228, type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 2023136765}
     - target: {fileID: 7645698296077882265, guid: 927d70961faa30d479a7ebc986b64228, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

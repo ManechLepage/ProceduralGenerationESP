@@ -1,50 +1,44 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UIDraggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class UIDraggable : MonoBehaviour
 {
     private RectTransform rectTransform;
-    private Canvas canvas;
+    public Canvas canvas;
     private Vector2 offset;
+    private bool isDragging;
 
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
-        canvas = GetComponentInParent<NodeHandler>().canvas;
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    void Update()
     {
-        if (eventData.button != PointerEventData.InputButton.Left)
-            return;
+        bool leftMouseButtonDown = Input.GetMouseButtonDown(0);
+        bool leftMouseButton = Input.GetMouseButton(0);
+        Vector2 mousePosition = Input.mousePosition;
 
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            rectTransform,
-            eventData.position,
-            eventData.pressEventCamera,
-            out offset
-        );
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        if (eventData.button != PointerEventData.InputButton.Left)
-            return;
-
-        Vector2 localPoint;
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            canvas.transform as RectTransform,
-            eventData.position,
-            eventData.pressEventCamera,
-            out localPoint))
+        if (!isDragging)
         {
-            Vector2 pos = localPoint - offset;
-            rectTransform.localPosition = pos;
+            bool isInRect = RectTransformUtility.RectangleContainsScreenPoint(rectTransform, mousePosition, canvas.worldCamera);
+            if (isInRect)
+            {
+                if (leftMouseButtonDown)
+                {
+                    isDragging = true;
+                    offset = (Vector2)rectTransform.position - mousePosition;
+                }
+            }
         }
-    }
+        else
+        {
+            rectTransform.position = mousePosition + offset;
+        }
 
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        
+        if (!leftMouseButton)
+        {
+            isDragging = false;
+        }
     }
 }

@@ -1180,6 +1180,7 @@ MonoBehaviour:
     lacunarity: 2
     offset: {x: 0, y: 0}
     absolute: 0
+    inverted: 0
     curve:
       serializedVersion: 2
       m_Curve:
@@ -1833,8 +1834,8 @@ MonoBehaviour:
   isEnabled: 1
   textureSize: {x: 256, y: 256}
   previewSize: {x: 8, y: 8}
-  terrainHeight: 10
-  algorithmType: 2
+  terrainHeight: 15
+  algorithmType: 0
   heightMapTexture: {fileID: 2800000, guid: c9a6dc223792c0040bc3d91672590136, type: 3}
   fbmSettings:
     seed: 0
@@ -1843,7 +1844,8 @@ MonoBehaviour:
     persistence: 0.45
     lacunarity: 2
     offset: {x: 50, y: 50}
-    absolute: 0
+    absolute: 1
+    inverted: 1
     curve:
       serializedVersion: 2
       m_Curve:
@@ -2052,6 +2054,7 @@ MonoBehaviour:
     lacunarity: 2
     offset: {x: 0, y: 0}
     absolute: 0
+    inverted: 0
     curve:
       serializedVersion: 2
       m_Curve:

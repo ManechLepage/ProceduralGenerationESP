@@ -42,6 +42,9 @@ public class FBMAlgorithm : MonoBehaviour
         if (!settings.absolute)
             noiseHeight = (noiseHeight + 1f) / 2f;
         
+        if (settings.inverted)
+            noiseHeight = 1f - noiseHeight;
+        
         noiseHeight = settings.curve.Evaluate(noiseHeight);
         return noiseHeight;
     }
@@ -100,6 +103,7 @@ public class FBMAlgorithm : MonoBehaviour
             persistence = settings.persistence,
             lacunarity = settings.lacunarity,
             absolute = settings.absolute,
+            inverted = settings.inverted,
             curveLUT = curveLUT,
             results = results
         };
@@ -127,6 +131,7 @@ public class FBMAlgorithm : MonoBehaviour
         [ReadOnly] public float persistence;
         [ReadOnly] public float lacunarity;
         [ReadOnly] public bool absolute;
+        [ReadOnly] public bool inverted;
         [ReadOnly] public NativeArray<float> curveLUT;
 
         [WriteOnly] public NativeArray<float> results;
@@ -166,6 +171,9 @@ public class FBMAlgorithm : MonoBehaviour
 
             if (!absolute)
                 noiseHeight = (noiseHeight + 1f) / 2f;
+            
+            if (inverted)
+                noiseHeight = 1f - noiseHeight;
             
             //noiseHeight = settings.curve.Evaluate(noiseHeight);
             float t = math.saturate(noiseHeight);
@@ -209,6 +217,7 @@ public class FBMSettings
 
     [Space]
     public bool absolute = false;
+    public bool inverted = false;
 
     [Space]
     public AnimationCurve curve = AnimationCurve.Linear(0, 0, 1, 1);
@@ -224,6 +233,7 @@ public class FBMSettings
             lacunarity = this.lacunarity,
             offset = this.offset,
             absolute = this.absolute,
+            inverted = this.inverted,
             curve = new AnimationCurve(this.curve.keys)
         };
     }
@@ -238,6 +248,7 @@ public class FBMSettings
             Mathf.Approximately(this.lacunarity, other.lacunarity) &&
             this.offset == other.offset &&
             this.absolute == other.absolute &&
+            this.inverted == other.inverted &&
             GameManager.Instance.algorithmHelpers.EqualAnimationCurves(this.curve, other.curve);
     }
 }
