@@ -167,6 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d234b6d802eb9b42a46d3ce5c16192f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIDraggable
+  canvas: {fileID: 0}
 --- !u!1 &7603765154644569215
 GameObject:
   m_ObjectHideFlags: 0
