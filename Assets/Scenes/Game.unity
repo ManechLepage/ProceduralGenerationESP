@@ -1833,9 +1833,9 @@ MonoBehaviour:
   isEnabled: 1
   textureSize: {x: 256, y: 256}
   previewSize: {x: 8, y: 8}
-  terrainHeight: 25
-  algorithmType: 0
-  heightMapTexture: {fileID: 2800000, guid: c24d81401c3a2d143a593c688b6ae577, type: 3}
+  terrainHeight: 10
+  algorithmType: 2
+  heightMapTexture: {fileID: 2800000, guid: c9a6dc223792c0040bc3d91672590136, type: 3}
   fbmSettings:
     seed: 0
     scale: 1.5
