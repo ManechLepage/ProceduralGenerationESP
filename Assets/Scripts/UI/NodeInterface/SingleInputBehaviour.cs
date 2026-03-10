@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 using System;
+using System.Globalization; 
 
 public class SingleInputBehaviour : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class SingleInputBehaviour : MonoBehaviour
     public int GetIntValue()
     {
         int value;
-        if (int.TryParse(inputField.text, out value))
+        if (int.TryParse(inputField.text, NumberStyles.Integer, CultureInfo.InvariantCulture, out value))
         {
             return value;
         }
@@ -21,8 +22,8 @@ public class SingleInputBehaviour : MonoBehaviour
     public float GetFloatValue()
     {
         float value;
-        Debug.Log($"GetFloatValue {inputField.text}");
-        if (float.TryParse(inputField.text, out value))
+        string txt = inputField.text.Replace(',', '.');
+        if (float.TryParse(txt, NumberStyles.Float, CultureInfo.InvariantCulture, out value))
         {
             return value;
         }

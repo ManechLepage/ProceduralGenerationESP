@@ -723,11 +723,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4380383957051010011, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       propertyPath: inputParameters.Array.data[2].name
-      value: persistance
+      value: lacunarity
       objectReference: {fileID: 0}
     - target: {fileID: 4380383957051010011, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       propertyPath: inputParameters.Array.data[3].name
-      value: lacunarity
+      value: persistance
       objectReference: {fileID: 0}
     - target: {fileID: 4380383957051010011, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       propertyPath: inputParameters.Array.data[4].name

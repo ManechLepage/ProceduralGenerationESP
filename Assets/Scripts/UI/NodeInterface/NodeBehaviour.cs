@@ -45,7 +45,6 @@ public class NodeParameter
     public void OnValueChange(float newValue)
     {
         value = newValue;
-        Debug.Log($"OnValueChange {name}: {value}");
     }
 }
 
