@@ -10,7 +10,7 @@ public class UIDraggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
-        canvas = GetComponentInParent<Canvas>();
+        canvas = GetComponentInParent<NodeHandler>().canvas;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
