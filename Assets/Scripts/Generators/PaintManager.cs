@@ -35,6 +35,10 @@ public class PaintManager : MonoBehaviour
     public int backupLimit = 5;
     private List<float[]> paintBackups = new List<float[]>();
 
+    [Header("Overlay Settings")]
+    public bool enabledHeightCurves = true;
+    public int heightCurvesSpacing = 5;
+
     [Header("Others")]
     public Transform paintParent;
     public Canvas canvas;
@@ -45,6 +49,9 @@ public class PaintManager : MonoBehaviour
     private float lastPaintTime = 0f;
     private Vector2 holdOffset = Vector2.zero;
     private Vector2 initialPaintScale;
+
+    private Texture2D overlayTexture;
+    private GameObject overlayGO;
 
     void Start()
     {
@@ -112,6 +119,8 @@ public class PaintManager : MonoBehaviour
             
             brushes[brushIndex].Apply(paintTexture, paintPosition, GetToolParameters(toolType), remove: remove);
             paintTexture.Apply();
+            if (enabledHeightCurves)
+                UpdateHeightCurves();
         }
 
         float scroll = Input.GetAxis("Mouse ScrollWheel");
@@ -179,7 +188,13 @@ public class PaintManager : MonoBehaviour
             paintGO.transform.position = Input.mousePosition - new Vector3(holdOffset.x, holdOffset.y, 0f);
         }
 
+        if (enabledHeightCurves && Input.GetKeyDown(KeyCode.M))
+        {
+            UpdateHeightCurves();
+        }
+
         UpdatePaintGO();
+        UpdateOverlayGO();
         UpdateBrushGO();
     }
 
@@ -247,32 +262,77 @@ public class PaintManager : MonoBehaviour
         brushGO.SetActive(true);
     }
 
+    public void ClearOverlay()
+    {
+        for (int x = 0; x < paintSize.x; x++)
+        {
+            for (int y = 0; y < paintSize.y; y++)
+            {
+                overlayTexture.SetPixel(x, y, new Color(0f, 0f, 0f, 0f));
+            }
+        }
+        overlayTexture.Apply();
+    }
+
     public void UpdatePaintGO()
     {
         paintGO.transform.localScale = initialPaintScale * zoom;
+    }
+
+    void UpdateOverlayGO()
+    {
+        overlayGO.transform.localScale = paintGO.transform.localScale;
+        overlayGO.transform.position = paintGO.transform.position;
+    }
+
+    public void UpdateHeightCurves()
+    {
+        ClearOverlay();
+        for (int x = 0; x < paintSize.x; x++)
+        {
+            for (int y = 0; y < paintSize.y; y++)
+            {
+                float heightValue = paintTexture.GetPixel(x, y).r;
+                int height255 = (int)(heightValue * 255f);
+                if (height255 % heightCurvesSpacing == 0)
+                {
+                    overlayTexture.SetPixel(x, y, new Color(0f, 0f, 0f, 0.5f));
+                }
+            }
+        }
+
+        overlayTexture.Apply();
     }
 
     public void InitializePainting()
     {
         if (paintGO == null)
             paintGO = new GameObject("PaintTexture");
+        if (overlayGO == null)
+            overlayGO = new GameObject("OverlayTexture");
         
         if (paintGO.GetComponent<RawImage>() == null)
             paintGO.AddComponent<RawImage>();
         
+        if (overlayGO.GetComponent<RawImage>() == null)
+            overlayGO.AddComponent<RawImage>();
+        
         paintGO.GetComponent<RawImage>().material = paintMaterial;
 
         paintTexture = new Texture2D(paintSize.x, paintSize.y, TextureFormat.RFloat, false, true);
+        overlayTexture = new Texture2D(paintSize.x, paintSize.y, TextureFormat.RGBA32, false);
 
         for (int x = 0; x < paintSize.x; x++)
         {
             for (int y = 0; y < paintSize.y; y++)
             {
                 paintTexture.SetPixel(x, y, Color.black);
+                overlayTexture.SetPixel(x, y, new Color(0f, 0f, 0f, 0f));
             }
         }
 
         paintTexture.Apply();
+        overlayTexture.Apply();
 
         SaveBackup();
 
@@ -280,8 +340,13 @@ public class PaintManager : MonoBehaviour
         paintGO.transform.SetParent(paintParent, false);
         paintGO.GetComponent<RawImage>().texture = paintTexture;
 
+        overlayTexture.filterMode = FilterMode.Point;
+        overlayGO.transform.SetParent(paintParent, false);
+        overlayGO.GetComponent<RawImage>().texture = overlayTexture;
+
         float maxSize = Mathf.Max(paintSize.x, paintSize.y);
         paintGO.transform.localScale = new Vector3(physicalScale * paintSize.x / maxSize, physicalScale * paintSize.y / maxSize, 1f);
+        overlayGO.transform.localScale = new Vector3(physicalScale * paintSize.x / maxSize, physicalScale * paintSize.y / maxSize, 1f);
     }
 
     public void SavePaintTexture(string name="Paint")

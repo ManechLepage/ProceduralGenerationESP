@@ -13,6 +13,9 @@ public class ErosionTesting : MonoBehaviour
 
     [Header("Algorithm Settings")]
     public AlgorithmType algorithmType = AlgorithmType.FBM;
+    public bool island = false;
+    public float islandScale = 1f;
+    public float islandFlatness = 5f;
     public Texture2D heightMapTexture;
     public FBMSettings fbmSettings;
     public VoronoiSettings voronoiSettings;
@@ -100,6 +103,11 @@ public class ErosionTesting : MonoBehaviour
                 heightMap = GameManager.Instance.fbmAlgorithm.GetHeightMapThreading(textureSize, fbmSettings);
             }
         }
+
+        if (island)
+        {
+            TransformToIsland(heightMap);
+        }
     }
 
     public void StartHydraulicErosion()
@@ -118,6 +126,25 @@ public class ErosionTesting : MonoBehaviour
         float progress = current / total;
         Debug.Log($"Erosion progress: {progress * 100f}%");
         UpdateMesh();
+    }
+
+    public void TransformToIsland(List<List<float>> heightMap)
+    {
+        int width = heightMap.Count;
+        int height = heightMap[0].Count;
+        Vector2 center = new Vector2(width / 2f, height / 2f);
+        float maxDistance = width / 2f;
+        float intensityAtMax = 0.1f * islandScale;
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                float distanceToCenter = Vector2.Distance(new Vector2(x, y), center);
+                float islandFactor = 1f / (1f + (1f / intensityAtMax - 1f) * Mathf.Pow(distanceToCenter / maxDistance, islandFlatness));
+                heightMap[x][y] *= islandFactor;
+            }
+        }
     }
 
     public void UpdateMesh()
