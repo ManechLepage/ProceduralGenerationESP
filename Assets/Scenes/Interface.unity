@@ -780,10 +780,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIPanZoom
   panSpeed: 1
-  requireMiddleMouseButton: 0
+  requireMiddleMouseButton: 1
   zoomSpeed: 0.3
-  minZoom: 9
-  maxZoom: 15
+  minZoom: 0.25
+  maxZoom: 3
+  zoom: 1
   nodeContainer: {fileID: 1715171302}
 --- !u!114 &1715171304
 MonoBehaviour:

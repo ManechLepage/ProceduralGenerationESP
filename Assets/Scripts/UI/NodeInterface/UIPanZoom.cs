@@ -12,6 +12,7 @@ public class UIPanZoom : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     public float zoomSpeed = 0.1f;
     public float minZoom = 0.1f;
     public float maxZoom = 5f;
+    public float zoom = 1f;
 
     [Header("References")]
     public RectTransform nodeContainer;
@@ -74,10 +75,16 @@ public class UIPanZoom : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         float scroll = mouse.scroll.ReadValue().y;
         if (Mathf.Approximately(scroll, 0f)) return;
 
-        float currentScale = nodeContainer.localScale.x;
-        float newScale = Mathf.Clamp(currentScale + scroll * zoomSpeed, minZoom, maxZoom);
+        float lastZoom = zoom;
+        zoom *= 1f + scroll * zoomSpeed;
+        zoom = Mathf.Clamp(zoom, minZoom, maxZoom);
 
-        nodeContainer.localScale = Vector3.one * newScale;
+        Vector3 mouseWorldPos = Input.mousePosition;
+        Vector3 zoomCenter = nodeContainer.transform.position;
+        Vector3 offset = mouseWorldPos - zoomCenter;
+        nodeContainer.transform.position += offset * (1f - zoom / lastZoom);
+
+        nodeContainer.localScale *= zoom / lastZoom;
     }
 
     public void OnPointerEnter(PointerEventData eventData) => isHovered = true;
