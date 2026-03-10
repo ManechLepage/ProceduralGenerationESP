@@ -4,7 +4,8 @@ using UnityEngine.EventSystems;
 public class UIDraggable : MonoBehaviour
 {
     public Canvas canvas;
-    public float sideBorder = 15f;
+    public float leftSideBorder = 2.5f;
+    public float rightSideBorder = 10f;
     private RectTransform rectTransform;
     
     private Vector2 offset;
@@ -23,13 +24,14 @@ public class UIDraggable : MonoBehaviour
 
         if (!isDragging)
         {
-            rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x - sideBorder * 2, rectTransform.sizeDelta.y);
-            rectTransform.position = new Vector2(rectTransform.position.x + sideBorder, rectTransform.position.y);
+            float totalBorder = leftSideBorder + rightSideBorder;
+            rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x - totalBorder, rectTransform.sizeDelta.y);
+            rectTransform.position = new Vector2(rectTransform.position.x + leftSideBorder, rectTransform.position.y);
 
             bool isInRect = RectTransformUtility.RectangleContainsScreenPoint(rectTransform, mousePosition, canvas.worldCamera);
 
-            rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x + sideBorder * 2, rectTransform.sizeDelta.y);
-            rectTransform.position = new Vector2(rectTransform.position.x - sideBorder, rectTransform.position.y);
+            rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x + totalBorder, rectTransform.sizeDelta.y);
+            rectTransform.position = new Vector2(rectTransform.position.x - leftSideBorder, rectTransform.position.y);
 
             if (isInRect)
             {
