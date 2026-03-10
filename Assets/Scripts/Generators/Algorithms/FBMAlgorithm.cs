@@ -13,6 +13,9 @@ public class FBMAlgorithm : MonoBehaviour
     void Awake()
     {
         baseSettings = new FBMSettings();
+
+        //if (AlgorithmRegistry.Instance != null)
+        AlgorithmRegistry.Instance.Register("FBM");
     }
 
     public float GetValue(float x, float y, FBMSettings settings = null)

@@ -7,7 +7,10 @@ public class ConnectorBehaviour : MonoBehaviour
 
    public void StartConnection()
     {
-        
+        GameObject line = Instantiate(linePrefab, transform.position, Quaternion.identity);
+        line.GetComponent<LineManager>().isLinked = false;
+        line.GetComponent<LineManager>().input = this;
+        line.transform.SetParent(transform);
     }
 }
 
