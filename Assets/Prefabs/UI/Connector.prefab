@@ -134,3 +134,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ConnectorBehaviour
   type: 0
+  linePrefab: {fileID: 1837271905312346381, guid: e213ccf11b98aae469fef6c19cd01df7, type: 3}
