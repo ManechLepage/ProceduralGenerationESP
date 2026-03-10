@@ -10,7 +10,6 @@ public class ErosionTesting : MonoBehaviour
     public Vector2 previewSize = new Vector2(16f, 16f);
     public float terrainHeight = 50f;
 
-
     [Header("Algorithm Settings")]
     public AlgorithmType algorithmType = AlgorithmType.FBM;
     public bool island = false;
@@ -26,6 +25,9 @@ public class ErosionTesting : MonoBehaviour
     [Header("Color Settings")]
     public MeshColorSettings colorSettings;
 
+    [Header("Environment Settings")]
+    public GameObject sea;
+
     private List<List<float>> heightMap;
     private GameObject meshGO;
     private bool didHydraulicErosion = false;
@@ -34,6 +36,11 @@ public class ErosionTesting : MonoBehaviour
 
     void Start()
     {
+        if (island)
+            sea.SetActive(true);
+        else
+            sea.SetActive(false);
+
         if (isEnabled)
         {
             GenerateBaseTerrain();
@@ -71,12 +78,18 @@ public class ErosionTesting : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
+            if (island)
+                sea.SetActive(true);
+            else
+                sea.SetActive(false);
+
             GameManager.Instance.hydraulicErosionAlgorithm.StopAllCoroutines();
             GameManager.Instance.thermalErosionAlgorithm.StopAllCoroutines();
             GenerateBaseTerrain();
             UpdateMesh();
             didHydraulicErosion = false;
             didThermalErosion = false;
+            didFluvialErosion = false;
         }
 
         if (Input.GetKeyDown(KeyCode.P))
