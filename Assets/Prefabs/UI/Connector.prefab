@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6709775788378468073}
   - component: {fileID: 3071732810633558579}
   - component: {fileID: 1102608801344172217}
+  - component: {fileID: 5859418044869879230}
   m_Layer: 5
   m_Name: Connector
   m_TagString: Untagged
@@ -135,3 +136,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ConnectorBehaviour
   type: 0
   linePrefab: {fileID: 1837271905312346381, guid: e213ccf11b98aae469fef6c19cd01df7, type: 3}
+--- !u!114 &5859418044869879230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4061630739259084788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccfe09dc742b91d438b906f3a3a44d2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EarlyButtonClick

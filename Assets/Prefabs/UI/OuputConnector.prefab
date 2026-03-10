@@ -101,6 +101,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3071732810633558579, guid: 7ec22e19dc7014645a8b97bf3cc41a23, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3071732810633558579, guid: 7ec22e19dc7014645a8b97bf3cc41a23, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2811309212478221753}
@@ -109,11 +113,19 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3071732810633558579, guid: 7ec22e19dc7014645a8b97bf3cc41a23, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3071732810633558579, guid: 7ec22e19dc7014645a8b97bf3cc41a23, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: StartConnection
       objectReference: {fileID: 0}
     - target: {fileID: 3071732810633558579, guid: 7ec22e19dc7014645a8b97bf3cc41a23, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ConnectorBehaviour, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3071732810633558579, guid: 7ec22e19dc7014645a8b97bf3cc41a23, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: ConnectorBehaviour, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3071732810633558579, guid: 7ec22e19dc7014645a8b97bf3cc41a23, type: 3}

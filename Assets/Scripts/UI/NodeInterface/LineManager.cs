@@ -33,7 +33,6 @@ public class LineManager : MonoBehaviour
             lineRenderer.points[1] = output.transform.position;
         else{
             lineRenderer.points[1] = GetMousePositionInContainer();
-            Debug.Log(lineRenderer.points[1]);
         }
 
         lineRenderer.SetVerticesDirty();
