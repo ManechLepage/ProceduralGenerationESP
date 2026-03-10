@@ -21,6 +21,7 @@ public class SingleInputBehaviour : MonoBehaviour
     public float GetFloatValue()
     {
         float value;
+        Debug.Log($"GetFloatValue {inputField.text}");
         if (float.TryParse(inputField.text, out value))
         {
             return value;

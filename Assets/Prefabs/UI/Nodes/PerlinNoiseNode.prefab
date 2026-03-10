@@ -149,6 +149,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d87f1479cc641b4aa55740a2cdbf57c, type: 3}
+--- !u!114 &127308683572285297 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1928886495216249914, guid: 7d87f1479cc641b4aa55740a2cdbf57c, type: 3}
+  m_PrefabInstance: {fileID: 1945698656460972875}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 816a084a29505b746857e92e05bf6b90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SingleInputBehaviour
 --- !u!224 &9072838557581537147 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7415651808427822128, guid: 7d87f1479cc641b4aa55740a2cdbf57c, type: 3}
@@ -517,6 +528,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d87f1479cc641b4aa55740a2cdbf57c, type: 3}
+--- !u!114 &3855725967715292197 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1928886495216249914, guid: 7d87f1479cc641b4aa55740a2cdbf57c, type: 3}
+  m_PrefabInstance: {fileID: 3406553495095146527}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 816a084a29505b746857e92e05bf6b90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SingleInputBehaviour
 --- !u!224 &5309517861995164719 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7415651808427822128, guid: 7d87f1479cc641b4aa55740a2cdbf57c, type: 3}
@@ -660,6 +682,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7415651808427822128, guid: dc47a1ff424fbbf4fb6578c83c40b4b7, type: 3}
   m_PrefabInstance: {fileID: 4929677239656636957}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6822235834484674087 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1928886495216249914, guid: dc47a1ff424fbbf4fb6578c83c40b4b7, type: 3}
+  m_PrefabInstance: {fileID: 4929677239656636957}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 816a084a29505b746857e92e05bf6b90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SingleInputBehaviour
 --- !u!1001 &5218826936079407863
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -668,6 +701,70 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4380383957051010011, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+      propertyPath: Node
+      value: 
+      objectReference: {fileID: 900370678719082898}
+    - target: {fileID: 4380383957051010011, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+      propertyPath: inputParameters.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4380383957051010011, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+      propertyPath: outputParameters.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4380383957051010011, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+      propertyPath: inputParameters.Array.data[0].name
+      value: scale
+      objectReference: {fileID: 0}
+    - target: {fileID: 4380383957051010011, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+      propertyPath: inputParameters.Array.data[1].name
+      value: octaves
+      objectReference: {fileID: 0}
+    - target: {fileID: 4380383957051010011, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+      propertyPath: inputParameters.Array.data[2].name
+      value: persistance
+      objectReference: {fileID: 0}
+    - target: {fileID: 4380383957051010011, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+      propertyPath: inputParameters.Array.data[3].name
+      value: lacunarity
+      objectReference: {fileID: 0}
+    - target: {fileID: 4380383957051010011, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+      propertyPath: inputParameters.Array.data[4].name
+      value: seed
+      objectReference: {fileID: 0}
+    - target: {fileID: 4380383957051010011, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+      propertyPath: inputParameters.Array.data[5].name
+      value: offset_x
+      objectReference: {fileID: 0}
+    - target: {fileID: 4380383957051010011, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+      propertyPath: outputParameters.Array.data[0].name
+      value: heightmap
+      objectReference: {fileID: 0}
+    - target: {fileID: 4380383957051010011, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+      propertyPath: inputParameters.Array.data[0].inputBehaviour
+      value: 
+      objectReference: {fileID: 7936473032161964004}
+    - target: {fileID: 4380383957051010011, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+      propertyPath: inputParameters.Array.data[1].inputBehaviour
+      value: 
+      objectReference: {fileID: 5732183744043201846}
+    - target: {fileID: 4380383957051010011, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+      propertyPath: inputParameters.Array.data[2].inputBehaviour
+      value: 
+      objectReference: {fileID: 3855725967715292197}
+    - target: {fileID: 4380383957051010011, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+      propertyPath: inputParameters.Array.data[3].inputBehaviour
+      value: 
+      objectReference: {fileID: 127308683572285297}
+    - target: {fileID: 4380383957051010011, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+      propertyPath: inputParameters.Array.data[4].inputBehaviour
+      value: 
+      objectReference: {fileID: 6822235834484674087}
+    - target: {fileID: 4380383957051010011, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+      propertyPath: inputParameters.Array.data[5].inputBehaviour
+      value: 
+      objectReference: {fileID: 6822235834484674087}
     - target: {fileID: 4905050211979275109, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       propertyPath: m_Name
       value: PerlinNoiseNode
@@ -790,6 +887,11 @@ PrefabInstance:
       addedObject: {fileID: 7645698296077882265}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+--- !u!1 &900370678719082898 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4905050211979275109, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+  m_PrefabInstance: {fileID: 5218826936079407863}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1220277798718522412 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6378138601567887067, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
@@ -950,6 +1052,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7415651808427822128, guid: dc47a1ff424fbbf4fb6578c83c40b4b7, type: 3}
   m_PrefabInstance: {fileID: 6145169055765436684}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5732183744043201846 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1928886495216249914, guid: dc47a1ff424fbbf4fb6578c83c40b4b7, type: 3}
+  m_PrefabInstance: {fileID: 6145169055765436684}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 816a084a29505b746857e92e05bf6b90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SingleInputBehaviour
 --- !u!1001 &6325199452810907813
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1210,3 +1323,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7415651808427822128, guid: 7d87f1479cc641b4aa55740a2cdbf57c, type: 3}
   m_PrefabInstance: {fileID: 8421955742538564574}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7936473032161964004 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1928886495216249914, guid: 7d87f1479cc641b4aa55740a2cdbf57c, type: 3}
+  m_PrefabInstance: {fileID: 8421955742538564574}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 816a084a29505b746857e92e05bf6b90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SingleInputBehaviour
