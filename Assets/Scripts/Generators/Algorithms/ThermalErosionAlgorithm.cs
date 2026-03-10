@@ -5,6 +5,12 @@ using System;
 
 public class ThermalErosionAlgorithm : MonoBehaviour
 {
+
+    void Awake()
+    {
+        //if (AlgorithmRegistry.Instance != null)
+        AlgorithmRegistry.Instance.Register("TEA");
+    }
     public void ApplyErosionStep(List<List<float>> heightMap, List<List<float>> bedrockMap, List<List<float>> sedimentMap, ThermalErosionSettings settings, float pixelDistance, Action<float, float> onProgress=null)
     {
         int width = heightMap.Count;

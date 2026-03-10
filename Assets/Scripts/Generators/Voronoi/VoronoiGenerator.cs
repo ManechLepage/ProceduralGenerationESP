@@ -7,6 +7,7 @@ public class VoronoiGenerator : MonoBehaviour
     public TextureHelpers textureHelpers;
     public NoiseGenerator noiseGenerator;
     public MeshGenerator meshGenerator;
+    
 
     [Header("Settings")]
     public bool isEnabled = false;
@@ -19,8 +20,10 @@ public class VoronoiGenerator : MonoBehaviour
     public bool drawToMesh = false;
     private GameObject meshGO;
 
+
     void Start()
     {
+        
         if (isEnabled)
             GenerateTexture(drawToMesh);
     }
