@@ -5,6 +5,12 @@ using System;
 
 public class HydraulicErosionAlgorithm : MonoBehaviour
 {
+
+    void Awake()
+    {
+        //if (AlgorithmRegistry.Instance != null)
+        AlgorithmRegistry.Instance.Register("FBM");
+    }
     public void ApplyErosionStep(List<List<float>> heightMap, float dropSize, HydraulicErosionSettings settings, float delayPerStep=0.25f, Action<float, float> onProgress=null)
     {
         int width = heightMap.Count;

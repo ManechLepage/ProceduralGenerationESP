@@ -11,6 +11,12 @@ public enum FluvialErosionType
 
 public class FluvialErosionAlgorithm : MonoBehaviour
 {
+
+    void Awake()
+    {
+        //if (AlgorithmRegistry.Instance != null)
+        AlgorithmRegistry.Instance.Register("FEA");
+    }
     Vector2Int[] directions = new Vector2Int[]
     {
         new Vector2Int(1, 0),   

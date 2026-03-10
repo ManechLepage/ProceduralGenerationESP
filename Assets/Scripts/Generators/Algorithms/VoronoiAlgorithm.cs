@@ -20,6 +20,7 @@ public class VoronoiAlgorithm : MonoBehaviour
     void Awake()
     {
         baseSettings = new VoronoiSettings();
+        AlgorithmRegistry.Instance.Register("Voronoid");
     }
 
     public float GetValue(float x, float y, VoronoiSettings settings = null)

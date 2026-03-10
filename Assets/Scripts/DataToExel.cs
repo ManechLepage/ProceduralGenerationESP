@@ -1,50 +1,27 @@
 using UnityEngine;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-public class DataToCSV : MonoBehaviour
+public class DataToExcel : MonoBehaviour
 {
+    public AlgorithmRegistry algoData;
+    public string savePath = "Assets/Data/algorithms.csv";
 
-     private string filePath = Application.persistentDataPath + "/GenData.xlsx";
-
-     public void WriteDataToCSV()
+    public void ExportToCSV()
     {
-        // Example data structure (e.g., from a list or array)
-        string[] columnHeaders = { "Algo:", "nom algo" };
-        string[] dataRow1 = { "Temps prevu:", "sec" };
-        string[] dataRow2 = { "Temps gen", "temps" };
+        List<string> algorithms = algoData.GetAlgorithmList();
 
-        StringBuilder csvContent = new StringBuilder();
+        StringBuilder csv = new StringBuilder();
 
-        // Append headers
-        csvContent.AppendLine(string.Join(",", columnHeaders));
+        // Header
+        csv.AppendLine("Index,Algorithm Name");
 
-        // Append data rows
-        csvContent.AppendLine(string.Join(",", dataRow1));
-        csvContent.AppendLine(string.Join(",", dataRow2));
+        // Rows
+        for (int i = 0; i < algorithms.Count; i++)
+            csv.AppendLine($"{i + 1},{algorithms[i]}");
 
-        // Write the string to the file
-        try
-        {
-            File.WriteAllText(filePath, csvContent.ToString());
-            Debug.Log("CSV file successfully written to: " + filePath);
-        }
-        catch (System.Exception e)
-        {
-            Debug.LogError("Error writing CSV file: " + e.Message);
-        }
-    }
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        File.WriteAllText(savePath, csv.ToString());
+        Debug.Log($"Exported {algorithms.Count} algorithms to {savePath}");
     }
 }

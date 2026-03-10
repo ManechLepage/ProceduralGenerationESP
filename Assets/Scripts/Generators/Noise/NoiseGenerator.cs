@@ -1,10 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
+using JetBrains.Annotations;
+using Unity.Mathematics;
 
 [ExecuteInEditMode]
 public class NoiseGenerator : MonoBehaviour
 {
     public TextureHelpers textureHelpers;
+    
     [Header("Noise Settings")]
     public Vector2 textureSize = new Vector2(256, 256);
     public int octaves = 4;
@@ -18,6 +21,7 @@ public class NoiseGenerator : MonoBehaviour
     [Space]
     public bool GenerateTexture = false;
 
+   
     void Update()
     {
         if (GenerateTexture)
@@ -109,7 +113,7 @@ public class NoiseGenerator : MonoBehaviour
                 heightMap[x].Add(sample);
             }
         }
-
+    
         return heightMap;
     }
 }
