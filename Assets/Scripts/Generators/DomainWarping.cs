@@ -3,6 +3,12 @@ using System.Collections.Generic;
 
 public class DomainWarping : MonoBehaviour
 {
+    /*
+    Ce fichier teste la technique de domain warping pour générer des terrains plus variés et intéressants à partir de bruit de base.
+    Pour le moment, il est le seul fichier qui implémente cet algorithmes mais dans le futur proche il sera disponible ailleurs aussi.
+     - R: régénérer le terrain
+    */
+    
     public NoiseGenerator noiseGenerator;
     public MeshGenerator meshGenerator;
     public TextureHelpers textureHelpers;
@@ -40,6 +46,12 @@ public class DomainWarping : MonoBehaviour
 
     public void Update()
     {
+        /*
+        Régénération du terrain ainsi que l'update automatique si ce paramètre est activé.
+         - R: régénérer le terrain
+         - Auto Update: si activé, le terrain se régénère automatiquement à intervalle régulier, créant une animation de warping.
+        */
+
         if (Input.GetKeyDown(KeyCode.R))
         {
             if (isEnabled)
@@ -70,6 +82,10 @@ public class DomainWarping : MonoBehaviour
 
     public void GenerateAndShow()
     {
+        /*
+        Générer et afficher le terrain warping.
+        */
+
         List<List<float>> warpedNoiseHeightMap = GenerateWarpedNoise(size);
 
         Texture2D warpedTexture = textureHelpers.HeightMapToTexture(warpedNoiseHeightMap);
@@ -87,6 +103,10 @@ public class DomainWarping : MonoBehaviour
 
     public List<List<float>> GenerateWarpedNoise(Vector2 size)
     {
+        /*
+        Générer un heightmap à partir des valeurs de warping.
+        */
+
         List<List<float>> heightMap = new List<List<float>>();
 
         for (int x = 0; x < size.x; x++)
@@ -107,6 +127,15 @@ public class DomainWarping : MonoBehaviour
 
     public float GetWarpedValue(float x, float y)
     {
+        /*
+        Cet algorithme repose sur la notion de composée de fonction.
+        On utilise le FBM (Fractal Brownian Motion) pour générer lui-même ses valeurs de position,
+        et ensuite on refais le processus une autres fois.
+
+        Chaque fois, on garde la position de départ que l'on additionne d'un décalage
+        dicté par le FBM précédent.
+        */
+
         Vector2 warp1 = new Vector2(
             GetNoiseValue(x, y),
             GetNoiseValue(x + warpValues1.x, y + warpValues1.y)
@@ -125,6 +154,10 @@ public class DomainWarping : MonoBehaviour
 
     public float GetNoiseValue(float x, float y)
     {
+        /*
+        Récupérer la valeur de FBM pour les coordonnées données.
+        */
+
         return noiseGenerator.GetNoiseValue(x, y, octaves, scale, persistence, lacunarity, false, null);
     }
 }

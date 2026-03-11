@@ -15,6 +15,13 @@ L'ouverture du projet nécessite *Unity 6.3 LTS (6000.3.5f2)*
  - *F*: appliquer de l'érosion fluviale
  - *R*: réinitialiser le terrain
 
+ **Accès à l'interface de dessin**
+ Nous avons une version Bêta d'une interface permettant de peindre une *height map*.
+ - Ouvrir la scène dans *Assets/Scenes/Paint.unity*
+ - Cliquer sur le bouton *Play* ▶ au dessus de l'écran de la scène
+ - Les explications quant aux contrôles sont indiqués dans le fichier *PaintManager*, accessible
+   dans la hiérarchie.
+
 ## Besoins utilisateurs et critères de réussite
 **Paramètres de génération (début)**
  

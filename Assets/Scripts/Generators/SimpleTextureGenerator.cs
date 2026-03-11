@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 public class SimpleTextureGenerator : MonoBehaviour
 {
+    /*
+    Ancienne version de test pour le noise pour la génération de mesh.
+    */
+    
     public Vector2 textureSize = new Vector2(256, 256);
     public int seed = 0;
     public float scale = 1f;
@@ -16,11 +20,6 @@ public class SimpleTextureGenerator : MonoBehaviour
 
     private GameObject meshGO;
 
-    void Start()
-    {
-        // Regenerate();
-    }
-
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -31,12 +30,17 @@ public class SimpleTextureGenerator : MonoBehaviour
 
     void Regenerate()
     {
+        /*
+        Regénérer la texture et le mesh à partir de la heightmap générée.
+        */
+        
         seed = Random.Range(0, 10000000);
 
         List<List<float>> heightMap = Generate(textureSize);
         Texture2D texture = GameManager.Instance.textureHelpers.HeightMapToTexture(heightMap);
         GameManager.Instance.textureHelpers.SaveTexture(texture, "Assets/Textures/GeneratedTexture.exr");
 
+        // Afficher la heightmap dans la scène en mesh.
         ShowHeightMap(heightMap, previewSize);
     }
 
@@ -47,6 +51,11 @@ public class SimpleTextureGenerator : MonoBehaviour
 
     public List<List<float>> Generate(Vector2 size=default)
     {
+        /*
+        Générer une heightmap à partir des paramètres définis.
+        Utilisation de perlin noise combiné avec lui-même.
+        */
+        
         if (size == default) size = textureSize;
         List<List<float>> heightMap = new List<List<float>>();
 
@@ -81,6 +90,10 @@ public class SimpleTextureGenerator : MonoBehaviour
 
     public void ShowTexture(Texture2D texture, Vector2 size)
     {
+        /*
+        Afficher la texture en mesh.
+        */
+        
         Mesh mesh = meshGenerator.TextureToMesh(texture, 50f * (scale / 0.1f), size);
         if (meshGO == null)
             meshGO = GameManager.Instance.meshGenerator.CreateMeshObject(transform);
@@ -89,6 +102,10 @@ public class SimpleTextureGenerator : MonoBehaviour
 
     public void ShowHeightMap(List<List<float>> heightMap, Vector2 size)
     {
+        /*
+        Afficher le heightmap en mesh.
+        */
+        
         Mesh mesh = meshGenerator.HeightMapToMesh(heightMap, 50f * (scale / 0.1f), size);
         if (meshGO == null)
             meshGO = GameManager.Instance.meshGenerator.CreateMeshObject(transform);
@@ -97,6 +114,10 @@ public class SimpleTextureGenerator : MonoBehaviour
 
     public float GetCurveSlope(AnimationCurve curve, float value, float delta=0.01f)
     {
+        /*
+        Trouver la pente dans un AnimationCurve
+        */
+        
         float value1 = curve.Evaluate(value);
         float value2 = curve.Evaluate(value + delta);
         return (value2 - value1) / delta;

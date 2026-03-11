@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
+// Types d'outils utilisables.
 public enum ToolType
 {
     Paint,
@@ -11,6 +12,29 @@ public enum ToolType
 
 public class PaintManager : MonoBehaviour
 {
+    /*
+    Ce fichier gère la logique de la peinture sur une texture dans la scène, en 2D. Il élabore un système permettant de peindre en utilisant
+    divers outils (peinture, lissage, aplanissement) et différentes brosses. Il gère également les sauvegardes, les annulations, et l'affichage d'une superposition de courbes de hauteur
+    pour aider à visualiser les changements de hauteur sur la texture (pas encore tout à fait implémenté).
+
+    Contrôles :
+     - Click gauche : ajouter du terrain
+     - Click droit : enelever du terrain
+     - Click milieu : déplacer la texture
+     - Molette de souris : changer la taille de l'outil (en maintenant Ctrl pour zoomer sur la texture)
+     - Nombre 1 à 9 : changer de brosse (juste 3 disponible pour le moment)
+    
+    Autres :
+     - P : outil de peinture
+     - O : outil de lissage
+     - F : outil d'aplanissement
+     - S : sauvegarder la texture peinte
+     - Touche Z : annuler la dernière action
+
+    Dans les prochaines versions, il serait intéressant d'implémenter du ray-tracing pour afficher non pas les hauteurs mais aussi les ombres pour mieux
+    distinguer le relief du terrain.
+    */
+    
     [Header("General Settings")]
     public bool isEnabled = true;
     public Vector2Int paintSize = new Vector2Int(64, 64);
@@ -55,6 +79,11 @@ public class PaintManager : MonoBehaviour
 
     void Start()
     {
+        /*
+        Préparer la liste des outils pour qu'ils soient utilisables.
+        Initialiser la texture sur laquelle on peint.
+        */
+        
         InitializePainting();
         initialPaintScale = paintGO.transform.localScale;
 
@@ -77,6 +106,10 @@ public class PaintManager : MonoBehaviour
 
     void Update()
     {
+        /*
+        Gérer les entrées de l'utilisateur pour peindre sur la texture, changer d'outil, sauvegarder, annuler, etc.
+        */
+        
         if (!isEnabled)
             return;
         
@@ -117,6 +150,7 @@ public class PaintManager : MonoBehaviour
                 Mathf.FloorToInt((mousePosition.y - downLeftPaintPos.y) / paintScreenSize.y * paintSize.y)
             );
             
+            // Peindre avec l'outil et la brosse sélectionnés
             brushes[brushIndex].Apply(paintTexture, paintPosition, GetToolParameters(toolType), remove: remove);
             paintTexture.Apply();
             if (enabledHeightCurves)
@@ -129,7 +163,7 @@ public class PaintManager : MonoBehaviour
             if (Input.GetKey(KeyCode.LeftControl))
             {
                 float lastZoom = zoom;
-                zoom *= 1f + scroll * 0.5f;
+                zoom *= 1f + scroll;
                 zoom = Mathf.Clamp(zoom, 0.1f, 10f);
 
                 Vector3 mouseWorldPos = Input.mousePosition;
@@ -200,6 +234,11 @@ public class PaintManager : MonoBehaviour
 
     void SaveBackup()
     {
+        /*
+        Sauvegarder l'état actuel de la texture peinte pour permettre d'annuler les actions.
+        On garde une liste de backups, et on limite sa taille pour éviter d'utiliser trop de mémoire.
+        */
+        
         if (paintTexture == null)
             return;
 
@@ -214,6 +253,10 @@ public class PaintManager : MonoBehaviour
 
     public void Undo()
     {
+        /*
+        Revenir à un backup précédent de la texture peinte, si disponible.
+        */
+        
         if (paintBackups.Count <= 1)
             return;
 
@@ -237,6 +280,11 @@ public class PaintManager : MonoBehaviour
 
     void UpdateBrushGO()
     {
+        /*
+        Mettre à jour l'interface du pinceau affichée à l'écran.
+        Changer sa position, sa taille, et sa texture en fonction de la brosse sélectionnée et des paramètres de l'outil.
+        */
+        
         Texture2D brushTexture = brushes[brushIndex].texture;
 
         if (brushTexture != null)
@@ -287,6 +335,10 @@ public class PaintManager : MonoBehaviour
 
     public void UpdateHeightCurves()
     {
+        /*
+        Mettre des pixels noirs en opacité aux endroits où il y a des courbes de hauteur, pour aider à visualiser les changements de hauteur sur la texture.
+        */
+        
         ClearOverlay();
         for (int x = 0; x < paintSize.x; x++)
         {
@@ -306,6 +358,10 @@ public class PaintManager : MonoBehaviour
 
     public void InitializePainting()
     {
+        /*
+        Initialisation des textures et des GameObjects nécessaires pour la peinture, ainsi que de leur affichage dans la scène.
+        */
+        
         if (paintGO == null)
             paintGO = new GameObject("PaintTexture");
         if (overlayGO == null)
@@ -334,6 +390,7 @@ public class PaintManager : MonoBehaviour
         paintTexture.Apply();
         overlayTexture.Apply();
 
+        // Sauvegarder l'état initial de la texture peinte pour permettre d'annuler les actions dès le début
         SaveBackup();
 
         paintTexture.filterMode = FilterMode.Point;
@@ -358,6 +415,10 @@ public class PaintManager : MonoBehaviour
 [System.Serializable]
 public class ToolParameters
 {
+    /*
+    Classe pour stocker les paramètres d'un outil de peinture, comme sa taille, sa pression, et sa texture de brosse.
+    */
+    
     public ToolType toolType;
     public KeyCode hotKey;
     public float size = 16f;
@@ -371,11 +432,22 @@ public class ToolParameters
 [System.Serializable]
 public class BrushSettings
 {
+    /*
+    Classe permettant de définir une brosse pour la peinture, avec un nom et une texture.
+    La texture est utilisée pour moduler l'effet de la brosse en fonction de la position relative du pixel peint par rapport au centre de la brosse.
+    */
+    
     public string brushName = "Default Brush";
     public Texture2D texture;
 
     public void Apply(Texture2D paintTexture, Vector2Int position, ToolParameters toolParameters, bool remove = false)
     {
+        /*
+        Applique l'effet de la brosse sur la texture de peinture à la position donnée.
+        Utilisation des positions relatives pour échantilloner la texture proportionnellement à la
+        résolution cible.
+        */
+        
         Vector2Int startPos = new Vector2Int(
             Mathf.FloorToInt(position.x - toolParameters.size / 2),
             Mathf.FloorToInt(position.y - toolParameters.size / 2)
@@ -415,8 +487,8 @@ public class BrushSettings
     public float SampleTexture(Vector2 texturePercentage)
     {
         /*
-        Texture percentage represents the relative coordinates on the brush,
-        in order to sample a certain part of the texture
+        Échantillonner la texture de la brosse à partir des coordonnées de texture données,
+        qui sont proportionnelles à la position du pixel peint par rapport au centre de la brosse.
         */
 
         if (texture == null)
@@ -443,6 +515,12 @@ public class BrushSettings
 [System.Serializable]
 public class ToolSettings
 {
+    /*
+    Classe de base pour les paramètres d'un outil de peinture, avec une méthode virtuelle pour calculer
+    la valeur finale du pinceau à appliquer sur la texture de peinture.
+    Les classes dérivées peuvent implémenter cette méthode pour créer différents comportements d'outils (peinture, lissage, aplanissement).
+    */
+    
     public string toolName = "Default Tool";
     public Texture2D icon;
 
@@ -479,6 +557,10 @@ public class SmoothingTool : ToolSettings
 {
     public override float GetBrushValue(int x, int y, float brushValue, float pressure, bool remove, Texture2D paintTexture, float centralPixel)
     {
+        /*
+        Prendre la moyenne des pixels entourant le pixel ciblé, pondérée par la pression et la valeur de la brosse, pour créer un effet de lissage.
+        */
+        
         int kernelSize = 3;
         int halfKernel = kernelSize / 2;
 
@@ -510,6 +592,11 @@ public class FlattenTool : ToolSettings
 {
     public override float GetBrushValue(int x, int y, float brushValue, float pressure, bool remove, Texture2D paintTexture, float centralPixel)
     {
+        /*
+        Rapprocher les valeurs de tous les pixels du pixel central selon les valeurs d'intensité de la texture
+        de la brosse de l'outil utilisé.
+        */
+        
         float currentHeight = paintTexture.GetPixel(x, y).r;
         return Mathf.Lerp(currentHeight, centralPixel, pressure * brushValue);
     }

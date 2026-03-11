@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 public class ChunkTesting : MonoBehaviour
 {
+    /*
+    Ce fichier sert à tester le ChunkLoader en générant du terrain infini.
+    */
+
     public bool isEnabled = true;
     public AlgorithmType algorithmType = AlgorithmType.FBM;
 
@@ -22,6 +26,10 @@ public class ChunkTesting : MonoBehaviour
 
     void Start()
     {
+        /*
+        Initialiser le terrain et les paramètres.
+        */
+
         lastAlgorithmType = algorithmType;
 
         mainCamera.transform.position = new Vector3(0f, 50f, 0f);
@@ -41,6 +49,10 @@ public class ChunkTesting : MonoBehaviour
 
     void Update()
     {
+        /*
+        Si l'utilisateur a changé de chunk, on met à jour les chunks. Si l'utilisateur a changé d'algorithme, on recharge tous les chunks.
+        */
+        
         Vector2Int gridOrigin = chunkLoader.SnapToChunk(GetCameraPosition());
 
         if (lastAlgorithmType != algorithmType)
@@ -64,6 +76,10 @@ public class ChunkTesting : MonoBehaviour
 
     public void ReloadChunks()
     {
+        /*
+        Recharger tous les chunks.
+        */
+        
         lastGridOrigin = chunkLoader.SnapToChunk(GetCameraPosition());
         chunkLoader.chunkOffset = lastGridOrigin;
         chunkLoader.ReloadChunks(
@@ -74,6 +90,11 @@ public class ChunkTesting : MonoBehaviour
 
     public List<List<float>> HeightMapFunction(Vector2 size, Vector2 offset, float scale=1f)
     {
+        /*
+        Fonction qui va être appelée par le ChunkLoader pour générer les chunks.
+        On retourne une heightmap dépendant de l'algorithme choisi et des paramètres définis dans l'inspecteur.
+        */
+        
         List<List<float>> heightMap;
         if (algorithmType == AlgorithmType.FBM)
         {

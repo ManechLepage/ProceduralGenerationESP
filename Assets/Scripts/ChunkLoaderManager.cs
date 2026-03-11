@@ -11,8 +11,13 @@ public class ChunkLoaderManager : MonoBehaviour
 [System.Serializable]
 public class ChunkLoader
 {
+    /*
+    Cette classe permet de générer un terrain continu et infini en utilisant la méthode de chunks.
+    Cette méthode permet de générer plusieurs mesh continus les uns à côté des autres dans un rayon autour de l'utilisateur et permet
+    de faire disparaitre les chunks qui sont trop éloignés pour économiser des ressources. 
+    */
+    
     public float loadDistance = 32f;
-
     [Space]
     public Vector2Int chunkSize = new Vector2Int(32, 32);
     public Vector2 chunkPhysicalSize = new Vector2(16f, 16f);
@@ -34,6 +39,10 @@ public class ChunkLoader
 
     public IEnumerator InitializeChunks(Vector2Int position, float scaleFactor = 1f, bool circular = true)
     {
+        /*
+        Loader une première fois tous les chunks autour de l'utilisateur à partir de zero.
+        */
+        
         int chunksRadius = Mathf.CeilToInt(loadDistance / chunkPhysicalSize.x);
 
         for (int i = -chunksRadius; i <= chunksRadius; i++)
@@ -58,6 +67,14 @@ public class ChunkLoader
 
     public IEnumerator UpdateLoadedChunks(Vector2Int position, float scaleFactor = 1f, bool circular = true)
     {
+        /*
+        Loader les chunks qui ne l'ont pas encore été et unloader ceux qui sont trop éloignés à partir de la position donnée.
+         - 'position' : position centrale à partir de laquelle charger les chunks
+         - 'scaleFactor' : facteur d'échelle pour la hauteur des chunks
+         - 'circular' : si true, charger les chunks dans un rayon circulaire, sinon dans un carré
+         - return : IEnumerator pour pouvoir être utilisé dans une coroutine
+        */
+        
         List<Chunk> loadedChunks = new List<Chunk>();
 
         int chunksRadius = Mathf.CeilToInt(loadDistance / chunkPhysicalSize.x);
@@ -98,6 +115,7 @@ public class ChunkLoader
             }
         }
 
+        // Effacer les chunks après avoir fait une boucle dedans pour éviter de modifier la collection pendant qu'on itère dessus
         foreach (Vector2Int chunkPos in chunksToRemove)
         {
             chunks.Remove(chunkPos);
@@ -108,20 +126,31 @@ public class ChunkLoader
 
     public Chunk LoadChunk(Vector2Int position, float scaleFactor = 1f, bool animate = true)
     {
+        /*
+        Méthode pour loader un unique chunk à une certaine position.
+         - 'position' : position du chunk à charger
+         - 'scaleFactor' : facteur d'échelle pour la hauteur du chunk
+         - 'animate' : si true, animer l'apparition du chunk (non implémenté)
+         - return : le chunk chargé
+        */
+        
         Vector2 offset = new Vector2(
             position.y,
             position.x
         ) * chunkSize;
         
-        float scale = chunkPhysicalSize.x / 32f; //* chunkSize.x / 32f;
+        float scale = chunkPhysicalSize.x / 32f;
 
+        // Loader le heightmap correspondant à ce chunk
         List<List<float>> heightMap = heightMapFunction(chunkSize + new Vector2Int(2, 2), offset - new Vector2(1, 1) * chunkSize, scale);
 
-        Mesh mesh = GameManager.Instance.meshGenerator.HeightMapToMesh(heightMap, height / scaleFactor, chunkSize, borderNormals: true, colorSettings: colorSettings);
+        // Générer le mesh à partir du heightmap et créer le GameObject correspondant
+        Mesh mesh = GameManager.Instance.meshGenerator.HeightMapToMesh(heightMap, height / scaleFactor, chunkSize, borderNormals: false, colorSettings: colorSettings);
         GameObject chunkGO = GameManager.Instance.meshGenerator.CreateMeshObject(chunkParent.transform, colorSettings.isEnabled);
 
         GameManager.Instance.meshGenerator.UpdateMesh(chunkGO, mesh, chunkPhysicalSize / chunkSize);
 
+        // Changer la taille du chunk pour qu'il corresponde à la taille physique désirée
         chunkGO.transform.position = new Vector3(
             position.x * chunkPhysicalSize.x,
             0f,
@@ -141,17 +170,32 @@ public class ChunkLoader
 
     public void ReloadChunks(Vector2Int position, MonoBehaviour runner)
     {
+        /*
+        Effacer tous les chunks et tout reloader
+        */
+        
         ClearChunks();
         runner.StartCoroutine(InitializeChunks(position));
     }
 
     public void UpdateChunks(Vector2Int position, MonoBehaviour runner)
     {
+        /*
+        Mettre à jour les chunks chargés en fonction de la position donnée.
+         - 'position' : position centrale à partir de laquelle charger les chunks
+         - 'runner' : MonoBehaviour pour pouvoir lancer la coroutine d'update des chunks
+         - return : void
+        */
+        
         runner.StartCoroutine(UpdateLoadedChunks(position));
     }
 
     public void ClearChunks()
     {
+        /*
+        Détruire tous les chunks
+        */
+        
         foreach (Chunk chunk in chunks.Values)
         {
             if (chunk.meshGO != null)
@@ -165,6 +209,10 @@ public class ChunkLoader
 
     public void DeleteChunk(Chunk chunk)
     {
+        /*
+        Détruire le GameObject d'un chunk en particulier.
+        */
+        
         if (chunk.meshGO != null)
         {
             GameObject.Destroy(chunk.meshGO);
@@ -174,6 +222,12 @@ public class ChunkLoader
 
     public Vector2Int SnapToChunk(Vector2 position)
     {
+        /*
+        Arrondir vers le bas une position donnée pour trouver la position du chunk correspondant.
+         - 'position' : position à arrondir
+         - return : position du chunk correspondant
+        */
+        
         float chunkSizeX = chunkPhysicalSize.x;
         float chunkSizeY = chunkPhysicalSize.y;
 
@@ -187,6 +241,12 @@ public class ChunkLoader
 
     public Vector2Int PositionToChunk(Vector2 position)
     {
+        /*
+        Convertir une position donnée en position de chunk.
+         - 'position' : position à convertir
+         - return : position du chunk correspondant
+        */
+
         return new Vector2Int(
             (int)(position.x / chunkPhysicalSize.x),
             (int)(position.y / chunkPhysicalSize.y)
@@ -197,6 +257,10 @@ public class ChunkLoader
 [System.Serializable]
 public class Chunk
 {
-    public Vector2Int position;
-    public GameObject meshGO;
+    /*
+    Structure pour stocker les informations d'un chunk, notamment sa position et le GameObject de son mesh.
+    */
+        
+    public Vector2Int position;  // position du chunk dans la grille de chunks
+    public GameObject meshGO;  // GameObject du mesh du chunk
 }

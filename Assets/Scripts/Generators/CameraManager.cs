@@ -3,6 +3,16 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class CameraManager : MonoBehaviour
 {
+    /*
+    Gérer le déplacement et la rotation de la caméra dans la scène.
+    Contrôles :
+     - WASD pour se déplacer horizontalement (par rapport à la direction de la caméra)
+     - Espace et Shift pour monter et descendre
+     - Scroll pour augmenter/diminuer la vitesse de déplacement
+     - Click droit pour effectuer une rotation
+     - Click du milieu pour effectuer une translation (désactivé pour le moment)
+    */
+
     public float moveSpeed = 10f;
     public float rotateSpeed = 10f;
     public float panSpeed = 10f;

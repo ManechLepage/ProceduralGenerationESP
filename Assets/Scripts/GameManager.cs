@@ -1,5 +1,10 @@
 using UnityEngine;
 
+/*
+Quelques types définis pour pouvoir différencier les algorithmes et les types d'érosion
+dans l'inspecteur et dans le code.
+*/
+
 public enum AlgorithmType
 {
     FBM,
@@ -10,7 +15,8 @@ public enum AlgorithmType
 public enum ErosionType
 {
     Hydraulic,
-    Thermal
+    Thermal,
+    Fluvial
 }
 
 public class GameManager : MonoBehaviour

@@ -6,6 +6,11 @@ using Unity.Mathematics;
 [ExecuteInEditMode]
 public class NoiseGenerator : MonoBehaviour
 {
+    /*
+    Première version du générateur de FBM (Fractal Brownian Motion) pour la création de heightmaps procédurales.
+    Les paramètres d'octaves, de persistance et de lacunarité permettent de contrôler la génération.
+    */
+    
     public TextureHelpers textureHelpers;
     
     [Header("Noise Settings")]
@@ -26,6 +31,8 @@ public class NoiseGenerator : MonoBehaviour
     {
         if (GenerateTexture)
         {
+            // Générer la texture si elle n'a pas encore été générée.
+
             GenerateTexture = false;
             List<List<float>> heightMap = GenerateNoise(textureSize, octaves, scale, persistence, lacunarity, offset);
             Texture2D texture = textureHelpers.HeightMapToTexture(heightMap);
@@ -39,6 +46,10 @@ public class NoiseGenerator : MonoBehaviour
     }
     public List<List<float>> GenerateNoise(Vector2 size, int octaves, float scale, float persistence, float lacunarity, Vector2 offset)
     {
+        /*
+        Générer un heightmap à partir de valeurs de noise.
+        */
+
         List<List<float>> heightMap = new List<List<float>>();
 
         for (int x = 0; x < size.x; x++)
@@ -68,6 +79,18 @@ public class NoiseGenerator : MonoBehaviour
         bool absolute=false, AnimationCurve heightCurve=null
     )
     {
+        /*
+        On ajoute plusieurs fois du Perlin Noise avec lui-même à différentes échelles (fréquences) et amplitudes pour créer un bruit plus complexe et réaliste.
+         - 'x' et 'y' : positon dans l'espace de noise.
+         - 'octaves' : nombre de couches de noise à superposer.
+         - 'scale' : échelle globale du noise (plus petit = plus lisse).
+         - 'persistence' : contrôle comment l'amplitude diminue à chaque octave
+         - 'lacunarity' : contrôle comment la fréquence augmente à chaque octave
+         - 'absolute' : rendre chaque valeur en valeur absolue pour créer des pics.
+         - 'heightCurve' : une courbe d'animation pour ajuster la distribution des hauteurs (optionnel).
+         - return : la valeur de noise finale pour les coordonnées données.
+        */
+
         float amplitude = 1;
         float frequency = 1;
         float noiseHeight = 0;
@@ -99,6 +122,13 @@ public class NoiseGenerator : MonoBehaviour
 
     public List<List<float>> GenerateSimpleNoise(Vector2 size, float scale)
     {
+        /*
+        Générer un noise à uniquement 1 octave et sans autres paramètres que le scale
+         - 'size' : taille du heightmap à générer
+         - 'scale' : échelle du noise (plus petit = plus lisse)
+         - return : le heightmap généré
+        */
+        
         List<List<float>> heightMap = new List<List<float>>();
 
         for (int x = 0; x < size.x; x++)

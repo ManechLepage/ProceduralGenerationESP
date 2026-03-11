@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 public class VoronoiGenerator : MonoBehaviour
 {
+    /*
+    Test de génération de voronoi et de noise
+    */
+    
     public VoronoiTexture voronoiTexture;
     public TextureHelpers textureHelpers;
     public NoiseGenerator noiseGenerator;
@@ -29,6 +33,10 @@ public class VoronoiGenerator : MonoBehaviour
     }
     public void GenerateTexture(bool drawMesh)
     {
+        /*
+        Créer des textures de voronoi et de noise pour ensuite les combiner et les convertir en mesh.
+        */
+        
         List<List<float>> voronoiHeightMap = voronoiTexture.LoadVoronoiTexture((int)textureSize.x, (int)textureSize.y);
         Texture2D voronoiTex = textureHelpers.HeightMapToTexture(voronoiHeightMap);
         textureHelpers.SaveTexture(voronoiTex, "Assets/Textures/Voronoi/VoronoiBase.exr");
@@ -37,6 +45,7 @@ public class VoronoiGenerator : MonoBehaviour
         Texture2D noiseTex = textureHelpers.HeightMapToTexture(noiseHeightMap);
         textureHelpers.SaveTexture(noiseTex, "Assets/Textures/Voronoi/NoiseLayer.exr");
 
+        // Combiner les deux heightmaps en fonction du ratio défini dans l'inspecteur.
         List<List<float>> combinedHeightMap;
         if (multiplyLayers)
         {
@@ -53,10 +62,11 @@ public class VoronoiGenerator : MonoBehaviour
         if (!drawMesh)
             return;
         
-        //Mesh mesh = meshGenerator.HeightMapToMesh(combinedHeightMap, heightMultiplier, terrainSize);
         Mesh mesh = meshGenerator.TextureToMesh(finalTexture, heightMultiplier, terrainSize);
         if (meshGO == null)
             meshGO = GameManager.Instance.meshGenerator.CreateMeshObject(transform);
+
+        // Mettre à jour le mesh dans la scène.
         meshGenerator.UpdateMesh(meshGO, mesh, terrainSize);
     }
 }
