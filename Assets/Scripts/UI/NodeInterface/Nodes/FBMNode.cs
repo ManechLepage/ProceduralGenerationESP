@@ -6,6 +6,8 @@ public class FBMNode : NodeBehaviour
     {
         base.Start();
 
-        // Code if needed.
+        // ConnectorBehaviour offsetConnector = GetInputConnection("offset");
+        // Vector2 value = offsetConnector.GetInputBehaviour().GetVariant().GetValue<Vector2>();
+        // Debug.Log("Offset: " + value);
     }
 }

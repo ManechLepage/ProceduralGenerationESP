@@ -42,7 +42,9 @@ public class Variant
     public int asInt;
     public float asFloat;
     public string asString;
+    public bool asBool;
     public Vector2 asVector2;
+    public Vector3 asVector3;
     public List<List<float>> asHeightMap;
     public Texture2D asTexture;
 
@@ -56,9 +58,15 @@ public class Variant
 
         if (typeof(T) == typeof(string) && dataType == DataType.String)
             return (T)(object)asString;
+        
+        if (typeof(T) == typeof(bool) && dataType == DataType.Bool)
+            return (T)(object)asBool;
 
         if (typeof(T) == typeof(Vector2) && dataType == DataType.Vector2)
             return (T)(object)asVector2;
+        
+        if (typeof(T) == typeof(Vector3) && dataType == DataType.Vector3)
+            return (T)(object)asVector3;
         
         if (typeof(T) == typeof(List<List<float>>) && dataType == DataType.HeightMap)
             return (T)(object)asHeightMap;

@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 54.01
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -117,6 +117,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8941473247130711914, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
+      propertyPath: dataType
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8941473247130711914, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: connectionName
       value: heightmap
       objectReference: {fileID: 0}
@@ -148,9 +152,10 @@ MonoBehaviour:
   connectionName: 
   type: 0
   dataType: 5
+  linePrefab: {fileID: 1837271905312346381, guid: e213ccf11b98aae469fef6c19cd01df7, type: 3}
+  multiInput: {fileID: 0}
   connectedTo: {fileID: 0}
   node: {fileID: 0}
-  linePrefab: {fileID: 1837271905312346381, guid: e213ccf11b98aae469fef6c19cd01df7, type: 3}
 --- !u!114 &7274571100320183971 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8941473247130711914, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}

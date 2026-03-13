@@ -1,5 +1,22 @@
 using UnityEngine;
 
+public enum Type{
+    Input,
+    Output
+}
+
+public enum DataType
+{
+    Int,
+    Float,
+    String,
+    Vector2,
+    Vector3,
+    HeightMap,
+    Texture,
+    Bool
+}
+
 public class ConnectorBehaviour : MonoBehaviour
 {
     public string connectionName;
@@ -7,6 +24,8 @@ public class ConnectorBehaviour : MonoBehaviour
     public DataType dataType;
     
     public GameObject linePrefab;
+    
+    [HideInInspector] public MultiInputBehaviour multiInput;
 
     [HideInInspector] public ConnectorBehaviour connectedTo;
     [HideInInspector] public NodeBehaviour node;
@@ -21,6 +40,11 @@ public class ConnectorBehaviour : MonoBehaviour
         currentLine.GetComponent<LineManager>().isLinked = false;
         currentLine.GetComponent<LineManager>().input = this;
         currentLine.transform.SetParent(transform);
+    }
+
+    public MultiInputBehaviour GetInputBehaviour()
+    {
+        return GetComponent<MultiInputBehaviour>();
     }
 
     void Update()
@@ -51,20 +75,4 @@ public class ConnectorBehaviour : MonoBehaviour
         line.GetComponent<LineManager>().output = other;
         line.transform.SetParent(transform);
     }
-}
-
-public enum Type{
-    Input,
-    Output
-}
-
-public enum DataType
-{
-    Int,
-    Float,
-    String,
-    Vector2,
-    Vector3,
-    HeightMap,
-    Texture
 }
