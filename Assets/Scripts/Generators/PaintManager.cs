@@ -225,6 +225,7 @@ public class PaintManager : MonoBehaviour
         if (enabledHeightCurves && Input.GetKeyDown(KeyCode.M))
         {
             UpdateHeightCurves();
+            overlayGO.SetActive(!overlayGO.activeSelf);
         }
 
         UpdatePaintGO();
@@ -346,7 +347,16 @@ public class PaintManager : MonoBehaviour
             {
                 float heightValue = paintTexture.GetPixel(x, y).r;
                 int height255 = (int)(heightValue * 255f);
-                if (height255 % heightCurvesSpacing == 0)
+
+                // Look neighbors
+                int height255N0 = (int)(paintTexture.GetPixel(x - 1, y).r * 255f);
+                int height255N1 = (int)(paintTexture.GetPixel(x + 1, y).r * 255f);
+                int height255N2 = (int)(paintTexture.GetPixel(x, y - 1).r * 255f);
+                int height255N3 = (int)(paintTexture.GetPixel(x, y + 1).r * 255f);
+
+                bool sameAsNeighbor = height255 == height255N0 && height255 == height255N1 && height255 == height255N2 && height255 == height255N3;
+
+                if (!sameAsNeighbor && height255 % heightCurvesSpacing == 0)
                 {
                     overlayTexture.SetPixel(x, y, new Color(0f, 0f, 0f, 0.5f));
                 }

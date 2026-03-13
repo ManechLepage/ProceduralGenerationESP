@@ -8,9 +8,12 @@ public class LineManager : MonoBehaviour
     public ConnectorBehaviour output;
     private UILineRenderer lineRenderer;
 
+    private float thickness = 3f;
+
     void Start()
     {
         lineRenderer = GetComponent<UILineRenderer>();
+        thickness /= transform.localScale.x;
     }
 
     Vector2 GetMousePositionInContainer()
@@ -30,10 +33,15 @@ public class LineManager : MonoBehaviour
     void Update()
     {
         if (isLinked)
-            lineRenderer.points[1] = output.transform.position;
-        else{
+        {
+            lineRenderer.points[1] = (output.transform.position - input.transform.position) / transform.lossyScale.x;
+        }
+        else
+        {
             lineRenderer.points[1] = GetMousePositionInContainer();
         }
+
+        lineRenderer.thickness = thickness; // / transform.lossyScale.x;
 
         lineRenderer.SetVerticesDirty();
     }

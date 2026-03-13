@@ -3,9 +3,21 @@ using System.Collections.Generic;
 
 public class GraphManager : MonoBehaviour
 {
-    
-}
+    public static GraphManager Instance { get; private set;}
+    public LineManager currentLine;
 
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+}
 
 public abstract class NodeBehaviour : MonoBehaviour
 {

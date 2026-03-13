@@ -6,6 +6,6 @@ public class EarlyButtonClick : MonoBehaviour, IPointerDownHandler
     private ConnectorBehaviour connector;
     public void OnPointerDown(PointerEventData eventData)
     {
-        GetComponent<ConnectorBehaviour>().StartConnection();
+        GetComponent<ConnectorBehaviour>().ClickedConnection();
     }
 }
