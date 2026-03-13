@@ -29,10 +29,16 @@ public class SingleInputBehaviour : MonoBehaviour
         }
         return 0f;
     }
+
+    public string GetStringValue()
+    {
+        return inputField.text;
+    }
 }
 
 public enum SingleInputType
 {
     Int,
-    Float
+    Float,
+    String
 }

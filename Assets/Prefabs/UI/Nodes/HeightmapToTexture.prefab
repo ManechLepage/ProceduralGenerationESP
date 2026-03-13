@@ -116,11 +116,52 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8941473247130711914, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
+      propertyPath: connectionName
+      value: heightmap
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1512536012004937382, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5857015278465426831}
   m_SourcePrefab: {fileID: 100100000, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
+--- !u!1 &873577561710399343 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1512536012004937382, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
+  m_PrefabInstance: {fileID: 1793005861250679241}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5857015278465426831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873577561710399343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948acae164443d348a5afef9169c1f30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ConnectorBehaviour
+  connectionName: 
+  type: 0
+  dataType: 5
+  connectedTo: {fileID: 0}
+  node: {fileID: 0}
+  linePrefab: {fileID: 1837271905312346381, guid: e213ccf11b98aae469fef6c19cd01df7, type: 3}
+--- !u!114 &7274571100320183971 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8941473247130711914, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
+  m_PrefabInstance: {fileID: 1793005861250679241}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948acae164443d348a5afef9169c1f30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ConnectorBehaviour
 --- !u!224 &8303017461384366056 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7771021866619373089, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
@@ -254,7 +295,8 @@ PrefabInstance:
       propertyPath: m_text
       value: Heightmap To Texture
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4380383957051010011, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6378138601567887067, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
@@ -263,8 +305,32 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8898598623937829415, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7645698296077882265}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4905050211979275109, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 8403772036773999950}
   m_SourcePrefab: {fileID: 100100000, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+--- !u!1 &900370678719082898 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4905050211979275109, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+  m_PrefabInstance: {fileID: 5218826936079407863}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8403772036773999950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900370678719082898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e36b3b2737955c2489654cdd6db50869, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeightMapToTextureNode
+  inputConnections:
+  - {fileID: 7274571100320183971}
+  outputConnections:
+  - {fileID: 8125718268683369756}
 --- !u!224 &1220277798718522412 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6378138601567887067, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
@@ -286,6 +352,14 @@ PrefabInstance:
     - target: {fileID: 1158350527273292532, guid: 55b0c37affed7964aba76119e7ae8b5c, type: 3}
       propertyPath: m_Name
       value: OuputConnector
+      objectReference: {fileID: 0}
+    - target: {fileID: 2811309212478221753, guid: 55b0c37affed7964aba76119e7ae8b5c, type: 3}
+      propertyPath: dataType
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2811309212478221753, guid: 55b0c37affed7964aba76119e7ae8b5c, type: 3}
+      propertyPath: connectionName
+      value: texture
       objectReference: {fileID: 0}
     - target: {fileID: 4457830757804671804, guid: 55b0c37affed7964aba76119e7ae8b5c, type: 3}
       propertyPath: m_Pivot.x
@@ -381,3 +455,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4457830757804671804, guid: 55b0c37affed7964aba76119e7ae8b5c, type: 3}
   m_PrefabInstance: {fileID: 6325199452810907813}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8125718268683369756 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2811309212478221753, guid: 55b0c37affed7964aba76119e7ae8b5c, type: 3}
+  m_PrefabInstance: {fileID: 6325199452810907813}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948acae164443d348a5afef9169c1f30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ConnectorBehaviour

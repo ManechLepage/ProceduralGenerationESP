@@ -2,11 +2,18 @@ using UnityEngine;
 
 public class ConnectorBehaviour : MonoBehaviour
 {
-   public Type type;
-   public GameObject linePrefab;
-   private GameObject currentLine;
+    public string connectionName;
+    public Type type;
+    public DataType dataType;
+    
+    public GameObject linePrefab;
 
-   public void StartConnection()
+    [HideInInspector] public ConnectorBehaviour connectedTo;
+    [HideInInspector] public NodeBehaviour node;
+    
+    private GameObject currentLine;
+
+    public void StartConnection()
     {
         if (type == Type.Input)
             return;
@@ -49,4 +56,15 @@ public class ConnectorBehaviour : MonoBehaviour
 public enum Type{
     Input,
     Output
+}
+
+public enum DataType
+{
+    Int,
+    Float,
+    String,
+    Vector2,
+    Vector3,
+    HeightMap,
+    Texture
 }
