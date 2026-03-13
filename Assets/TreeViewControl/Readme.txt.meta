@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: c93ee06d26491df4daad63e6dc2483e5
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 824
+  packageName: TreeView Control
+  packageVersion: 1.9
+  assetPath: Assets/TreeViewControl/Readme.txt
+  uploadId: 26838

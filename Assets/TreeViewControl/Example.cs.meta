@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 1467642895983bf4fa01fd5fd021c18b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 824
+  packageName: TreeView Control
+  packageVersion: 1.9
+  assetPath: Assets/TreeViewControl/Example.cs
+  uploadId: 26838
