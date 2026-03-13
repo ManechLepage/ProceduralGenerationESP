@@ -31,8 +31,10 @@ public class ErosionTesting : MonoBehaviour
     [Header("Algorithm Settings")]
     public AlgorithmType algorithmType = AlgorithmType.FBM;
     public bool island = false;
-    public float islandScale = 1f;
-    public float islandFlatness = 5f;
+    public AnimationCurve islandFactor = AnimationCurve.Linear(0f, 1f, 1f, 0.1f);
+    public float islandRandomness = 0.1f;
+    // public float islandScale = 1f;
+    // public float islandFlatness = 5f;
     public Texture2D heightMapTexture;
     public FBMSettings fbmSettings;
     public VoronoiSettings voronoiSettings;
@@ -193,7 +195,7 @@ public class ErosionTesting : MonoBehaviour
         int height = heightMap[0].Count;
         Vector2 center = new Vector2(width / 2f, height / 2f);
         float maxDistance = width / 2f;
-        float intensityAtMax = 0.1f * islandScale;
+        // float intensityAtMax = 0.1f * islandScale;
 
         for (int x = 0; x < width; x++)
         {
@@ -201,8 +203,9 @@ public class ErosionTesting : MonoBehaviour
             {
                 // Déterminer le facteur de hauteur selon l'emplacement des pixels par rapport au centre.
                 float distanceToCenter = Vector2.Distance(new Vector2(x, y), center);
-                float islandFactor = 1f / (1f + (1f / intensityAtMax - 1f) * Mathf.Pow(distanceToCenter / maxDistance, islandFlatness));
-                heightMap[x][y] *= islandFactor;
+                // float islandFactor = 1f / (1f + (1f / intensityAtMax - 1f) * Mathf.Pow(distanceToCenter / maxDistance, islandFlatness));
+                float islandCoefficient = islandFactor.Evaluate((distanceToCenter / maxDistance) + Random.Range(-islandRandomness, islandRandomness));
+                heightMap[x][y] *= islandCoefficient;
             }
         }
     }
