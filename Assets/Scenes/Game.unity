@@ -2742,11 +2742,52 @@ MonoBehaviour:
   isEnabled: 1
   textureSize: {x: 256, y: 256}
   previewSize: {x: 8, y: 8}
-  terrainHeight: 15
+  terrainHeight: 12
   algorithmType: 0
   island: 1
-  islandScale: 1
-  islandFlatness: 5
+  islandFactor:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0047187805
+      value: 0.103961945
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.7071562
+      value: 0.37667966
+      inSlope: 1.3722509
+      outSlope: 1.3722509
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.41487032
+    - serializedVersion: 3
+      time: 0.79545736
+      value: 1.115669
+      inSlope: -0.034197174
+      outSlope: -0.034197174
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.6129937
+    - serializedVersion: 3
+      time: 1
+      value: 0.1
+      inSlope: -0.9
+      outSlope: -0.9
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  islandRandomness: 0
   heightMapTexture: {fileID: 2800000, guid: fa7ba9855c07dab4db33903346ed7b23, type: 3}
   fbmSettings:
     seed: 0
@@ -2763,20 +2804,74 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 1
-        outSlope: 1
+        inSlope: 0.37578496
+        outSlope: 0.37578496
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
-        outWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.06327081
+        value: 0.023776218
+        inSlope: 0.4412805
+        outSlope: 0.4412805
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.28120723
+        value: 0.06480477
+        inSlope: 0.82630646
+        outSlope: 0.82630646
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.6185658
+      - serializedVersion: 3
+        time: 0.41692242
+        value: 0.3663495
+        inSlope: 0.12274187
+        outSlope: 0.12274187
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.20302255
+      - serializedVersion: 3
+        time: 0.57558006
+        value: 0.38567278
+        inSlope: -0.045618948
+        outSlope: -0.045618948
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.50437766
+      - serializedVersion: 3
+        time: 0.7341089
+        value: 0.5242158
+        inSlope: 0.8347281
+        outSlope: 0.8347281
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.25029013
+        outWeight: 1
+      - serializedVersion: 3
+        time: 0.8104134
+        value: 0.9831918
+        inSlope: 0.023829062
+        outSlope: 0.023829062
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.4818228
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 1
-        outSlope: 1
+        inSlope: 0.08865718
+        outSlope: 0.08865718
         tangentMode: 34
         weightedMode: 0
-        inWeight: 0
+        inWeight: 0.33333334
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
