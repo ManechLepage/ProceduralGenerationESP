@@ -42,6 +42,11 @@ public class ConnectorBehaviour : MonoBehaviour
         currentLine.transform.SetParent(transform);
     }
 
+    public bool isConnected()
+    {
+        return connectedTo != null;
+    }
+
     public MultiInputBehaviour GetInputBehaviour()
     {
         return GetComponent<MultiInputBehaviour>();
