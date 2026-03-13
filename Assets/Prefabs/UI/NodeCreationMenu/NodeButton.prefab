@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 6036550055528525}
   - component: {fileID: 4250100462729416702}
   - component: {fileID: 9194832597621120217}
-  - component: {fileID: 6559949513403884338}
+  - component: {fileID: 5636961908398484952}
   m_Layer: 5
-  m_Name: CategoryButton
+  m_Name: NodeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,9 +122,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6559949513403884338}
-        m_TargetAssemblyTypeName: CategoryButton, Assembly-CSharp
-        m_MethodName: ClickedCategory
+      - m_Target: {fileID: 5636961908398484952}
+        m_TargetAssemblyTypeName: NodeButton, Assembly-CSharp
+        m_MethodName: ClickedNode
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -134,7 +134,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &6559949513403884338
+--- !u!114 &5636961908398484952
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,11 +143,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1513349788156645626}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30628a8a27cd91146bc00cf1b0e22431, type: 3}
+  m_Script: {fileID: 11500000, guid: afa85c01d0f0b4c4bb66191e8ee3703b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CategoryButton
-  categoryMenu: {fileID: 0}
-  menuManager: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::NodeButton
+  nodePrefab: {fileID: 0}
 --- !u!1 &2263012070177317713
 GameObject:
   m_ObjectHideFlags: 0

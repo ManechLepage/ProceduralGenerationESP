@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class UIDraggable : MonoBehaviour
 {
-    public Canvas canvas;
+    private Canvas canvas;
     public float leftSideBorder = 2.5f;
     public float rightSideBorder = 10f;
     private RectTransform rectTransform;
@@ -14,6 +14,7 @@ public class UIDraggable : MonoBehaviour
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
+        canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
     }
 
     void Update()
