@@ -168,6 +168,7 @@ MonoBehaviour:
   physicalScale: 2.5
   zoom: 1
   paintMaterial: {fileID: 2100000, guid: 7fd4ab90729ba624a840e0feb82333ff, type: 2}
+  enabledHeight: 0
   brushIndex: 1
   holdTimeToPaint: 0.025
   brushes:
@@ -207,6 +208,7 @@ MonoBehaviour:
   backupLimit: 10
   enabledHeightCurves: 1
   heightCurvesSpacing: 20
+  levelPixels: 1
   paintParent: {fileID: 1066589269}
   canvas: {fileID: 1066589268}
   textureHelpers: {fileID: 337160966}

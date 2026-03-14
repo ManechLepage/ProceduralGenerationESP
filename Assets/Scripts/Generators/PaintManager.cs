@@ -63,6 +63,7 @@ public class PaintManager : MonoBehaviour
     [Header("Overlay Settings")]
     public bool enabledHeightCurves = true;
     public int heightCurvesSpacing = 20;
+    public bool levelPixels = false;
 
     [Header("Others")]
     public Transform paintParent;
@@ -188,8 +189,8 @@ public class PaintManager : MonoBehaviour
                 ToolParameters tool = GetToolParameters(toolType);
                 if (tool != null)
                 {
-                    tool.size -= Mathf.RoundToInt(scroll * 5f * (tool.size / 10f));
-                    tool.size = Mathf.Clamp(tool.size, 1f, 100f);
+                    tool.size -= Mathf.CeilToInt(scroll * 5f * (tool.size / 10f));
+                    tool.size = Mathf.Clamp(tool.size, 15f, 100f);
                 }
             }
         }
@@ -435,17 +436,17 @@ public class PaintManager : MonoBehaviour
 
                 if (!sameAsNeighbor)
                 {
-                    if (enabledHeight)
+                    if (enabledHeight || levelPixels)
                         overlayTexture.SetPixel(x, y, new Color(0f, 0f, 0f, 1f));
                     else
                         overlayTexture.SetPixel(x, y, new Color(1f, 1f, 1f, 1f));
                 }
                 else
                 {
-                    if (enabledHeight)
+                    if (enabledHeight || !levelPixels)
                         overlayTexture.SetPixel(x, y, new Color(0f, 0f, 0f, 0f));
                     else
-                        overlayTexture.SetPixel(x, y, new Color(1f, 1f, 1f, level * heightCurvesSpacing / 255f / 3f));
+                        overlayTexture.SetPixel(x, y, new Color(1f, 1f, 1f, level * heightCurvesSpacing / 255f / 1f));
                 }
             }
         }
@@ -479,6 +480,11 @@ public class PaintManager : MonoBehaviour
             overlayGO.AddComponent<RawImage>();
         
         paintGO.GetComponent<RawImage>().material = paintMaterial;
+
+        if (enabledHeight)
+            ShowHeight();
+        else
+            HideHeight();
 
         paintTexture = new Texture2D(paintSize.x, paintSize.y, TextureFormat.RFloat, false, true);
         overlayTexture = new Texture2D(paintSize.x, paintSize.y, TextureFormat.RGBA32, false);
