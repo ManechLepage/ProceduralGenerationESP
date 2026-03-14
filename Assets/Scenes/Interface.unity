@@ -385,6 +385,10 @@ PrefabInstance:
       propertyPath: m_text
       value: HeightMap to Texture
       objectReference: {fileID: 0}
+    - target: {fileID: 5636961908398484952, guid: a0c584cb487163947946f6f402d6a03c, type: 3}
+      propertyPath: nodePrefab
+      value: 
+      objectReference: {fileID: 900370678719082898, guid: d0efc8b0045093f4090f0513bf4688ca, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2591,6 +2595,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02468bbceedd06d43ae5d8cec0658796, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  nodes: []
   currentLine: {fileID: 0}
 --- !u!4 &1569704496
 Transform:
@@ -2783,6 +2788,10 @@ PrefabInstance:
       propertyPath: m_text
       value: Texture to Heightmap
       objectReference: {fileID: 0}
+    - target: {fileID: 1672324464458345361, guid: 0bfd71da24f8a104eb660ff4f6c901b9, type: 3}
+      propertyPath: nodePrefab
+      value: 
+      objectReference: {fileID: 900370678719082898, guid: 8cde24052d44ed240a5fe88589c6efac, type: 3}
     - target: {fileID: 1751756854828247971, guid: 0bfd71da24f8a104eb660ff4f6c901b9, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -3.6087036

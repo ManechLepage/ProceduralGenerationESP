@@ -4,7 +4,19 @@ using System.Collections.Generic;
 public class GraphManager : MonoBehaviour
 {
     public static GraphManager Instance { get; private set;}
+    public List<NodeBehaviour> nodes = new List<NodeBehaviour>();
     public LineManager currentLine;
+
+    public List<ConnectorBehaviour> GetAllConnectors()
+    {
+        List<ConnectorBehaviour> connectors = new List<ConnectorBehaviour>();
+        foreach (NodeBehaviour node in nodes)
+        {
+            connectors.AddRange(node.inputConnections);
+            connectors.AddRange(node.outputConnections);
+        }
+        return connectors;
+    }
 
     void Awake()
     {

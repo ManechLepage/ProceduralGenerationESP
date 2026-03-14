@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class LineManager : MonoBehaviour
 {
     public bool isLinked;
+    public bool isRemoving;
     public ConnectorBehaviour input;
     public ConnectorBehaviour output;
     private UILineRenderer lineRenderer;
@@ -32,7 +33,7 @@ public class LineManager : MonoBehaviour
     
     void Update()
     {
-        if (isLinked)
+        if (isLinked && !isRemoving)
         {
             lineRenderer.points[1] = (output.transform.position - input.transform.position) / transform.lossyScale.x;
         }
@@ -41,7 +42,7 @@ public class LineManager : MonoBehaviour
             lineRenderer.points[1] = GetMousePositionInContainer();
         }
 
-        lineRenderer.thickness = thickness; // / transform.lossyScale.x;
+        lineRenderer.thickness = thickness;
 
         lineRenderer.SetVerticesDirty();
     }

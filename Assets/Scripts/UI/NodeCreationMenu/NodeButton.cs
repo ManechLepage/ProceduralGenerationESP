@@ -14,9 +14,16 @@ public class NodeButton : MonoBehaviour
 
     public void ClickedNode()
     {
+        if (nodePrefab == null)
+        {
+            Debug.Log($"Node prefab not assigned");
+            return;
+        }
+
         GameObject newNode = Instantiate(nodePrefab, Vector3.zero, Quaternion.identity);
         newNode.transform.SetParent(nodeManager.transform);
         newNode.transform.position = Input.mousePosition;
+        GraphManager.Instance.nodes.Add(newNode.GetComponent<NodeBehaviour>());
         nodeCreationMenu.CloseMenu();
     }
 }
