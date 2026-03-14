@@ -53,8 +53,12 @@ public class UIPanZoom : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
                 lastMousePosition = mouse.position.ReadValue();
             }
 
+            float scaleFactor = canvas.scaleFactor / zoom;
+            if (nodeContainer != this.GetComponent<RectTransform>())
+                scaleFactor = nodeContainer.lossyScale.x;
+
             Vector2 currentMousePos = mouse.position.ReadValue();
-            Vector2 delta = (currentMousePos - lastMousePosition) / canvas.scaleFactor;
+            Vector2 delta = (currentMousePos - lastMousePosition) * zoom / scaleFactor;
             lastMousePosition = currentMousePos;
 
             nodeContainer.anchoredPosition += delta * panSpeed;

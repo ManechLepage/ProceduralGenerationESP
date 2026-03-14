@@ -28,6 +28,9 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance;
 
+    [Header("Public Settings")]
+    public bool openedUI = false;
+
     [Header("Helpers")]
     public TextureHelpers textureHelpers;
     public AlgorithmHelpers algorithmHelpers;
