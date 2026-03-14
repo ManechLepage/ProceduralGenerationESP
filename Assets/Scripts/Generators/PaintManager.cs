@@ -41,6 +41,7 @@ public class PaintManager : MonoBehaviour
     public float physicalScale = 1f;
     public float zoom = 1f;
     public Material paintMaterial;
+    public bool enabledHeight = true;
 
     [Header("Brush Settings")]
     public int brushIndex = 0;
@@ -61,7 +62,7 @@ public class PaintManager : MonoBehaviour
 
     [Header("Overlay Settings")]
     public bool enabledHeightCurves = true;
-    public int heightCurvesSpacing = 5;
+    public int heightCurvesSpacing = 20;
 
     [Header("Others")]
     public Transform paintParent;
@@ -242,6 +243,21 @@ public class PaintManager : MonoBehaviour
                 UpdateHeightCurves();
         }
 
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            enabledHeight = !enabledHeight;
+            if (enabledHeight)
+            {
+                ShowHeight();
+                UpdateHeightCurves();
+            }
+            else
+            {
+                HideHeight();
+                UpdateHeightCurves();
+            }
+        }
+
         UpdatePaintGO();
         UpdateOverlayGO();
         UpdateBrushGO();
@@ -355,6 +371,16 @@ public class PaintManager : MonoBehaviour
         brushGO.SetActive(true);
     }
 
+    void HideHeight()
+    {
+        paintGO.GetComponent<RawImage>().color = Color.black;
+    }
+
+    void ShowHeight()
+    {
+        paintGO.GetComponent<RawImage>().color = Color.white;
+    }
+
     public void ClearOverlay()
     {
         for (int x = 0; x < paintSize.x; x++)
@@ -409,11 +435,17 @@ public class PaintManager : MonoBehaviour
 
                 if (!sameAsNeighbor)
                 {
-                    overlayTexture.SetPixel(x, y, new Color(0f, 0f, 0f, 1f));
+                    if (enabledHeight)
+                        overlayTexture.SetPixel(x, y, new Color(0f, 0f, 0f, 1f));
+                    else
+                        overlayTexture.SetPixel(x, y, new Color(1f, 1f, 1f, 1f));
                 }
                 else
                 {
-                    overlayTexture.SetPixel(x, y, new Color(0f, 0f, 0f, 0f));
+                    if (enabledHeight)
+                        overlayTexture.SetPixel(x, y, new Color(0f, 0f, 0f, 0f));
+                    else
+                        overlayTexture.SetPixel(x, y, new Color(1f, 1f, 1f, level * heightCurvesSpacing / 255f / 3f));
                 }
             }
         }
