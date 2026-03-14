@@ -92,6 +92,8 @@ public class PaintManager : MonoBehaviour
             BrushSettings defaultBrush = new BrushSettings();
             brushes.Add(defaultBrush);
         }
+
+        MakeAllBrushesPng();
         
         foreach (var tool in tools)
         {
@@ -154,7 +156,16 @@ public class PaintManager : MonoBehaviour
             brushes[brushIndex].Apply(paintTexture, paintPosition, GetToolParameters(toolType), remove: remove);
             paintTexture.Apply();
             if (enabledHeightCurves)
-                UpdateHeightCurves();
+            {
+                Vector2Int updateZone = new Vector2Int(
+                    Mathf.CeilToInt(GetToolParameters(toolType).size),
+                    Mathf.CeilToInt(GetToolParameters(toolType).size)
+                );
+
+                Vector2Int updateOffset = paintPosition - new Vector2Int(updateZone.x / 2, updateZone.y / 2);
+
+                UpdateHeightCurves(updateOffset, updateZone);
+            }
         }
 
         float scroll = Input.GetAxis("Mouse ScrollWheel");
@@ -222,15 +233,48 @@ public class PaintManager : MonoBehaviour
             paintGO.transform.position = Input.mousePosition - new Vector3(holdOffset.x, holdOffset.y, 0f);
         }
 
-        if (enabledHeightCurves && Input.GetKeyDown(KeyCode.M))
+        if (Input.GetKeyDown(KeyCode.M))
         {
-            UpdateHeightCurves();
-            overlayGO.SetActive(!overlayGO.activeSelf);
+            enabledHeightCurves = !enabledHeightCurves;
+            if (!enabledHeightCurves)
+                ClearOverlay();
+            else
+                UpdateHeightCurves();
         }
 
         UpdatePaintGO();
         UpdateOverlayGO();
         UpdateBrushGO();
+    }
+
+    void MakeAllBrushesPng()
+    {
+        foreach (BrushSettings brush in brushes)
+        {
+            if (brush.texture != null)
+            {
+                // rewrite all pixels and set alpha to the .r channel
+
+                Texture2D newTexture = new Texture2D(brush.texture.width, brush.texture.height, TextureFormat.RGBA32, false);
+                newTexture.filterMode = FilterMode.Point;
+                newTexture.wrapMode = TextureWrapMode.Clamp;
+
+                for (int x = 0; x < brush.texture.width; x++)
+                {
+                    for (int y = 0; y < brush.texture.height; y++)
+                    {
+                        float value = brush.texture.GetPixel(x, y).r;
+                        newTexture.SetPixel(x, y, new Color(value, value, value, value));
+                    }
+                }
+
+                newTexture.Apply();
+                brush.texture = newTexture;
+
+                // Save as PNG
+                //textureHelpers.SaveTexture(newTexture, $"Assets/Painting/Brushes/{brush.brushName + "_temp"}.png", makeReadable: true);
+            }
+        }
     }
 
     void SaveBackup()
@@ -334,36 +378,55 @@ public class PaintManager : MonoBehaviour
         overlayGO.transform.position = paintGO.transform.position;
     }
 
-    public void UpdateHeightCurves()
+    public void UpdateHeightCurves(Vector2Int offset = default, Vector2Int zone = default)
     {
         /*
         Mettre des pixels noirs en opacité aux endroits où il y a des courbes de hauteur, pour aider à visualiser les changements de hauteur sur la texture.
         */
+
+        offset = offset == default ? Vector2Int.zero : offset;
+        zone = zone == default ? paintSize : zone;
+
+        int minX = Mathf.Clamp(offset.x, 0, paintSize.x - 1);
+        int minY = Mathf.Clamp(offset.y, 0, paintSize.y - 1);
+        int maxX = Mathf.Clamp(offset.x + zone.x, minX, paintSize.x);
+        int maxY = Mathf.Clamp(offset.y + zone.y, minY, paintSize.y);
         
-        ClearOverlay();
-        for (int x = 0; x < paintSize.x; x++)
+        for (int x = minX; x < maxX; x++)
         {
-            for (int y = 0; y < paintSize.y; y++)
+            for (int y = minY; y < maxY; y++)
             {
                 float heightValue = paintTexture.GetPixel(x, y).r;
-                int height255 = (int)(heightValue * 255f);
+                int level = (int)(heightValue * 255f / heightCurvesSpacing);
 
                 // Look neighbors
-                int height255N0 = (int)(paintTexture.GetPixel(x - 1, y).r * 255f);
-                int height255N1 = (int)(paintTexture.GetPixel(x + 1, y).r * 255f);
-                int height255N2 = (int)(paintTexture.GetPixel(x, y - 1).r * 255f);
-                int height255N3 = (int)(paintTexture.GetPixel(x, y + 1).r * 255f);
+                int levelN0 = (int)(PaintSample(x - 1, y) * 255f / heightCurvesSpacing);
+                int levelN1 = (int)(PaintSample(x + 1, y) * 255f / heightCurvesSpacing);
+                int levelN2 = (int)(PaintSample(x, y - 1) * 255f / heightCurvesSpacing);
+                int levelN3 = (int)(PaintSample(x, y + 1) * 255f / heightCurvesSpacing);
 
-                bool sameAsNeighbor = height255 == height255N0 && height255 == height255N1 && height255 == height255N2 && height255 == height255N3;
+                bool sameAsNeighbor = level == levelN0 && level == levelN1 && level == levelN2 && level == levelN3;
 
-                if (!sameAsNeighbor && height255 % heightCurvesSpacing == 0)
+                if (!sameAsNeighbor)
                 {
-                    overlayTexture.SetPixel(x, y, new Color(0f, 0f, 0f, 0.5f));
+                    overlayTexture.SetPixel(x, y, new Color(0f, 0f, 0f, 1f));
+                }
+                else
+                {
+                    overlayTexture.SetPixel(x, y, new Color(0f, 0f, 0f, 0f));
                 }
             }
         }
 
         overlayTexture.Apply();
+    }
+
+    public float PaintSample(int x, int y)
+    {
+        return paintTexture.GetPixel(
+            Mathf.Clamp(x, 0, paintSize.x - 1),
+            Mathf.Clamp(y, 0, paintSize.y - 1)
+        ).r;
     }
 
     public void InitializePainting()
@@ -414,6 +477,9 @@ public class PaintManager : MonoBehaviour
         float maxSize = Mathf.Max(paintSize.x, paintSize.y);
         paintGO.transform.localScale = new Vector3(physicalScale * paintSize.x / maxSize, physicalScale * paintSize.y / maxSize, 1f);
         overlayGO.transform.localScale = new Vector3(physicalScale * paintSize.x / maxSize, physicalScale * paintSize.y / maxSize, 1f);
+
+        if (enabledHeightCurves)
+            UpdateHeightCurves();
     }
 
     public void SavePaintTexture(string name="Paint")

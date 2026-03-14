@@ -205,8 +205,8 @@ MonoBehaviour:
       icon: {fileID: 0}
   brushGO: {fileID: 1810804601}
   backupLimit: 10
-  enabledHeightCurves: 0
-  heightCurvesSpacing: 5
+  enabledHeightCurves: 1
+  heightCurvesSpacing: 20
   paintParent: {fileID: 1066589269}
   canvas: {fileID: 1066589268}
   textureHelpers: {fileID: 337160966}
