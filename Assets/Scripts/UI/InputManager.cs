@@ -3,6 +3,7 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
     public GameObject nodeCreationMenu;
+    public GameObject canvas;
 
     void Update()
     {
@@ -17,6 +18,10 @@ public class InputManager : MonoBehaviour
             Vector3 mousePos = Input.mousePosition;
             nodeCreationMenu.transform.position = mousePos;
             nodeCreationMenu.SetActive(true);
+        }
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            canvas.SetActive(!canvas.activeSelf);
         }
     }
 }

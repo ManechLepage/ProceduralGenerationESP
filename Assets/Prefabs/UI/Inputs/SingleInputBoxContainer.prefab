@@ -88,7 +88,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 48.665833, y: -10}
+  m_AnchoredPosition: {x: 47.25585, y: -10}
   m_SizeDelta: {x: 39.3117, y: 17.967}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3654567034151384253
@@ -119,8 +119,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c022b5855a5dbaf4c8a35f0813d02965, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 63144e6d82387a744ab7db2d940f1c3f, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -311,15 +311,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: "0.00\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ca3f247d213f3d04cbeb3b9116705a75, type: 2}
-  m_sharedMaterial: {fileID: -6788415880744519590, guid: ca3f247d213f3d04cbeb3b9116705a75, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
+  m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -336,8 +336,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 12
+  m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -479,11 +479,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7568734819834686234, guid: 6cfac09dc4f7a1b4192caaa70c1669a2, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 24.01
+      value: 22.6
       objectReference: {fileID: 0}
     - target: {fileID: 7568734819834686234, guid: 6cfac09dc4f7a1b4192caaa70c1669a2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 12.005
+      value: 11.3
       objectReference: {fileID: 0}
     - target: {fileID: 7568734819834686234, guid: 6cfac09dc4f7a1b4192caaa70c1669a2, type: 3}
       propertyPath: m_AnchoredPosition.y
