@@ -23,7 +23,11 @@ public class NodeButton : MonoBehaviour
         GameObject newNode = Instantiate(nodePrefab, Vector3.zero, Quaternion.identity);
         newNode.transform.SetParent(nodeManager.transform);
         newNode.transform.position = Input.mousePosition;
+        newNode.transform.localScale *= GraphManager.Instance.currentZoom * 1.4f;
+
         GraphManager.Instance.nodes.Add(newNode.GetComponent<NodeBehaviour>());
+        
+        // The close menu is overwritten by the InputManager's click detection
         nodeCreationMenu.CloseMenu();
     }
 }

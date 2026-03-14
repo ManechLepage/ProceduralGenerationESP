@@ -6,6 +6,7 @@ public class GraphManager : MonoBehaviour
     public static GraphManager Instance { get; private set;}
     public List<NodeBehaviour> nodes = new List<NodeBehaviour>();
     public LineManager currentLine;
+    public float currentZoom = 1f;
 
     public List<ConnectorBehaviour> GetAllConnectors()
     {

@@ -14,6 +14,17 @@ public class InputManager : MonoBehaviour
 
     void Update()
     {
+        bool mouseInCreationMenu = RectTransformUtility.RectangleContainsScreenPoint(
+            nodeCreationMenu.GetComponent<RectTransform>(),
+            Input.mousePosition,
+            null
+        );
+
+        if (nodeCreationMenu.activeSelf && Input.GetMouseButtonUp(0) && !mouseInCreationMenu)
+        {
+            nodeCreationMenu.SetActive(false);
+        }
+
         if (Input.GetMouseButtonDown(1))
         {
             if (nodeCreationMenu.activeSelf)
