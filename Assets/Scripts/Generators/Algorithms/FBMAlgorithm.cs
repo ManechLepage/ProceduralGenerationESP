@@ -30,7 +30,8 @@ public class FBMAlgorithm : MonoBehaviour
 
         baseSettings = new FBMSettings();
 
-        AlgorithmRegistry.Instance.Register("FBM");
+        if (AlgorithmRegistry.Instance != null)
+            AlgorithmRegistry.Instance.Register("FBM");
     }
 
     /* Première partie: génération pixel par pixel */

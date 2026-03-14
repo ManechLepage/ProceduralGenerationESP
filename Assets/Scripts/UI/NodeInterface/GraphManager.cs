@@ -46,6 +46,8 @@ public abstract class NodeBehaviour : MonoBehaviour
             outputConnection.node = this;
     }
 
+    public virtual Variant Fire() { return new Variant(); }
+
     public ConnectorBehaviour GetInputConnection(string name)
     {
         return inputConnections.Find(c => c.connectionName == name);
@@ -56,7 +58,43 @@ public abstract class NodeBehaviour : MonoBehaviour
         return outputConnections.Find(c => c.connectionName == name);
     }
 
-    public Variant Fire() { return new Variant(); }
+    public Variant GetInputValue(string name)
+    {
+        ConnectorBehaviour connector = GetInputConnection(name);
+        if (connector != null)
+        {
+            if (connector.isConnected())
+                return connector.connectedTo.node.Fire();
+            else
+            {
+                if (connector.multiInput != null)
+                    return connector.multiInput.GetVariant();
+                else
+                    Debug.LogWarning($"Input connection '{name}' on node '{gameObject.name}' is not connected and has no default value");
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"Input connection '{name}' not found or not connected on node '{gameObject.name}'");
+        }
+        return new Variant();
+    }
+
+    public void SetInputValue(string name, Variant value)
+    {
+        ConnectorBehaviour connector = GetInputConnection(name);
+        if (connector != null)
+        {
+            if (connector.multiInput != null)
+                connector.multiInput.SetVariant(value);
+            else
+                Debug.LogWarning($"Input connection '{name}' on node '{gameObject.name}' has no MultiInputBehaviour to set value");
+        }
+        else
+        {
+            Debug.LogWarning($"Input connection '{name}' not found on node '{gameObject.name}'");
+        }
+    }
 }
 
 [System.Serializable]
@@ -72,6 +110,21 @@ public class Variant
     public Vector3 asVector3;
     public List<List<float>> asHeightMap;
     public Texture2D asTexture;
+
+    public Variant()
+    {
+        dataType = DataType.Float;
+        asFloat = 0f;
+    }
+
+    public Variant(int value) { dataType = DataType.Int; asInt = value; }
+    public Variant(float value) { dataType = DataType.Float; asFloat = value; }
+    public Variant(string value) { dataType = DataType.String; asString = value; }
+    public Variant(bool value) { dataType = DataType.Bool; asBool = value; }
+    public Variant(Vector2 value) { dataType = DataType.Vector2; asVector2 = value; }
+    public Variant(Vector3 value) { dataType = DataType.Vector3; asVector3 = value; }
+    public Variant(List<List<float>> value) { dataType = DataType.HeightMap; asHeightMap = value; }
+    public Variant(Texture2D value) { dataType = DataType.Texture; asTexture = value; }
 
     public T GetValue<T>()
     {
@@ -100,5 +153,53 @@ public class Variant
             return (T)(object)asTexture;
         
         throw new System.InvalidCastException($"Variant {dataType} cannot convert to {typeof(T)}");
+    }
+
+    public void SetValue<T>(T value)
+    {
+        if (typeof(T) == typeof(int))
+        {
+            dataType = DataType.Int;
+            asInt = (int)(object)value;
+        }
+        else if (typeof(T) == typeof(float))
+        {
+            dataType = DataType.Float;
+            asFloat = (float)(object)value;
+        }
+        else if (typeof(T) == typeof(string))
+        {
+            dataType = DataType.String;
+            asString = (string)(object)value;
+        }
+        else if (typeof(T) == typeof(bool))
+        {
+            dataType = DataType.Bool;
+            asBool = (bool)(object)value;
+        }
+        else if (typeof(T) == typeof(Vector2))
+        {
+            dataType = DataType.Vector2;
+            asVector2 = (Vector2)(object)value;
+        }
+        else if (typeof(T) == typeof(Vector3))
+        {
+            dataType = DataType.Vector3;
+            asVector3 = (Vector3)(object)value;
+        }
+        else if (typeof(T) == typeof(List<List<float>>))
+        {
+            dataType = DataType.HeightMap;
+            asHeightMap = (List<List<float>>)(object)value;
+        }
+        else if (typeof(T) == typeof(Texture2D))
+        {
+            dataType = DataType.Texture;
+            asTexture = (Texture2D)(object)value;
+        }
+        else
+        {
+            throw new System.InvalidCastException($"Unsupported type {typeof(T)} for Variant");
+        }
     }
 }

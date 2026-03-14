@@ -34,14 +34,14 @@ public class ConnectorBehaviour : MonoBehaviour
     private GameObject currentLine;
     private bool dragToRemove = false;
 
+    void Awake()
+    {
+        multiInput = GetComponent<MultiInputBehaviour>();
+    }
+
     public bool isConnected()
     {
         return connectedTo != null;
-    }
-
-    public MultiInputBehaviour GetInputBehaviour()
-    {
-        return GetComponent<MultiInputBehaviour>();
     }
     
     public void ClickedConnection()
@@ -76,7 +76,9 @@ public class ConnectorBehaviour : MonoBehaviour
 
                 if (!didConnect)
                     ReleaseConnection();
-                
+                else if (multiInput != null)
+                    multiInput.DisableInputs();
+
                 EnableAllConnections();
             }
         }
@@ -90,6 +92,9 @@ public class ConnectorBehaviour : MonoBehaviour
 
                 if (!TryConnect(Input.mousePosition, fromInput: true) && !MouseInConnector(Input.mousePosition, this))
                 {
+                    if (multiInput != null)
+                        multiInput.EnableInputs();
+
                     ReleaseConnection();
                     connectedTo.connectedTo = null;
                     connectedTo = null;
@@ -121,12 +126,20 @@ public class ConnectorBehaviour : MonoBehaviour
 
                 if (!fromInput)
                 {
+                    if (connector.multiInput != null)
+                        connector.multiInput.DisableInputs();
+
                     connectedTo = connector;
                     connector.connectedTo = this;
                     connector.currentLine = currentLine;
                 }
                 else
                 {
+                    if (connector.multiInput != null)
+                        connector.multiInput.DisableInputs();
+                    if (multiInput != null)
+                        multiInput.EnableInputs();
+
                     connectedTo.connectedTo = connector;
                     connector.connectedTo = connectedTo;
                     connector.currentLine = currentLine;
@@ -153,7 +166,7 @@ public class ConnectorBehaviour : MonoBehaviour
     {
         foreach (ConnectorBehaviour connector in GraphManager.Instance.GetAllConnectors())
         {
-            if ((!fromInput && connector == this) || (fromInput && connectedTo == connector))
+            if ((!fromInput && connector == this) || (fromInput && (connectedTo == connector || connector == this)))
                 continue;
             
             if (!fromInput && (connector.node == this.node || connector.type == this.type || connector.dataType != this.dataType))

@@ -1153,7 +1153,8 @@ PrefabInstance:
       propertyPath: m_text
       value: Perlin Noise
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4380383957051010011, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6378138601567887067, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
@@ -1177,13 +1178,53 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8898598623937829415, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7645698296077882265}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4905050211979275109, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 995166189628863405}
+    - targetCorrespondingSourceObject: {fileID: 4905050211979275109, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+      insertIndex: 4
+      addedObject: {fileID: 2411374686801046471}
   m_SourcePrefab: {fileID: 100100000, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
 --- !u!1 &900370678719082898 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4905050211979275109, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
   m_PrefabInstance: {fileID: 5218826936079407863}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &995166189628863405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900370678719082898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc34ed87b2c726848a61448496e31246, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FBMNode
+  inputConnections:
+  - {fileID: 416360433294130853}
+  - {fileID: 2625597523721167991}
+  - {fileID: 6800853118982964580}
+  - {fileID: 7649217893025652272}
+  - {fileID: 3841081127634427750}
+  - {fileID: 112138866801945277}
+  outputConnections:
+  - {fileID: 8125718268683369756}
+  fbmAlgorithm: {fileID: 2411374686801046471}
+--- !u!114 &2411374686801046471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900370678719082898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df1f3c5e009decf4eb453533c2e251b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FBMAlgorithm
 --- !u!224 &1220277798718522412 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6378138601567887067, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
@@ -1194,17 +1235,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8898598623937829415, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
   m_PrefabInstance: {fileID: 5218826936079407863}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8405616253273157932 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4380383957051010011, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
-  m_PrefabInstance: {fileID: 5218826936079407863}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 900370678719082898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11b38e660d0617b428a5d7490c7507dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NodeBehaviour
 --- !u!1001 &6145169055765436684
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1693,10 +1723,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8153760235976441211, guid: 7d87f1479cc641b4aa55740a2cdbf57c, type: 3}
-      propertyPath: node
-      value: 
-      objectReference: {fileID: 8405616253273157932}
     - target: {fileID: 8153760235976441211, guid: 7d87f1479cc641b4aa55740a2cdbf57c, type: 3}
       propertyPath: dataType
       value: 1

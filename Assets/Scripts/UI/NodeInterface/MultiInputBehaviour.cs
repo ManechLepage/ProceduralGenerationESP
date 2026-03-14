@@ -10,6 +10,34 @@ public class MultiInputBehaviour : MonoBehaviour
     public List<TMP_InputField> inputFields = new List<TMP_InputField>();
     public Toggle boolToggle;
 
+    public void DisableInputs()
+    {
+        foreach (TMP_InputField inputField in inputFields)
+        {
+            inputField.textComponent.color = Color.gray;
+            inputField.interactable = false;
+        }
+        if (boolToggle != null)
+        {
+            boolToggle.GetComponent<Image>().color = Color.gray;
+            boolToggle.interactable = false;
+        }
+    }
+
+    public void EnableInputs()
+    {
+        foreach (TMP_InputField inputField in inputFields)
+        {
+            inputField.textComponent.color = Color.white;
+            inputField.interactable = true;
+        }
+        if (boolToggle != null)
+        {
+            boolToggle.GetComponent<Image>().color = Color.white;
+            boolToggle.interactable = true;
+        }
+    }
+
     public Variant GetVariant()
     {
         Variant value = new Variant();
@@ -38,6 +66,34 @@ public class MultiInputBehaviour : MonoBehaviour
         }
 
         return value;
+    }
+
+    public void SetVariant(Variant value)
+    {
+        switch (value.dataType)
+        {
+            case DataType.Int:
+                inputFields[0].text = value.asInt.ToString();
+                break;
+            case DataType.Float:
+                inputFields[0].text = value.asFloat.ToString(CultureInfo.InvariantCulture);
+                break;
+            case DataType.String:
+                inputFields[0].text = value.asString;
+                break;
+            case DataType.Bool:
+                boolToggle.isOn = value.asBool;
+                break;
+            case DataType.Vector2:
+                inputFields[0].text = value.asVector2.x.ToString(CultureInfo.InvariantCulture);
+                inputFields[1].text = value.asVector2.y.ToString(CultureInfo.InvariantCulture);
+                break;
+            case DataType.Vector3:
+                inputFields[0].text = value.asVector3.x.ToString(CultureInfo.InvariantCulture);
+                inputFields[1].text = value.asVector3.y.ToString(CultureInfo.InvariantCulture);
+                inputFields[2].text = value.asVector3.z.ToString(CultureInfo.InvariantCulture);
+                break;
+        }
     }
 
     int ParseInt(TMP_InputField inputField)
