@@ -108,6 +108,7 @@ public class Variant
     public bool asBool;
     public Vector2 asVector2;
     public Vector3 asVector3;
+    public Color asColor;
     public List<List<float>> asHeightMap;
     public Texture2D asTexture;
 
@@ -123,17 +124,24 @@ public class Variant
     public Variant(bool value) { dataType = DataType.Bool; asBool = value; }
     public Variant(Vector2 value) { dataType = DataType.Vector2; asVector2 = value; }
     public Variant(Vector3 value) { dataType = DataType.Vector3; asVector3 = value; }
+    public Variant(Color value) { dataType = DataType.Color; asColor = value; }
     public Variant(List<List<float>> value) { dataType = DataType.HeightMap; asHeightMap = value; }
     public Variant(Texture2D value) { dataType = DataType.Texture; asTexture = value; }
 
     public T GetValue<T>()
     {
-        if (typeof(T) == typeof(int) && dataType == DataType.Int)
-            return (T)(object)asInt;
+        if (dataType == DataType.Int)
+        {
+            if (typeof(T) == typeof(int)) return (T)(object)asInt;
+            if (typeof(T) == typeof(float)) return (T)(object)(float)asInt;
+        }
 
-        if (typeof(T) == typeof(float) && dataType == DataType.Float)
-            return (T)(object)asFloat;
-
+        if (dataType == DataType.Float)
+        {
+            if (typeof(T) == typeof(float)) return (T)(object)asFloat;
+            if (typeof(T) == typeof(int)) return (T)(object)(int)asFloat;
+        }
+        
         if (typeof(T) == typeof(string) && dataType == DataType.String)
             return (T)(object)asString;
         
@@ -145,6 +153,9 @@ public class Variant
         
         if (typeof(T) == typeof(Vector3) && dataType == DataType.Vector3)
             return (T)(object)asVector3;
+        
+        if (typeof(T) == typeof(Color) && dataType == DataType.Color)
+            return (T)(object)asColor;
         
         if (typeof(T) == typeof(List<List<float>>) && dataType == DataType.HeightMap)
             return (T)(object)asHeightMap;
@@ -186,6 +197,11 @@ public class Variant
         {
             dataType = DataType.Vector3;
             asVector3 = (Vector3)(object)value;
+        }
+        else if (typeof(T) == typeof(Color))
+        {
+            dataType = DataType.Color;
+            asColor = (Color)(object)value;
         }
         else if (typeof(T) == typeof(List<List<float>>))
         {

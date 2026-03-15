@@ -23,6 +23,13 @@ public class UIDraggable : MonoBehaviour
         bool leftMouseButton = Input.GetMouseButton(0);
         Vector2 mousePosition = Input.mousePosition;
 
+        if (isDragging && Input.GetKeyDown(KeyCode.Backspace))
+        {
+            isDragging = false;
+            GraphManager.Instance.nodes.Remove(GetComponent<NodeBehaviour>());
+            Destroy(gameObject);
+        }
+
         if (!isDragging)
         {
             float totalBorder = leftSideBorder + rightSideBorder;

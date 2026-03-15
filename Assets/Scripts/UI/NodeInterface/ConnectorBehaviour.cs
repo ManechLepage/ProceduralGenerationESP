@@ -13,6 +13,7 @@ public enum DataType
     String,
     Vector2,
     Vector3,
+    Color,
     HeightMap,
     Texture,
     Bool
@@ -105,14 +106,25 @@ public class ConnectorBehaviour : MonoBehaviour
         }
     }
 
+    bool CompatibleTypes(DataType a, DataType b)
+    {
+        if (a == b)
+            return true;
+
+        if ((a == DataType.Int && b == DataType.Float) || (a == DataType.Float && b == DataType.Int))
+            return true;
+
+        return false;
+    }
+
     bool TryConnect(Vector2 mousePosition, bool fromInput = false)
     {
         foreach (ConnectorBehaviour connector in GraphManager.Instance.GetAllConnectors())
         {
-            if (!fromInput && (connector == this || connector.node == this.node || connector.type == this.type || connector.dataType != this.dataType))
+            if (!fromInput && (connector == this || connector.node == this.node || connector.type == this.type || !CompatibleTypes(connector.dataType, this.dataType)))
                 continue;
             
-            if (fromInput && (connector == this || connectedTo.node == connector.node || connector.type != this.type || connector.dataType != this.dataType))
+            if (fromInput && (connector == this || connectedTo.node == connector.node || connector.type != this.type || !CompatibleTypes(connector.dataType, this.dataType)))
                 continue;
             
             if (connector.currentLine != null)
@@ -169,9 +181,9 @@ public class ConnectorBehaviour : MonoBehaviour
             if ((!fromInput && connector == this) || (fromInput && (connectedTo == connector || connector == this)))
                 continue;
             
-            if (!fromInput && (connector.node == this.node || connector.type == this.type || connector.dataType != this.dataType))
+            if (!fromInput && (connector.node == this.node || connector.type == this.type || !CompatibleTypes(connector.dataType, this.dataType)))
                 connector.Disable();
-            if (fromInput && (connector.type != this.type || connector.dataType != this.dataType || (connectedTo != null && connectedTo.node == connector.node)))
+            if (fromInput && (connector.type != this.type || !CompatibleTypes(connector.dataType, this.dataType) || (connectedTo != null && connectedTo.node == connector.node)))
                 connector.Disable();
             if (connector.currentLine != null)
                 connector.Disable();
