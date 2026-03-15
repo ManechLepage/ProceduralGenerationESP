@@ -4,10 +4,32 @@ using System.Collections.Generic;
 public class GraphManager : MonoBehaviour
 {
     public static GraphManager Instance { get; private set;}
+    public NodeBehaviour masterNode;
     public List<NodeBehaviour> nodes = new List<NodeBehaviour>();
     public GameObject nodeParent;
-    public LineManager currentLine;
+    [HideInInspector] public LineManager currentLine;
     public float currentZoom = 1f;
+
+    public Vector2Int GetTerrainSize()
+    {
+        if (masterNode != null)
+        {
+            Vector2 size = masterNode.GetInputValue("size").GetValue<Vector2>();
+            return new Vector2Int((int)size.x, (int)size.y);
+        }
+        return new Vector2Int(256, 256);
+    }
+
+    void Update()
+    {
+        if (false && Input.GetKeyDown(KeyCode.Return))
+        {
+            if (masterNode != null)
+            {
+                masterNode.Fire();
+            }
+        }
+    }
 
     public List<ConnectorBehaviour> GetAllConnectors()
     {
@@ -34,6 +56,11 @@ public class GraphManager : MonoBehaviour
 
     void Start()
     {
+        if (!masterNode)
+        {
+            Debug.Log("Master node not assigned in GraphManager!");
+        }
+
         foreach (Transform node in nodeParent.GetComponentInChildren<Transform>())
         {
             NodeBehaviour nodeBehaviour = node.GetComponent<NodeBehaviour>();
@@ -74,19 +101,19 @@ public abstract class NodeBehaviour : MonoBehaviour
         ConnectorBehaviour connector = GetInputConnection(name);
         if (connector != null)
         {
-            if (connector.isConnected())
+            if (connector.IsConnected())
                 return connector.connectedTo.node.Fire();
             else
             {
                 if (connector.multiInput != null)
                     return connector.multiInput.GetVariant();
                 else
-                    Debug.LogWarning($"Input connection '{name}' on node '{gameObject.name}' is not connected and has no default value");
+                    Debug.Log($"Input connection '{name}' on node '{gameObject.name}' is not connected and has no default value");
             }
         }
         else
         {
-            Debug.LogWarning($"Input connection '{name}' not found or not connected on node '{gameObject.name}'");
+            Debug.Log($"Input connection '{name}' not found or not connected on node '{gameObject.name}'");
         }
         return new Variant();
     }

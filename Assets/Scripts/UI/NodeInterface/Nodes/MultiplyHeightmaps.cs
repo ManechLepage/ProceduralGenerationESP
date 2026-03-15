@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class AddHeightmapsNode : NodeBehaviour
+public class MultiplyHeightmaps : NodeBehaviour
 {
     public override Variant Fire()
     {
@@ -16,7 +16,7 @@ public class AddHeightmapsNode : NodeBehaviour
                 List<float> row = new List<float>();
                 for (int j = 0; j < x[i].Count; j++)
                 {
-                    row.Add(x[i][j] + y[i][j]);
+                    row.Add(x[i][j] * y[i][j]);
                 }
                 result.Add(row);
             }

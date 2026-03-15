@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 57.69
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -158,6 +158,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2567200575023735697, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 148.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567200575023735697, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.9
       objectReference: {fileID: 0}
@@ -167,7 +171,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4905050211979275109, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       propertyPath: m_Name
-      value: AddHeightmapsNode
+      value: MultiplyHeightmaps
       objectReference: {fileID: 0}
     - target: {fileID: 5328159020159831763, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       propertyPath: m_Pivot.x
@@ -195,7 +199,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5328159020159831763, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 140.7569
+      value: 156.9541
       objectReference: {fileID: 0}
     - target: {fileID: 5328159020159831763, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       propertyPath: m_SizeDelta.y
@@ -231,7 +235,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5328159020159831763, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 3.5993023
+      value: 11.697905
       objectReference: {fileID: 0}
     - target: {fileID: 5328159020159831763, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -267,7 +271,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8898598623937829415, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       propertyPath: m_SizeDelta.x
-      value: -134.3748
+      value: -150.4237
       objectReference: {fileID: 0}
     - target: {fileID: 8898598623937829415, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       propertyPath: m_SizeDelta.y
@@ -275,7 +279,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8898598623937829415, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 69.077385
+      value: 77.10082
       objectReference: {fileID: 0}
     - target: {fileID: 8898598623937829415, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -283,7 +287,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9091759788163676399, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       propertyPath: m_text
-      value: Add Heightmaps
+      value: Multiply Heightmaps
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4380383957051010011, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
@@ -301,14 +305,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4905050211979275109, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       insertIndex: 3
-      addedObject: {fileID: 6195316131063944861}
+      addedObject: {fileID: 3193304290444778886}
   m_SourcePrefab: {fileID: 100100000, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
 --- !u!1 &900370678719082898 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4905050211979275109, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
   m_PrefabInstance: {fileID: 5218826936079407863}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6195316131063944861
+--- !u!114 &3193304290444778886
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -317,9 +321,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 900370678719082898}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb64af9c0d8472e47a14b018840fcf75, type: 3}
+  m_Script: {fileID: 11500000, guid: d96805dc33ed35e4d882e6d03c206eee, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AddHeightmaps
+  m_EditorClassIdentifier: Assembly-CSharp::MultiplyHeightmaps
   inputConnections:
   - {fileID: 7274571100320183971}
   - {fileID: 3156614106439344078}
@@ -484,7 +488,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 57.69
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_AnchoredPosition.x

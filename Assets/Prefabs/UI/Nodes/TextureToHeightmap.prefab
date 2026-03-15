@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 34.18
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -122,7 +122,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8941473247130711914, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: dataType
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8941473247130711914, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: connectionName
@@ -303,6 +303,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4905050211979275109, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       insertIndex: 3
       addedObject: {fileID: 1728774290561145832}
+    - targetCorrespondingSourceObject: {fileID: 4905050211979275109, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3141217152184983617}
   m_SourcePrefab: {fileID: 100100000, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
 --- !u!1 &900370678719082898 stripped
 GameObject:
@@ -325,6 +328,18 @@ MonoBehaviour:
   - {fileID: 7274571100320183971}
   outputConnections:
   - {fileID: 8125718268683369756}
+--- !u!114 &3141217152184983617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900370678719082898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c679e0c608b18124a9c4293f25d2d375, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TextureHelpers
 --- !u!224 &1220277798718522412 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6378138601567887067, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
@@ -349,7 +364,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2811309212478221753, guid: 55b0c37affed7964aba76119e7ae8b5c, type: 3}
       propertyPath: dataType
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2811309212478221753, guid: 55b0c37affed7964aba76119e7ae8b5c, type: 3}
       propertyPath: connectionName

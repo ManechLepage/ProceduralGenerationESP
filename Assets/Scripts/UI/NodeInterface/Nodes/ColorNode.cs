@@ -16,12 +16,4 @@ public class ColorNode : NodeBehaviour
 
         return new Variant(new Color(r / 255f, g / 255f, b / 255f));
     }
-
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Fire();
-        }
-    }
 }

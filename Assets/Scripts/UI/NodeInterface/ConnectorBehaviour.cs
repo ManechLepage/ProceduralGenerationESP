@@ -40,14 +40,14 @@ public class ConnectorBehaviour : MonoBehaviour
         multiInput = GetComponent<MultiInputBehaviour>();
     }
 
-    public bool isConnected()
+    public bool IsConnected()
     {
         return connectedTo != null;
     }
     
     public void ClickedConnection()
     {
-        if (type == Type.Output && GraphManager.Instance.currentLine == null && !isConnected())
+        if (type == Type.Output && GraphManager.Instance.currentLine == null && !IsConnected())
         {
             currentLine = Instantiate(linePrefab, transform.position, Quaternion.identity);
             currentLine.GetComponent<LineManager>().isLinked = false;
@@ -58,7 +58,7 @@ public class ConnectorBehaviour : MonoBehaviour
 
             DisableAllConnections();
         }
-        else if (type == Type.Input && isConnected())
+        else if (type == Type.Input && IsConnected())
         {
             dragToRemove = true;
             currentLine.GetComponent<LineManager>().isRemoving = true;
@@ -69,7 +69,7 @@ public class ConnectorBehaviour : MonoBehaviour
 
     void Update()
     {
-        if (currentLine != null && !isConnected())
+        if (currentLine != null && !IsConnected())
         {
             if (Input.GetMouseButtonUp(0))
             {

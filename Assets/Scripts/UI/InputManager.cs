@@ -14,6 +14,21 @@ public class InputManager : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            canvas.SetActive(!canvas.activeSelf);
+
+            if (GameManager.Instance != null)
+                GameManager.Instance.openedUI = canvas.activeSelf;
+            
+            if (!canvas.activeSelf)
+            {
+                nodeCreationMenu.SetActive(false);
+            }
+        }
+
+        if (!GameManager.Instance.openedUI) return;
+
         bool mouseInCreationMenu = RectTransformUtility.RectangleContainsScreenPoint(
             nodeCreationMenu.GetComponent<RectTransform>(),
             Input.mousePosition,
@@ -36,13 +51,6 @@ public class InputManager : MonoBehaviour
             Vector3 mousePos = Input.mousePosition;
             nodeCreationMenu.transform.position = mousePos;
             nodeCreationMenu.SetActive(true);
-        }
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            canvas.SetActive(!canvas.activeSelf);
-
-            if (GameManager.Instance != null)
-                GameManager.Instance.openedUI = canvas.activeSelf;
         }
     }
 }

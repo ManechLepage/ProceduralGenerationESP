@@ -611,7 +611,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2811309212478221753, guid: 55b0c37affed7964aba76119e7ae8b5c, type: 3}
       propertyPath: dataType
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2811309212478221753, guid: 55b0c37affed7964aba76119e7ae8b5c, type: 3}
       propertyPath: connectionName

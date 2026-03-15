@@ -6,6 +6,7 @@ public class UIDraggable : MonoBehaviour
     private Canvas canvas;
     public float leftSideBorder = 2.5f;
     public float rightSideBorder = 10f;
+    public bool deletable = true;
     private RectTransform rectTransform;
     
     private Vector2 offset;
@@ -23,7 +24,7 @@ public class UIDraggable : MonoBehaviour
         bool leftMouseButton = Input.GetMouseButton(0);
         Vector2 mousePosition = Input.mousePosition;
 
-        if (isDragging && Input.GetKeyDown(KeyCode.Backspace))
+        if (isDragging && Input.GetKeyDown(KeyCode.Backspace) && deletable)
         {
             isDragging = false;
             GraphManager.Instance.nodes.Remove(GetComponent<NodeBehaviour>());

@@ -726,7 +726,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc8615dccb0adc443ac94ae2d2d87950, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  dataType: 0
+  dataType: 1
   inputFields:
   - {fileID: 4050122448717726629}
   boolToggle: {fileID: 0}
@@ -1253,7 +1253,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1689534523066629050, guid: dc47a1ff424fbbf4fb6578c83c40b4b7, type: 3}
       propertyPath: m_Text
-      value: 2
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1838888389344421801, guid: dc47a1ff424fbbf4fb6578c83c40b4b7, type: 3}
       propertyPath: m_text
@@ -1285,7 +1285,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4093633162523169963, guid: dc47a1ff424fbbf4fb6578c83c40b4b7, type: 3}
       propertyPath: m_text
-      value: "2\u200B"
+      value: "8\u200B"
       objectReference: {fileID: 0}
     - target: {fileID: 5861061887653793364, guid: dc47a1ff424fbbf4fb6578c83c40b4b7, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1476,7 +1476,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2811309212478221753, guid: 55b0c37affed7964aba76119e7ae8b5c, type: 3}
       propertyPath: dataType
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2811309212478221753, guid: 55b0c37affed7964aba76119e7ae8b5c, type: 3}
       propertyPath: connectionName

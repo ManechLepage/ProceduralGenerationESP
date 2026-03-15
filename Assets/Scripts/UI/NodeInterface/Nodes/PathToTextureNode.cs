@@ -11,6 +11,21 @@ public class PathToTextureNode : NodeBehaviour
 
     private string lastText = "";
 
+    public override Variant Fire()
+    {
+        UpdateTextAndPreview(pathText.text);
+        Texture2D texture = GetPathTexture();
+        
+        if (texture != null)
+        {
+            return new Variant(texture);
+        }
+        else
+        {
+            return new Variant(new Texture2D(2, 2));
+        }
+    }
+
     void Update()
     {
         if (lastText != pathText.text)
@@ -20,19 +35,32 @@ public class PathToTextureNode : NodeBehaviour
         }
     }
 
-    public void UpdateTextAndPreview(string text)
+    string GetFullPath(string text)
     {
         string texturePath = Path.Combine(Application.dataPath, pathRoot + text + ".exr");
-        texturePath = Path.GetFullPath(texturePath);
-        texturePath = texturePath.Trim().Replace("\u200B", "");
+        return Path.GetFullPath(texturePath).Trim().Replace("\u200B", "");
+    }
 
-        Texture2D texture = null;
+    Texture2D GetPathTexture()
+    {
+        string texturePath = GetFullPath(pathText.text);
+
         if (File.Exists(texturePath))
         {
             byte[] fileData = File.ReadAllBytes(texturePath);
-            texture = new Texture2D(2, 2);
+            Texture2D texture = new Texture2D(2, 2);
             texture.LoadImage(fileData);
+            return texture;
         }
+        else
+        {
+            return null;
+        }
+    }
+
+    public void UpdateTextAndPreview(string text)
+    {
+        Texture2D texture = GetPathTexture();
 
         if (texture != null)
         {
