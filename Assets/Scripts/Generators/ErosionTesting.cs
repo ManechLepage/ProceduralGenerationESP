@@ -75,7 +75,7 @@ public class ErosionTesting : MonoBehaviour
         Gestion des inputs pour l'application de l'érosion.
         */
 
-        if (!isEnabled) return;
+        if (!isEnabled || GameManager.Instance.openedUI) return;
 
         if (Input.GetKeyDown(KeyCode.E) && !didHydraulicErosion)
         {

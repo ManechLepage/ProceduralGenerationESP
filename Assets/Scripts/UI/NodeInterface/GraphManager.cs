@@ -5,6 +5,7 @@ public class GraphManager : MonoBehaviour
 {
     public static GraphManager Instance { get; private set;}
     public List<NodeBehaviour> nodes = new List<NodeBehaviour>();
+    public GameObject nodeParent;
     public LineManager currentLine;
     public float currentZoom = 1f;
 
@@ -28,6 +29,16 @@ public class GraphManager : MonoBehaviour
         else
         {
             Instance = this;
+        }
+    }
+
+    void Start()
+    {
+        foreach (Transform node in nodeParent.GetComponentInChildren<Transform>())
+        {
+            NodeBehaviour nodeBehaviour = node.GetComponent<NodeBehaviour>();
+            if (nodeBehaviour != null)
+                nodes.Add(nodeBehaviour);
         }
     }
 }
@@ -139,7 +150,7 @@ public class Variant
         if (dataType == DataType.Float)
         {
             if (typeof(T) == typeof(float)) return (T)(object)asFloat;
-            if (typeof(T) == typeof(int)) return (T)(object)(int)asFloat;
+            if (typeof(T) == typeof(int)) return (T)(object)Mathf.RoundToInt(asFloat);
         }
         
         if (typeof(T) == typeof(string) && dataType == DataType.String)
