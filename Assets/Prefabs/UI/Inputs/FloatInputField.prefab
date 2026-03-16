@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 531851725303745650, guid: c3d636f8378d04b4ba10a60a51ed5ad6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: c3d636f8378d04b4ba10a60a51ed5ad6, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -31,6 +35,14 @@ PrefabInstance:
     - target: {fileID: 1512536012004937382, guid: c3d636f8378d04b4ba10a60a51ed5ad6, type: 3}
       propertyPath: m_Name
       value: FloatInputField
+      objectReference: {fileID: 0}
+    - target: {fileID: 2760736619100813721, guid: c3d636f8378d04b4ba10a60a51ed5ad6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2760736619100813721, guid: c3d636f8378d04b4ba10a60a51ed5ad6, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 3248930656185284007, guid: c3d636f8378d04b4ba10a60a51ed5ad6, type: 3}
       propertyPath: m_Color.b
@@ -152,8 +164,52 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8091083828052225671, guid: c3d636f8378d04b4ba10a60a51ed5ad6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 8091083828052225671, guid: c3d636f8378d04b4ba10a60a51ed5ad6, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.45
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1726373153726228011, guid: c3d636f8378d04b4ba10a60a51ed5ad6, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5406274437071538215, guid: c3d636f8378d04b4ba10a60a51ed5ad6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6874227796032346636}
   m_SourcePrefab: {fileID: 100100000, guid: c3d636f8378d04b4ba10a60a51ed5ad6, type: 3}
+--- !u!114 &1689534523066629050 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1892613016702415275, guid: c3d636f8378d04b4ba10a60a51ed5ad6, type: 3}
+  m_PrefabInstance: {fileID: 950689639381256721}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TMP_InputField
+--- !u!1 &5059643291987493430 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5406274437071538215, guid: c3d636f8378d04b4ba10a60a51ed5ad6, type: 3}
+  m_PrefabInstance: {fileID: 950689639381256721}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6874227796032346636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5059643291987493430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc8615dccb0adc443ac94ae2d2d87950, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MultiInputBehaviour
+  dataType: 1
+  inputFields:
+  - {fileID: 1689534523066629050}
+  boolToggle: {fileID: 0}

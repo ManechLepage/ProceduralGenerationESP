@@ -34,10 +34,12 @@ public class ConnectorBehaviour : MonoBehaviour
     
     private GameObject currentLine;
     private bool dragToRemove = false;
+    private ConnectionColorUpdater connectionColorUpdater;
 
     void Awake()
     {
         multiInput = GetComponent<MultiInputBehaviour>();
+        connectionColorUpdater = GetComponent<ConnectionColorUpdater>();
     }
 
     public bool IsConnected()
@@ -52,7 +54,8 @@ public class ConnectorBehaviour : MonoBehaviour
             currentLine = Instantiate(linePrefab, transform.position, Quaternion.identity);
             currentLine.GetComponent<LineManager>().isLinked = false;
             currentLine.GetComponent<LineManager>().input = this;
-            currentLine.transform.SetParent(transform);
+            currentLine.GetComponent<UILineRenderer>().color = GetComponent<Image>().color;
+            currentLine.transform.SetParent(GraphManager.Instance.lineParent.transform);
 
             GraphManager.Instance.currentLine = currentLine.GetComponent<LineManager>();
 
@@ -209,21 +212,35 @@ public class ConnectorBehaviour : MonoBehaviour
 
     public void Disable()
     {
-        Color color = GetComponent<Image>().color;
-        if (color != null)        {
-            color = Color.gray;
-            color.a = GetComponent<Image>().color.a;
-            GetComponent<Image>().color = color;
+        if (connectionColorUpdater == null)
+        {
+            Color color = GetComponent<Image>().color;
+            if (color != null)        {
+                color = Color.gray;
+                color.a = GetComponent<Image>().color.a;
+                GetComponent<Image>().color = color;
+            }
+        }
+        else
+        {
+            connectionColorUpdater.Disable();
         }
     }
 
     public void Enable()
     {
-        Color color = GetComponent<Image>().color;
-        if (color != null)        {
-            color = Color.white;
-            color.a = GetComponent<Image>().color.a;
-            GetComponent<Image>().color = color;
+        if (connectionColorUpdater == null)
+        {
+            Color color = GetComponent<Image>().color;
+            if (color != null)        {
+                color = Color.white;
+                color.a = GetComponent<Image>().color.a;
+                GetComponent<Image>().color = color;
+            }
+        }
+        else
+        {
+            connectionColorUpdater.Enable();
         }
     }
 }

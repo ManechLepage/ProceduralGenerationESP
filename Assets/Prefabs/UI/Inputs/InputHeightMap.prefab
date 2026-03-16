@@ -16,6 +16,14 @@ PrefabInstance:
       propertyPath: connectionName
       value: heightmap
       objectReference: {fileID: 0}
+    - target: {fileID: 980234773285474878, guid: 6cfac09dc4f7a1b4192caaa70c1669a2, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 980234773285474878, guid: 6cfac09dc4f7a1b4192caaa70c1669a2, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 1588368506418330264, guid: 6cfac09dc4f7a1b4192caaa70c1669a2, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

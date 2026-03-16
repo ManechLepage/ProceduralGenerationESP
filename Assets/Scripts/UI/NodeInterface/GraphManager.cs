@@ -7,6 +7,7 @@ public class GraphManager : MonoBehaviour
     public NodeBehaviour masterNode;
     public List<NodeBehaviour> nodes = new List<NodeBehaviour>();
     public GameObject nodeParent;
+    public GameObject lineParent;
     [HideInInspector] public LineManager currentLine;
     public float currentZoom = 1f;
 
