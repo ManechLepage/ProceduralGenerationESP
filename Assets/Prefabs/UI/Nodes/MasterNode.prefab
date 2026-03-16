@@ -500,7 +500,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 83.97
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -599,6 +599,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
+--- !u!114 &7189492268956406204 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8941473247130711914, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
+  m_PrefabInstance: {fileID: 2292415411656992470}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948acae164443d348a5afef9169c1f30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ConnectorBehaviour
 --- !u!224 &8361069721375088887 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7771021866619373089, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
@@ -1159,7 +1170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MasterNode
   inputConnections:
-  - {fileID: 0}
+  - {fileID: 7189492268956406204}
   - {fileID: 112138866801945277}
   - {fileID: 7708009856953792347}
   outputConnections: []
