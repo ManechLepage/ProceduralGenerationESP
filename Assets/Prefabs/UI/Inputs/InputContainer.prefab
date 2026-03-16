@@ -329,6 +329,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Connection
       objectReference: {fileID: 0}
+    - target: {fileID: 4776393785687978746, guid: 7ec22e19dc7014645a8b97bf3cc41a23, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776393785687978746, guid: 7ec22e19dc7014645a8b97bf3cc41a23, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776393785687978746, guid: 7ec22e19dc7014645a8b97bf3cc41a23, type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
