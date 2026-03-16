@@ -465,7 +465,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 83.97
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -588,30 +588,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1220277798718522412}
     m_Modifications:
-    - target: {fileID: 4040236859528761218, guid: 417cbcd99f5fea44e9a9804e47b2e4bb, type: 3}
-      propertyPath: m_text
-      value: "256\u200B"
-      objectReference: {fileID: 0}
-    - target: {fileID: 7216718610791360014, guid: 417cbcd99f5fea44e9a9804e47b2e4bb, type: 3}
-      propertyPath: m_text
-      value: "256\u200B"
-      objectReference: {fileID: 0}
-    - target: {fileID: 7463707353383452893, guid: 417cbcd99f5fea44e9a9804e47b2e4bb, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7463707353383452893, guid: 417cbcd99f5fea44e9a9804e47b2e4bb, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7463707353383452893, guid: 417cbcd99f5fea44e9a9804e47b2e4bb, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 139.61525
-      objectReference: {fileID: 0}
-    - target: {fileID: 7463707353383452893, guid: 417cbcd99f5fea44e9a9804e47b2e4bb, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -10
-      objectReference: {fileID: 0}
     - target: {fileID: 566949276690984684, guid: d1279843ce9102848a0b531061e2b5fc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -651,14 +627,6 @@ PrefabInstance:
     - target: {fileID: 1928230381202406018, guid: d1279843ce9102848a0b531061e2b5fc, type: 3}
       propertyPath: m_text
       value: "256\u200B"
-      objectReference: {fileID: 0}
-    - target: {fileID: 3086085100325404219, guid: d1279843ce9102848a0b531061e2b5fc, type: 3}
-      propertyPath: node
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3086085100325404219, guid: d1279843ce9102848a0b531061e2b5fc, type: 3}
-      propertyPath: dataType
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3086085100325404219, guid: d1279843ce9102848a0b531061e2b5fc, type: 3}
       propertyPath: connectionName
@@ -783,10 +751,6 @@ PrefabInstance:
     - target: {fileID: 5514214665455204602, guid: d1279843ce9102848a0b531061e2b5fc, type: 3}
       propertyPath: m_CharacterValidation
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5882827926328542499, guid: d1279843ce9102848a0b531061e2b5fc, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7150451888715077611, guid: d1279843ce9102848a0b531061e2b5fc, type: 3}
       propertyPath: m_text
