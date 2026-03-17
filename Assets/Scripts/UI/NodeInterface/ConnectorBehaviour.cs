@@ -54,7 +54,14 @@ public class ConnectorBehaviour : MonoBehaviour
             currentLine = Instantiate(linePrefab, transform.position, Quaternion.identity);
             currentLine.GetComponent<LineManager>().isLinked = false;
             currentLine.GetComponent<LineManager>().input = this;
-            currentLine.GetComponent<UILineRenderer>().color = GetComponent<Image>().color;
+
+            Color lighterLineColor = GetComponent<Image>().color;
+            lighterLineColor.r *= 1.2f;
+            lighterLineColor.g *= 1.2f;
+            lighterLineColor.b *= 1.2f;
+            lighterLineColor.a *= 0.6f;
+            currentLine.GetComponent<MaskableUILineRenderer>().color = lighterLineColor;
+
             currentLine.transform.SetParent(GraphManager.Instance.lineParent.transform);
 
             GraphManager.Instance.currentLine = currentLine.GetComponent<LineManager>();

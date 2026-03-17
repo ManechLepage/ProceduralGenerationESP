@@ -6,6 +6,7 @@ using System.IO;
 public class PathToTextureNode : NodeBehaviour
 {
     public RawImage preview;
+    public TextMeshProUGUI sizeText;
     public TextMeshProUGUI pathText;
     public string pathRoot = "Textures/Imported/";
 
@@ -22,7 +23,7 @@ public class PathToTextureNode : NodeBehaviour
         }
         else
         {
-            return new Variant(new Texture2D(2, 2));
+            return new Variant(new Texture2D(0, 0));
         }
     }
 
@@ -48,12 +49,15 @@ public class PathToTextureNode : NodeBehaviour
         if (File.Exists(texturePath))
         {
             byte[] fileData = File.ReadAllBytes(texturePath);
-            Texture2D texture = new Texture2D(2, 2);
+            Texture2D texture = new Texture2D(0, 0);
             texture.LoadImage(fileData);
+            Vector2Int size = new Vector2Int(texture.width, texture.height);
+            sizeText.text = $"{size.x} x {size.y}";
             return texture;
         }
         else
         {
+            sizeText.text = "0 x 0";
             return null;
         }
     }

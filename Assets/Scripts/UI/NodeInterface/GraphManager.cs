@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class GraphManager : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class GraphManager : MonoBehaviour
     public List<NodeBehaviour> nodes = new List<NodeBehaviour>();
     public GameObject nodeParent;
     public GameObject lineParent;
+    public RectMask2D rectMask;
     [HideInInspector] public LineManager currentLine;
     public float currentZoom = 1f;
 

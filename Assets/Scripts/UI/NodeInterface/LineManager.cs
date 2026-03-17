@@ -7,13 +7,14 @@ public class LineManager : MonoBehaviour
     public bool isRemoving;
     public ConnectorBehaviour input;
     public ConnectorBehaviour output;
-    private UILineRenderer lineRenderer;
+    private MaskableUILineRenderer lineRenderer;
 
     private float thickness = 2.5f;
 
     void Start()
     {
-        lineRenderer = GetComponent<UILineRenderer>();
+        lineRenderer = GetComponent<MaskableUILineRenderer>();
+        lineRenderer.clipMask = GraphManager.Instance.rectMask;
         thickness /= transform.localScale.x;
     }
 
