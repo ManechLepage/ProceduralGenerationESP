@@ -14,6 +14,12 @@ public class FBMNode : NodeBehaviour
         int seed = GetInputValue("seed").GetValue<int>();
         Vector2 offset = GetInputValue("offset").GetValue<Vector2>();
 
+        List<List<Vector2Int>> domainMap;
+        if (GetInputConnection("domainmap").IsConnected())
+            domainMap = GetInputValue("domainmap").GetValue<List<List<Vector2Int>>>();
+        else
+            domainMap = new List<List<Vector2Int>>();
+
         Vector2Int terrainSize = GraphManager.Instance.GetTerrainSize();
 
         FBMSettings settings = new FBMSettings();
@@ -24,7 +30,12 @@ public class FBMNode : NodeBehaviour
         settings.persistence = persistence;
         settings.offset = offset;
 
-        List<List<float>> heightMap = fbmAlgorithm.GetHeightMapThreading(terrainSize, settings);
+        if (domainMap.Count == 0)
+        {
+            domainMap = null;
+        }
+
+        List<List<float>> heightMap = fbmAlgorithm.GetHeightMap(terrainSize, settings, domainMap);
 
         return new Variant(heightMap);
     }

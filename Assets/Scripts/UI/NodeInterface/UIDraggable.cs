@@ -27,6 +27,10 @@ public class UIDraggable : MonoBehaviour
         if (isDragging && Input.GetKeyDown(KeyCode.Backspace) && deletable)
         {
             isDragging = false;
+            if (GetComponent<NodeBehaviour>() != null)
+            {
+                GetComponent<NodeBehaviour>().DisconnectAll();
+            }
             GraphManager.Instance.nodes.Remove(GetComponent<NodeBehaviour>());
             Destroy(gameObject);
         }

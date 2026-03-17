@@ -25,7 +25,7 @@ public class GraphManager : MonoBehaviour
 
     void Update()
     {
-        if (false && Input.GetKeyDown(KeyCode.Return))
+        if (!GameManager.Instance.openedUI && Input.GetKeyDown(KeyCode.Return))
         {
             if (masterNode != null)
             {
@@ -88,6 +88,19 @@ public abstract class NodeBehaviour : MonoBehaviour
     }
 
     public virtual Variant Fire() { return new Variant(); }
+
+    public void DisconnectAll()
+    {
+        foreach (ConnectorBehaviour connector in inputConnections)
+        {
+            connector.RemoveConnection();
+        }
+
+        foreach (ConnectorBehaviour connector in outputConnections)
+        {
+            connector.RemoveConnection();
+        }
+    }
 
     public ConnectorBehaviour GetInputConnection(string name)
     {
@@ -152,6 +165,7 @@ public class Variant
     public Color asColor;
     public List<List<float>> asHeightMap;
     public Texture2D asTexture;
+    public List<List<Vector2>> asDomainMap;
 
     public Variant()
     {
@@ -168,6 +182,7 @@ public class Variant
     public Variant(Color value) { dataType = DataType.Color; asColor = value; }
     public Variant(List<List<float>> value) { dataType = DataType.HeightMap; asHeightMap = value; }
     public Variant(Texture2D value) { dataType = DataType.Texture; asTexture = value; }
+    public Variant(List<List<Vector2>> value) { dataType = DataType.DomainMap; asDomainMap = value; }
 
     public T GetValue<T>()
     {
@@ -203,6 +218,9 @@ public class Variant
 
         if (typeof(T) == typeof(Texture2D) && dataType == DataType.Texture)
             return (T)(object)asTexture;
+        
+        if (typeof(T) == typeof(List<List<Vector2>>) && dataType == DataType.DomainMap)
+            return (T)(object)asDomainMap;
         
         throw new System.InvalidCastException($"Variant {dataType} cannot convert to {typeof(T)}");
     }
@@ -253,6 +271,11 @@ public class Variant
         {
             dataType = DataType.Texture;
             asTexture = (Texture2D)(object)value;
+        }
+        else if (typeof(T) == typeof(List<List<Vector2>>))
+        {
+            dataType = DataType.DomainMap;
+            asDomainMap = (List<List<Vector2>>)(object)value;
         }
         else
         {

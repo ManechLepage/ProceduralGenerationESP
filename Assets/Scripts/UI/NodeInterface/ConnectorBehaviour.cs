@@ -16,7 +16,8 @@ public enum DataType
     Color,
     HeightMap,
     Texture,
-    Bool
+    Bool,
+    DomainMap
 }
 
 public class ConnectorBehaviour : MonoBehaviour
@@ -215,6 +216,18 @@ public class ConnectorBehaviour : MonoBehaviour
             Destroy(currentLine);
             currentLine = null;
         }
+    }
+
+    public void RemoveConnection()
+    {
+        if (connectedTo != null)
+        {
+            connectedTo.currentLine = null;
+            connectedTo.connectedTo = null;
+            connectedTo = null;
+        }
+
+        ReleaseConnection();
     }
 
     public void Disable()

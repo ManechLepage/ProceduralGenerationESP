@@ -80,7 +80,7 @@ public class FBMAlgorithm : MonoBehaviour
         return noiseHeight;
     }
 
-    public List<List<float>> GetHeightMap(Vector2 size, FBMSettings settings = null)
+    public List<List<float>> GetHeightMap(Vector2 size, FBMSettings settings = null, List<List<Vector2Int>> domainMap = null)
     {
         /*
         Cette fonction permet de générer un terrain d'un coup en entier en utilisant GetValue pour chaque point du terrain.
@@ -98,8 +98,18 @@ public class FBMAlgorithm : MonoBehaviour
             heightMap.Add(new List<float>());
             for (int y = 0; y < size.y; y++)
             {
-                float xCoord = (float)(x + settings.offset.x) / size.x;
-                float yCoord = (float)(y + settings.offset.y) / size.y;
+                int domainX = x;
+                int domainY = y;
+
+                if (domainMap != null)
+                {
+                    Debug.Log($"Domain map value for ({x}, {y}): ({domainMap[x][y].x}, {domainMap[x][y].y})");
+                    domainX = domainMap[x][y].x;
+                    domainY = domainMap[x][y].y;
+                }
+
+                float xCoord = (float)(domainX + settings.offset.x) / size.x;
+                float yCoord = (float)(domainY + settings.offset.y) / size.y;
 
                 // Assigner la valeur de FBM pour ce point du terrain
                 float noiseHeight = GetValue(xCoord, yCoord, settings);
@@ -111,7 +121,7 @@ public class FBMAlgorithm : MonoBehaviour
     }
 
     /* Deuxième partie: génération en parallèle */
-    public List<List<float>> GetHeightMapThreading(Vector2 size, FBMSettings settings = null)
+    public List<List<float>> GetHeightMapThreading(Vector2 size, FBMSettings settings = null, List<List<Vector2Int>> domainMap = null)
     {
         /*
         Cette fonction génère un terrain en utilisant le multithreading avec les Jobs de Unity pour calculer les valeurs de FBM
@@ -142,6 +152,19 @@ public class FBMAlgorithm : MonoBehaviour
             curveLUT[i] = settings.curve.Evaluate(t);
         }
 
+        NativeArray<Vector2Int> domainMapArray = new NativeArray<Vector2Int>(width * height, Allocator.TempJob);
+        if (domainMap != null)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    domainMapArray[y * width + x] = domainMap[x][y];
+                }
+            }
+        }
+
+
         // Note: les FBMSettings ne peuvent pas être passés directement au job car ils sont un type complexe, donc on passe chaque champ individuellement
         CalculateHeightJob job = new CalculateHeightJob
         {
@@ -156,6 +179,7 @@ public class FBMAlgorithm : MonoBehaviour
             absolute = settings.absolute,
             inverted = settings.inverted,
             curveLUT = curveLUT,
+            domainMap = domainMapArray,
             results = results
         };
 
@@ -167,6 +191,7 @@ public class FBMAlgorithm : MonoBehaviour
 
         results.Dispose();
         curveLUT.Dispose();
+        domainMapArray.Dispose();
 
         return heightMap;
     }
@@ -192,6 +217,7 @@ public class FBMAlgorithm : MonoBehaviour
         [ReadOnly] public bool absolute;
         [ReadOnly] public bool inverted;
         [ReadOnly] public NativeArray<float> curveLUT;
+        [ReadOnly] public NativeArray<Vector2Int> domainMap;
 
         [WriteOnly] public NativeArray<float> results;
 
@@ -206,6 +232,16 @@ public class FBMAlgorithm : MonoBehaviour
 
             int x = index % width;
             int y = index / width;
+
+            int domainX = x;
+            int domainY = y;
+
+            if (domainMap.Length > 0)
+            {
+                int domainIndex = y * width + x;
+                domainX = domainMap[domainIndex].x;
+                domainY = domainMap[domainIndex].y;
+            }
 
             float xCoord = (float)(x + offset.x) / width;
             float yCoord = (float)(y + offset.y) / height;
