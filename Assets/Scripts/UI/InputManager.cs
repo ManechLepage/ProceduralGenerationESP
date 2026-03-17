@@ -1,9 +1,11 @@
 using UnityEngine;
+using DG.Tweening;
 
 public class InputManager : MonoBehaviour
 {
     public GameObject nodeCreationMenu;
     public GameObject canvas;
+    public GameObject nodeGUI;
 
     void Start()
     {
@@ -16,12 +18,19 @@ public class InputManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            canvas.SetActive(!canvas.activeSelf);
+            if (nodeGUI.activeSelf)
+            {
+                HideCanvas();
+            }
+            else
+            {
+                ShowCanvas();
+            }
 
             if (GameManager.Instance != null)
-                GameManager.Instance.openedUI = canvas.activeSelf;
+                GameManager.Instance.openedUI = nodeGUI.activeSelf;
             
-            if (!canvas.activeSelf)
+            if (!nodeGUI.activeSelf)
             {
                 nodeCreationMenu.SetActive(false);
             }
@@ -52,5 +61,15 @@ public class InputManager : MonoBehaviour
             nodeCreationMenu.transform.position = mousePos;
             nodeCreationMenu.SetActive(true);
         }
+    }
+
+    private void ShowCanvas()
+    {
+        nodeGUI.SetActive(true);
+    }
+
+    private void HideCanvas()
+    {
+        nodeGUI.SetActive(false);
     }
 }
