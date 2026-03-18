@@ -105,7 +105,7 @@ public class VoronoiAlgorithm : MonoBehaviour
         return settings.inverted ? 1 - closestDistance : closestDistance;
     }
 
-    public List<List<float>> GetHeightMap(Vector2 size, VoronoiSettings settings = null)
+    public List<List<float>> GetHeightMap(Vector2 size, VoronoiSettings settings = null, List<List<Vector2>> domainMap = null)
     {
         /*
         Évaluer la fonction GetValue pour chaque point d'un heightmap d'une certaine taille.
@@ -123,8 +123,17 @@ public class VoronoiAlgorithm : MonoBehaviour
             heightMap.Add(new List<float>());
             for (int y = 0; y < size.y; y++)
             {
-                float xCoord = (float)(x + settings.offset.x) / size.x;
-                float yCoord = (float)(y + settings.offset.y) / size.y;
+                float domainX = x;
+                float domainY = y;
+
+                if (domainMap != null)
+                {
+                    domainX = domainMap[x][y].x;
+                    domainY = domainMap[x][y].y;
+                }
+
+                float xCoord = (float)(domainX + settings.offset.x) / size.x;
+                float yCoord = (float)(domainY + settings.offset.y) / size.y;
 
                 // Évaluer la valeur pour chaque point selon les paramètres.
                 float value = GetValue(xCoord, yCoord, settings);
@@ -137,7 +146,7 @@ public class VoronoiAlgorithm : MonoBehaviour
 
     /* Deuxième partie: génération en parallèle */
 
-    public List<List<float>> GetHeightMapThreading(Vector2 size, VoronoiSettings settings = null)
+    public List<List<float>> GetHeightMapThreading(Vector2 size, VoronoiSettings settings = null, List<List<Vector2>> domainMap = null)
     {
         /*
         Remplir un heightmap avec des valeurs de voronoi en utilisant les Jobs de Unity pour faire le calcul en parallèle,
@@ -156,6 +165,25 @@ public class VoronoiAlgorithm : MonoBehaviour
         // Tableau 1D pour stocker les résultats des jobs.
         NativeArray<float> results = new NativeArray<float>(totalCells, Allocator.TempJob);
 
+        NativeArray<Vector2> domainMapArray = new NativeArray<Vector2>(width * height, Allocator.TempJob);
+        if (domainMap != null)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    if (domainMap != null && x < domainMap.Count && y < domainMap[x].Count)
+                    {
+                        domainMapArray[y * width + x] = domainMap[x][y];
+                    }
+                    else
+                    {
+                        domainMapArray[y * width + x] = new Vector2(x, y);
+                    }
+                }
+            }
+        }
+
         // Passer les paramètres de génération un par un car le type VoronoiSettings ne peut pas être utilisé directement dans un job.
         CalculateHeightJob job = new CalculateHeightJob
         {
@@ -169,6 +197,7 @@ public class VoronoiAlgorithm : MonoBehaviour
             neighborhoodSize = new int2(settings.neighborhoodSize.x, settings.neighborhoodSize.y),
             inverted = settings.inverted,
             maxDistance = Mathf.Sqrt(Mathf.Sqrt(2) + settings.variation),
+            domainMap = domainMapArray,
             results = results
         };
 
@@ -179,6 +208,7 @@ public class VoronoiAlgorithm : MonoBehaviour
         List<List<float>> heightMap = CombineResults(results, size);
 
         results.Dispose();
+        domainMapArray.Dispose();
 
         return heightMap;
     }
@@ -221,6 +251,7 @@ public class VoronoiAlgorithm : MonoBehaviour
         [ReadOnly] public int2 neighborhoodSize;
         [ReadOnly] public bool inverted;
         [ReadOnly] public float maxDistance;
+        [ReadOnly] public NativeArray<Vector2> domainMap;
 
         [WriteOnly] public NativeArray<float> results;
 
@@ -236,8 +267,17 @@ public class VoronoiAlgorithm : MonoBehaviour
             int x = index % width;
             int y = index / width;
 
-            float xCoord = (float)(x + offset.x) / width;
-            float yCoord = (float)(y + offset.y) / height;
+            float domainX = x;
+            float domainY = y;
+
+            if (domainMap.Length > 0)
+            {
+                domainX = domainMap[index].x;
+                domainY = domainMap[index].y;
+            }
+
+            float xCoord = (float)(domainX + offset.x) / width;
+            float yCoord = (float)(domainY + offset.y) / height;
 
             // Calculer la valeur pour le point donné.
             results[index] = GetValueJob(xCoord, yCoord);
