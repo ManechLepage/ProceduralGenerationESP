@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class MasterNode : NodeBehaviour
 {
     public UnityEvent onFire;
+    public UnityEvent onInputUpdated;
 
     public override Variant Fire()
     {
@@ -21,5 +22,11 @@ public class MasterNode : NodeBehaviour
     public void ButtonFire()
     {
         Fire();
+    }
+
+    public override void InputUpdated(ConnectorBehaviour connector)
+    {
+        base.InputUpdated(connector);
+        onInputUpdated.Invoke();
     }
 }

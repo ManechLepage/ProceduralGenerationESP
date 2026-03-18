@@ -78,6 +78,8 @@ public abstract class NodeBehaviour : MonoBehaviour
     public List<ConnectorBehaviour> inputConnections = new List<ConnectorBehaviour>();
     public List<ConnectorBehaviour> outputConnections = new List<ConnectorBehaviour>();
 
+    public virtual Variant Fire() { return new Variant(); }
+
     public virtual void Start()
     {
         foreach (ConnectorBehaviour inputConnection in inputConnections)
@@ -87,7 +89,17 @@ public abstract class NodeBehaviour : MonoBehaviour
             outputConnection.node = this;
     }
 
-    public virtual Variant Fire() { return new Variant(); }
+    public virtual void InputUpdated(ConnectorBehaviour connector)
+    {
+        if (outputConnections.Count > 0)
+        {
+            foreach (ConnectorBehaviour outputConnection in outputConnections)
+            {
+                if (outputConnection.IsConnected())
+                    outputConnection.connectedTo.InputUpdated();
+            }
+        }
+    }
 
     public void DisconnectAll()
     {
@@ -124,7 +136,10 @@ public abstract class NodeBehaviour : MonoBehaviour
                 if (connector.multiInput != null)
                     return connector.multiInput.GetVariant();
                 else
-                    Debug.Log($"Input connection '{name}' on node '{gameObject.name}' is not connected and has no default value");
+                {
+                    // Debug.Log($"Input connection '{name}' on node '{gameObject.name}' is not connected and has no default value");
+                    return new Variant(connector.dataType);
+                }
             }
         }
         else
@@ -172,6 +187,8 @@ public class Variant
         dataType = DataType.Float;
         asFloat = 0f;
     }
+
+    public Variant(DataType dataType) { this.dataType = dataType; }
 
     public Variant(int value) { dataType = DataType.Int; asInt = value; }
     public Variant(float value) { dataType = DataType.Float; asFloat = value; }

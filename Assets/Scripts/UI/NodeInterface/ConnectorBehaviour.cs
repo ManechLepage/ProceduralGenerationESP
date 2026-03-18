@@ -47,6 +47,12 @@ public class ConnectorBehaviour : MonoBehaviour
     {
         return connectedTo != null;
     }
+
+    public void InputUpdated()
+    {
+        if (node != null)
+            node.InputUpdated(this);
+    }
     
     public void ClickedConnection()
     {
@@ -108,8 +114,10 @@ public class ConnectorBehaviour : MonoBehaviour
                         multiInput.EnableInputs();
 
                     ReleaseConnection();
+
                     connectedTo.connectedTo = null;
                     connectedTo = null;
+                    InputUpdated();
                 }
 
                 EnableAllConnections(fromInput: true);
@@ -155,6 +163,7 @@ public class ConnectorBehaviour : MonoBehaviour
                     connectedTo = connector;
                     connector.connectedTo = this;
                     connector.currentLine = currentLine;
+                    connector.InputUpdated();
                 }
                 else
                 {
@@ -166,6 +175,8 @@ public class ConnectorBehaviour : MonoBehaviour
                     connectedTo.connectedTo = connector;
                     connector.connectedTo = connectedTo;
                     connector.currentLine = currentLine;
+                    connector.InputUpdated();
+                    InputUpdated();
 
                     connectedTo = null;
                     currentLine = null;

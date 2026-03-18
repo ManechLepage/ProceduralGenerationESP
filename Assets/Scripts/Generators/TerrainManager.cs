@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class TerrainManager : MonoBehaviour
 {
     [Header("General Settings")]
+    public bool autoGenerate = true;
     public Vector2 previewSize = new Vector2(16f, 16f);
     public float terrainHeight = 50f;
     
@@ -27,6 +28,7 @@ public class TerrainManager : MonoBehaviour
         if (masterNode != null)
         {
             masterNode.onFire.AddListener(Generate);
+            masterNode.onInputUpdated.AddListener(MasterNodeUpdated);
         }
     }
 
@@ -39,9 +41,17 @@ public class TerrainManager : MonoBehaviour
         heightMap = masterNode.GetInputValue("heightmap").GetValue<List<List<float>>>();
         terrainHeight = initialTerrainHeight * masterNode.GetInputValue("height").GetValue<float>();
 
-        if (heightMap.Count > 0)
+        if (heightMap != null && heightMap.Count > 0)
         {
             UpdateMesh();
+        }
+    }
+
+    public void MasterNodeUpdated()
+    {
+        if (autoGenerate)
+        {
+            Generate();
         }
     }
 

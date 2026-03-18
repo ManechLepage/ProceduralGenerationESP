@@ -190,7 +190,19 @@ MonoBehaviour:
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8941473247130711914}
+        m_TargetAssemblyTypeName: ConnectorBehaviour, Assembly-CSharp
+        m_MethodName: InputUpdated
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnSubmit:
     m_PersistentCalls:
       m_Calls: []
@@ -568,3 +580,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2257936370582402945, guid: 6cfac09dc4f7a1b4192caaa70c1669a2, type: 3}
   m_PrefabInstance: {fileID: 9066647145727098041}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8941473247130711914 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 127592835153988563, guid: 6cfac09dc4f7a1b4192caaa70c1669a2, type: 3}
+  m_PrefabInstance: {fileID: 9066647145727098041}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948acae164443d348a5afef9169c1f30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ConnectorBehaviour
