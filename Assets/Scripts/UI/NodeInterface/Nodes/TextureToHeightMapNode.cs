@@ -14,7 +14,6 @@ public class TextureToHeightMapNode : NodeBehaviour
     {
         if (!GetInputConnection("texture").IsConnected())
         {
-            Debug.Log("TextureToHeightMapNode: Texture input not connected!");
             return new Variant(new List<List<float>>());
         }
 

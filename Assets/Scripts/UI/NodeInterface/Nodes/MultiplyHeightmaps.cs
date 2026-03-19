@@ -8,7 +8,7 @@ public class MultiplyHeightmaps : NodeBehaviour
         List<List<float>> x = GetInputValue("heightmap1").GetValue<List<List<float>>>();
         List<List<float>> y = GetInputValue("heightmap2").GetValue<List<List<float>>>();
 
-        if (x.Count > 0 && y.Count > 0)
+        if (x != null && x.Count > 0 && y != null && y.Count > 0)
         {
             List<List<float>> result = new List<List<float>>();
             for (int i = 0; i < x.Count; i++)
@@ -23,11 +23,11 @@ public class MultiplyHeightmaps : NodeBehaviour
 
             return new Variant(result);
         }
-        else if (y.Count > 0)
+        else if (y != null && y.Count > 0)
         {
             return new Variant(y);
         }
-        else if (x.Count > 0)
+        else if (x != null && x.Count > 0)
         {
             return new Variant(x);
         }

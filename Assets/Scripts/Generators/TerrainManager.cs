@@ -49,7 +49,7 @@ public class TerrainManager : MonoBehaviour
 
     public void MasterNodeUpdated()
     {
-        if (autoGenerate)
+        if (masterNode.GetInputValue("auto_reload").GetValue<bool>())
         {
             Generate();
         }

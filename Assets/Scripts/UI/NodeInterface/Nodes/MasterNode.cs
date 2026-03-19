@@ -21,7 +21,10 @@ public class MasterNode : NodeBehaviour
 
     public void ButtonFire()
     {
-        Fire(onlyIfModified: true);
+        if (GetInputValue("auto_reload").GetValue<bool>())
+        {
+            Fire(onlyIfModified: true);
+        }
     }
 
     public override void InputUpdated(ConnectorBehaviour connector)

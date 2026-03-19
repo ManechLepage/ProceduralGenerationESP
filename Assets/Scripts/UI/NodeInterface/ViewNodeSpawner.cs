@@ -13,7 +13,6 @@ public class ViewNodeSpawner : MonoBehaviour
 
     void Update()
     {
-        // if mouse middle click on connection (this object)
         if (Input.GetMouseButtonDown(2))
         {
             if (connector.MouseInConnector(Input.mousePosition, connector))
@@ -34,7 +33,7 @@ public class ViewNodeSpawner : MonoBehaviour
     public void AddConnectedViewNode()
     {
         Vector2 nodeBottomRight = new Vector2(transform.position.x + GetComponent<RectTransform>().rect.width, transform.position.y);
-        Vector2 spawnPosition = nodeBottomRight + new Vector2(150, -100);
+        Vector2 spawnPosition = nodeBottomRight + new Vector2(175, -100) * GraphManager.Instance.currentZoom;
 
         GameObject newNode = SpawnViewNode(spawnPosition);
         NodeBehaviour nodeBehaviour = newNode.GetComponent<NodeBehaviour>();
