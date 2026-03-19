@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class AddHeightmapsNode : NodeBehaviour
 {
-    public override Variant Fire()
+    public override Variant OnFire()
     {
         List<List<float>> x = GetInputValue("heightmap1").GetValue<List<List<float>>>();
         List<List<float>> y = GetInputValue("heightmap2").GetValue<List<List<float>>>();

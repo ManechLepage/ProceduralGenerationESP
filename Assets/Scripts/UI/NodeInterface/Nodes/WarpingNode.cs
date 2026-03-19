@@ -10,7 +10,7 @@ public class WarpingNode : NodeBehaviour
         warpingAlgorithm = GetComponent<WarpingAlgorithm>();
     }
 
-    public override Variant Fire()
+    public override Variant OnFire()
     {
         float strength = GetInputValue("strength").GetValue<float>();
 

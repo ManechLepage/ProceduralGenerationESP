@@ -18,7 +18,7 @@ public class FBMNode : NodeBehaviour
         UpdatePreview();
     }
 
-    public override Variant Fire()
+    public override Variant OnFire()
     {
         FBMSettings settings = GetSettings();
         List<List<Vector2>> domainMap = GetDomainMap();
@@ -26,7 +26,9 @@ public class FBMNode : NodeBehaviour
 
         List<List<float>> heightMap = fbmAlgorithm.GetHeightMapThreading(terrainSize, settings, domainMap);
 
-        return new Variant(heightMap);
+        Variant output = new Variant(heightMap);
+
+        return output;
     }
 
     public override void InputUpdated(ConnectorBehaviour connector)

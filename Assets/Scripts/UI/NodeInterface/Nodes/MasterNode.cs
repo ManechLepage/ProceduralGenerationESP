@@ -7,7 +7,7 @@ public class MasterNode : NodeBehaviour
     public UnityEvent onFire;
     public UnityEvent onInputUpdated;
 
-    public override Variant Fire()
+    public override Variant OnFire()
     {
         if (!GetInputConnection("heightmap").IsConnected())
         {
@@ -21,7 +21,7 @@ public class MasterNode : NodeBehaviour
 
     public void ButtonFire()
     {
-        Fire();
+        Fire(onlyIfModified: true);
     }
 
     public override void InputUpdated(ConnectorBehaviour connector)

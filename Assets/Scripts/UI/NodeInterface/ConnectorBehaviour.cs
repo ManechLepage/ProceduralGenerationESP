@@ -17,7 +17,9 @@ public enum DataType
     HeightMap,
     Texture,
     Bool,
-    DomainMap
+    DomainMap,
+    Preview,
+    None
 }
 
 public class ConnectorBehaviour : MonoBehaviour
@@ -33,7 +35,7 @@ public class ConnectorBehaviour : MonoBehaviour
     [HideInInspector] public ConnectorBehaviour connectedTo;
     [HideInInspector] public NodeBehaviour node;
     
-    private GameObject currentLine;
+    [HideInInspector] public GameObject currentLine;
     private bool dragToRemove = false;
     private ConnectionColorUpdater connectionColorUpdater;
 
@@ -53,24 +55,32 @@ public class ConnectorBehaviour : MonoBehaviour
         if (node != null)
             node.InputUpdated(this);
     }
+
+    public GameObject CreateLineFromConnection()
+    {
+        GameObject newLine = Instantiate(linePrefab, transform.position, Quaternion.identity);
+        newLine.GetComponent<LineManager>().isLinked = false;
+        newLine.GetComponent<LineManager>().input = this;
+
+        Color lighterLineColor = GetComponent<Image>().color;
+        lighterLineColor.r *= 1.2f;
+        lighterLineColor.g *= 1.2f;
+        lighterLineColor.b *= 1.2f;
+        lighterLineColor.a *= 0.6f;
+        newLine.GetComponent<MaskableUILineRenderer>().color = lighterLineColor;
+
+        newLine.transform.SetParent(GraphManager.Instance.lineParent.transform);
+
+        return newLine;
+    }
     
     public void ClickedConnection()
     {
+        if (!Input.GetMouseButtonDown(0)) return;
+
         if (type == Type.Output && GraphManager.Instance.currentLine == null && !IsConnected())
         {
-            currentLine = Instantiate(linePrefab, transform.position, Quaternion.identity);
-            currentLine.GetComponent<LineManager>().isLinked = false;
-            currentLine.GetComponent<LineManager>().input = this;
-
-            Color lighterLineColor = GetComponent<Image>().color;
-            lighterLineColor.r *= 1.2f;
-            lighterLineColor.g *= 1.2f;
-            lighterLineColor.b *= 1.2f;
-            lighterLineColor.a *= 0.6f;
-            currentLine.GetComponent<MaskableUILineRenderer>().color = lighterLineColor;
-
-            currentLine.transform.SetParent(GraphManager.Instance.lineParent.transform);
-
+            currentLine = CreateLineFromConnection();
             GraphManager.Instance.currentLine = currentLine.GetComponent<LineManager>();
 
             DisableAllConnections();
@@ -188,7 +198,7 @@ public class ConnectorBehaviour : MonoBehaviour
         return false;
     }
 
-    bool MouseInConnector(Vector2 mousePosition, ConnectorBehaviour connector)
+    public bool MouseInConnector(Vector2 mousePosition, ConnectorBehaviour connector)
     {
         RectTransform rectTransform = connector.GetComponent<RectTransform>();
         Vector2 localMousePosition;

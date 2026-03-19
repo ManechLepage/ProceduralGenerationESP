@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ColorNode : NodeBehaviour
 {
-    public override Variant Fire()
+    public override Variant OnFire()
     {
         int r = GetInputValue("r").GetValue<int>();
         int g = GetInputValue("g").GetValue<int>();

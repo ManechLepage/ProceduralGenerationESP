@@ -10,7 +10,7 @@ public class TextureToHeightMapNode : NodeBehaviour
         textureHelpers = GetComponent<TextureHelpers>();
     }
 
-    public override Variant Fire()
+    public override Variant OnFire()
     {
         if (!GetInputConnection("texture").IsConnected())
         {

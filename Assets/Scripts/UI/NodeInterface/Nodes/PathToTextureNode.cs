@@ -12,7 +12,7 @@ public class PathToTextureNode : NodeBehaviour
 
     private string lastText = "";
 
-    public override Variant Fire()
+    public override Variant OnFire()
     {
         UpdateTextAndPreview(pathText.text);
         Texture2D texture = GetPathTexture();

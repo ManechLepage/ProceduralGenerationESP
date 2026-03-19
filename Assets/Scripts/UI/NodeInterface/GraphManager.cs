@@ -78,7 +78,29 @@ public abstract class NodeBehaviour : MonoBehaviour
     public List<ConnectorBehaviour> inputConnections = new List<ConnectorBehaviour>();
     public List<ConnectorBehaviour> outputConnections = new List<ConnectorBehaviour>();
 
-    public virtual Variant Fire() { return new Variant(); }
+    private Variant lastOutput = new Variant();
+    private bool modifiedSinceLastFire = true;
+    private bool currentlyFiringOnlyIfModified = false;
+
+    public Variant Fire(bool onlyIfModified = false)
+    {
+        if (onlyIfModified && !IsModifiedSinceLastFire())
+        {
+            var output = GetLastOutput();
+            if (output.dataType != DataType.None)
+                return output;
+        }
+
+        currentlyFiringOnlyIfModified = onlyIfModified;
+        var result = OnFire();
+        currentlyFiringOnlyIfModified = false;
+
+        SetLastOutput(result);
+        SetModifiedSinceLastFire(false);
+        return result;
+    }
+
+    public virtual Variant OnFire() { return new Variant(); }
 
     public virtual void Start()
     {
@@ -91,6 +113,8 @@ public abstract class NodeBehaviour : MonoBehaviour
 
     public virtual void InputUpdated(ConnectorBehaviour connector)
     {
+        modifiedSinceLastFire = true;
+
         if (outputConnections.Count > 0)
         {
             foreach (ConnectorBehaviour outputConnection in outputConnections)
@@ -100,6 +124,11 @@ public abstract class NodeBehaviour : MonoBehaviour
             }
         }
     }
+
+    public void SetLastOutput(Variant output) { lastOutput = output; }
+    public Variant GetLastOutput() { return lastOutput; }
+    public void SetModifiedSinceLastFire(bool modified) { modifiedSinceLastFire = modified; }
+    public bool IsModifiedSinceLastFire() { return modifiedSinceLastFire; }
 
     public void DisconnectAll()
     {
@@ -130,7 +159,7 @@ public abstract class NodeBehaviour : MonoBehaviour
         if (connector != null)
         {
             if (connector.IsConnected())
-                return connector.connectedTo.node.Fire();
+                return connector.connectedTo.node.Fire(currentlyFiringOnlyIfModified);  // A cheap way to pass the onlyIfModified argument to other nodes.
             else
             {
                 if (connector.multiInput != null)
@@ -184,7 +213,7 @@ public class Variant
 
     public Variant()
     {
-        dataType = DataType.Float;
+        dataType = DataType.None;
         asFloat = 0f;
     }
 

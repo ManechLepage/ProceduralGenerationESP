@@ -17,7 +17,7 @@ public class VoronoiNode : NodeBehaviour
         UpdatePreview();
     }
 
-    public override Variant Fire()
+    public override Variant OnFire()
     {
         VoronoiSettings settings = GetSettings();
         List<List<Vector2>> domainMap = GetDomainMap();
