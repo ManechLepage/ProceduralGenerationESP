@@ -33,7 +33,7 @@ public class ViewNodeSpawner : MonoBehaviour
     public void AddConnectedViewNode()
     {
         Vector2 nodeBottomRight = new Vector2(transform.position.x + GetComponent<RectTransform>().rect.width, transform.position.y);
-        Vector2 spawnPosition = nodeBottomRight + new Vector2(175, -100) * GraphManager.Instance.currentZoom;
+        Vector2 spawnPosition = nodeBottomRight + new Vector2(125, -50) * GraphManager.Instance.currentZoom;
 
         GameObject newNode = SpawnViewNode(spawnPosition);
         NodeBehaviour nodeBehaviour = newNode.GetComponent<NodeBehaviour>();

@@ -44,6 +44,10 @@ PrefabInstance:
       propertyPath: dataType
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 2811309212478221753, guid: 55b0c37affed7964aba76119e7ae8b5c, type: 3}
+      propertyPath: connectionName
+      value: preview
+      objectReference: {fileID: 0}
     - target: {fileID: 4457830757804671804, guid: 55b0c37affed7964aba76119e7ae8b5c, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

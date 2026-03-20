@@ -538,7 +538,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9091759788163676399, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       propertyPath: m_text
-      value: 'CurveNode
+      value: 'Curve
 
 '
       objectReference: {fileID: 0}
@@ -594,47 +594,47 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0.47749773
-      outSlope: 0.47749773
+      inSlope: 0.8789457
+      outSlope: 0.8789457
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.40436596
-      value: 0.19308382
-      inSlope: 1.088249
-      outSlope: 1.088249
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.2333677
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.57043916
-      value: 0.7829534
-      inSlope: 2.9662583
-      outSlope: 2.9662583
-      tangentMode: 0
+      time: 0.3224612
+      value: 0.28342587
+      inSlope: 2.069711
+      outSlope: 2.069711
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.5093494
+      outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.6611971
-      value: 0.94796073
-      inSlope: 0.5892165
-      outSlope: 0.5892165
-      tangentMode: 0
+      time: 0.43372163
+      value: 0.6461879
+      inSlope: 1.7451268
+      outSlope: 1.7451268
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7322036
+      value: 0.7147723
+      inSlope: 0.64743453
+      outSlope: 0.64743453
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0.07611812
-      outSlope: 0.07611812
-      tangentMode: 0
+      inSlope: 1.0650917
+      outSlope: 1.0650917
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0.46559176
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

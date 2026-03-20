@@ -72,6 +72,9 @@ public class UIDraggable : MonoBehaviour
 
     public void CancelNextDrag()
     {
-        cancelNextDrag = true;
+        if (isDragging)
+            isDragging = false;
+        else
+            cancelNextDrag = true;
     }
 }

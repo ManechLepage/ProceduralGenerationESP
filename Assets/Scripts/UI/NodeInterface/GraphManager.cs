@@ -93,6 +93,12 @@ public abstract class NodeBehaviour : MonoBehaviour
         currentlyFiringOnlyIfModified = onlyIfModified;
         var result = OnFire();
         currentlyFiringOnlyIfModified = false;
+        
+        ConnectorBehaviour previewConnector = GetOutputConnection("preview");
+        if (previewConnector != null && previewConnector.IsConnected() && result.dataType == DataType.HeightMap && result.asHeightMap != null)
+        {
+            (previewConnector.connectedTo.node as ViewNode).UpdatePreview(result.GetValue<List<List<float>>>());
+        }
 
         SetLastOutput(result);
         SetModifiedSinceLastFire(false);

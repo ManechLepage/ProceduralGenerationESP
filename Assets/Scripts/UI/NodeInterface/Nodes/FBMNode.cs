@@ -26,6 +26,8 @@ public class FBMNode : NodeBehaviour
 
         List<List<float>> heightMap = fbmAlgorithm.GetHeightMapThreading(terrainSize, settings, domainMap);
 
+        UpdatePreviewWithHeightMap(heightMap);
+
         Variant output = new Variant(heightMap);
 
         return output;
@@ -45,6 +47,31 @@ public class FBMNode : NodeBehaviour
         List<List<float>> heightMap = fbmAlgorithm.GetHeightMapThreading(previewSize, settings, domainMap);
 
         preview.ApplyHeightMap(heightMap);
+    }
+
+    public void UpdatePreviewWithHeightMap(List<List<float>> heightMap)
+    {
+        Vector2Int heightMapSize = new Vector2Int(heightMap[0].Count, heightMap.Count);
+
+        if (heightMapSize.x == 0) return;
+
+        List<List<float>> scaledHeightMap = new List<List<float>>();
+
+        float scaleX = (float)heightMapSize.x / previewSize.x;
+        float scaleY = (float)heightMapSize.y / previewSize.y;
+
+        for (int x = 0; x < previewSize.x; x++)
+        {
+            scaledHeightMap.Add(new List<float>());
+            for (int y = 0; y < previewSize.y; y++)
+            {
+                int sourceX = Mathf.FloorToInt(x * scaleX);
+                int sourceY = Mathf.FloorToInt(y * scaleY);
+                scaledHeightMap[scaledHeightMap.Count - 1].Add(heightMap[sourceX][sourceY]);
+            }
+        }
+
+        preview.ApplyHeightMap(scaledHeightMap);
     }
 
     public FBMSettings GetSettings()

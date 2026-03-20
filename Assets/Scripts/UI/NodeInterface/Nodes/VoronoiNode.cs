@@ -25,6 +25,8 @@ public class VoronoiNode : NodeBehaviour
 
         List<List<float>> heightMap = voronoiAlgorithm.GetHeightMapThreading(terrainSize, settings, domainMap);
 
+        UpdatePreviewWithHeightMap(heightMap);
+
         return new Variant(heightMap);
     }
 
@@ -43,6 +45,31 @@ public class VoronoiNode : NodeBehaviour
         List<List<float>> heightMap = voronoiAlgorithm.GetHeightMapThreading(previewSize, settings, domainMap);
 
         preview.ApplyHeightMap(heightMap);
+    }
+
+    public void UpdatePreviewWithHeightMap(List<List<float>> heightMap)
+    {
+        Vector2Int heightMapSize = new Vector2Int(heightMap[0].Count, heightMap.Count);
+
+        if (heightMapSize.x == 0) return;
+
+        List<List<float>> scaledHeightMap = new List<List<float>>();
+
+        float scaleX = (float)heightMapSize.x / previewSize.x;
+        float scaleY = (float)heightMapSize.y / previewSize.y;
+
+        for (int x = 0; x < previewSize.x; x++)
+        {
+            scaledHeightMap.Add(new List<float>());
+            for (int y = 0; y < previewSize.y; y++)
+            {
+                int sourceX = Mathf.FloorToInt(x * scaleX);
+                int sourceY = Mathf.FloorToInt(y * scaleY);
+                scaledHeightMap[scaledHeightMap.Count - 1].Add(heightMap[sourceX][sourceY]);
+            }
+        }
+
+        preview.ApplyHeightMap(scaledHeightMap);
     }
 
     public VoronoiSettings GetSettings()
