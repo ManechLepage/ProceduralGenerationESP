@@ -37,7 +37,7 @@ public class TerrainManager : MonoBehaviour
         {
             if (masterNode != null)
             {
-                masterNode.Fire(onlyIfModified: true);
+                masterNode.Fire(onlyIfModified: false);
             }
         }
     }
@@ -48,8 +48,8 @@ public class TerrainManager : MonoBehaviour
         Générer le terrain à partir du master node, puis mettre à jour le mesh.
         */
 
-        heightMap = masterNode.GetInputValue("heightmap", onlyIfModified: true).GetValue<List<List<float>>>();
-        terrainHeight = initialTerrainHeight * masterNode.GetInputValue("height", onlyIfModified: true).GetValue<float>();
+        heightMap = masterNode.GetInputValue("heightmap", onlyIfModified: false).GetValue<List<List<float>>>();
+        terrainHeight = initialTerrainHeight * masterNode.GetInputValue("height", onlyIfModified: false).GetValue<float>();
 
         if (heightMap != null && heightMap.Count > 0)
         {

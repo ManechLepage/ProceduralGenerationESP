@@ -12,6 +12,8 @@ public class UIDraggable : MonoBehaviour
     private Vector2 offset;
     private bool isDragging;
 
+    private bool cancelNextDrag;
+
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -35,7 +37,7 @@ public class UIDraggable : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (!isDragging)
+        if (!isDragging && !cancelNextDrag)
         {
             float totalBorder = leftSideBorder + rightSideBorder;
             rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x - totalBorder, rectTransform.sizeDelta.y);
@@ -55,7 +57,7 @@ public class UIDraggable : MonoBehaviour
                 }
             }
         }
-        else
+        else if (!cancelNextDrag)
         {
             rectTransform.position = mousePosition + offset;
         }
@@ -64,5 +66,12 @@ public class UIDraggable : MonoBehaviour
         {
             isDragging = false;
         }
+
+        cancelNextDrag = false;
+    }
+
+    public void CancelNextDrag()
+    {
+        cancelNextDrag = true;
     }
 }

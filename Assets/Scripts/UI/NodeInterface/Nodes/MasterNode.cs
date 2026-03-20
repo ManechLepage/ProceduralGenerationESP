@@ -21,7 +21,7 @@ public class MasterNode : NodeBehaviour
 
     public void ButtonFire()
     {
-        Fire(onlyIfModified: true);
+        Fire(onlyIfModified: false);
     }
 
     public override void InputUpdated(ConnectorBehaviour connector)
