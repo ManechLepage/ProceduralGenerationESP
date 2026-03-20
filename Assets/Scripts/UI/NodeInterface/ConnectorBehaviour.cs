@@ -19,6 +19,7 @@ public enum DataType
     Bool,
     DomainMap,
     Preview,
+    Curve,
     None
 }
 

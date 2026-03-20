@@ -23,17 +23,6 @@ public class GraphManager : MonoBehaviour
         return new Vector2Int(256, 256);
     }
 
-    void Update()
-    {
-        if (!GameManager.Instance.openedUI && Input.GetKeyDown(KeyCode.Return))
-        {
-            if (masterNode != null)
-            {
-                masterNode.Fire();
-            }
-        }
-    }
-
     public List<ConnectorBehaviour> GetAllConnectors()
     {
         List<ConnectorBehaviour> connectors = new List<ConnectorBehaviour>();
@@ -43,6 +32,15 @@ public class GraphManager : MonoBehaviour
             connectors.AddRange(node.outputConnections);
         }
         return connectors;
+    }
+
+    public void FireAllRanomNodes()
+    {
+        foreach (NodeBehaviour node in nodes)
+        {
+            if (node.hasRandom)
+                node.Fire(onlyIfModified: true);
+        }
     }
 
     void Awake()
@@ -77,6 +75,7 @@ public abstract class NodeBehaviour : MonoBehaviour
 {
     public List<ConnectorBehaviour> inputConnections = new List<ConnectorBehaviour>();
     public List<ConnectorBehaviour> outputConnections = new List<ConnectorBehaviour>();
+    public bool hasRandom = false;
 
     private Variant lastOutput = new Variant();
     private bool modifiedSinceLastFire = true;
@@ -153,13 +152,16 @@ public abstract class NodeBehaviour : MonoBehaviour
         return outputConnections.Find(c => c.connectionName == name);
     }
 
-    public Variant GetInputValue(string name)
+    public Variant GetInputValue(string name, bool onlyIfModified = default)
     {
         ConnectorBehaviour connector = GetInputConnection(name);
         if (connector != null)
         {
             if (connector.IsConnected())
-                return connector.connectedTo.node.Fire(currentlyFiringOnlyIfModified);  // A cheap way to pass the onlyIfModified argument to other nodes.
+            {
+                bool varOnlyIfModified = onlyIfModified == default ? currentlyFiringOnlyIfModified : onlyIfModified;
+                return connector.connectedTo.node.Fire(varOnlyIfModified);  // A cheap way to pass the onlyIfModified argument to other nodes.
+            }
             else
             {
                 if (connector.multiInput != null)
@@ -210,6 +212,7 @@ public class Variant
     public List<List<float>> asHeightMap;
     public Texture2D asTexture;
     public List<List<Vector2>> asDomainMap;
+    public AnimationCurve asCurve;
 
     public Variant()
     {
@@ -229,7 +232,7 @@ public class Variant
     public Variant(List<List<float>> value) { dataType = DataType.HeightMap; asHeightMap = value; }
     public Variant(Texture2D value) { dataType = DataType.Texture; asTexture = value; }
     public Variant(List<List<Vector2>> value) { dataType = DataType.DomainMap; asDomainMap = value; }
-
+    public Variant(AnimationCurve value) { dataType = DataType.Curve; asCurve = value; }
     public T GetValue<T>()
     {
         if (dataType == DataType.Int)
@@ -268,6 +271,9 @@ public class Variant
         if (typeof(T) == typeof(List<List<Vector2>>) && dataType == DataType.DomainMap)
             return (T)(object)asDomainMap;
         
+        if (typeof(T) == typeof(AnimationCurve) && dataType == DataType.Curve)
+            return (T)(object)asCurve;
+
         throw new System.InvalidCastException($"Variant {dataType} cannot convert to {typeof(T)}");
     }
 
@@ -322,6 +328,11 @@ public class Variant
         {
             dataType = DataType.DomainMap;
             asDomainMap = (List<List<Vector2>>)(object)value;
+        }
+        else if (typeof(T) == typeof(AnimationCurve))
+        {
+            dataType = DataType.Curve;
+            asCurve = (AnimationCurve)(object)value;
         }
         else
         {
