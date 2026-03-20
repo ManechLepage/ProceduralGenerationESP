@@ -219,7 +219,6 @@ public class CurveNode : NodeBehaviour
         {
             curve.MoveKey(keyIndex, keyFrame.key);
             UpdateLine();
-            InputUpdated(null);
         }
         else
         {

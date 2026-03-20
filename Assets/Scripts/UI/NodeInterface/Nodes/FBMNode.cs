@@ -84,6 +84,10 @@ public class FBMNode : NodeBehaviour
         settings.lacunarity = GetInputValue("lacunarity").GetValue<float>();
         settings.persistence = GetInputValue("persistence").GetValue<float>();
         settings.offset = GetInputValue("offset").GetValue<Vector2>();
+        
+        bool ridged = GetInputValue("ridged").GetValue<bool>();
+        settings.absolute = ridged;
+        settings.inverted = ridged;
 
         settings.curve = GetAnimationCurve();
 

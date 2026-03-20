@@ -42,14 +42,16 @@ public class TerrainManager : MonoBehaviour
         }
     }
 
-    public void Generate()
+    public void Generate() => Generate(onlyIfModified: false);
+
+    public void Generate(bool onlyIfModified = false)
     {
         /*
         Générer le terrain à partir du master node, puis mettre à jour le mesh.
         */
 
-        heightMap = masterNode.GetInputValue("heightmap", onlyIfModified: false).GetValue<List<List<float>>>();
-        terrainHeight = initialTerrainHeight * masterNode.GetInputValue("height", onlyIfModified: false).GetValue<float>();
+        heightMap = masterNode.GetInputValue("heightmap", onlyIfModified: onlyIfModified).GetValue<List<List<float>>>();
+        terrainHeight = initialTerrainHeight * masterNode.GetInputValue("height", onlyIfModified: onlyIfModified).GetValue<float>();
 
         if (heightMap != null && heightMap.Count > 0)
         {
@@ -61,7 +63,7 @@ public class TerrainManager : MonoBehaviour
     {
         if (masterNode.GetInputValue("auto_reload").GetValue<bool>())
         {
-            Generate();
+            Generate(onlyIfModified: true);
         }
     }
 

@@ -23,6 +23,8 @@ public class KeyKnobBehaviour : MonoBehaviour
 
     public void DeselectAllKnobs()
     {
+        if (selectedKnob != null)
+            curveNode.InputUpdated(null);
         selectedKnob = null;
     }
 

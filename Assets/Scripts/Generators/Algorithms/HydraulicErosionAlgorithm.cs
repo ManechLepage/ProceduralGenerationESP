@@ -149,6 +149,22 @@ public class HydraulicErosionAlgorithm : MonoBehaviour
 
         return new Tuple<Vector2, float>(gradient, height);
     }
+
+    public void ApplyInstantErosion(List<List<float>> heightMap, HydraulicErosionSettings settings)
+    {
+        /*
+        Fonction pour appliquer l'érosion instantanément sans passer par une coroutine, ce qui peut être utile pour des petites érosions ou pour des tests.
+         - 'heightMap' : Le heightmap du terrain à modifier.
+         - 'settings' : Les paramètres de l'algorithme d'érosion hydraulique
+        */
+
+        for (int i = 0; i < settings.steps; i++)
+        {
+            float currentDropSize = ProcessDropSize(settings.waterQuantity, i, settings.steps);
+            ApplyErosionStep(heightMap, currentDropSize, settings);
+        }
+    }
+
     public IEnumerator ApplyErosion(List<List<float>> heightMap, HydraulicErosionSettings settings, Action<float, float> onProgress=null)
     {
         /*
