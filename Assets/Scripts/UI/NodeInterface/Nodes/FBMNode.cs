@@ -42,7 +42,6 @@ public class FBMNode : NodeBehaviour
     {
         FBMSettings settings = GetSettings();
         List<List<Vector2>> domainMap = GetDomainMap();
-
         List<List<float>> heightMap = fbmAlgorithm.GetHeightMapThreading(previewSize, settings, domainMap);
 
         preview.ApplyHeightMap(heightMap);
@@ -59,6 +58,8 @@ public class FBMNode : NodeBehaviour
         settings.persistence = GetInputValue("persistence").GetValue<float>();
         settings.offset = GetInputValue("offset").GetValue<Vector2>();
 
+        settings.curve = GetAnimationCurve();
+
         return settings;
     }
 
@@ -68,5 +69,13 @@ public class FBMNode : NodeBehaviour
             return GetInputValue("domainmap").GetValue<List<List<Vector2>>>();
         else
             return new List<List<Vector2>>();
+    }
+
+    public AnimationCurve GetAnimationCurve()
+    {
+        if (GetInputConnection("curve").IsConnected())
+            return GetInputValue("curve").GetValue<AnimationCurve>();
+        else
+            return AnimationCurve.Linear(0, 0, 1, 1);
     }
 }

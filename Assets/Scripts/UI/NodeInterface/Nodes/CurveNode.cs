@@ -25,7 +25,7 @@ public class CurveNode : NodeBehaviour
 
     public override Variant OnFire()
     {
-        return new Variant();
+        return new Variant(curve);
     }
 
     public override void InputUpdated(ConnectorBehaviour connector)
@@ -35,16 +35,24 @@ public class CurveNode : NodeBehaviour
 
     void UpdateLine()
     {
-        // for now only use the keys of the curve, but we could later add more points for a smoother curve.
-
         Vector2 bottomLeft = new Vector2(0f, 0f);
-        Vector2 topRight = new Vector2(previewContainer.rect.width, previewContainer.rect.height);
+        Vector2 topRight = new Vector2(
+            lineGO.GetComponent<RectTransform>().rect.width,
+            lineGO.GetComponent<RectTransform>().rect.height
+        );
+
+        int resolution = 100;
+        float step = 1f / (resolution - 1);
 
         List<Vector2> points = new List<Vector2>();
-        foreach (Keyframe key in curve.keys)
+        for (int i = 0; i < resolution; i++)
         {
-            float x = Mathf.Lerp(bottomLeft.x, topRight.x, key.time);
-            float y = Mathf.Lerp(bottomLeft.y, topRight.y, key.value);
+            float t = i * step;
+            float value = curve.Evaluate(t);
+
+            float x = Mathf.Lerp(bottomLeft.x, topRight.x, t);
+            float y = Mathf.Lerp(bottomLeft.y, topRight.y, value);
+
             points.Add(new Vector2(x, y));
         }
 
