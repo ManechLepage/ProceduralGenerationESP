@@ -7,7 +7,6 @@ public class TerrainManager : MonoBehaviour
     public Vector2 previewSize = new Vector2(16f, 16f);
     public float terrainHeight = 50f;
     
-
     [Header("Color Settings")]
     public MeshColorSettings colorSettings;
 
@@ -18,6 +17,20 @@ public class TerrainManager : MonoBehaviour
     private GameObject meshGO;
     private MasterNode masterNode;
     private float initialTerrainHeight;
+
+    public static TerrainManager Instance { get; private set; }
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {

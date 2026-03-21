@@ -2,17 +2,18 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class HydraulicErosionNode : NodeBehaviour
+public class FluvialErosionNode : NodeBehaviour
 {
-    public HydraulicErosionAlgorithm hydraulicErosionAlgorithm;
+    public FluvialErosionAlgorithm fluvialErosionAlgorithm;
 
     public override Variant OnFire()
     {
         if (!GetInputConnection("heightmap").IsConnected())
             return new Variant(new List<List<float>>());
 
-        HydraulicErosionSettings settings = GetSettings();
+        FluvialErosionSettings settings = GetSettings();
         List<List<float>> heightMap = GetInputValue("heightmap").GetValue<List<List<float>>>();
+        int steps = GetInputValue("steps").GetValue<int>();
 
         if (heightMap.Count == 0)
             return new Variant(heightMap);
@@ -23,20 +24,24 @@ public class HydraulicErosionNode : NodeBehaviour
             heightMapCopy.Add(new List<float>(heightMap[i]));
         }
 
-        hydraulicErosionAlgorithm.ApplyInstantErosion(heightMapCopy, settings);
+        for (int step = 0; step < steps; step++)
+        {
+            fluvialErosionAlgorithm.ApplyErosion(heightMapCopy, settings);
+        }
 
         return new Variant(heightMapCopy);
     }
 
-    public HydraulicErosionSettings GetSettings()
+    public FluvialErosionSettings GetSettings()
     {
-        HydraulicErosionSettings settings = new HydraulicErosionSettings();
+        FluvialErosionSettings settings = new FluvialErosionSettings();
 
-        settings.steps = GetInputValue("steps").GetValue<int>();
+        settings.erosionIntensity = GetInputValue("intensity").GetValue<float>();
         settings.waterQuantity = GetInputValue("water_quantity").GetValue<float>();
-        settings.intensity = GetInputValue("intensity").GetValue<float>();
-        settings.radius = GetInputValue("drop_radius").GetValue<float>();
-        settings.maxStepsPerDrop = GetInputValue("max_steps_per_drop").GetValue<int>();
+        settings.riverThreshold = GetInputValue("river_threshold").GetValue<float>();
+        settings.riverIntensity = GetInputValue("river_intensity").GetValue<float>();
+
+        settings.erosionType = FluvialErosionType.MFD;
 
         return settings;
     }

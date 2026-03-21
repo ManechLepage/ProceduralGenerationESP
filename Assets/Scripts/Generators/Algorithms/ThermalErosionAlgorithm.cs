@@ -166,6 +166,46 @@ public class ThermalErosionAlgorithm : MonoBehaviour
         return heightDifference / pixelDistance;
     }
 
+    public void ApplyInstantErosion(List<List<float>> heightMap, ThermalErosionSettings settings, float pixelDistance = 1f)
+    {
+        /*
+        Fonction d'application instantanée de l'érosion thermique.
+         - 'heightMap' : Le heightmap du terrain à éroder.
+         - 'settings' : Les paramètres de l'érosion thermique.
+        */
+
+        List<List<float>> sedimentMap = new List<List<float>>();
+        List<List<float>> bedrockMap = new List<List<float>>();
+
+        if (settings.sedimentMap)
+        {
+            // Création des tableaux seulement s'ils sont nécessaires.
+
+            for (int i = 0; i < heightMap.Count; i++)
+            {
+                sedimentMap.Add(new List<float>());
+                for (int j = 0; j < heightMap[0].Count; j++)
+                {
+                    sedimentMap[i].Add(0f);
+                }
+            }
+
+            for (int i = 0; i < heightMap.Count; i++)
+            {
+                bedrockMap.Add(new List<float>());
+                for (int j = 0; j < heightMap[0].Count; j++)
+                {
+                    bedrockMap[i].Add(heightMap[i][j]);
+                }
+            }
+        }
+
+        for (int i = 0; i < settings.steps; i++)
+        {
+            ApplyErosionStep(heightMap, bedrockMap, sedimentMap, settings, pixelDistance);
+        }
+    }
+
     public IEnumerator ApplyErosion(List<List<float>> heightMap, ThermalErosionSettings settings, float pixelDistance, Action<float, float> onProgress=null)
     {
         /*

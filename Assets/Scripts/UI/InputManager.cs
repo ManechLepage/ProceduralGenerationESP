@@ -11,7 +11,6 @@ public class InputManager : MonoBehaviour
     {
         if (GameManager.Instance != null)
             GameManager.Instance.openedUI = true;
-        
     }
 
     void Update()

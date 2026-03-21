@@ -27,23 +27,23 @@ public class WarpingAlgorithm : MonoBehaviour
 
             for (int y = 0; y < size.y; y++)
             {
-                float n = Mathf.PerlinNoise(x * flowScale + settings.offset.x,
-                                                y * flowScale + settings.offset.y);
+                float n = Mathf.PerlinNoise((x + settings.seed * 10f) * flowScale + settings.offset.x,
+                                                (y + settings.seed * 10f) * flowScale + settings.offset.y);
 
                 float angle = n * Mathf.PI * 2f;
 
                 Vector2 flow = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
 
                 float distortion = Mathf.PerlinNoise(
-                    (x + 200f) * noiseScale + settings.offset.y,
-                    (y + 200f) * noiseScale + settings.offset.x
+                    (x + 200f + settings.seed * 10f) * noiseScale + settings.offset.y,
+                    (y + 200f + settings.seed * 10f) * noiseScale + settings.offset.x
                 ) * 2f - 1f;
 
                 flow += new Vector2(-flow.y, flow.x) * distortion;
 
                 Vector2 domainValue = new Vector2(
-                    x + flow.x * settings.strength,
-                    y + flow.y * settings.strength
+                    x + flow.x * settings.intensity,
+                    y + flow.y * settings.intensity
                 );
 
                 column.Add(domainValue);
@@ -60,9 +60,9 @@ public class WarpingAlgorithm : MonoBehaviour
 public class WarpingSettings
 {
     public int seed = 0;
-    public float strength = 0.5f;
+    public float intensity = 1f;
     public float scale = 1f;
-    public float flowScale = 0.8f;
+    public float flowScale = 1f;
     public float noiseScale = 2f;
     public Vector2 offset = Vector2.zero;
 }

@@ -12,12 +12,22 @@ public class WarpingNode : NodeBehaviour
 
     public override Variant OnFire()
     {
-        float strength = GetInputValue("strength").GetValue<float>();
+        int seed = GetInputValue("seed").GetValue<int>();
+        float intensity = GetInputValue("intensity").GetValue<float>();
+        float scale = GetInputValue("scale").GetValue<float>();
+        float flowScale = GetInputValue("flow_scale").GetValue<float>();
+        float noiseScale = GetInputValue("noise_scale").GetValue<float>();
+        Vector2 offset = GetInputValue("offset").GetValue<Vector2>();
 
         Vector2Int terrainSize = GraphManager.Instance.GetTerrainSize();
 
         WarpingSettings settings = new WarpingSettings();
-        settings.strength = strength;
+        settings.intensity = intensity;
+        settings.seed = seed;
+        settings.scale = scale;
+        settings.flowScale = flowScale;
+        settings.noiseScale = noiseScale;
+        settings.offset = offset;
 
         List<List<Vector2>> domainMap = warpingAlgorithm.GetWarpedDomainMap(terrainSize, settings);
 

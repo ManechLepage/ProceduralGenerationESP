@@ -22,8 +22,12 @@ public class VoronoiNode : NodeBehaviour
         VoronoiSettings settings = GetSettings();
         List<List<Vector2>> domainMap = GetDomainMap();
         Vector2Int terrainSize = GraphManager.Instance.GetTerrainSize();
+        AnimationCurve curve = GetAnimationCurve();
 
         List<List<float>> heightMap = voronoiAlgorithm.GetHeightMapThreading(terrainSize, settings, domainMap);
+
+        if (curve != null)
+            ApplyCurve(heightMap, curve);
 
         UpdatePreviewWithHeightMap(heightMap);
 
@@ -41,8 +45,12 @@ public class VoronoiNode : NodeBehaviour
     {
         VoronoiSettings settings = GetSettings();
         List<List<Vector2>> domainMap = GetDomainMap();
+        AnimationCurve curve = GetAnimationCurve();
 
         List<List<float>> heightMap = voronoiAlgorithm.GetHeightMapThreading(previewSize, settings, domainMap);
+
+        if (curve != null)
+            ApplyCurve(heightMap, curve);
 
         preview.ApplyHeightMap(heightMap);
     }
@@ -72,6 +80,17 @@ public class VoronoiNode : NodeBehaviour
         preview.ApplyHeightMap(scaledHeightMap);
     }
 
+    public void ApplyCurve(List<List<float>> heightMap, AnimationCurve curve)
+    {
+        for (int x = 0; x < heightMap.Count; x++)
+        {
+            for (int y = 0; y < heightMap[x].Count; y++)
+            {
+                heightMap[x][y] = curve.Evaluate(heightMap[x][y]);
+            }
+        }
+    }
+
     public VoronoiSettings GetSettings()
     {
         VoronoiSettings settings = new VoronoiSettings();
@@ -94,5 +113,13 @@ public class VoronoiNode : NodeBehaviour
             return GetInputValue("domainmap").GetValue<List<List<Vector2>>>();
         else
             return new List<List<Vector2>>();
+    }
+
+    public AnimationCurve GetAnimationCurve()
+    {
+        if (GetInputConnection("curve").IsConnected())
+            return GetInputValue("curve").GetValue<AnimationCurve>();
+        else
+            return null;
     }
 }
