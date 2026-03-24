@@ -72,6 +72,14 @@ public class TerrainManager : MonoBehaviour
         }
     }
 
+    public void SetActiveSea(bool active)
+    {
+        if (this.sea != null)
+        {
+            this.sea.SetActive(active);
+        }
+    }
+
     public void MasterNodeUpdated()
     {
         if (masterNode.GetInputValue("auto_reload").GetValue<bool>())

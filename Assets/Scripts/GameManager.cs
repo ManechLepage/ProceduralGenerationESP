@@ -30,6 +30,10 @@ public class GameManager : MonoBehaviour
 
     [Header("Public Settings")]
     public bool openedUI = false;
+    public bool enabledStatistics = false;
+
+    [Header("Panels")]
+    public GameObject statisticsPanel;
 
     [Header("Helpers")]
     public TextureHelpers textureHelpers;
@@ -53,5 +57,47 @@ public class GameManager : MonoBehaviour
         }
         else
             Destroy(gameObject);
+    }
+
+    void Start()
+    {
+        if (openedUI) CloseStatisticsPanel();
+        else OpenStatisticsPanel();
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            enabledStatistics = !enabledStatistics;
+            if (enabledStatistics)
+                OpenStatisticsPanel();
+            else
+                CloseStatisticsPanel();
+        }
+    }
+
+    public void OpenStatisticsPanel()
+    {
+        if (statisticsPanel == null) return;
+        statisticsPanel.SetActive(true);
+    }
+
+    public void CloseStatisticsPanel()
+    {
+        if (statisticsPanel == null) return;
+        statisticsPanel.SetActive(false);
+    }
+
+    public void DidCloseUI()
+    {
+        openedUI = false;
+        if (enabledStatistics)
+            OpenStatisticsPanel();
+    }
+    public void DidOpenUI()
+    {
+        openedUI = true;
+        CloseStatisticsPanel();
     }
 }

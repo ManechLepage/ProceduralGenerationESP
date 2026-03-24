@@ -27,7 +27,12 @@ public class InputManager : MonoBehaviour
             }
 
             if (GameManager.Instance != null)
-                GameManager.Instance.openedUI = nodeGUI.activeSelf;
+            {
+                if (nodeGUI.activeSelf)
+                    GameManager.Instance.DidOpenUI();
+                else
+                    GameManager.Instance.DidCloseUI();
+            }
             
             if (!nodeGUI.activeSelf)
             {

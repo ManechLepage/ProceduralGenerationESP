@@ -28,5 +28,11 @@ public class MasterNode : NodeBehaviour
     {
         base.InputUpdated(connector);
         onInputUpdated.Invoke();
+
+        if (connector != null && connector.connectionName == "water")
+        {
+            bool hasWater = GetInputValue("water").GetValue<bool>();
+            TerrainManager.Instance.SetActiveSea(hasWater);
+        }
     }
 }
