@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P) && !openedUI)
         {
             enabledStatistics = !enabledStatistics;
             if (enabledStatistics)

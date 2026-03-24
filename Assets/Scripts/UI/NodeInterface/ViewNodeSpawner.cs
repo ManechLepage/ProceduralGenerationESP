@@ -17,16 +17,9 @@ public class ViewNodeSpawner : MonoBehaviour
         {
             if (connector.MouseInConnector(Input.mousePosition, connector))
             {
-                ClickedConnection();
+                if (!connector.IsConnected())
+                    AddConnectedViewNode();
             }
-        }
-    }
-
-    public void ClickedConnection()
-    {
-        if (!connector.IsConnected())
-        {
-            AddConnectedViewNode();
         }
     }
 
