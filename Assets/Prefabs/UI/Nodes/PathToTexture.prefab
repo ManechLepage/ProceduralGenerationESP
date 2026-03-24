@@ -340,7 +340,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1867648651422719410, guid: 8a7046d628caf90448fb38cdb2b7d2d8, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 20.74
       objectReference: {fileID: 0}
     - target: {fileID: 1867648651422719410, guid: 8a7046d628caf90448fb38cdb2b7d2d8, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -713,6 +713,7 @@ MonoBehaviour:
   - {fileID: 6519553749617261985}
   outputConnections:
   - {fileID: 8610696726739139523}
+  hasRandom: 0
   preview: {fileID: 6763770947865187737}
   sizeText: {fileID: 5784283985820438833}
   pathText: {fileID: 1410299035564627057}
