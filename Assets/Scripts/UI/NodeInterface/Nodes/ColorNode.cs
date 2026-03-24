@@ -5,6 +5,7 @@ public class ColorNode : NodeBehaviour
 {
     public GameObject colorImage;
     public RawImage colorImageComponent;
+    public GameObject colorPicker;
     void Start()
     {
         colorImageComponent = colorImage.GetComponent<RawImage>();
@@ -34,5 +35,10 @@ public class ColorNode : NodeBehaviour
         {
             colorImageComponent.color = color;
         }
+    }
+
+    public void OpenColorPicker()
+    {
+        colorPicker.SetActive(!colorPicker.activeSelf);
     }
 }
