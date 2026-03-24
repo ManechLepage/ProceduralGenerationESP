@@ -42,6 +42,7 @@ public class PaintManager : MonoBehaviour
     public float zoom = 1f;
     public Material paintMaterial;
     public bool enabledHeight = true;
+    public bool inGame = false;
 
     [Header("Brush Settings")]
     public int brushIndex = 0;
@@ -144,10 +145,10 @@ public class PaintManager : MonoBehaviour
         {
             lastPaintTime = 0f;
 
-            Vector2 paintScreenSize = paintGO.transform.localScale * 100f * canvas.scaleFactor;
+            Vector2 paintScreenSize = paintGO.transform.localScale * 100f * (inGame ? 1f : canvas.scaleFactor);
             Vector2 downLeftPaintPos = new Vector2(paintGO.transform.position.x, paintGO.transform.position.y) - paintScreenSize / 2f;
 
-            Vector2 mousePosition = Input.mousePosition;
+            Vector2 mousePosition = ModifyMousePosition(Input.mousePosition);
 
             Vector2Int paintPosition = new Vector2Int(
                 Mathf.FloorToInt((mousePosition.x - downLeftPaintPos.x) / paintScreenSize.x * paintSize.x),
@@ -518,6 +519,15 @@ public class PaintManager : MonoBehaviour
 
         if (enabledHeightCurves)
             UpdateHeightCurves();
+    }
+
+    public Vector2 ModifyMousePosition(Vector2 mousePosition)
+    {
+        if (!inGame) return mousePosition;
+        
+        mousePosition /= canvas.scaleFactor;
+
+        return mousePosition;
     }
 
     public void SavePaintTexture(string name="Paint")
