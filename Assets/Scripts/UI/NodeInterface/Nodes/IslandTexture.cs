@@ -7,10 +7,10 @@ public class IslandTexture : NodeBehaviour
     [SerializeField] private PreviewBehaviour preview;
     public override Variant OnFire()
     {
-        AnimationCurve noiseCurve = GetInputValue("Noise Curve").GetValue<AnimationCurve>();
-        AnimationCurve distanceCurve = GetInputValue("Distance Curve").GetValue<AnimationCurve>();
+        AnimationCurve noiseCurve = GetNoiseCurve();
+        AnimationCurve distanceCurve = GetDistanceCurve();
         int seed = GetInputValue("seed").GetValue<int>();
-        List<List<Vector2>> warp = GetInputValue("warp").GetValue<List<List<Vector2>>>();
+        List<List<Vector2>> warp = GetWarp();
         float scale = GetInputValue("scale").GetValue<float>();
         float noiseIntensity = GetInputValue("Noise Intensity").GetValue<float>();
 
@@ -64,5 +64,29 @@ public class IslandTexture : NodeBehaviour
         Vector2 point = new Vector2(x, y);
         // point += warp[x][y];
         return fbm.GetValue(point.x, point.y, settings);
+    }
+
+    AnimationCurve GetNoiseCurve()
+    {
+        if (GetInputConnection("Noise Curve").IsConnected())
+            return GetInputValue("Noise Curve").GetValue<AnimationCurve>();
+        else
+            return AnimationCurve.Linear(0, 0, 1, 1);
+    }
+
+    AnimationCurve GetDistanceCurve()
+    {
+        if (GetInputConnection("Distance Curve").IsConnected())
+            return GetInputValue("Distance Curve").GetValue<AnimationCurve>();
+        else
+            return AnimationCurve.Linear(0, 0, 1, 1);
+    }
+
+    List<List<Vector2>> GetWarp()
+    {
+        if (GetInputConnection("warp").IsConnected())
+            return GetInputValue("warp").GetValue<List<List<Vector2>>>();
+        else
+            return new List<List<Vector2>>();
     }
 }
