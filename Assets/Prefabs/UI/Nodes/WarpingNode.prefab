@@ -1085,6 +1085,7 @@ MonoBehaviour:
   outputConnections:
   - {fileID: 982893197901306907}
   hasRandom: 0
+  nodeTimeType: 0
 --- !u!114 &8505050371171043125
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -674,6 +674,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   previewSize: {x: 8, y: 8}
   terrainHeight: 12
+  smoothing: 0
+  generationStatistics:
+    terrainpredictedTime: 0
+    erosionPredictedTime: 0
+    terrainActualTime: 0
+    erosionActualTime: 0
+  terrainPredictedTimeText: {fileID: 1280278163}
+  erosionPredictedTimeText: {fileID: 790419129}
+  terrainActualTimeText: {fileID: 488029874}
+  erosionActualTimeText: {fileID: 695993252}
   colorSettings:
     isEnabled: 1
     constraints:
@@ -1811,7 +1821,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 186.15, y: -94.7635}
-  m_SizeDelta: {x: 372.3, y: 189.527}
+  m_SizeDelta: {x: 0, y: 189.527}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &430283561
 MonoBehaviour:
@@ -2238,7 +2248,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 537.06, y: -94.7635}
-  m_SizeDelta: {x: 229.52, y: 189.527}
+  m_SizeDelta: {x: 0, y: 189.527}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &488029873
 MonoBehaviour:
@@ -2432,7 +2442,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 186.15, y: -94.7635}
-  m_SizeDelta: {x: 372.3, y: 189.527}
+  m_SizeDelta: {x: 0, y: 189.527}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &521389402
 MonoBehaviour:
@@ -2852,7 +2862,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 880654842345117290, guid: 8cde24052d44ed240a5fe88589c6efac, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 34.18
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 880654842345117290, guid: 8cde24052d44ed240a5fe88589c6efac, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -4449,7 +4459,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 527.2, y: -94.7635}
-  m_SizeDelta: {x: 172.14, y: 189.527}
+  m_SizeDelta: {x: 0, y: 189.527}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &695993251
 MonoBehaviour:
@@ -4639,7 +4649,7 @@ MonoBehaviour:
   isEnabled: 1
   paintSize: {x: 256, y: 256}
   physicalScale: 2.5
-  zoom: 1
+  zoom: 0
   paintMaterial: {fileID: 2100000, guid: 7fd4ab90729ba624a840e0feb82333ff, type: 2}
   enabledHeight: 0
   inGame: 1
@@ -4980,7 +4990,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 527.2, y: -94.7635}
-  m_SizeDelta: {x: 172.14, y: 189.527}
+  m_SizeDelta: {x: 0, y: 189.527}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &790419128
 MonoBehaviour:
@@ -5791,7 +5801,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 195.565, y: -94.7635}
-  m_SizeDelta: {x: 391.13, y: 189.527}
+  m_SizeDelta: {x: 0, y: 189.527}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &931708448
 MonoBehaviour:
@@ -6120,7 +6130,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 795716663114543477, guid: ce55fad91f754df43ac1370269a1a2ab, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 83.97
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 795716663114543477, guid: ce55fad91f754df43ac1370269a1a2ab, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -6212,7 +6222,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3851267164307787470, guid: ce55fad91f754df43ac1370269a1a2ab, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 54.74
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3851267164307787470, guid: ce55fad91f754df43ac1370269a1a2ab, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -6232,7 +6242,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4077209361388849577, guid: ce55fad91f754df43ac1370269a1a2ab, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 26.38
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4077209361388849577, guid: ce55fad91f754df43ac1370269a1a2ab, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -9968,7 +9978,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1698423813232381745, guid: 927d70961faa30d479a7ebc986b64228, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 109.63
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1698423813232381745, guid: 927d70961faa30d479a7ebc986b64228, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -10124,7 +10134,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5164042100561132064, guid: 927d70961faa30d479a7ebc986b64228, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 31.42
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5164042100561132064, guid: 927d70961faa30d479a7ebc986b64228, type: 3}
       propertyPath: m_AnchoredPosition.x

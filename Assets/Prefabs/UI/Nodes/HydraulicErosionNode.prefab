@@ -1130,6 +1130,7 @@ MonoBehaviour:
   - {fileID: 2111862952872077870}
   - {fileID: 4780972252059654730}
   hasRandom: 0
+  nodeTimeType: 2
   hydraulicErosionAlgorithm: {fileID: 9139800252934539742}
 --- !u!114 &9139800252934539742
 MonoBehaviour:
@@ -1497,7 +1498,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 52.05
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_AnchoredPosition.x

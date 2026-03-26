@@ -137,7 +137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: ca507da79b028ea49a50e19aeb9e519b, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 37.19
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: ca507da79b028ea49a50e19aeb9e519b, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -623,6 +623,7 @@ MonoBehaviour:
   - {fileID: 2457401093230419172}
   - {fileID: 8876202032021917368}
   hasRandom: 0
+  nodeTimeType: 1
   previewSize: {x: 96, y: 96}
   fbm: {fileID: 3351188708297013056}
   preview: {fileID: 4964992938521804103}

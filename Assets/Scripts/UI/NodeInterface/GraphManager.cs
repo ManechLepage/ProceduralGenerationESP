@@ -2,6 +2,13 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
+public enum NodeTimeType
+{
+    Other,
+    Terrain,
+    Erosion
+}
+
 public class GraphManager : MonoBehaviour
 {
     public static GraphManager Instance { get; private set;}
@@ -76,6 +83,7 @@ public abstract class NodeBehaviour : MonoBehaviour
     public List<ConnectorBehaviour> inputConnections = new List<ConnectorBehaviour>();
     public List<ConnectorBehaviour> outputConnections = new List<ConnectorBehaviour>();
     public bool hasRandom = false;
+    public NodeTimeType nodeTimeType = NodeTimeType.Other;
 
     private Variant lastOutput = new Variant();
     private bool modifiedSinceLastFire = true;
@@ -91,13 +99,32 @@ public abstract class NodeBehaviour : MonoBehaviour
         }
 
         currentlyFiringOnlyIfModified = onlyIfModified;
+
+        float startTime = Time.realtimeSinceStartup;
         var result = OnFire();
+        float elapsedTime = Time.realtimeSinceStartup - startTime;
+
         currentlyFiringOnlyIfModified = false;
         
         ConnectorBehaviour previewConnector = GetOutputConnection("preview");
         if (previewConnector != null && previewConnector.IsConnected() && result.dataType == DataType.HeightMap && result.asHeightMap != null)
         {
             (previewConnector.connectedTo.node as ViewNode).UpdatePreview(result.GetValue<List<List<float>>>());
+        }
+
+        if (!onlyIfModified)
+        {
+            switch (nodeTimeType)
+            {
+                case NodeTimeType.Terrain:
+                    TerrainManager.Instance.generationStatistics.terrainActualTime += elapsedTime;
+                    break;
+                case NodeTimeType.Erosion:
+                    TerrainManager.Instance.generationStatistics.erosionActualTime += elapsedTime;
+                    break;
+                default:
+                    break;
+            }
         }
 
         SetLastOutput(result);

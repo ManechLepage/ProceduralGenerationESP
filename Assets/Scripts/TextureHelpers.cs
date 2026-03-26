@@ -168,4 +168,42 @@ public class TextureHelpers : MonoBehaviour
 
         return sum / count;
     }
+
+    public List<List<float>> SmoothHeightMap(List<List<float>> heightMap, int radius)
+    {
+        /*
+        Appliquer un lissage à une heightmap en échantillonnant les valeurs environnantes pour chaque point de la heightmap.
+         - 'heightMap': heightmap à lisser
+         - 'radius': rayon de lissage (nombre de points à considérer autour de chaque point pour calculer la moyenne)
+         - return: heightmap lissée
+        */
+
+        List<List<float>> smoothedMap = new List<List<float>>();
+
+        for (int x = 0; x < heightMap.Count; x++)
+        {
+            smoothedMap.Add(new List<float>());
+            for (int y = 0; y < heightMap[0].Count; y++)
+            {
+                float sum = 0f;
+                int count = 0;
+
+                for (int dx = -radius; dx <= radius; dx++)
+                {
+                    for (int dy = -radius; dy <= radius; dy++)
+                    {
+                        int sx = Mathf.Clamp(x + dx, 0, heightMap.Count - 1);
+                        int sy = Mathf.Clamp(y + dy, 0, heightMap[0].Count - 1);
+
+                        sum += heightMap[sx][sy];
+                        count++;
+                    }
+                }
+
+                smoothedMap[x].Add(sum / count);
+            }
+        }
+
+        return smoothedMap;
+    }
 }

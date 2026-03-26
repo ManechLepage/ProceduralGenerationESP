@@ -1264,6 +1264,7 @@ MonoBehaviour:
   - {fileID: 2111862952872077870}
   - {fileID: 3362210264606285601}
   hasRandom: 0
+  nodeTimeType: 1
   previewSize: {x: 96, y: 96}
   voronoiAlgorithm: {fileID: 7996292862843154603}
   preview: {fileID: 1121879244649632865}
@@ -1717,7 +1718,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: ca507da79b028ea49a50e19aeb9e519b, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 109.63
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: ca507da79b028ea49a50e19aeb9e519b, type: 3}
       propertyPath: m_AnchoredPosition.x

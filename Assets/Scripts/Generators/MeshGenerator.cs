@@ -53,7 +53,7 @@ public class MeshGenerator : MonoBehaviour
         return HeightMapToMesh(heightMap, height, size);
     }
 
-    public Mesh HeightMapToMesh(List<List<float>> heightMap, float height=1f, Vector2 size=default, bool borderNormals=false, MeshColorSettings colorSettings = default, bool lowBorders = false)
+    public Mesh HeightMapToMesh(List<List<float>> heightMap, float height=1f, Vector2 size=default, bool borderNormals=false, MeshColorSettings colorSettings = default, bool lowBorders = false, float pixelDistance=1f)
     {
         /*
         Transformer un heightmap en mesh, en assignant à chaque vertex une hauteur correspondant à la valeur dans le heightmap.
@@ -175,7 +175,7 @@ public class MeshGenerator : MonoBehaviour
                     // Calculer la pente et la hauteur pour assigner la couleur voulue.
                     // Note : les couleurs ne sont affichées que grâce à un shader spécial appliqué sur le matériau du GameObject du mesh
 
-                    float slope = Vector3.Angle(normal, Vector3.up) / 90f;
+                    float slope = Vector3.Angle(normal, Vector3.up) / 90f / pixelDistance;
                     float colorHeight = pixelHeight / height;
 
                     Color color = Color.white;
