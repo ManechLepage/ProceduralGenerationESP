@@ -114,9 +114,6 @@ public class PaintManager : MonoBehaviour
         /*
         Gérer les entrées de l'utilisateur pour peindre sur la texture, changer d'outil, sauvegarder, annuler, etc.
         */
-
-        if (GameManager.Instance.openedUI)
-            return;
         
         if (!isEnabled)
             return;
