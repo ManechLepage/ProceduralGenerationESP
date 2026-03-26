@@ -6,10 +6,12 @@ public class ColorNode : NodeBehaviour
     public GameObject colorImage;
     public RawImage colorImageComponent;
     public GameObject colorPicker;
-    void Start()
+    public override void Start()
     {
+        base.Start();
         colorImageComponent = colorImage.GetComponent<RawImage>();
     }
+
     public override Variant OnFire()
     {
         int r = GetInputValue("r").GetValue<int>();

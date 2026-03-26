@@ -3,26 +3,53 @@ using System.Collections.Generic;
 
 public class IslandTexture : NodeBehaviour
 {
+    [Header("Preview Settings")]
+    public Vector2Int previewSize = new Vector2Int(64, 64);
+
+    [Space]
     [SerializeField] private FBMAlgorithm fbm;
     [SerializeField] private PreviewBehaviour preview;
+
+    public override void Start()
+    {
+        base.Start();
+
+        UpdatePreview();
+    }
+    
     public override Variant OnFire()
     {
-        AnimationCurve noiseCurve = GetNoiseCurve();
         AnimationCurve distanceCurve = GetDistanceCurve();
-        int seed = GetInputValue("seed").GetValue<int>();
         List<List<Vector2>> warp = GetWarp();
-        float scale = GetInputValue("scale").GetValue<float>();
         float noiseIntensity = GetInputValue("Noise Intensity").GetValue<float>();
-
-        FBMSettings settings = new FBMSettings();
-        settings.seed = seed;
-        settings.scale = scale;
-        settings.curve = noiseCurve;
+        FBMSettings settings = GetSettings();
         Vector2Int size = GraphManager.Instance.GetTerrainSize();
 
-        Debug.Log("Generating island texture with seed: " + seed);
+        Debug.Log("Generating island texture with seed: " + settings.seed);
+
+        List<List<float>> heightmap = GenerateHeightmap(size, settings, warp, noiseIntensity, distanceCurve);
+        UpdatePreviewWithHeightMap(heightmap);
         
-        return new Variant(GenerateHeightmap(size, settings, warp, noiseIntensity, distanceCurve));
+        return new Variant(heightmap);
+    }
+
+    public override void InputUpdated(ConnectorBehaviour connector)
+    {
+        base.InputUpdated(connector);
+
+        UpdatePreview();
+    }
+
+    public void UpdatePreview()
+    {
+        AnimationCurve distanceCurve = GetDistanceCurve();
+        List<List<Vector2>> warp = GetWarp();
+        float noiseIntensity = GetInputValue("Noise Intensity").GetValue<float>();
+        FBMSettings settings = GetSettings();
+
+        List<List<float>> heightmap = GenerateHeightmap(previewSize, settings, warp, noiseIntensity, distanceCurve);
+
+        preview.ApplyHeightMap(heightmap);
     }
 
     public List<List<float>> GenerateHeightmap(Vector2Int size, FBMSettings settings, List<List<Vector2>> warp, float noiseIntensity, AnimationCurve distanceCurve)
@@ -52,7 +79,7 @@ public class IslandTexture : NodeBehaviour
             }
             heightmap.Add(row);
         }
-        preview.ApplyHeightMap(heightmap);
+        
         return heightmap;
     }
 
@@ -64,6 +91,15 @@ public class IslandTexture : NodeBehaviour
         Vector2 point = new Vector2(x, y);
         // point += warp[x][y];
         return fbm.GetValue(point.x, point.y, settings);
+    }
+
+    FBMSettings GetSettings()
+    {
+        FBMSettings settings = new FBMSettings();
+        settings.seed = GetInputValue("seed").GetValue<int>();
+        settings.scale = GetInputValue("scale").GetValue<float>();
+        settings.curve = GetNoiseCurve();
+        return settings;
     }
 
     AnimationCurve GetNoiseCurve()
@@ -88,5 +124,30 @@ public class IslandTexture : NodeBehaviour
             return GetInputValue("warp").GetValue<List<List<Vector2>>>();
         else
             return new List<List<Vector2>>();
+    }
+
+    public void UpdatePreviewWithHeightMap(List<List<float>> heightMap)
+    {
+        Vector2Int heightMapSize = new Vector2Int(heightMap[0].Count, heightMap.Count);
+
+        if (heightMapSize.x == 0) return;
+
+        List<List<float>> scaledHeightMap = new List<List<float>>();
+
+        float scaleX = (float)heightMapSize.x / previewSize.x;
+        float scaleY = (float)heightMapSize.y / previewSize.y;
+
+        for (int x = 0; x < previewSize.x; x++)
+        {
+            scaledHeightMap.Add(new List<float>());
+            for (int y = 0; y < previewSize.y; y++)
+            {
+                int sourceX = Mathf.FloorToInt(x * scaleX);
+                int sourceY = Mathf.FloorToInt(y * scaleY);
+                scaledHeightMap[scaledHeightMap.Count - 1].Add(heightMap[sourceX][sourceY]);
+            }
+        }
+
+        preview.ApplyHeightMap(scaledHeightMap);
     }
 }
