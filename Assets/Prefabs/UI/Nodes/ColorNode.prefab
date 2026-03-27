@@ -606,6 +606,7 @@ MonoBehaviour:
   outputConnections:
   - {fileID: 8610696726739139523}
   hasRandom: 0
+  nodeTimeType: 0
   colorImage: {fileID: 9197456593665821344}
   colorImageComponent: {fileID: 0}
   colorPicker: {fileID: 5644582418538612688}
@@ -789,7 +790,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2130943084915617138, guid: 4214b57e615806c448ba9d993d629531, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2130943084915617143, guid: 4214b57e615806c448ba9d993d629531, type: 3}
       propertyPath: m_Color.a
