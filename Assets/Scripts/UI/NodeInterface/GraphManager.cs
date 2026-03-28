@@ -109,7 +109,10 @@ public abstract class NodeBehaviour : MonoBehaviour
         ConnectorBehaviour previewConnector = GetOutputConnection("preview");
         if (previewConnector != null && previewConnector.IsConnected() && result.dataType == DataType.HeightMap && result.asHeightMap != null)
         {
-            (previewConnector.connectedTo.node as ViewNode).UpdatePreview(result.GetValue<List<List<float>>>());
+            foreach (ConnectorBehaviour connectedTo in previewConnector.multipleConnectedTo)
+            {
+                (connectedTo.node as ViewNode).UpdatePreview(result.GetValue<List<List<float>>>());
+            }
         }
 
         if (!onlyIfModified)
@@ -152,7 +155,12 @@ public abstract class NodeBehaviour : MonoBehaviour
             foreach (ConnectorBehaviour outputConnection in outputConnections)
             {
                 if (outputConnection.IsConnected())
-                    outputConnection.connectedTo.InputUpdated();
+                {
+                    foreach (ConnectorBehaviour connectedTo in outputConnection.multipleConnectedTo)
+                    {
+                        connectedTo.InputUpdated();
+                    }
+                }
             }
         }
     }
@@ -166,12 +174,12 @@ public abstract class NodeBehaviour : MonoBehaviour
     {
         foreach (ConnectorBehaviour connector in inputConnections)
         {
-            connector.RemoveConnection();
+            connector.RemoveConnections();
         }
 
         foreach (ConnectorBehaviour connector in outputConnections)
         {
-            connector.RemoveConnection();
+            connector.RemoveConnections();
         }
     }
 
@@ -193,7 +201,7 @@ public abstract class NodeBehaviour : MonoBehaviour
             if (connector.IsConnected())
             {
                 bool varOnlyIfModified = onlyIfModified == default ? currentlyFiringOnlyIfModified : onlyIfModified;
-                return connector.connectedTo.node.Fire(varOnlyIfModified);  // A cheap way to pass the onlyIfModified argument to other nodes.
+                return connector.multipleConnectedTo[0].node.Fire(varOnlyIfModified);  // A cheap way to pass the onlyIfModified argument to other nodes.
             }
             else
             {
