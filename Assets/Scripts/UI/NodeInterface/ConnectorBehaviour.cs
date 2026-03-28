@@ -115,7 +115,7 @@ public class ConnectorBehaviour : MonoBehaviour
                     multiInput.DisableInputs();
                 
                 currentLine = null;
-                // Debug.Log("[From output] Current line set to null because it has been connected on an input or placed in air.");
+                Debug.Log("[From output] Current line set to null because it has been connected on an input or placed in air.");
 
                 EnableAllConnections();
             }
@@ -130,7 +130,7 @@ public class ConnectorBehaviour : MonoBehaviour
 
                 if (!TryConnect(Input.mousePosition, fromInput: true) && !MouseInConnector(Input.mousePosition, this))
                 {
-                    // Debug.Log("[From input] Not connected to another connector, removing connection.");
+                    Debug.Log("[From input] Not connected to another connector, removing connection.");
 
                     if (multiInput != null)
                         multiInput.EnableInputs();
@@ -148,7 +148,7 @@ public class ConnectorBehaviour : MonoBehaviour
                 }
 
                 currentLine = null;
-                // Debug.Log("[From input] Current Line set to null because it has been connected on an input or placed in air.");
+                Debug.Log("[From input] Current Line set to null because it has been connected on an input or placed in air.");
 
                 EnableAllConnections(fromInput: true);
             }

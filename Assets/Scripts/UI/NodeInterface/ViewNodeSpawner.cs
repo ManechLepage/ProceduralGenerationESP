@@ -33,14 +33,15 @@ public class ViewNodeSpawner : MonoBehaviour
 
         ConnectorBehaviour newConnector = nodeBehaviour.GetInputConnection("preview");
 
-        connector.currentLine = connector.CreateLineFromConnection();
-        newConnector.currentLine = connector.currentLine;
+        GameObject currentLine = connector.CreateLineFromConnection();
+        connector.connectionLines.Add(currentLine);
+        newConnector.connectionLines.Add(currentLine);
 
-        connector.connectedTo = newConnector;
-        newConnector.connectedTo = connector;
+        connector.multipleConnectedTo.Add(newConnector);
+        newConnector.multipleConnectedTo.Add(connector);
 
-        connector.currentLine.GetComponent<LineManager>().output = newConnector;
-        connector.currentLine.GetComponent<LineManager>().isLinked = true;
+        currentLine.GetComponent<LineManager>().output = newConnector;
+        currentLine.GetComponent<LineManager>().isLinked = true;
 
         newConnector.node = nodeBehaviour;
         newConnector.InputUpdated();

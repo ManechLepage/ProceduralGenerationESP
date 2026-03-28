@@ -26,7 +26,7 @@ public class ViewNode : NodeBehaviour
 
         if (connector.IsConnected())
         {
-            List<List<float>> heightMap = connector.connectedTo.node.Fire(onlyIfModified: true).GetValue<List<List<float>>>();
+            List<List<float>> heightMap = connector.multipleConnectedTo[0].node.Fire(onlyIfModified: true).GetValue<List<List<float>>>();
             UpdatePreview(heightMap);
         }
         else
