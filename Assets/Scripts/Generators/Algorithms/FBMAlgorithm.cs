@@ -170,7 +170,6 @@ public class FBMAlgorithm : MonoBehaviour
             }
         }
 
-
         // Note: les FBMSettings ne peuvent pas être passés directement au job car ils sont un type complexe, donc on passe chaque champ individuellement
         CalculateHeightJob job = new CalculateHeightJob
         {
@@ -186,6 +185,7 @@ public class FBMAlgorithm : MonoBehaviour
             inverted = settings.inverted,
             curveLUT = curveLUT,
             domainMap = domainMapArray,
+            useDomainMap = domainMap != null && domainMap.Count > 0,
             results = results
         };
 
@@ -224,6 +224,7 @@ public class FBMAlgorithm : MonoBehaviour
         [ReadOnly] public bool inverted;
         [ReadOnly] public NativeArray<float> curveLUT;
         [ReadOnly] public NativeArray<Vector2> domainMap;
+        [ReadOnly] public bool useDomainMap;
 
         [WriteOnly] public NativeArray<float> results;
 
@@ -242,7 +243,7 @@ public class FBMAlgorithm : MonoBehaviour
             float domainX = x;
             float domainY = y;
 
-            if (domainMap.Length > 0)
+            if (useDomainMap)
             {
                 domainX = domainMap[index].x;
                 domainY = domainMap[index].y;

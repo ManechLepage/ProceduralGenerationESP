@@ -14,7 +14,8 @@ public class ThermalErosionAlgorithm : MonoBehaviour
 
     void Awake()
     {
-        AlgorithmRegistry.Instance.Register("TEA");
+        if (AlgorithmRegistry.Instance != null)
+            AlgorithmRegistry.Instance.Register("TEA");
     }
     
     public void ApplyErosionStep(List<List<float>> heightMap, List<List<float>> bedrockMap, List<List<float>> sedimentMap, ThermalErosionSettings settings, float pixelDistance)

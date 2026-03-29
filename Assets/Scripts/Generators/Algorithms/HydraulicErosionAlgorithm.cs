@@ -17,7 +17,8 @@ public class HydraulicErosionAlgorithm : MonoBehaviour
 
     void Start()
     {
-        AlgorithmRegistry.Instance.Register("FBM");
+        if (AlgorithmRegistry.Instance != null)
+            AlgorithmRegistry.Instance.Register("FBM");
     }
     public void ApplyErosionStep(List<List<float>> heightMap, float dropSize, HydraulicErosionSettings settings)
     {

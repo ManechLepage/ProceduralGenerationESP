@@ -37,7 +37,8 @@ public class VoronoiAlgorithm : MonoBehaviour
         */
 
         baseSettings = new VoronoiSettings();
-        AlgorithmRegistry.Instance.Register("Voronoi");
+        if (AlgorithmRegistry.Instance != null)
+            AlgorithmRegistry.Instance.Register("Voronoi");
     }
     
     /* Première partie : génération pixel par pixel */
