@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class MinecraftExportNode : NodeBehaviour
 {
-    public BlockPalette blockPalette;
+    public List<BlockPaletteItem> blockPalettes = new List<BlockPaletteItem>();
     public MinecraftConverter converter;
 
     public override Variant OnFire()
@@ -33,9 +33,31 @@ public class MinecraftExportNode : NodeBehaviour
         Vector2 size = GetInputValue("size").GetValue<Vector2>();
         settings.size = new Vector2Int(Mathf.RoundToInt(size.x), Mathf.RoundToInt(size.y));
 
+        string block_palette = GetInputValue("block_palette").GetValue<string>();
+
         settings.height = GetInputValue("height").GetValue<int>();
-        settings.blockPalette = blockPalette;
+        settings.blockPalette = GetBlockPaletteByName(block_palette);
 
         return settings;
     }
+
+    public BlockPalette GetBlockPaletteByName(string name)
+    {
+        foreach (BlockPaletteItem item in blockPalettes)
+        {
+            if (item.name == name)
+            {
+                return item.palette;
+            }
+        }
+        return blockPalettes.Count > 0 ? blockPalettes[0].palette : null;
+    }
+}
+
+
+[System.Serializable]
+public class BlockPaletteItem
+{
+    public string name;
+    public BlockPalette palette;
 }

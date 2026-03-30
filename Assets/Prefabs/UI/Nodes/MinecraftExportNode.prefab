@@ -306,6 +306,175 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1001 &2799765648059336710
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1220277798718522412}
+    m_Modifications:
+    - target: {fileID: 929078881617483724, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[0].m_Text
+      value: Default
+      objectReference: {fileID: 0}
+    - target: {fileID: 929078881617483724, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[1].m_Text
+      value: Canyon
+      objectReference: {fileID: 0}
+    - target: {fileID: 929078881617483724, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[2].m_Text
+      value: Snowy
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542508424123850463, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542508424123850463, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542508424123850463, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542508424123850463, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4115382556652509945, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_text
+      value: 'Palette:'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4131438938945944039, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_Name
+      value: DropdownInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 4139640471089815778, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4139640471089815778, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4139640471089815778, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4139640471089815778, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5075694877928894816, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5075694877928894816, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5075694877928894816, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5075694877928894816, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5075694877928894816, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5075694877928894816, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5075694877928894816, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 123.4948
+      objectReference: {fileID: 0}
+    - target: {fileID: 5075694877928894816, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5075694877928894816, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5075694877928894816, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5075694877928894816, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5075694877928894816, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5075694877928894816, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5075694877928894816, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5075694877928894816, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5075694877928894816, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5075694877928894816, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5075694877928894816, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5075694877928894816, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5075694877928894816, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5890202696996012075, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: connectionName
+      value: block_palette
+      objectReference: {fileID: 0}
+    - target: {fileID: 6589166548387163747, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+      propertyPath: m_text
+      value: Default
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+--- !u!224 &6965583855526066534 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5075694877928894816, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+  m_PrefabInstance: {fileID: 2799765648059336710}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8603265212098136109 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5890202696996012075, guid: dc78e6ef3c346a7439de1f01d0f8149e, type: 3}
+  m_PrefabInstance: {fileID: 2799765648059336710}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948acae164443d348a5afef9169c1f30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ConnectorBehaviour
 --- !u!1001 &3845803825279049561
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -605,7 +774,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5328159020159831763, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 140.4056
+      value: 160.1448
       objectReference: {fileID: 0}
     - target: {fileID: 5328159020159831763, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -641,7 +810,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5328159020159831763, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -10.6235
+      value: -20.493
       objectReference: {fileID: 0}
     - target: {fileID: 5328159020159831763, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -717,6 +886,9 @@ PrefabInstance:
       addedObject: {fileID: 4179639260196518660}
     - targetCorrespondingSourceObject: {fileID: 6378138601567887067, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 6965583855526066534}
+    - targetCorrespondingSourceObject: {fileID: 6378138601567887067, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 56289997442236651}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4905050211979275109, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
@@ -751,38 +923,70 @@ MonoBehaviour:
   - {fileID: 2773295236215526007}
   - {fileID: 2273456036400456034}
   - {fileID: 3300934564956621391}
+  - {fileID: 8603265212098136109}
   outputConnections: []
   hasRandom: 0
   nodeTimeType: 0
-  blockPalette:
-    blockConstraints:
-    - blockProportions:
-      - blockName: minecraft:snow_block
-        proportion: 1
-      slopeRange: {x: 0, y: 0.275}
-      heightRange: {x: 0.7, y: 1}
-    - blockProportions:
-      - blockName: minecraft:grass_block
-        proportion: 1
-      slopeRange: {x: 0, y: 0.275}
-      heightRange: {x: 0, y: 0.7}
-    - blockProportions:
-      - blockName: minecraft:andesite
-        proportion: 1
-      slopeRange: {x: 0.275, y: 0.325}
-      heightRange: {x: 0, y: 1}
-    - blockProportions:
-      - blockName: minecraft:stone
-        proportion: 0.5
-      - blockName: minecraft:cobblestone
-        proportion: 0.5
-      slopeRange: {x: 0.325, y: 0.4}
-      heightRange: {x: 0, y: 1}
-    - blockProportions:
-      - blockName: minecraft:tuff
-        proportion: 1
-      slopeRange: {x: 0.4, y: 1}
-      heightRange: {x: 0, y: 1}
+  blockPalettes:
+  - name: Default
+    palette:
+      blockConstraints:
+      - blockProportions:
+        - blockName: minecraft:snow_block
+          proportion: 1
+        slopeRange: {x: 0, y: 0.275}
+        heightRange: {x: 0.7, y: 1}
+      - blockProportions:
+        - blockName: minecraft:grass_block
+          proportion: 1
+        slopeRange: {x: 0, y: 0.275}
+        heightRange: {x: 0, y: 0.7}
+      - blockProportions:
+        - blockName: minecraft:andesite
+          proportion: 1
+        slopeRange: {x: 0.275, y: 0.325}
+        heightRange: {x: 0, y: 1}
+      - blockProportions:
+        - blockName: minecraft:stone
+          proportion: 0.5
+        - blockName: minecraft:cobblestone
+          proportion: 0.5
+        slopeRange: {x: 0.325, y: 0.4}
+        heightRange: {x: 0, y: 1}
+      - blockProportions:
+        - blockName: minecraft:tuff
+          proportion: 1
+        slopeRange: {x: 0.4, y: 1}
+        heightRange: {x: 0, y: 1}
+  - name: Snowy
+    palette:
+      blockConstraints:
+      - blockProportions:
+        - blockName: minecraft:snow_block
+          proportion: 1
+        slopeRange: {x: 0, y: 0.275}
+        heightRange: {x: 0, y: 1}
+      - blockProportions:
+        - blockName: minecraft:ice
+          proportion: 0.55
+        - blockName: minecraft:packed_ice
+          proportion: 0.3
+        - blockName: minecraft:blue_ice
+          proportion: 0.15
+        slopeRange: {x: 0.275, y: 0.355}
+        heightRange: {x: 0, y: 1}
+      - blockProportions:
+        - blockName: minecraft:stone
+          proportion: 0.5
+        - blockName: minecraft:cobblestone
+          proportion: 0.5
+        slopeRange: {x: 0.355, y: 0.425}
+        heightRange: {x: 0, y: 1}
+      - blockProportions:
+        - blockName: minecraft:tuff
+          proportion: 1
+        slopeRange: {x: 0.425, y: 1}
+        heightRange: {x: 0, y: 1}
   converter: {fileID: 1405171200473929484}
 --- !u!114 &1405171200473929484
 MonoBehaviour:
@@ -1170,7 +1374,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 52.05
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_AnchoredPosition.x
