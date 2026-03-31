@@ -973,20 +973,123 @@ MonoBehaviour:
           proportion: 0.3
         - blockName: minecraft:blue_ice
           proportion: 0.15
-        slopeRange: {x: 0.275, y: 0.355}
+        slopeRange: {x: 0.275, y: 0.4}
         heightRange: {x: 0, y: 1}
       - blockProportions:
         - blockName: minecraft:stone
           proportion: 0.5
         - blockName: minecraft:cobblestone
           proportion: 0.5
-        slopeRange: {x: 0.355, y: 0.435}
+        slopeRange: {x: 0.4, y: 0.525}
         heightRange: {x: 0, y: 1}
       - blockProportions:
         - blockName: minecraft:tuff
           proportion: 1
-        slopeRange: {x: 0.435, y: 1}
+        slopeRange: {x: 0.525, y: 1}
         heightRange: {x: 0, y: 1}
+  - name: Canyon
+    palette:
+      blockConstraints:
+      - blockProportions:
+        - blockName: minecraft:red_terracotta
+          proportion: 1
+        slopeRange: {x: 0, y: 1}
+        heightRange: {x: 0, y: 0.05}
+      - blockProportions:
+        - blockName: minecraft:orange_terracotta
+          proportion: 1
+        slopeRange: {x: 0, y: 1}
+        heightRange: {x: 0.05, y: 0.1}
+      - blockProportions:
+        - blockName: minecraft:yellow_terracotta
+          proportion: 1
+        slopeRange: {x: 0, y: 1}
+        heightRange: {x: 0.1, y: 0.14}
+      - blockProportions:
+        - blockName: minecraft:terracotta
+          proportion: 1
+        slopeRange: {x: 0, y: 1}
+        heightRange: {x: 0.14, y: 0.19}
+      - blockProportions:
+        - blockName: minecraft:white_terracotta
+          proportion: 1
+        slopeRange: {x: 0, y: 1}
+        heightRange: {x: 0.19, y: 0.23}
+      - blockProportions:
+        - blockName: minecraft:red_terracotta
+          proportion: 1
+        slopeRange: {x: 0, y: 1}
+        heightRange: {x: 0.23, y: 0.28}
+      - blockProportions:
+        - blockName: minecraft:orange_terracotta
+          proportion: 1
+        slopeRange: {x: 0, y: 1}
+        heightRange: {x: 0.28, y: 0.33}
+      - blockProportions:
+        - blockName: minecraft:yellow_terracotta
+          proportion: 1
+        slopeRange: {x: 0, y: 1}
+        heightRange: {x: 0.33, y: 0.37}
+      - blockProportions:
+        - blockName: minecraft:light_gray_terracotta
+          proportion: 1
+        slopeRange: {x: 0, y: 1}
+        heightRange: {x: 0.37, y: 0.42}
+      - blockProportions:
+        - blockName: minecraft:orange_terracotta
+          proportion: 1
+        slopeRange: {x: 0, y: 1}
+        heightRange: {x: 0.42, y: 0.47}
+      - blockProportions:
+        - blockName: minecraft:red_terracotta
+          proportion: 1
+        slopeRange: {x: 0, y: 1}
+        heightRange: {x: 0.47, y: 0.52}
+      - blockProportions:
+        - blockName: minecraft:terracotta
+          proportion: 1
+        slopeRange: {x: 0, y: 1}
+        heightRange: {x: 0.52, y: 0.56}
+      - blockProportions:
+        - blockName: minecraft:orange_terracotta
+          proportion: 1
+        slopeRange: {x: 0, y: 1}
+        heightRange: {x: 0.56, y: 0.61}
+      - blockProportions:
+        - blockName: minecraft:yellow_terracotta
+          proportion: 1
+        slopeRange: {x: 0, y: 1}
+        heightRange: {x: 0.61, y: 0.65}
+      - blockProportions:
+        - blockName: minecraft:red_terracotta
+          proportion: 1
+        slopeRange: {x: 0, y: 1}
+        heightRange: {x: 0.65, y: 0.7}
+      - blockProportions:
+        - blockName: minecraft:orange_terracotta
+          proportion: 1
+        slopeRange: {x: 0, y: 1}
+        heightRange: {x: 0.7, y: 0.75}
+      - blockProportions:
+        - blockName: minecraft:white_terracotta
+          proportion: 1
+        slopeRange: {x: 0, y: 1}
+        heightRange: {x: 0.75, y: 0.8}
+      - blockProportions:
+        - blockName: minecraft:terracotta
+          proportion: 1
+        slopeRange: {x: 0, y: 1}
+        heightRange: {x: 0.8, y: 0.85}
+      - blockProportions:
+        - blockName: minecraft:red_terracotta
+          proportion: 1
+        slopeRange: {x: 0, y: 1}
+        heightRange: {x: 0.85, y: 0.91}
+      - blockProportions:
+        - blockName: minecraft:orange_terracotta
+          proportion: 1
+        slopeRange: {x: 0, y: 1}
+        heightRange: {x: 0.91, y: 1}
   converter: {fileID: 1405171200473929484}
 --- !u!114 &1405171200473929484
 MonoBehaviour:
@@ -1076,7 +1179,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5861061887653793364, guid: 8a7046d628caf90448fb38cdb2b7d2d8, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 66.12666
+      value: 66.1267
       objectReference: {fileID: 0}
     - target: {fileID: 5861061887653793364, guid: 8a7046d628caf90448fb38cdb2b7d2d8, type: 3}
       propertyPath: m_AnchoredPosition.y

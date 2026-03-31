@@ -41,10 +41,10 @@ public class MinecraftConverter : MonoBehaviour
                 float slope = CalculateSlope(heightMap, x, z, settings.size) * 7.5f;
                 int blockHeight = Mathf.RoundToInt(normalizedHeight * (height - 1));
 
-                int blockType = paletteDict[GetBlockFromHeightAndSlope(normalizedHeight, slope, settings.blockPalette)];
-
                 for (int y = 0; y <= blockHeight; y++)
                 {
+                    float localHeight = normalizedHeight - (blockHeight - y) / (float)height;
+                    int blockType = paletteDict[GetBlockFromHeightAndSlope(localHeight, slope, settings.blockPalette)];
                     blockMap[x, y, z] = blockType;
                 }
 
