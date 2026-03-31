@@ -120,10 +120,10 @@ public abstract class NodeBehaviour : MonoBehaviour
             switch (nodeTimeType)
             {
                 case NodeTimeType.Terrain:
-                    TerrainManager.Instance.generationStatistics.terrainActualTime += elapsedTime;
+                    TerrainManager.Instance.generationStatistics.actual.terrainTime += elapsedTime;
                     break;
                 case NodeTimeType.Erosion:
-                    TerrainManager.Instance.generationStatistics.erosionActualTime += elapsedTime;
+                    TerrainManager.Instance.generationStatistics.actual.erosionTime += elapsedTime;
                     break;
                 default:
                     break;
@@ -136,6 +136,8 @@ public abstract class NodeBehaviour : MonoBehaviour
     }
 
     public virtual Variant OnFire() { return new Variant(); }
+
+    public virtual float GetPredictedTime() { return 0f; }
 
     public virtual void Start()
     {

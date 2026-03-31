@@ -109,4 +109,9 @@ public class FBMNode : NodeBehaviour
         else
             return AnimationCurve.Linear(0, 0, 1, 1);
     }
+
+    public override float GetPredictedTime()
+    {
+        return 1f;
+    }
 }

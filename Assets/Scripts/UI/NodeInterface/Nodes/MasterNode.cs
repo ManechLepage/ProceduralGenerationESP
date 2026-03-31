@@ -35,4 +35,38 @@ public class MasterNode : NodeBehaviour
             TerrainManager.Instance.SetActiveSea(hasWater);
         }
     }
+
+    public GenerationStatistics GetPredictedStatistics()
+    {
+        GenerationStatistics predictedStats = new GenerationStatistics { terrainTime = 0f, erosionTime = 0f };
+        PredictTimeForNode(this, predictedStats);
+        return predictedStats;
+    }
+
+    void PredictTimeForNode(NodeBehaviour node, GenerationStatistics accumulatedStats)
+    {
+        float nodeTime = node.GetPredictedTime();
+
+        switch (node.nodeTimeType)
+        {
+            case NodeTimeType.Terrain:
+                accumulatedStats.terrainTime += nodeTime;
+                break;
+            case NodeTimeType.Erosion:
+                accumulatedStats.erosionTime += nodeTime;
+                break;
+            default:
+                break;
+        }
+
+        // Faire la boucle dans les connections pour calculer le temps total.
+        foreach (ConnectorBehaviour input in node.inputConnections)
+        {
+            if (input.IsConnected())
+            {
+                NodeBehaviour connectedNode = input.multipleConnectedTo[0].node;
+                PredictTimeForNode(connectedNode, accumulatedStats);
+            }
+        }
+    }
 }

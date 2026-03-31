@@ -951,12 +951,12 @@ MonoBehaviour:
           proportion: 0.5
         - blockName: minecraft:cobblestone
           proportion: 0.5
-        slopeRange: {x: 0.325, y: 0.4}
+        slopeRange: {x: 0.325, y: 0.435}
         heightRange: {x: 0, y: 1}
       - blockProportions:
         - blockName: minecraft:tuff
           proportion: 1
-        slopeRange: {x: 0.4, y: 1}
+        slopeRange: {x: 0.435, y: 1}
         heightRange: {x: 0, y: 1}
   - name: Snowy
     palette:
@@ -980,12 +980,12 @@ MonoBehaviour:
           proportion: 0.5
         - blockName: minecraft:cobblestone
           proportion: 0.5
-        slopeRange: {x: 0.355, y: 0.425}
+        slopeRange: {x: 0.355, y: 0.435}
         heightRange: {x: 0, y: 1}
       - blockProportions:
         - blockName: minecraft:tuff
           proportion: 1
-        slopeRange: {x: 0.425, y: 1}
+        slopeRange: {x: 0.435, y: 1}
         heightRange: {x: 0, y: 1}
   converter: {fileID: 1405171200473929484}
 --- !u!114 &1405171200473929484
@@ -1374,7 +1374,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 52.05
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_AnchoredPosition.x

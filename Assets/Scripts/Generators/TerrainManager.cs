@@ -10,7 +10,7 @@ public class TerrainManager : MonoBehaviour
     public int smoothing = 1;
 
     [Header("Statistics Settings")]
-    public GenerationStatistics generationStatistics = new GenerationStatistics();
+    public GlobalGenerationStatistics generationStatistics = new GlobalGenerationStatistics();
     public TextMeshProUGUI terrainPredictedTimeText;
     public TextMeshProUGUI erosionPredictedTimeText;
     public TextMeshProUGUI terrainActualTimeText;
@@ -73,11 +73,13 @@ public class TerrainManager : MonoBehaviour
         Générer le terrain à partir du master node, puis mettre à jour le mesh.
         */
 
+        generationStatistics.predicted = masterNode.GetPredictedStatistics();
+
         if (!onlyIfModified)
         {
             ClearActualStatisticsTexts();
-            generationStatistics.erosionActualTime = 0f;
-            generationStatistics.terrainActualTime = 0f;
+            generationStatistics.actual.erosionTime = 0f;
+            generationStatistics.actual.terrainTime = 0f;
         }
 
         heightMap = masterNode.GetInputValue("heightmap", onlyIfModified: onlyIfModified).GetValue<List<List<float>>>();
@@ -88,10 +90,7 @@ public class TerrainManager : MonoBehaviour
             UpdateMesh();
         }
 
-        if (!onlyIfModified)
-        {
-            UpdateStatisticsTexts();
-        }
+        UpdateStatisticsTexts();
     }
 
     public void SetActiveSea(bool active)
@@ -104,6 +103,8 @@ public class TerrainManager : MonoBehaviour
 
     public void MasterNodeUpdated()
     {
+        ReloadPredictions();
+
         if (masterNode.GetInputValue("auto_reload").GetValue<bool>())
         {
             Generate(onlyIfModified: true);
@@ -132,10 +133,10 @@ public class TerrainManager : MonoBehaviour
 
     public void UpdateStatisticsTexts()
     {
-        terrainPredictedTimeText.text = $"{generationStatistics.terrainpredictedTime * 1000f:F0}";
-        erosionPredictedTimeText.text = $"{generationStatistics.erosionPredictedTime * 1000f:F0}";
-        terrainActualTimeText.text = $"{generationStatistics.terrainActualTime * 1000f:F0}";
-        erosionActualTimeText.text = $"{generationStatistics.erosionActualTime * 1000f:F0}";
+        terrainPredictedTimeText.text = $"{generationStatistics.predicted.terrainTime * 1000f:F0}";
+        erosionPredictedTimeText.text = $"{generationStatistics.predicted.erosionTime * 1000f:F0}";
+        terrainActualTimeText.text = $"{generationStatistics.actual.terrainTime * 1000f:F0}";
+        erosionActualTimeText.text = $"{generationStatistics.actual.erosionTime * 1000f:F0}";
     }
 
     public void ClearActualStatisticsTexts()
@@ -143,16 +144,27 @@ public class TerrainManager : MonoBehaviour
         terrainActualTimeText.text = "0";
         erosionActualTimeText.text = "0";
     }
+
+    public void ReloadPredictions()
+    {
+        generationStatistics.predicted = masterNode.GetPredictedStatistics();
+        UpdateStatisticsTexts();
+    }
+}
+
+[System.Serializable]
+public class GlobalGenerationStatistics
+{
+    [Header("Predicted Times")]
+    public GenerationStatistics predicted;
+
+    [Header("Actual Times")]
+    public GenerationStatistics actual;
 }
 
 [System.Serializable]
 public class GenerationStatistics
 {
-    [Header("Predicted Times")]
-    public float terrainpredictedTime;
-    public float erosionPredictedTime;
-
-    [Header("Actual Times")]
-    public float terrainActualTime;
-    public float erosionActualTime;
+    public float terrainTime;
+    public float erosionTime;
 }
