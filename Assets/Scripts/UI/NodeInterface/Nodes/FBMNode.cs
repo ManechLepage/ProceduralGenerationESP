@@ -44,6 +44,14 @@ public class FBMNode : NodeBehaviour
     {
         FBMSettings settings = GetSettings();
         List<List<Vector2>> domainMap = GetDomainMap();
+
+        // Make the offset consistent with the preview size and terrain size
+        Vector2Int targetSize = GraphManager.Instance.GetTerrainSize();
+        settings.offset = new Vector2(
+            settings.offset.x * previewSize.x / targetSize.x,
+            settings.offset.y * previewSize.y / targetSize.y
+        );
+
         List<List<float>> heightMap = fbmAlgorithm.GetHeightMapThreading(previewSize, settings, domainMap);
 
         preview.ApplyHeightMap(heightMap);

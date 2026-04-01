@@ -56,7 +56,7 @@ public class IslandTexture : NodeBehaviour
     {
         List<List<float>> heightmap = new List<List<float>>();
         Vector2Int terrainSize = GraphManager.Instance.GetTerrainSize();
-        float maxDistance = terrainSize.magnitude / 2.0f;
+        float maxDistance = Mathf.Max(terrainSize.x, terrainSize.y) / 2.0f;
         List<float> maxNoiseValues = new List<float>();
         for (int theta = 0; theta < 360; theta++)
         {
@@ -73,7 +73,7 @@ public class IslandTexture : NodeBehaviour
                 if (angle < 0) angle += 360;
                 int angleIndex = Mathf.FloorToInt(angle);
                 float distance = Vector2.Distance(new Vector2(x, y), new Vector2(terrainSize.x / 2.0f, terrainSize.y / 2.0f));
-                float value = distance / maxNoiseValues[angleIndex];
+                float value = 1f - distance / maxNoiseValues[angleIndex];
                 value = distanceCurve.Evaluate(value);
                 row.Add(value);
             }
