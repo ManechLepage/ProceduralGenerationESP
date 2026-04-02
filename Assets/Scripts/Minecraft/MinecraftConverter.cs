@@ -47,7 +47,7 @@ public class MinecraftConverter : MonoBehaviour
         {
             for (int x = 0; x < width; x++)
             {
-                float slope = CalculateSlope(heightMap, x, z, settings.size) * 6.5f * (width / 128f);
+                float slope = CalculateSlope(heightMap, x, z, settings.size) * 5.5f * (width / 128f);
                 int blockHeight = heightMapArray[x, z];
 
                 int undergroundStart = -1;
