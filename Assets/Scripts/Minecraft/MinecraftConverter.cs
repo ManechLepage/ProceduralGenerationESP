@@ -32,20 +32,51 @@ public class MinecraftConverter : MonoBehaviour
         int height = settings.height;
 
         int[,,] blockMap = new int[width, height, length];
+        int [,] heightMapArray = new int[width, length];
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int z = 0; z < length; z++)
+            {
+                float normalizedHeight = SampleHeightFromInterpolation(heightMap, x, z, settings.size);
+                heightMapArray[x, z] = GetBlockHeight(normalizedHeight, height);
+            }
+        }
 
         for (int z = 0; z < length; z++)
         {
             for (int x = 0; x < width; x++)
             {
-                float normalizedHeight = SampleHeightFromInterpolation(heightMap, x, z, settings.size);
-                float slope = CalculateSlope(heightMap, x, z, settings.size) * 7.5f;
-                int blockHeight = Mathf.RoundToInt(normalizedHeight * (height - 1));
+                float slope = CalculateSlope(heightMap, x, z, settings.size) * 6.5f * (width / 128f);
+                int blockHeight = heightMapArray[x, z];
 
+                int undergroundStart = -1;
+
+                if (settings.blockPalette.hasUnderground)
+                {
+                    int n1Height = (z > 0) ? heightMapArray[x, z - 1] : blockHeight;
+                    int n2Height = (z < length - 1) ? heightMapArray[x, z + 1] : blockHeight;
+                    int n3Height = (x > 0) ? heightMapArray[x - 1, z] : blockHeight;
+                    int n4Height = (x < width - 1) ? heightMapArray[x + 1, z] : blockHeight;
+
+                    int minNeighborHeight = Mathf.Min(n1Height, n2Height, n3Height, n4Height);
+
+                    int groundLevel = Mathf.Min(blockHeight, minNeighborHeight);
+                    undergroundStart = Mathf.Min(blockHeight - 1, groundLevel - settings.blockPalette.undergroundDepth);
+                }
+                
                 for (int y = 0; y <= blockHeight; y++)
                 {
-                    float localHeight = normalizedHeight - (blockHeight - y) / (float)height;
-                    int blockType = paletteDict[GetBlockFromHeightAndSlope(localHeight, slope, settings.blockPalette)];
-                    blockMap[x, y, z] = blockType;
+                    if (y > undergroundStart)
+                    {
+                        float localHeight = y / (float)height;  //normalizedHeight - (blockHeight - y) / (float)height;
+                        int blockType = paletteDict[GetBlockFromHeightAndSlope(localHeight, slope, settings.blockPalette)];
+                        blockMap[x, y, z] = blockType;
+                    }
+                    else
+                    {
+                        blockMap[x, y, z] = paletteDict["minecraft:stone"];
+                    }
                 }
 
                 for (int y = blockHeight + 1; y < height; y++)
@@ -56,6 +87,11 @@ public class MinecraftConverter : MonoBehaviour
         }
 
         return blockMap;
+    }
+
+    public int GetBlockHeight(float normalizedHeight, int maxHeight)
+    {
+        return Mathf.RoundToInt(normalizedHeight * (maxHeight - 1));
     }
 
     public float SampleHeightFromInterpolation(List<List<float>> heightMap, float x, float z, Vector2Int targetSize)
@@ -142,8 +178,14 @@ public class MinecraftConverter : MonoBehaviour
     {
         Dictionary<string, int> paletteDict = new Dictionary<string, int>
         {
-            { "minecraft:air", 0 }
+            { "minecraft:air", 0 },
         };
+
+        if (blockPalette.hasUnderground)
+        {
+            if (!paletteDict.ContainsKey("minecraft:stone"))
+                paletteDict.Add("minecraft:stone", paletteDict.Count);
+        }
 
         for (int i = 0; i < blockPalette.blockConstraints.Count; i++)
         {
@@ -175,6 +217,8 @@ public class MinecraftConverterSettings
 [System.Serializable]
 public class BlockPalette
 {
+    public bool hasUnderground = true;
+    public int undergroundDepth = 3;
     public List<BlockConstraint> blockConstraints;
 }
 

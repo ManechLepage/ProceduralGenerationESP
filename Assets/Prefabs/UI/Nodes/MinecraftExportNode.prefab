@@ -930,6 +930,8 @@ MonoBehaviour:
   blockPalettes:
   - name: Default
     palette:
+      hasUnderground: 1
+      undergroundDepth: 3
       blockConstraints:
       - blockProportions:
         - blockName: minecraft:snow_block
@@ -960,6 +962,8 @@ MonoBehaviour:
         heightRange: {x: 0, y: 1}
   - name: Snowy
     palette:
+      hasUnderground: 1
+      undergroundDepth: 3
       blockConstraints:
       - blockProportions:
         - blockName: minecraft:snow_block
@@ -989,6 +993,8 @@ MonoBehaviour:
         heightRange: {x: 0, y: 1}
   - name: Canyon
     palette:
+      hasUnderground: 0
+      undergroundDepth: 3
       blockConstraints:
       - blockProportions:
         - blockName: minecraft:red_terracotta
@@ -1477,7 +1483,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 52.05
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_AnchoredPosition.x

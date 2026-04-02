@@ -14,6 +14,8 @@ public class MinecraftExportNode : NodeBehaviour
 
     public void Export()
     {
+        float startTime = Time.realtimeSinceStartup;
+
         MinecraftConverterSettings settings = GetSettings();
         string path = GetInputValue("path").GetValue<string>();
         List<List<float>> heightMap = GetInputValue("heightmap").GetValue<List<List<float>>>();
@@ -24,6 +26,11 @@ public class MinecraftExportNode : NodeBehaviour
 
         converter.SaveToSchem(heightMap, schematicPath, settings);
         UnityEditor.AssetDatabase.Refresh();
+
+        float endTime = Time.realtimeSinceStartup;
+        float dt = endTime - startTime;
+
+        Debug.Log($"Exported Minecraft schematic to {schematicPath} in {dt:F3} seconds.");
     }
 
     public MinecraftConverterSettings GetSettings()

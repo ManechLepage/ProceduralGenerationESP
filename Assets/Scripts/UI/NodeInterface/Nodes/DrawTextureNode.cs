@@ -43,18 +43,14 @@ public class DrawTextureNode : NodeBehaviour
         // To prevent strange teleportations,
         GetComponent<UIDraggable>().CancelNextDrag();
 
-        if (preview.texture != null)
-        {
-            PaintManager.Instance.SetTexture(preview.texture as Texture2D);
-        }
-        else
-        {
-            PaintManager.Instance.InitializePainting();
-        }
-
         PaintManager.Instance.paintSize = size;
         PaintManager.Instance.previewImage = preview;
         PaintManager.Instance.onUpdatingPreview.AddListener(DidUpdateTexture);
+
+        if (preview.texture != null)
+            PaintManager.Instance.SetTexture(preview.texture as Texture2D);
+        else
+            PaintManager.Instance.InitializePainting();
 
         GraphManager.Instance.EnableDrawInterface();
         GraphManager.Instance.DisableGraphInterface();
