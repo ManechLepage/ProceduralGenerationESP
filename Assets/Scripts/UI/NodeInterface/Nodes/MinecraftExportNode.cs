@@ -18,7 +18,7 @@ public class MinecraftExportNode : NodeBehaviour
 
         MinecraftConverterSettings settings = GetSettings();
         string path = GetInputValue("path").GetValue<string>();
-        List<List<float>> heightMap = GetInputValue("heightmap").GetValue<List<List<float>>>();
+        List<List<float>> heightMap = GetInputValue("heightmap", onlyIfModified: true).GetValue<List<List<float>>>();
 
         if (heightMap == null || heightMap.Count == 0) { return; }
         

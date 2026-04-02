@@ -54,13 +54,13 @@ public class TextureHelpers : MonoBehaviour
         Note: la heightmap doit être de dimensions compatibles avec une texture (toutes les sous-listes doivent avoir la même longueur).
         */
 
-        Texture2D texture = new Texture2D((int)heightMap.Count, (int)heightMap[0].Count, TextureFormat.RFloat, false, true);
+        Texture2D texture = new Texture2D((int)heightMap[0].Count, (int)heightMap.Count, TextureFormat.RFloat, false, true);
 
         for (int x=0; x<texture.width; x++)
         {
             for (int y=0; y<texture.height; y++)
             {
-                texture.SetPixel(x, y, new Color(heightMap[x][y], 0, 0, 1));
+                texture.SetPixel(x, y, new Color(heightMap[y][x], 0, 0, 1));
             }
         }
         texture.Apply();
