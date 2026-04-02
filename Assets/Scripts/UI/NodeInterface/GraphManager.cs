@@ -20,6 +20,10 @@ public class GraphManager : MonoBehaviour
     [HideInInspector] public LineManager currentLine;
     public float currentZoom = 1f;
 
+    [Space]
+    public GameObject graphInterface;
+    public GameObject drawInterface;
+
     public Vector2Int GetTerrainSize()
     {
         if (masterNode != null)
@@ -76,6 +80,16 @@ public class GraphManager : MonoBehaviour
                 nodes.Add(nodeBehaviour);
         }
     }
+
+    public void DisableGraphInterface() { graphInterface.SetActive(false); }
+    public void EnableGraphInterface() { graphInterface.SetActive(true); }
+    public void DisableDrawInterface()
+    {
+        drawInterface.SetActive(false);
+        if (PaintManager.Instance != null)
+            PaintManager.Instance.WillDisable();
+    }
+    public void EnableDrawInterface() { drawInterface.SetActive(true); }
 }
 
 public abstract class NodeBehaviour : MonoBehaviour

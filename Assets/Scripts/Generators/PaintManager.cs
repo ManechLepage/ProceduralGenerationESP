@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 // Types d'outils utilisables.
 public enum ToolType
@@ -36,13 +37,16 @@ public class PaintManager : MonoBehaviour
     */
     
     [Header("General Settings")]
-    public bool isEnabled = true;
     public Vector2Int paintSize = new Vector2Int(64, 64);
     public float physicalScale = 1f;
     public float zoom = 1f;
     public Material paintMaterial;
     public bool enabledHeight = true;
+
+    [Space]
     public bool inGame = false;
+    public bool saveEnabled = true;
+
 
     [Header("Brush Settings")]
     public int brushIndex = 0;
@@ -70,6 +74,10 @@ public class PaintManager : MonoBehaviour
     public Transform paintParent;
     public Canvas canvas;
     public TextureHelpers textureHelpers;
+    public GameObject uiPanel;
+
+    [HideInInspector] public RawImage previewImage;
+    [HideInInspector] public UnityEvent onUpdatingPreview;
 
     private Texture2D paintTexture;
     private GameObject paintGO;
@@ -79,6 +87,37 @@ public class PaintManager : MonoBehaviour
 
     private Texture2D overlayTexture;
     private GameObject overlayGO;
+
+    public static PaintManager Instance { get; private set; }
+
+    void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
+
+    public void WillDisable()
+    {
+        if (previewImage != null)
+        {
+            previewImage.texture = paintTexture;
+            onUpdatingPreview.Invoke();
+
+            previewImage = null;
+            onUpdatingPreview.RemoveAllListeners();
+        }
+    }
+
+    public void SetTexture(Texture2D texture)
+    {
+        paintTexture = texture;
+        paintGO.GetComponent<RawImage>().texture = paintTexture;
+
+        if (enabledHeightCurves)
+            UpdateHeightCurves();
+    }
 
     void Start()
     {
@@ -115,8 +154,17 @@ public class PaintManager : MonoBehaviour
         Gérer les entrées de l'utilisateur pour peindre sur la texture, changer d'outil, sauvegarder, annuler, etc.
         */
         
-        if (!isEnabled)
+        if (uiPanel != null && !uiPanel.activeSelf)
             return;
+        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (GraphManager.Instance != null)
+            {
+                GraphManager.Instance.EnableGraphInterface();
+                GraphManager.Instance.DisableDrawInterface();
+            }
+        }
         
         lastPaintTime += Time.deltaTime;
         
@@ -190,13 +238,20 @@ public class PaintManager : MonoBehaviour
                 ToolParameters tool = GetToolParameters(toolType);
                 if (tool != null)
                 {
-                    tool.size -= Mathf.CeilToInt(scroll * 5f * (tool.size / 10f));
-                    tool.size = Mathf.Clamp(tool.size, 15f, 100f);
+                    float min = 15f;
+                    float max = 100f;
+
+                    float floatDiff = scroll * 10f * (tool.size / min);
+                    int diff = (floatDiff > 0 ? 1 : -1) *  Mathf.CeilToInt(Mathf.Abs(floatDiff));
+                    
+                    tool.size -= diff;
+
+                    tool.size = Mathf.Clamp(tool.size, min, max);
                 }
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.S) && saveEnabled)
         {
             SavePaintTexture();
         }
@@ -366,7 +421,7 @@ public class PaintManager : MonoBehaviour
         brushGO.GetComponent<RectTransform>().sizeDelta = new Vector2(
             brushSize * 100f / paintSize.x * zoom,
             brushSize * 100f / paintSize.y * zoom
-        ) * physicalScale;
+        ) * physicalScale * 1.35f;
 
         brushGO.transform.SetAsLastSibling();
 
@@ -525,7 +580,13 @@ public class PaintManager : MonoBehaviour
     {
         if (!inGame) return mousePosition;
         
-        mousePosition /= canvas.scaleFactor;
+        Vector3 paintOffset = new Vector3(
+            paintGO.transform.position.x - mousePosition.x,
+            paintGO.transform.position.y - mousePosition.y,
+            0f
+        );
+
+        mousePosition = paintGO.transform.position - paintOffset * canvas.scaleFactor * 2.3f;
 
         return mousePosition;
     }

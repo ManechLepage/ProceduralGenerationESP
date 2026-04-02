@@ -18,6 +18,12 @@ public class TextureToHeightMapNode : NodeBehaviour
         }
 
         Texture2D texture = GetInputValue("texture").GetValue<Texture2D>();
+
+        if (texture == null)
+        {
+            return new Variant(new List<List<float>>());
+        }
+
         List<List<float>> heightMap = textureHelpers.TextureToHeightMap(texture);
         return new Variant(heightMap);
     }
