@@ -36,6 +36,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FloatInputField
       objectReference: {fileID: 0}
+    - target: {fileID: 1892613016702415275, guid: c3d636f8378d04b4ba10a60a51ed5ad6, type: 3}
+      propertyPath: m_Text
+      value: 0.0
+      objectReference: {fileID: 0}
     - target: {fileID: 2760736619100813721, guid: c3d636f8378d04b4ba10a60a51ed5ad6, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.6
@@ -67,6 +71,10 @@ PrefabInstance:
     - target: {fileID: 3334589863162046778, guid: c3d636f8378d04b4ba10a60a51ed5ad6, type: 3}
       propertyPath: m_Color.r
       value: 0.2547169
+      objectReference: {fileID: 0}
+    - target: {fileID: 3890554398300249786, guid: c3d636f8378d04b4ba10a60a51ed5ad6, type: 3}
+      propertyPath: m_text
+      value: "0.0\u200B"
       objectReference: {fileID: 0}
     - target: {fileID: 6658338451883656261, guid: c3d636f8378d04b4ba10a60a51ed5ad6, type: 3}
       propertyPath: m_AnchorMax.y
@@ -172,6 +180,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 0.45
       objectReference: {fileID: 0}
+    - target: {fileID: 8941473247130711914, guid: c3d636f8378d04b4ba10a60a51ed5ad6, type: 3}
+      propertyPath: connectionName
+      value: float
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1726373153726228011, guid: c3d636f8378d04b4ba10a60a51ed5ad6, type: 3}
     m_RemovedGameObjects: []
@@ -213,3 +225,4 @@ MonoBehaviour:
   inputFields:
   - {fileID: 1689534523066629050}
   boolToggle: {fileID: 0}
+  dropdown: {fileID: 0}

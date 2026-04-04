@@ -2,10 +2,13 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Collections.Generic;
 
+[System.Serializable]
+public class ConnectorEvent : UnityEngine.Events.UnityEvent<ConnectorBehaviour> { }
+
 public class MasterNode : NodeBehaviour
 {
     public UnityEvent onFire;
-    public UnityEvent onInputUpdated;
+    public ConnectorEvent onInputUpdated;
 
     public override Variant OnFire()
     {
@@ -27,13 +30,7 @@ public class MasterNode : NodeBehaviour
     public override void InputUpdated(ConnectorBehaviour connector)
     {
         base.InputUpdated(connector);
-        onInputUpdated.Invoke();
-
-        if (connector != null && connector.connectionName == "water")
-        {
-            bool hasWater = GetInputValue("water").GetValue<bool>();
-            TerrainManager.Instance.SetActiveSea(hasWater);
-        }
+        onInputUpdated.Invoke(connector);
     }
 
     public GenerationStatistics GetPredictedStatistics()

@@ -26,6 +26,7 @@ public class TerrainManager : MonoBehaviour
     private GameObject meshGO;
     private MasterNode masterNode;
     private float initialTerrainHeight;
+    private float initialWaterLevel;
 
     public static TerrainManager Instance { get; private set; }
 
@@ -44,6 +45,7 @@ public class TerrainManager : MonoBehaviour
     void Start()
     {
         initialTerrainHeight = terrainHeight;
+        initialWaterLevel = sea != null ? sea.transform.position.y : 0f;
         ClearActualStatisticsTexts();
 
         masterNode = GraphManager.Instance.masterNode as MasterNode;
@@ -101,8 +103,26 @@ public class TerrainManager : MonoBehaviour
         }
     }
 
-    public void MasterNodeUpdated()
+    public void MasterNodeUpdated(ConnectorBehaviour connector)
     {
+        if (connector == null) { return; }
+
+        if (connector.connectionName == "water")
+        {
+            // Ne pas recharger tout le terrain.
+            bool hasWater = masterNode.GetInputValue("water").GetValue<bool>();
+            SetActiveSea(hasWater);
+            return;
+        }
+
+        if (connector.connectionName == "water_level")
+        {
+            float waterLevel = masterNode.GetInputValue("water_level").GetValue<float>();
+            float waterGOLevel = initialWaterLevel + waterLevel * initialTerrainHeight;
+            sea.transform.position = new Vector3(sea.transform.position.x, waterGOLevel, sea.transform.position.z);
+            return;
+        }
+
         ReloadPredictions();
 
         if (masterNode.GetInputValue("auto_reload").GetValue<bool>())
