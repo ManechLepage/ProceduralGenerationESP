@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: a50abce14e8e5fa4890d6127f635cfad, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 34.18
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: a50abce14e8e5fa4890d6127f635cfad, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -445,11 +445,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5138abe44262ece4d93f92d28a001ad6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TextureToHeightMapNode
+  id: 0
+  prefabName: TextureToHeightMap
   inputConnections:
   - {fileID: 7274571100320183971}
   outputConnections:
   - {fileID: 8610696726739139523}
   - {fileID: 718896495304595804}
+  hasRandom: 0
+  nodeTimeType: 0
 --- !u!114 &3141217152184983617
 MonoBehaviour:
   m_ObjectHideFlags: 0

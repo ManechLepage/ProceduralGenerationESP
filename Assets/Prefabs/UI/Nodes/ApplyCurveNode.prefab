@@ -594,6 +594,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b31787593d92b14a9a3aba44eb4032e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ApplyCurveNode
+  id: 0
+  prefabName: ApplyCurveNode
   inputConnections:
   - {fileID: 1676839462837468212}
   - {fileID: 6786535494901593236}
@@ -634,7 +636,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 52.05
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_AnchoredPosition.x

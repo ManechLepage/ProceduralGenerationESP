@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: ca507da79b028ea49a50e19aeb9e519b, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 109.63
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: ca507da79b028ea49a50e19aeb9e519b, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -1104,7 +1104,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8872118987041074747, guid: b5a7af0f9f570244cbba91592222a435, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 31.42
       objectReference: {fileID: 0}
     - target: {fileID: 8872118987041074747, guid: b5a7af0f9f570244cbba91592222a435, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -1731,6 +1731,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc34ed87b2c726848a61448496e31246, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FBMNode
+  id: 0
+  prefabName: PerlinNoiseNode
   inputConnections:
   - {fileID: 416360433294130853}
   - {fileID: 2625597523721167991}

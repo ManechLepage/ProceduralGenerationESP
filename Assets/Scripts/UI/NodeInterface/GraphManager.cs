@@ -19,6 +19,7 @@ public class GraphManager : MonoBehaviour
     public RectMask2D rectMask;
     [HideInInspector] public LineManager currentLine;
     public float currentZoom = 1f;
+    public Vector2 currentOffset = Vector2.zero;
 
     [Space]
     public GameObject graphInterface;
@@ -73,12 +74,62 @@ public class GraphManager : MonoBehaviour
             Debug.Log("Master node not assigned in GraphManager!");
         }
 
+        int id = 0;
         foreach (Transform node in nodeParent.GetComponentInChildren<Transform>())
         {
             NodeBehaviour nodeBehaviour = node.GetComponent<NodeBehaviour>();
             if (nodeBehaviour != null)
+            {
+                nodeBehaviour.id = id;
+                id++;
+
                 nodes.Add(nodeBehaviour);
+            }
         }
+    }
+
+    public GameObject CreateNode(GameObject nodePrefab, Vector3 position = default(Vector3), int id = default(int))
+    {
+        if (nodePrefab == null) { return null; }
+        GameObject newNode = Instantiate(nodePrefab, position, Quaternion.identity);
+        newNode.transform.SetParent(nodeParent.transform);
+        newNode.transform.localScale *= currentZoom * 1.4f;
+
+        NodeBehaviour nodeBehaviour = newNode.GetComponent<NodeBehaviour>();
+        if (nodeBehaviour != null)
+        {
+            nodeBehaviour.id = id != default(int) ? id : GetHighestNodeID() + 1;
+            nodes.Add(nodeBehaviour);
+        }
+
+        return newNode;
+    }
+
+    public void LinkConnections(ConnectorBehaviour outputConnector, ConnectorBehaviour inputConnector, bool callInputUpdated = true)
+    {
+        GameObject currentLine = outputConnector.CreateLineFromConnection();
+        outputConnector.connectionLines.Add(currentLine);
+        inputConnector.connectionLines.Add(currentLine);
+
+        outputConnector.multipleConnectedTo.Add(inputConnector);
+        inputConnector.multipleConnectedTo.Add(outputConnector);
+
+        currentLine.GetComponent<LineManager>().output = inputConnector;
+        currentLine.GetComponent<LineManager>().isLinked = true;
+
+        if (callInputUpdated)
+            inputConnector.node.InputUpdated(inputConnector);
+    }
+
+    public int GetHighestNodeID()
+    {
+        int highestID = 0;
+        foreach (NodeBehaviour node in nodes)
+        {
+            if (node.id > highestID)
+                highestID = node.id;
+        }
+        return highestID;
     }
 
     public void DisableGraphInterface() { graphInterface.SetActive(false); }
@@ -94,6 +145,8 @@ public class GraphManager : MonoBehaviour
 
 public abstract class NodeBehaviour : MonoBehaviour
 {
+    public int id = 0;
+    public string prefabName = "Node";
     public List<ConnectorBehaviour> inputConnections = new List<ConnectorBehaviour>();
     public List<ConnectorBehaviour> outputConnections = new List<ConnectorBehaviour>();
     public bool hasRandom = false;

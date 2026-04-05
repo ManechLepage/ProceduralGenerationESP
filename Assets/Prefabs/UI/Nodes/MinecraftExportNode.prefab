@@ -918,6 +918,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 113352ed06a467e4bb7dae2ba083b0b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinecraftExportNode
+  id: 0
+  prefabName: MinecraftExportNode
   inputConnections:
   - {fileID: 365613629853717218}
   - {fileID: 2773295236215526007}
@@ -1483,7 +1485,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 52.05
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_AnchoredPosition.x

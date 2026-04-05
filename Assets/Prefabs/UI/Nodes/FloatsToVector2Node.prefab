@@ -26,7 +26,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1867648651422719410, guid: 7d87f1479cc641b4aa55740a2cdbf57c, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 30.76
       objectReference: {fileID: 0}
     - target: {fileID: 1867648651422719410, guid: 7d87f1479cc641b4aa55740a2cdbf57c, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -338,12 +338,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1109441bb76326146bd843e5d8b9ccb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloatsToVector2
+  id: 0
+  prefabName: FloatsToVector2Node
   inputConnections:
   - {fileID: 7621762854506396850}
   - {fileID: 2809978979941553631}
   outputConnections:
   - {fileID: 8610696726739139523}
   hasRandom: 0
+  nodeTimeType: 0
 --- !u!224 &1220277798718522412 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6378138601567887067, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
@@ -505,7 +508,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1867648651422719410, guid: 7d87f1479cc641b4aa55740a2cdbf57c, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 30.76
       objectReference: {fileID: 0}
     - target: {fileID: 1867648651422719410, guid: 7d87f1479cc641b4aa55740a2cdbf57c, type: 3}
       propertyPath: m_AnchoredPosition.x

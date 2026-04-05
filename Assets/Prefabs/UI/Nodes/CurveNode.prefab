@@ -579,10 +579,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5784cfffbba2fd1428cde560083a4b1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CurveNode
+  id: 0
+  prefabName: CurveNode
   inputConnections: []
   outputConnections:
   - {fileID: 6425791586731673365}
   hasRandom: 0
+  nodeTimeType: 0
   doubleClickInterval: 0.5
   normalKeyColor: {r: 1, g: 1, b: 1, a: 1}
   selectedKeyColor: {r: 0, g: 0, b: 1, a: 1}

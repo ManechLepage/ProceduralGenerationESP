@@ -357,7 +357,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 566949276690984684, guid: d1279843ce9102848a0b531061e2b5fc, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 11.71
       objectReference: {fileID: 0}
     - target: {fileID: 566949276690984684, guid: d1279843ce9102848a0b531061e2b5fc, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -481,7 +481,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4764592051475455730, guid: d1279843ce9102848a0b531061e2b5fc, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 19.22
       objectReference: {fileID: 0}
     - target: {fileID: 4764592051475455730, guid: d1279843ce9102848a0b531061e2b5fc, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -525,7 +525,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7233768635695457595, guid: d1279843ce9102848a0b531061e2b5fc, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 15.17
       objectReference: {fileID: 0}
     - target: {fileID: 7233768635695457595, guid: d1279843ce9102848a0b531061e2b5fc, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -767,6 +767,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e64f4a7c3b627e441aaba9fec337e554, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DrawTextureNode
+  id: 0
+  prefabName: DrawTextureNode
   inputConnections:
   - {fileID: 3284039329674565184}
   outputConnections:

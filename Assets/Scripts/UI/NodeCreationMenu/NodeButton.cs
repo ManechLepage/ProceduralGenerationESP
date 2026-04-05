@@ -14,7 +14,7 @@ public class NodeButton : MonoBehaviour
 
     public void ClickedNode()
     {
-        if (nodePrefab == null)
+        /*if (nodePrefab == null)
         {
             Debug.Log($"Node prefab not assigned");
             return;
@@ -25,7 +25,12 @@ public class NodeButton : MonoBehaviour
         newNode.transform.position = Input.mousePosition;
         newNode.transform.localScale *= GraphManager.Instance.currentZoom * 1.4f;
 
-        GraphManager.Instance.nodes.Add(newNode.GetComponent<NodeBehaviour>());
+        GraphManager.Instance.nodes.Add(newNode.GetComponent<NodeBehaviour>());*/
+
+        GameObject newNode = GraphManager.Instance.CreateNode(nodePrefab, Input.mousePosition);
+
+        if (newNode == null)
+            Debug.Log($"Node prefab not assigned");
         
         // The close menu is overwritten by the InputManager's click detection
         nodeCreationMenu.CloseMenu();

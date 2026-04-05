@@ -953,6 +953,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc03f6ce5bb72274aa3d5428bec4a36b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ThermalErosionNode
+  id: 0
+  prefabName: ThermalErosionNode
   inputConnections:
   - {fileID: 1389809073718440032}
   - {fileID: 2625597523721167991}
@@ -1171,6 +1173,7 @@ MonoBehaviour:
   inputFields:
   - {fileID: 4772241108232708790}
   boolToggle: {fileID: 0}
+  dropdown: {fileID: 0}
 --- !u!114 &2625597523721167991 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8153760235976441211, guid: dc47a1ff424fbbf4fb6578c83c40b4b7, type: 3}

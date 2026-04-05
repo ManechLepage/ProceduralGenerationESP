@@ -340,7 +340,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1867648651422719410, guid: 8a7046d628caf90448fb38cdb2b7d2d8, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 20.74
       objectReference: {fileID: 0}
     - target: {fileID: 1867648651422719410, guid: 8a7046d628caf90448fb38cdb2b7d2d8, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -709,6 +709,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33e69b88ff9c61944bb0324c8b40154b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PathToTextureNode
+  id: 0
+  prefabName: PathToTexture
   inputConnections:
   - {fileID: 6519553749617261985}
   outputConnections:

@@ -416,8 +416,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4a01a8909e843543bd9a87d0575a397, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ViewNode
+  id: 0
+  prefabName: ViewNode
   inputConnections:
   - {fileID: 7707448872079446557}
   outputConnections: []
+  hasRandom: 0
+  nodeTimeType: 0
   previewSize: {x: 128, y: 128}
   preview: {fileID: 5301008802791248657}

@@ -599,6 +599,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4793aa0a1bbb0e34a9657b84dd6697fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ColorNode
+  id: 0
+  prefabName: ColorNode
   inputConnections:
   - {fileID: 7049811425661670097}
   - {fileID: 3337583640094119215}

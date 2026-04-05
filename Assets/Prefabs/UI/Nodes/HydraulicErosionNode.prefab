@@ -1119,6 +1119,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f64eb285cf32b649b0a158faee0e8a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HydraulicErosionNode
+  id: 0
+  prefabName: HydraulicErosionNode
   inputConnections:
   - {fileID: 1389809073718440032}
   - {fileID: 2625597523721167991}
@@ -1336,6 +1338,7 @@ MonoBehaviour:
   inputFields:
   - {fileID: 4772241108232708790}
   boolToggle: {fileID: 0}
+  dropdown: {fileID: 0}
 --- !u!114 &2625597523721167991 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8153760235976441211, guid: dc47a1ff424fbbf4fb6578c83c40b4b7, type: 3}
@@ -1498,7 +1501,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 52.05
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_AnchoredPosition.x

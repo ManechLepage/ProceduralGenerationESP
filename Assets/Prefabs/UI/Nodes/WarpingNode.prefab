@@ -1075,6 +1075,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72cf326f73c7bb744a2e4e96adb9d313, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WarpingNode
+  id: 0
+  prefabName: WarpingNode
   inputConnections:
   - {fileID: 4341733327711854447}
   - {fileID: 416360433294130853}

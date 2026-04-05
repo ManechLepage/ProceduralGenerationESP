@@ -501,7 +501,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 83.97
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -987,7 +987,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8872118987041074747, guid: b5a7af0f9f570244cbba91592222a435, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 26.38
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8872118987041074747, guid: b5a7af0f9f570244cbba91592222a435, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -1264,6 +1264,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 151c0ebcfcac9c44ba979017954352d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MasterNode
+  id: 0
+  prefabName: MasterNode
   inputConnections:
   - {fileID: 7189492268956406204}
   - {fileID: 473732247509785432}
@@ -1412,7 +1414,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8872118987041074747, guid: b5a7af0f9f570244cbba91592222a435, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 54.74
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8872118987041074747, guid: b5a7af0f9f570244cbba91592222a435, type: 3}
       propertyPath: m_AnchoredPosition.x

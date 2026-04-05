@@ -577,11 +577,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 263892511960a6e44b03a117fa33c4a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RandomValueNode
+  id: 0
+  prefabName: RandomValueNode
   inputConnections:
   - {fileID: 473732247509785432}
   outputConnections:
   - {fileID: 8610696726739139523}
   hasRandom: 1
+  nodeTimeType: 0
 --- !u!224 &1220277798718522412 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6378138601567887067, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}

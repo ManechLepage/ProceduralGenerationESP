@@ -1284,6 +1284,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e55ce3980bac5e4690dd11987fddf30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FluvialErosionNode
+  id: 0
+  prefabName: FluvialErosionNode
   inputConnections:
   - {fileID: 1389809073718440032}
   - {fileID: 8034140285862987912}
@@ -1454,7 +1456,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 52.05
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_AnchoredPosition.x

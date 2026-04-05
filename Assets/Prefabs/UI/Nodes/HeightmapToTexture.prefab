@@ -350,6 +350,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e36b3b2737955c2489654cdd6db50869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HeightMapToTextureNode
+  id: 0
+  prefabName: HeightMapToTextureNode
   inputConnections:
   - {fileID: 7274571100320183971}
   outputConnections:

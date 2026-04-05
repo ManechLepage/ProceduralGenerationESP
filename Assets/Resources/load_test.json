@@ -1,0 +1,67 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "prefab": "MasterNode",
+      "offsetX": 1226.2887,
+      "offsetY": 560.0764,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 256.0,
+          "y": 256.0
+        },
+        "height": 1.0,
+        "water": false,
+        "water_level": 0.4,
+        "auto_reload": true
+      }
+    },
+    {
+      "id": "3",
+      "prefab": "PerlinNoiseNode",
+      "offsetX": 840.9504,
+      "offsetY": 556.2741,
+      "inputs": {
+        "scale": 1.0,
+        "octaves": 8,
+        "lacunarity": 2.0,
+        "persistence": 0.5,
+        "seed": 0,
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "ridged": false,
+        "curve": null,
+        "domainmap": null
+      }
+    },
+    {
+      "id": "5",
+      "prefab": "SaveGraphNode",
+      "offsetX": 929.8364,
+      "offsetY": 331.661835,
+      "inputs": {
+        "path": "load_test"
+      }
+    },
+    {
+      "id": "6",
+      "prefab": "LoadGraphNode",
+      "offsetX": 1148.69226,
+      "offsetY": 337.264923,
+      "inputs": {
+        "path": "load_test"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "fromNode": "3",
+      "fromOutputName": "heightmap",
+      "toNode": "0",
+      "toInputName": "heightmap"
+    }
+  ]
+}

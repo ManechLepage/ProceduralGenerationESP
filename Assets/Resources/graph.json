@@ -1,0 +1,98 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "prefab": "MasterNode",
+      "offsetX": 1102.47742,
+      "offsetY": 466.489258,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 256.0,
+          "y": 256.0
+        },
+        "height": 1.0,
+        "water": false,
+        "water_level": 0.4,
+        "auto_reload": true
+      }
+    },
+    {
+      "id": "1",
+      "prefab": "PathToTexture",
+      "offsetX": 525.8489,
+      "offsetY": 485.2437,
+      "inputs": {
+        "path": ""
+      }
+    },
+    {
+      "id": "2",
+      "prefab": "TextureToHeightMap",
+      "offsetX": 817.801941,
+      "offsetY": 485.2437,
+      "inputs": {
+        "texture": null
+      }
+    },
+    {
+      "id": "3",
+      "prefab": "PerlinNoiseNode",
+      "offsetX": 912.5331,
+      "offsetY": 187.6248,
+      "inputs": {
+        "scale": 1.0,
+        "octaves": 8,
+        "lacunarity": 2.0,
+        "persistence": 0.5,
+        "seed": 0,
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "ridged": false,
+        "curve": null,
+        "domainmap": null
+      }
+    },
+    {
+      "id": "4",
+      "prefab": "ColorNode",
+      "offsetX": 401.456818,
+      "offsetY": 275.065369,
+      "inputs": {
+        "r": 255,
+        "g": 255,
+        "b": 255
+      }
+    },
+    {
+      "id": "5",
+      "prefab": "SaveGraphNode",
+      "offsetX": 564.1974,
+      "offsetY": 117.141968,
+      "inputs": {
+        "path": "graph"
+      }
+    },
+    {
+      "id": "6",
+      "prefab": "LoadGraphNode",
+      "offsetX": 644.8135,
+      "offsetY": 283.9835,
+      "inputs": {
+        "path": "graph"
+      }
+    },
+    {
+      "id": "7",
+      "prefab": "SaveGraphNode",
+      "offsetX": 1144.79956,
+      "offsetY": 165.599716,
+      "inputs": {
+        "path": "graph"
+      }
+    }
+  ],
+  "connections": []
+}

@@ -561,6 +561,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad82fe5299cf6514f9ae2004f96b02e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RescaleHeightmapNode
+  id: 0
+  prefabName: RescaleHeightmapNode
   inputConnections:
   - {fileID: 7274571100320183971}
   - {fileID: 3756155680220776284}

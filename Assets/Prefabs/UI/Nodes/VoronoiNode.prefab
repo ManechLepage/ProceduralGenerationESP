@@ -1252,6 +1252,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46ab5ffb30ed74d48b00b53445e76a7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VoronoiNode
+  id: 0
+  prefabName: VoronoiNode
   inputConnections:
   - {fileID: 416360433294130853}
   - {fileID: 6800853118982964580}
