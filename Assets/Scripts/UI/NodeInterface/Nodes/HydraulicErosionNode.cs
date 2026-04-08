@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public class HydraulicErosionNode : NodeBehaviour
 {
@@ -23,7 +24,9 @@ public class HydraulicErosionNode : NodeBehaviour
             heightMapCopy.Add(new List<float>(heightMap[i]));
         }
 
-        hydraulicErosionAlgorithm.ApplyInstantErosion(heightMapCopy, settings);
+        ShowLoadingIcon(true);
+        Task.Run(() => hydraulicErosionAlgorithm.ApplyInstantErosion(heightMapCopy, settings)).Wait();
+        ShowLoadingIcon(false);
 
         return new Variant(heightMapCopy);
     }

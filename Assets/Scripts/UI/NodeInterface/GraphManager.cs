@@ -149,6 +149,7 @@ public abstract class NodeBehaviour : MonoBehaviour
     public string prefabName = "Node";
     public List<ConnectorBehaviour> inputConnections = new List<ConnectorBehaviour>();
     public List<ConnectorBehaviour> outputConnections = new List<ConnectorBehaviour>();
+    public GameObject loadingIcon;
     public bool hasRandom = false;
     public NodeTimeType nodeTimeType = NodeTimeType.Other;
 
@@ -167,9 +168,9 @@ public abstract class NodeBehaviour : MonoBehaviour
 
         currentlyFiringOnlyIfModified = onlyIfModified;
 
-        float startTime = Time.realtimeSinceStartup;
+        var stopWatch = System.Diagnostics.Stopwatch.StartNew();
         var result = OnFire();
-        float elapsedTime = Time.realtimeSinceStartup - startTime;
+        float elapsedTime = stopWatch.ElapsedMilliseconds / 1000f;
 
         currentlyFiringOnlyIfModified = false;
         
@@ -232,6 +233,12 @@ public abstract class NodeBehaviour : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void ShowLoadingIcon(bool show)
+    {
+        if (loadingIcon != null)
+            loadingIcon.SetActive(show);
     }
 
     public void SetLastOutput(Variant output) { lastOutput = output; }

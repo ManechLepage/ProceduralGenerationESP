@@ -20,6 +20,13 @@ public class HydraulicErosionAlgorithm : MonoBehaviour
         if (AlgorithmRegistry.Instance != null)
             AlgorithmRegistry.Instance.Register("FBM");
     }
+
+    float GetRandomRange(float min, float max)
+    {
+        System.Random rng = new System.Random();
+        return (float)(rng.NextDouble() * (max - min) + min);
+    }
+
     public void ApplyErosionStep(List<List<float>> heightMap, float dropSize, HydraulicErosionSettings settings)
     {
         /*
@@ -44,7 +51,7 @@ public class HydraulicErosionAlgorithm : MonoBehaviour
         int height = heightMap[0].Count;
 
         // Initialisation de la position aléatoire de la goutte et des autres paramètres.
-        Vector2 position = new Vector2(UnityEngine.Random.Range(0, width - 1), UnityEngine.Random.Range(0, height - 1));
+        Vector2 position = new Vector2(GetRandomRange(0, width - 1), GetRandomRange(0, height - 1));
         Vector2 direction = settings.windDirection.normalized * settings.windStrength / 100f;
 
         float speed = 1f;

@@ -1131,6 +1131,7 @@ MonoBehaviour:
   outputConnections:
   - {fileID: 2111862952872077870}
   - {fileID: 4780972252059654730}
+  loadingIcon: {fileID: 0}
   hasRandom: 0
   nodeTimeType: 2
   hydraulicErosionAlgorithm: {fileID: 9139800252934539742}
