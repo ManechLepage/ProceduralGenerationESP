@@ -19,15 +19,33 @@ public class FBMNode : NodeBehaviour
         await UpdatePreview();
     }
 
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && IsFlagged())
+        {
+            UnpauseGeneration();
+        }
+    }
+
     async public override Task<Variant> OnFire()
     {
         FBMSettings settings = await GetSettings();
         List<List<Vector2>> domainMap = await GetDomainMap();
         Vector2Int terrainSize = await GraphManager.Instance.GetTerrainSize();
 
+        ShowLoadingIcon(true);
+        
         List<List<float>> heightMap = fbmAlgorithm.GetHeightMapThreading(terrainSize, settings, domainMap);
 
         UpdatePreviewWithHeightMap(heightMap);
+
+        if (IsFlagged())
+        {
+            TerrainManager.Instance.PreviewHeightMap(heightMap);
+            PauseGeneration();
+            await WaitForUnpause();
+        }
+        ShowLoadingIcon(false);
 
         Variant output = new Variant(heightMap);
 

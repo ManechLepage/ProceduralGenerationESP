@@ -9,7 +9,6 @@ public class HydraulicErosionNode : NodeBehaviour
 {
     public HydraulicErosionAlgorithm hydraulicErosionAlgorithm;
     private bool _running_erosion = false;
-    private bool paused_erosion = false;
 
     async public override Task<Variant> OnFire()
     {
@@ -28,12 +27,21 @@ public class HydraulicErosionNode : NodeBehaviour
             heightMapCopy.Add(new List<float>(heightMap[i]));
         }
 
+        if (IsFlagged())
+            TerrainManager.Instance.PreviewHeightMap(heightMapCopy);
+
         ShowLoadingIcon(true);
         _running_erosion = true;
         await RunErosionCoroutine(heightMapCopy, settings);
         // Task.Run(() => hydraulicErosionAlgorithm.ApplyInstantErosion(heightMapCopy, settings)).Wait();
+
+        if (IsFlagged())
+        {
+            PauseGeneration();
+            await WaitForUnpause();
+        }
+
         ShowLoadingIcon(false);
-        
 
         return new Variant(heightMapCopy);
     }
@@ -42,7 +50,10 @@ public class HydraulicErosionNode : NodeBehaviour
     {
         if (_running_erosion && Input.GetKeyDown(KeyCode.Space))
         {
-            paused_erosion = !paused_erosion;
+            if (IsGenerationPaused())
+                UnpauseGeneration();
+            else
+                PauseGeneration();
         }
     }
 
@@ -61,8 +72,10 @@ public class HydraulicErosionNode : NodeBehaviour
     public IEnumerator ApplyErosion(List<List<float>> heightMap, HydraulicErosionSettings settings, Action<float, float> onProgress=null)
     {
         float delayBetweenUpdates = 0.015f; // Délai en secondes entre chaque mise à jour du UI
+        float delayBetweenTerrainUpdates = 0.25f;
         var stopWatch = System.Diagnostics.Stopwatch.StartNew();
         float lastTime = 0f;
+        float lastTerrainTime = 0f;
 
         for (int i = 1; i < settings.steps + 1; i++)
         {
@@ -81,12 +94,21 @@ public class HydraulicErosionNode : NodeBehaviour
 
             if (delaySinceLastUpdate > delayBetweenUpdates)
             {
-                // Reloader le UI chaque 100 itérations
+                // Reloader le UI chaque 0.015 secondes
                 lastTime = t;
                 yield return null;
             }
 
-            while (paused_erosion)
+            float terrainDelaySinceLastUpdate = t - lastTerrainTime;
+            if (terrainDelaySinceLastUpdate > delayBetweenTerrainUpdates && IsFlagged())
+            {
+                // Mettre à jour le terrain chaque 0.25 secondes s'il y a un flag
+                lastTerrainTime = t;
+                TerrainManager.Instance.PreviewHeightMap(heightMap);
+                yield return null;
+            }
+
+            while (IsGenerationPaused())
                 yield return null;
         }
 

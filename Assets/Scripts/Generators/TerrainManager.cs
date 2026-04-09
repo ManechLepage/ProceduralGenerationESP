@@ -96,6 +96,12 @@ public class TerrainManager : MonoBehaviour
         UpdateStatisticsTexts();
     }
 
+    public void PreviewHeightMap(List<List<float>> heightMap)
+    {
+        this.heightMap = heightMap;
+        UpdateMesh();
+    }
+
     public void SetActiveSea(bool active)
     {
         if (this.sea != null)

@@ -20,7 +20,7 @@
     {
       "id": "1",
       "prefab": "PathToTexture",
-      "offsetX": 525.8489,
+      "offsetX": 525.848755,
       "offsetY": 485.2437,
       "inputs": {
         "path": ""
@@ -38,8 +38,8 @@
     {
       "id": "3",
       "prefab": "PerlinNoiseNode",
-      "offsetX": 912.5331,
-      "offsetY": 187.6248,
+      "offsetX": 914.9331,
+      "offsetY": 191.6197,
       "inputs": {
         "scale": 1.0,
         "octaves": 8,
@@ -58,7 +58,7 @@
     {
       "id": "4",
       "prefab": "ColorNode",
-      "offsetX": 401.456818,
+      "offsetX": 401.497162,
       "offsetY": 275.065369,
       "inputs": {
         "r": 255,
@@ -79,16 +79,7 @@
       "id": "6",
       "prefab": "LoadGraphNode",
       "offsetX": 644.8135,
-      "offsetY": 283.9835,
-      "inputs": {
-        "path": "graph"
-      }
-    },
-    {
-      "id": "7",
-      "prefab": "SaveGraphNode",
-      "offsetX": 1144.79956,
-      "offsetY": 165.599716,
+      "offsetY": 284.783478,
       "inputs": {
         "path": "graph"
       }

@@ -25,6 +25,8 @@ public class VoronoiNode : NodeBehaviour
         Vector2Int terrainSize = await GraphManager.Instance.GetTerrainSize();
         AnimationCurve curve = await GetAnimationCurve();
 
+        ShowLoadingIcon(true);
+
         List<List<float>> heightMap = voronoiAlgorithm.GetHeightMapThreading(terrainSize, settings, domainMap);
 
         if (curve != null)
@@ -32,7 +34,24 @@ public class VoronoiNode : NodeBehaviour
 
         UpdatePreviewWithHeightMap(heightMap);
 
+        if (IsFlagged())
+        {
+            TerrainManager.Instance.PreviewHeightMap(heightMap);
+            PauseGeneration();
+            await WaitForUnpause();
+        }
+
+        ShowLoadingIcon(false);
+
         return new Variant(heightMap);
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && IsFlagged())
+        {
+            UnpauseGeneration();
+        }
     }
 
     async public override void InputUpdated(ConnectorBehaviour connector)

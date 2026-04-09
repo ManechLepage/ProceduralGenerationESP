@@ -151,12 +151,15 @@ public abstract class NodeBehaviour : MonoBehaviour
     public List<ConnectorBehaviour> inputConnections = new List<ConnectorBehaviour>();
     public List<ConnectorBehaviour> outputConnections = new List<ConnectorBehaviour>();
     public GameObject loadingIcon;
+    public Toggle flagToggle;
     public bool hasRandom = false;
     public NodeTimeType nodeTimeType = NodeTimeType.Other;
 
     private Variant lastOutput = new Variant();
     private bool modifiedSinceLastFire = true;
     private bool currentlyFiringOnlyIfModified = false;
+
+    private bool paused_generation = false;
 
     async public Task<Variant> Fire(bool onlyIfModified = false)
     {
@@ -208,6 +211,17 @@ public abstract class NodeBehaviour : MonoBehaviour
 
     public virtual float GetPredictedTime() { return 0f; }
 
+    public void PauseGeneration() { paused_generation = true; }
+    public void UnpauseGeneration() { paused_generation = false; }
+
+    public bool IsGenerationPaused() { return paused_generation; }
+
+    protected async Task WaitForUnpause()
+    {
+        while (paused_generation)
+            await Task.Delay(100);
+    }
+
     public virtual void Start()
     {
         foreach (ConnectorBehaviour inputConnection in inputConnections)
@@ -240,6 +254,12 @@ public abstract class NodeBehaviour : MonoBehaviour
     {
         if (loadingIcon != null)
             loadingIcon.SetActive(show);
+    }
+
+    public bool IsFlagged()
+    {
+        if (flagToggle == null) { Debug.Log($"Flag toggle not assigned to node {gameObject.name}."); }
+        return flagToggle != null && flagToggle.isOn;
     }
 
     public void SetLastOutput(Variant output) { lastOutput = output; }
