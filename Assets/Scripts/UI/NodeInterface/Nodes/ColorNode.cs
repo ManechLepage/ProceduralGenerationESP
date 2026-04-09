@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public class ColorNode : NodeBehaviour
 {
@@ -12,11 +13,11 @@ public class ColorNode : NodeBehaviour
         colorImageComponent = colorImage.GetComponent<RawImage>();
     }
 
-    public override Variant OnFire()
+    async public override Task<Variant> OnFire()
     {
-        int r = GetInputValue("r").GetValue<int>();
-        int g = GetInputValue("g").GetValue<int>();
-        int b = GetInputValue("b").GetValue<int>();
+        int r = (await GetInputValue("r")).GetValue<int>();
+        int g = (await GetInputValue("g")).GetValue<int>();
+        int b = (await GetInputValue("b")).GetValue<int>();
 
         r = Mathf.Clamp(r, 0, 255);
         g = Mathf.Clamp(g, 0, 255);

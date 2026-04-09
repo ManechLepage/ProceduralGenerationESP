@@ -1,12 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class MultiplyHeightmaps : NodeBehaviour
 {
-    public override Variant OnFire()
+    async public override Task<Variant> OnFire()
     {
-        List<List<float>> x = GetInputValue("heightmap1").GetValue<List<List<float>>>();
-        List<List<float>> y = GetInputValue("heightmap2").GetValue<List<List<float>>>();
+        List<List<float>> x = (await GetInputValue("heightmap1")).GetValue<List<List<float>>>();
+        List<List<float>> y = (await GetInputValue("heightmap2")).GetValue<List<List<float>>>();
 
         if (x != null && x.Count > 0 && y != null && y.Count > 0)
         {

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public enum NodeTimeType
 {
@@ -25,11 +26,11 @@ public class GraphManager : MonoBehaviour
     public GameObject graphInterface;
     public GameObject drawInterface;
 
-    public Vector2Int GetTerrainSize()
+    async public Task<Vector2Int> GetTerrainSize()
     {
         if (masterNode != null)
         {
-            Vector2 size = masterNode.GetInputValue("size").GetValue<Vector2>();
+            Vector2 size = (await masterNode.GetInputValue("size")).GetValue<Vector2>();
             return new Vector2Int((int)size.x, (int)size.y);
         }
         return new Vector2Int(256, 256);
@@ -51,7 +52,7 @@ public class GraphManager : MonoBehaviour
         foreach (NodeBehaviour node in nodes)
         {
             if (node.hasRandom)
-                node.Fire(onlyIfModified: true);
+                _ = node.Fire(onlyIfModified: true);
         }
     }
 
@@ -157,7 +158,7 @@ public abstract class NodeBehaviour : MonoBehaviour
     private bool modifiedSinceLastFire = true;
     private bool currentlyFiringOnlyIfModified = false;
 
-    public Variant Fire(bool onlyIfModified = false)
+    async public Task<Variant> Fire(bool onlyIfModified = false)
     {
         if (onlyIfModified && !IsModifiedSinceLastFire())
         {
@@ -169,7 +170,7 @@ public abstract class NodeBehaviour : MonoBehaviour
         currentlyFiringOnlyIfModified = onlyIfModified;
 
         var stopWatch = System.Diagnostics.Stopwatch.StartNew();
-        var result = OnFire();
+        var result = await OnFire();
         float elapsedTime = stopWatch.ElapsedMilliseconds / 1000f;
 
         currentlyFiringOnlyIfModified = false;
@@ -203,7 +204,7 @@ public abstract class NodeBehaviour : MonoBehaviour
         return result;
     }
 
-    public virtual Variant OnFire() { return new Variant(); }
+    public virtual Task<Variant> OnFire() { return Task.FromResult(new Variant()); }
 
     public virtual float GetPredictedTime() { return 0f; }
 
@@ -269,7 +270,7 @@ public abstract class NodeBehaviour : MonoBehaviour
         return outputConnections.Find(c => c.connectionName == name);
     }
 
-    public Variant GetInputValue(string name, bool onlyIfModified = default)
+    async public Task<Variant> GetInputValue(string name, bool onlyIfModified = default)
     {
         ConnectorBehaviour connector = GetInputConnection(name);
         if (connector != null)
@@ -277,7 +278,7 @@ public abstract class NodeBehaviour : MonoBehaviour
             if (connector.IsConnected())
             {
                 bool varOnlyIfModified = onlyIfModified == default ? currentlyFiringOnlyIfModified : onlyIfModified;
-                return connector.multipleConnectedTo[0].node.Fire(varOnlyIfModified);  // A cheap way to pass the onlyIfModified argument to other nodes.
+                return await connector.multipleConnectedTo[0].node.Fire(varOnlyIfModified);  // A cheap way to pass the onlyIfModified argument to other nodes.
             }
             else
             {

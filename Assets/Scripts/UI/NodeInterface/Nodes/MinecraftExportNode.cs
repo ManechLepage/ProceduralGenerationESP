@@ -1,24 +1,25 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class MinecraftExportNode : NodeBehaviour
 {
     public List<BlockPaletteItem> blockPalettes = new List<BlockPaletteItem>();
     public MinecraftConverter converter;
 
-    public override Variant OnFire()
+    public override Task<Variant> OnFire()
     {
-        return new Variant();
+        return Task.FromResult(new Variant());
     }
 
-    public void Export()
+    public async Task Export()
     {
         float startTime = Time.realtimeSinceStartup;
 
-        MinecraftConverterSettings settings = GetSettings();
-        string path = GetInputValue("path").GetValue<string>();
-        List<List<float>> heightMap = GetInputValue("heightmap", onlyIfModified: true).GetValue<List<List<float>>>();
+        MinecraftConverterSettings settings = await GetSettings();
+        string path = (await GetInputValue("path")).GetValue<string>();
+        List<List<float>> heightMap = (await GetInputValue("heightmap", onlyIfModified: true)).GetValue<List<List<float>>>();
 
         if (heightMap == null || heightMap.Count == 0) { return; }
         
@@ -33,16 +34,16 @@ public class MinecraftExportNode : NodeBehaviour
         Debug.Log($"Exported Minecraft schematic to {schematicPath} in {dt:F3} seconds.");
     }
 
-    public MinecraftConverterSettings GetSettings()
+    public async Task<MinecraftConverterSettings> GetSettings()
     {
         MinecraftConverterSettings settings = new MinecraftConverterSettings();
 
-        Vector2 size = GetInputValue("size").GetValue<Vector2>();
+        Vector2 size = (await GetInputValue("size")).GetValue<Vector2>();
         settings.size = new Vector2Int(Mathf.RoundToInt(size.x), Mathf.RoundToInt(size.y));
 
-        string block_palette = GetInputValue("block_palette").GetValue<string>();
+        string block_palette = (await GetInputValue("block_palette")).GetValue<string>();
 
-        settings.height = GetInputValue("height").GetValue<int>();
+        settings.height = (await GetInputValue("height")).GetValue<int>();
         settings.blockPalette = GetBlockPaletteByName(block_palette);
 
         return settings;

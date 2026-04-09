@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.IO;
+using System.Threading.Tasks;
 
 public class PathToTextureNode : NodeBehaviour
 {
@@ -12,18 +13,18 @@ public class PathToTextureNode : NodeBehaviour
 
     private string lastText = "";
 
-    public override Variant OnFire()
+    public override Task<Variant> OnFire()
     {
         UpdateTextAndPreview(pathText.text);
         Texture2D texture = GetPathTexture();
         
         if (texture != null)
         {
-            return new Variant(texture);
+            return Task.FromResult(new Variant(texture));
         }
         else
         {
-            return new Variant(new Texture2D(0, 0));
+            return Task.FromResult(new Variant(new Texture2D(0, 0)));
         }
     }
 

@@ -2,23 +2,24 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.IO;
+using System.Threading.Tasks;
 
 public class DrawTextureNode : NodeBehaviour
 {
     public RawImage preview;
     public TextMeshProUGUI sizeText;
 
-    public override Variant OnFire()
+    public override Task<Variant> OnFire()
     {
         if (preview.texture == null)
         {
             Variant empty = new Variant();
             empty.dataType = DataType.Texture;
             empty.asTexture = null;
-            return empty;
+            return Task.FromResult(empty);
         }
 
-        return new Variant(EXRToTexture2D(preview.texture as Texture2D));
+        return Task.FromResult(new Variant(EXRToTexture2D(preview.texture as Texture2D)));
     }
 
     public void DidUpdateTexture()
@@ -35,9 +36,9 @@ public class DrawTextureNode : NodeBehaviour
         InputUpdated(null);
     }
 
-    public void OpenDrawInterface()
+    async public Task OpenDrawInterface()
     {
-        Vector2 floatSize = GetInputValue("size").GetValue<Vector2>();
+        Vector2 floatSize = (await GetInputValue("size")).GetValue<Vector2>();
         Vector2Int size = new Vector2Int((int)floatSize.x, (int)floatSize.y);
 
         // To prevent strange teleportations,

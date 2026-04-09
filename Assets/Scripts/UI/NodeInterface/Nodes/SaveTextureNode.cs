@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
+using System.Threading.Tasks;
 
 public class SaveTextureNode : NodeBehaviour
 {
@@ -13,21 +14,21 @@ public class SaveTextureNode : NodeBehaviour
         textureHelpers = GetComponent<TextureHelpers>();
     }
 
-    public override Variant OnFire()
+    public override Task<Variant> OnFire()
     {
-        return new Variant();
+        return Task.FromResult(new Variant());
     }
 
-    public void Save()
+    public async Task Save()
     {
         if (!GetInputConnection("texture").IsConnected())
             return;
 
-        Texture2D texture = GetInputValue("texture", onlyIfModified: true).GetValue<Texture2D>();
+        Texture2D texture = (await GetInputValue("texture", onlyIfModified: true)).GetValue<Texture2D>();
         if (texture == null)
             return;
 
-        string path = "Assets/" + saveFolder + GetInputValue("path").GetValue<string>();
+        string path = "Assets/" + saveFolder + (await GetInputValue("path")).GetValue<string>();
 
         if (!path.EndsWith(".exr"))
             path += ".exr";

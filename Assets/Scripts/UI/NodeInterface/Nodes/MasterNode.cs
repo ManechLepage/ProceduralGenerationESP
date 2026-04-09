@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 [System.Serializable]
 public class ConnectorEvent : UnityEngine.Events.UnityEvent<ConnectorBehaviour> { }
@@ -10,21 +11,21 @@ public class MasterNode : NodeBehaviour
     public UnityEvent onFire;
     public ConnectorEvent onInputUpdated;
 
-    public override Variant OnFire()
+    public override Task<Variant> OnFire()
     {
         if (!GetInputConnection("heightmap").IsConnected())
         {
             Debug.Log("MasterNode: Heightmap input not connected!");
-            return new Variant();
+            return Task.FromResult(new Variant());
         }
 
         onFire.Invoke();
-        return new Variant();
+        return Task.FromResult(new Variant());
     }
 
-    public void ButtonFire()
+    async public void ButtonFire()
     {
-        Fire(onlyIfModified: false);
+        await Fire(onlyIfModified: false);
     }
 
     public override void InputUpdated(ConnectorBehaviour connector)

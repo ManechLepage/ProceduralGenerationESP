@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class VoronoiNode : NodeBehaviour
 {
@@ -10,19 +11,19 @@ public class VoronoiNode : NodeBehaviour
     public VoronoiAlgorithm voronoiAlgorithm;
     public PreviewBehaviour preview;
 
-    public override void Start()
+    async public override void Start()
     {
         base.Start();
 
-        UpdatePreview();
+        await UpdatePreview();
     }
 
-    public override Variant OnFire()
+    async public override Task<Variant> OnFire()
     {
-        VoronoiSettings settings = GetSettings();
-        List<List<Vector2>> domainMap = GetDomainMap();
-        Vector2Int terrainSize = GraphManager.Instance.GetTerrainSize();
-        AnimationCurve curve = GetAnimationCurve();
+        VoronoiSettings settings = await GetSettings();
+        List<List<Vector2>> domainMap = await GetDomainMap();
+        Vector2Int terrainSize = await GraphManager.Instance.GetTerrainSize();
+        AnimationCurve curve = await GetAnimationCurve();
 
         List<List<float>> heightMap = voronoiAlgorithm.GetHeightMapThreading(terrainSize, settings, domainMap);
 
@@ -34,18 +35,18 @@ public class VoronoiNode : NodeBehaviour
         return new Variant(heightMap);
     }
 
-    public override void InputUpdated(ConnectorBehaviour connector)
+    async public override void InputUpdated(ConnectorBehaviour connector)
     {
         base.InputUpdated(connector);
 
-        UpdatePreview();
+        await UpdatePreview();
     }
 
-    public void UpdatePreview()
+    async public Task UpdatePreview()
     {
-        VoronoiSettings settings = GetSettings();
-        List<List<Vector2>> domainMap = GetDomainMap();
-        AnimationCurve curve = GetAnimationCurve();
+        VoronoiSettings settings = await GetSettings();
+        List<List<Vector2>> domainMap = await GetDomainMap();
+        AnimationCurve curve = await GetAnimationCurve();
 
         List<List<float>> heightMap = voronoiAlgorithm.GetHeightMapThreading(previewSize, settings, domainMap);
 
@@ -91,34 +92,34 @@ public class VoronoiNode : NodeBehaviour
         }
     }
 
-    public VoronoiSettings GetSettings()
+    async public Task<VoronoiSettings> GetSettings()
     {
         VoronoiSettings settings = new VoronoiSettings();
 
-        settings.seed = GetInputValue("seed").GetValue<int>();
-        settings.scale = GetInputValue("scale").GetValue<float>();
-        settings.variation = GetInputValue("variation").GetValue<float>();
+        settings.seed = (await GetInputValue("seed")).GetValue<int>();
+        settings.scale = (await GetInputValue("scale")).GetValue<float>();
+        settings.variation = (await GetInputValue("variation")).GetValue<float>();
 
-        Vector2 neighborhoodSize_ = GetInputValue("neighborhood_size").GetValue<Vector2>();
+        Vector2 neighborhoodSize_ = (await GetInputValue("neighborhood_size")).GetValue<Vector2>();
         settings.neighborhoodSize = new Vector2Int(Mathf.RoundToInt(neighborhoodSize_.x), Mathf.RoundToInt(neighborhoodSize_.y));
 
-        settings.offset = GetInputValue("offset").GetValue<Vector2>();
+        settings.offset = (await GetInputValue("offset")).GetValue<Vector2>();
 
         return settings;
     }
 
-    public List<List<Vector2>> GetDomainMap()
+    async public Task<List<List<Vector2>>> GetDomainMap()
     {
         if (GetInputConnection("domainmap").IsConnected())
-            return GetInputValue("domainmap").GetValue<List<List<Vector2>>>();
+            return (await GetInputValue("domainmap")).GetValue<List<List<Vector2>>>();
         else
             return new List<List<Vector2>>();
     }
 
-    public AnimationCurve GetAnimationCurve()
+    async public Task<AnimationCurve> GetAnimationCurve()
     {
         if (GetInputConnection("curve").IsConnected())
-            return GetInputValue("curve").GetValue<AnimationCurve>();
+            return (await GetInputValue("curve")).GetValue<AnimationCurve>();
         else
             return null;
     }

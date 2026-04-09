@@ -966,6 +966,7 @@ MonoBehaviour:
   outputConnections:
   - {fileID: 2111862952872077870}
   - {fileID: 4780972252059654730}
+  loadingIcon: {fileID: 2040437605884190095}
   hasRandom: 0
   nodeTimeType: 2
   thermalErosionAlgorithm: {fileID: 4940474794584019353}
@@ -984,6 +985,11 @@ MonoBehaviour:
 --- !u!224 &1220277798718522412 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6378138601567887067, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+  m_PrefabInstance: {fileID: 5218826936079407863}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2040437605884190095 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6070263250318231416, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
   m_PrefabInstance: {fileID: 5218826936079407863}
   m_PrefabAsset: {fileID: 0}
 --- !u!224 &3680236115733299408 stripped
@@ -1336,7 +1342,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 52.05
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -1573,7 +1579,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8872118987041074747, guid: b5a7af0f9f570244cbba91592222a435, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 84.74
       objectReference: {fileID: 0}
     - target: {fileID: 8872118987041074747, guid: b5a7af0f9f570244cbba91592222a435, type: 3}
       propertyPath: m_AnchoredPosition.x

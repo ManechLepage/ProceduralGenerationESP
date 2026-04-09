@@ -394,6 +394,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6378138601567887067, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
   m_PrefabInstance: {fileID: 6707500086149356946}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &659842808857107178 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6070263250318231416, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+  m_PrefabInstance: {fileID: 6707500086149356946}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1505538922963145537 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5328159020159831763, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
@@ -421,6 +426,7 @@ MonoBehaviour:
   inputConnections:
   - {fileID: 7707448872079446557}
   outputConnections: []
+  loadingIcon: {fileID: 659842808857107178}
   hasRandom: 0
   nodeTimeType: 0
   previewSize: {x: 128, y: 128}

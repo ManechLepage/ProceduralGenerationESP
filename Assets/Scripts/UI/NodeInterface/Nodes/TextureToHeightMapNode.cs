@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class TextureToHeightMapNode : NodeBehaviour
 {
@@ -10,14 +11,14 @@ public class TextureToHeightMapNode : NodeBehaviour
         textureHelpers = GetComponent<TextureHelpers>();
     }
 
-    public override Variant OnFire()
+    async public override Task<Variant> OnFire()
     {
         if (!GetInputConnection("texture").IsConnected())
         {
             return new Variant(new List<List<float>>());
         }
 
-        Texture2D texture = GetInputValue("texture").GetValue<Texture2D>();
+        Texture2D texture = (await GetInputValue("texture")).GetValue<Texture2D>();
 
         if (texture == null)
         {

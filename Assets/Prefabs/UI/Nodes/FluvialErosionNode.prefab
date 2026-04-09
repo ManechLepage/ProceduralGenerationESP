@@ -1296,6 +1296,7 @@ MonoBehaviour:
   outputConnections:
   - {fileID: 2111862952872077870}
   - {fileID: 4780972252059654730}
+  loadingIcon: {fileID: 2040437605884190095}
   hasRandom: 0
   nodeTimeType: 2
   fluvialErosionAlgorithm: {fileID: 1385052108221175615}
@@ -1314,6 +1315,11 @@ MonoBehaviour:
 --- !u!224 &1220277798718522412 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6378138601567887067, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+  m_PrefabInstance: {fileID: 5218826936079407863}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2040437605884190095 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6070263250318231416, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
   m_PrefabInstance: {fileID: 5218826936079407863}
   m_PrefabAsset: {fileID: 0}
 --- !u!224 &3680236115733299408 stripped

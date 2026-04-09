@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class IslandTexture : NodeBehaviour
 {
@@ -10,52 +11,51 @@ public class IslandTexture : NodeBehaviour
     [SerializeField] private FBMAlgorithm fbm;
     [SerializeField] private PreviewBehaviour preview;
 
-    public override void Start()
+    async public override void Start()
     {
         base.Start();
 
-        UpdatePreview();
+        await UpdatePreview();
     }
     
-    public override Variant OnFire()
+    async public override Task<Variant> OnFire()
     {
-        AnimationCurve distanceCurve = GetDistanceCurve();
-        List<List<Vector2>> warp = GetWarp();
-        float noiseIntensity = GetInputValue("Noise Intensity").GetValue<float>();
-        FBMSettings settings = GetSettings();
-        Vector2Int size = GraphManager.Instance.GetTerrainSize();
+        AnimationCurve distanceCurve = await GetDistanceCurve();
+        List<List<Vector2>> warp = await GetWarp();
+        float noiseIntensity = (await GetInputValue("Noise Intensity")).GetValue<float>();
+        FBMSettings settings = await GetSettings();
+        Vector2Int size = await GraphManager.Instance.GetTerrainSize();
 
         Debug.Log("Generating island texture with seed: " + settings.seed);
 
-        List<List<float>> heightmap = GenerateHeightmap(size, settings, warp, noiseIntensity, distanceCurve);
+        List<List<float>> heightmap = await GenerateHeightmap(size, settings, warp, noiseIntensity, distanceCurve);
         UpdatePreviewWithHeightMap(heightmap);
         
         return new Variant(heightmap);
     }
 
-    public override void InputUpdated(ConnectorBehaviour connector)
+    public override async void InputUpdated(ConnectorBehaviour connector)
     {
         base.InputUpdated(connector);
-
-        UpdatePreview();
+        await UpdatePreview();
     }
 
-    public void UpdatePreview()
+    public async Task UpdatePreview()
     {
-        AnimationCurve distanceCurve = GetDistanceCurve();
-        List<List<Vector2>> warp = GetWarp();
-        float noiseIntensity = GetInputValue("Noise Intensity").GetValue<float>();
-        FBMSettings settings = GetSettings();
+        AnimationCurve distanceCurve = await GetDistanceCurve();
+        List<List<Vector2>> warp = await GetWarp();
+        float noiseIntensity = (await GetInputValue("Noise Intensity")).GetValue<float>();
+        FBMSettings settings = await GetSettings();
 
-        List<List<float>> heightmap = GenerateHeightmap(previewSize, settings, warp, noiseIntensity, distanceCurve);
+        List<List<float>> heightmap = await GenerateHeightmap(previewSize, settings, warp, noiseIntensity, distanceCurve);
 
         preview.ApplyHeightMap(heightmap);
     }
 
-    public List<List<float>> GenerateHeightmap(Vector2Int size, FBMSettings settings, List<List<Vector2>> warp, float noiseIntensity, AnimationCurve distanceCurve)
+    public async Task<List<List<float>>> GenerateHeightmap(Vector2Int size, FBMSettings settings, List<List<Vector2>> warp, float noiseIntensity, AnimationCurve distanceCurve)
     {
         List<List<float>> heightmap = new List<List<float>>();
-        Vector2Int terrainSize = GraphManager.Instance.GetTerrainSize();
+        Vector2Int terrainSize = await GraphManager.Instance.GetTerrainSize();
         float maxDistance = Mathf.Max(terrainSize.x, terrainSize.y) / 2.0f;
         List<float> maxNoiseValues = new List<float>();
         for (int theta = 0; theta < 360; theta++)
@@ -93,35 +93,35 @@ public class IslandTexture : NodeBehaviour
         return fbm.GetValue(point.x, point.y, settings);
     }
 
-    FBMSettings GetSettings()
+    async public Task<FBMSettings> GetSettings()
     {
         FBMSettings settings = new FBMSettings();
-        settings.seed = GetInputValue("seed").GetValue<int>();
-        settings.scale = GetInputValue("scale").GetValue<float>();
-        settings.curve = GetNoiseCurve();
+        settings.seed = (await GetInputValue("seed")).GetValue<int>();
+        settings.scale = (await GetInputValue("scale")).GetValue<float>();
+        settings.curve = await GetNoiseCurve();
         return settings;
     }
 
-    AnimationCurve GetNoiseCurve()
+    async public Task<AnimationCurve> GetNoiseCurve()
     {
         if (GetInputConnection("Noise Curve").IsConnected())
-            return GetInputValue("Noise Curve").GetValue<AnimationCurve>();
+            return (await GetInputValue("Noise Curve")).GetValue<AnimationCurve>();
         else
             return AnimationCurve.Linear(0, 0, 1, 1);
     }
 
-    AnimationCurve GetDistanceCurve()
+    async public Task<AnimationCurve> GetDistanceCurve()
     {
         if (GetInputConnection("Distance Curve").IsConnected())
-            return GetInputValue("Distance Curve").GetValue<AnimationCurve>();
+            return (await GetInputValue("Distance Curve")).GetValue<AnimationCurve>();
         else
             return AnimationCurve.Linear(0, 0, 1, 1);
     }
 
-    List<List<Vector2>> GetWarp()
+    async public Task<List<List<Vector2>>> GetWarp()
     {
         if (GetInputConnection("warp").IsConnected())
-            return GetInputValue("warp").GetValue<List<List<Vector2>>>();
+            return (await GetInputValue("warp")).GetValue<List<List<Vector2>>>();
         else
             return new List<List<Vector2>>();
     }

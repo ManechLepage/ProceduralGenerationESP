@@ -189,6 +189,8 @@ public class HydraulicErosionAlgorithm : MonoBehaviour
             float currentDropSize = ProcessDropSize(settings.waterQuantity, i, settings.steps);
             ApplyErosionStep(heightMap, currentDropSize, settings);
 
+            onProgress?.Invoke(i, settings.steps);
+
             if (i % 1000 == 0)
             {
                 // Appeler le callback.
@@ -196,7 +198,7 @@ public class HydraulicErosionAlgorithm : MonoBehaviour
                 onProgress?.Invoke(i, settings.steps);
 
                 // Attendre un peu pour que la scène puisse avoir le temps de loader le nouveau terrain.
-                yield return new WaitForSeconds(0.01f);
+                yield return null;
             }
         }
 

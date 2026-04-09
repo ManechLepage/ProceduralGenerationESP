@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
+using System.Threading.Tasks;
 
 public class TerrainManager : MonoBehaviour
 {
@@ -51,8 +52,8 @@ public class TerrainManager : MonoBehaviour
         masterNode = GraphManager.Instance.masterNode as MasterNode;
         if (masterNode != null)
         {
-            masterNode.onFire.AddListener(Generate);
-            masterNode.onInputUpdated.AddListener(MasterNodeUpdated);
+            masterNode.onFire.AddListener(GenerateVoid);
+            masterNode.onInputUpdated.AddListener(MasterNodeUpdatedVoid);
         }
     }
 
@@ -62,14 +63,14 @@ public class TerrainManager : MonoBehaviour
         {
             if (masterNode != null)
             {
-                masterNode.Fire(onlyIfModified: false);
+                _ = masterNode.Fire(onlyIfModified: false);
             }
         }
     }
 
-    public void Generate() => Generate(onlyIfModified: false);
+    public async void GenerateVoid() => await Generate(onlyIfModified: false);
 
-    public void Generate(bool onlyIfModified = false)
+    async public Task Generate(bool onlyIfModified = false)
     {
         /*
         Générer le terrain à partir du master node, puis mettre à jour le mesh.
@@ -84,8 +85,8 @@ public class TerrainManager : MonoBehaviour
             generationStatistics.actual.terrainTime = 0f;
         }
 
-        heightMap = masterNode.GetInputValue("heightmap", onlyIfModified: onlyIfModified).GetValue<List<List<float>>>();
-        terrainHeight = initialTerrainHeight * masterNode.GetInputValue("height", onlyIfModified: onlyIfModified).GetValue<float>();
+        heightMap = (await masterNode.GetInputValue("heightmap", onlyIfModified: onlyIfModified)).GetValue<List<List<float>>>();
+        terrainHeight = initialTerrainHeight * (await masterNode.GetInputValue("height", onlyIfModified: onlyIfModified)).GetValue<float>();
 
         if (heightMap != null && heightMap.Count > 0)
         {
@@ -103,21 +104,23 @@ public class TerrainManager : MonoBehaviour
         }
     }
 
-    public void MasterNodeUpdated(ConnectorBehaviour connector)
+    async public void MasterNodeUpdatedVoid(ConnectorBehaviour connector) => await MasterNodeUpdated(connector);
+
+    public async Task MasterNodeUpdated(ConnectorBehaviour connector)
     {
         if (connector == null) { return; }
 
         if (connector.connectionName == "water")
         {
             // Ne pas recharger tout le terrain.
-            bool hasWater = masterNode.GetInputValue("water").GetValue<bool>();
+            bool hasWater = (await masterNode.GetInputValue("water")).GetValue<bool>();
             SetActiveSea(hasWater);
             return;
         }
 
         if (connector.connectionName == "water_level")
         {
-            float waterLevel = masterNode.GetInputValue("water_level").GetValue<float>();
+            float waterLevel = (await masterNode.GetInputValue("water_level")).GetValue<float>();
             float waterGOLevel = initialWaterLevel + waterLevel * initialTerrainHeight;
             sea.transform.position = new Vector3(sea.transform.position.x, waterGOLevel, sea.transform.position.z);
             return;
@@ -125,9 +128,9 @@ public class TerrainManager : MonoBehaviour
 
         ReloadPredictions();
 
-        if (masterNode.GetInputValue("auto_reload").GetValue<bool>())
+        if ((await masterNode.GetInputValue("auto_reload")).GetValue<bool>())
         {
-            Generate(onlyIfModified: true);
+            await Generate(onlyIfModified: true);
         }
     }
 

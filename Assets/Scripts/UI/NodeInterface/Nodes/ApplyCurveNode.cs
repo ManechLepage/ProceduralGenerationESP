@@ -1,12 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class ApplyCurveNode : NodeBehaviour
 {
-    public override Variant OnFire()
+    public override async Task<Variant> OnFire()
     {
-        List<List<float>> heightmap = GetInputValue("heightmap").GetValue<List<List<float>>>();
-        AnimationCurve curve = GetAnimationCurve();
+        List<List<float>> heightmap = (await GetInputValue("heightmap")).GetValue<List<List<float>>>();
+        AnimationCurve curve = await GetAnimationCurve();
 
         List<List<float>> modifiedHeightMap = new List<List<float>>();
 
@@ -25,10 +26,10 @@ public class ApplyCurveNode : NodeBehaviour
         return new Variant(modifiedHeightMap);
     }
 
-    public AnimationCurve GetAnimationCurve()
+    public async Task<AnimationCurve> GetAnimationCurve()
     {
         if (GetInputConnection("curve").IsConnected())
-            return GetInputValue("curve").GetValue<AnimationCurve>();
+            return (await GetInputValue("curve")).GetValue<AnimationCurve>();
         else
             return AnimationCurve.Linear(0, 0, 1, 1);
     }

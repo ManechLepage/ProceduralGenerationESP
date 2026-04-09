@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
+using System.Threading.Tasks;
 
 public class LoadGraphNode : NodeBehaviour
 {
@@ -13,14 +14,14 @@ public class LoadGraphNode : NodeBehaviour
         loadGraphManager = GetComponent<LoadGraphManager>();
     }
 
-    public override Variant OnFire()
+    public override Task<Variant> OnFire()
     {
-        return new Variant();
+        return Task.FromResult(new Variant());
     }
 
-    public void Load()
+    async public void Load()
     {
-        string path = "Assets/" + loadFolder + GetInputValue("path").GetValue<string>();
+        string path = "Assets/" + loadFolder + (await GetInputValue("path")).GetValue<string>();
 
         if (!path.EndsWith(".json"))
             path += ".json";

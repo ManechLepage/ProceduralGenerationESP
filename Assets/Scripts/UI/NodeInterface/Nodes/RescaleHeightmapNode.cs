@@ -1,16 +1,17 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class RescaleHeightmapNode : NodeBehaviour
 {
-    public override Variant OnFire()
+    async public override Task<Variant> OnFire()
     {
         if (!GetInputConnection("heightmap").IsConnected())
             return new Variant(new List<List<float>>());
         
-        List<List<float>> heightmap = GetInputValue("heightmap").GetValue<List<List<float>>>();
+        List<List<float>> heightmap = (await GetInputValue("heightmap")).GetValue<List<List<float>>>();
 
-        Vector2 newSize = GetInputValue("size").GetValue<Vector2>();
+        Vector2 newSize = (await GetInputValue("size")).GetValue<Vector2>();
         Vector2Int size = new Vector2Int(Mathf.RoundToInt(newSize.x), Mathf.RoundToInt(newSize.y));
         
         if (heightmap == null || heightmap.Count == 0)

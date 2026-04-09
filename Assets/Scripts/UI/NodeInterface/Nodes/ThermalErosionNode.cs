@@ -1,18 +1,19 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public class ThermalErosionNode : NodeBehaviour
 {
     public ThermalErosionAlgorithm thermalErosionAlgorithm;
 
-    public override Variant OnFire()
+    async public override Task<Variant> OnFire()
     {
         if (!GetInputConnection("heightmap").IsConnected())
             return new Variant(new List<List<float>>());
 
-        ThermalErosionSettings settings = GetSettings();
-        List<List<float>> heightMap = GetInputValue("heightmap").GetValue<List<List<float>>>();
+        ThermalErosionSettings settings = await GetSettings();
+        List<List<float>> heightMap = (await GetInputValue("heightmap")).GetValue<List<List<float>>>();
 
         if (heightMap.Count == 0)
             return new Variant(heightMap);
@@ -24,21 +25,26 @@ public class ThermalErosionNode : NodeBehaviour
         }
 
         float pixelDistanceFactor = TerrainManager.Instance.previewSize.x / heightMapCopy.Count * 50f / TerrainManager.Instance.terrainHeight;
-        thermalErosionAlgorithm.ApplyInstantErosion(heightMapCopy, settings, pixelDistanceFactor);
+        
+
+        ShowLoadingIcon(true);
+        // thermalErosionAlgorithm.ApplyInstantErosion(heightMapCopy, settings, pixelDistanceFactor);
+        await Task.Run(() => thermalErosionAlgorithm.ApplyInstantErosion(heightMapCopy, settings, pixelDistanceFactor));
+        ShowLoadingIcon(false);
 
         return new Variant(heightMapCopy);
     }
 
-    public ThermalErosionSettings GetSettings()
+    public async Task<ThermalErosionSettings> GetSettings()
     {
         ThermalErosionSettings settings = new ThermalErosionSettings();
 
-        settings.intensity = GetInputValue("intensity").GetValue<float>();
-        settings.steps = GetInputValue("steps").GetValue<int>();
-        settings.talusAngle = GetInputValue("talus_angle").GetValue<float>();
-        settings.randomness = GetInputValue("randomness").GetValue<float>();
-        settings.sedimentMap = GetInputValue("sediment_map").GetValue<bool>();
-        settings.talusProduction = GetInputValue("talus_production").GetValue<float>();
+        settings.intensity = (await GetInputValue("intensity")).GetValue<float>();
+        settings.steps = (await GetInputValue("steps")).GetValue<int>();
+        settings.talusAngle = (await GetInputValue("talus_angle")).GetValue<float>();
+        settings.randomness = (await GetInputValue("randomness")).GetValue<float>();
+        settings.sedimentMap = (await GetInputValue("sediment_map")).GetValue<bool>();
+        settings.talusProduction = (await GetInputValue("talus_production")).GetValue<float>();
 
         return settings;
     }

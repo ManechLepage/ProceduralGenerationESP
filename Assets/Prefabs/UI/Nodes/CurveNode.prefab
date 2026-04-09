@@ -557,6 +557,11 @@ PrefabInstance:
       insertIndex: 3
       addedObject: {fileID: 1881923438380950733}
   m_SourcePrefab: {fileID: 100100000, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+--- !u!1 &659842808857107178 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6070263250318231416, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+  m_PrefabInstance: {fileID: 6707500086149356946}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1505538922963145537 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5328159020159831763, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
@@ -584,6 +589,7 @@ MonoBehaviour:
   inputConnections: []
   outputConnections:
   - {fileID: 6425791586731673365}
+  loadingIcon: {fileID: 659842808857107178}
   hasRandom: 0
   nodeTimeType: 0
   doubleClickInterval: 0.5
