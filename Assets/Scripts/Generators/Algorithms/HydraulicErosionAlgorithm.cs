@@ -188,14 +188,13 @@ public class HydraulicErosionAlgorithm : MonoBehaviour
             // Faire tomber une goutte d'eau avec une quantité d'eau diminuant au fil des inérations.
             float currentDropSize = ProcessDropSize(settings.waterQuantity, i, settings.steps);
             ApplyErosionStep(heightMap, currentDropSize, settings);
-
+            
+            // Appeler le callback.
             onProgress?.Invoke(i, settings.steps);
 
             if (i % 1000 == 0)
             {
-                // Appeler le callback.
                 Debug.Log($"Erosion step {i}/{settings.steps}");
-                onProgress?.Invoke(i, settings.steps);
 
                 // Attendre un peu pour que la scène puisse avoir le temps de loader le nouveau terrain.
                 yield return null;

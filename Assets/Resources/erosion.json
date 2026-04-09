@@ -3,8 +3,8 @@
     {
       "id": "0",
       "prefab": "MasterNode",
-      "offsetX": 1999.80115,
-      "offsetY": 700.9114,
+      "offsetX": 1191.92566,
+      "offsetY": 312.9914,
       "inputs": {
         "heightmap": null,
         "size": {
@@ -14,14 +14,14 @@
         "height": 1.0,
         "water": false,
         "water_level": 0.4,
-        "auto_reload": true
+        "auto_reload": false
       }
     },
     {
       "id": "3",
       "prefab": "PerlinNoiseNode",
-      "offsetX": 718.3588,
-      "offsetY": 659.3058,
+      "offsetX": -89.76609,
+      "offsetY": 271.385559,
       "inputs": {
         "scale": 1.0,
         "octaves": 8,
@@ -40,8 +40,8 @@
     {
       "id": "5",
       "prefab": "SaveGraphNode",
-      "offsetX": 1368.65552,
-      "offsetY": 451.581573,
+      "offsetX": 560.735168,
+      "offsetY": 63.65898,
       "inputs": {
         "path": "erosion"
       }
@@ -49,8 +49,8 @@
     {
       "id": "6",
       "prefab": "LoadGraphNode",
-      "offsetX": 1625.70923,
-      "offsetY": 438.969574,
+      "offsetX": 817.7977,
+      "offsetY": 51.04709,
       "inputs": {
         "path": "erosion"
       }
@@ -58,8 +58,8 @@
     {
       "id": "7",
       "prefab": "HydraulicErosionNode",
-      "offsetX": 1664.50952,
-      "offsetY": 703.0369,
+      "offsetX": 856.5977,
+      "offsetY": 315.117462,
       "inputs": {
         "heightmap": null,
         "steps": 50000,
@@ -72,8 +72,8 @@
     {
       "id": "8",
       "prefab": "FluvialErosionNode",
-      "offsetX": 1069.05347,
-      "offsetY": 675.385132,
+      "offsetX": 261.127655,
+      "offsetY": 287.4626,
       "inputs": {
         "heightmap": null,
         "steps": 5,
@@ -86,11 +86,11 @@
     {
       "id": "9",
       "prefab": "ThermalErosionNode",
-      "offsetX": 1369.75,
-      "offsetY": 686.8142,
+      "offsetX": 561.8299,
+      "offsetY": 298.894257,
       "inputs": {
         "heightmap": null,
-        "steps": 25,
+        "steps": 10,
         "intensity": 0.015,
         "talus_angle": 0.125,
         "randomness": 0.1,
