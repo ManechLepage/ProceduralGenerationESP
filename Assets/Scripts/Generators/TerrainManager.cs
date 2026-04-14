@@ -81,8 +81,7 @@ public class TerrainManager : MonoBehaviour
         if (!onlyIfModified)
         {
             ClearActualStatisticsTexts();
-            generationStatistics.actual.erosionTime = 0f;
-            generationStatistics.actual.terrainTime = 0f;
+            generationStatistics.actual.Reset();
         }
 
         heightMap = (await masterNode.GetInputValue("heightmap", onlyIfModified: onlyIfModified)).GetValue<List<List<float>>>();
@@ -162,10 +161,10 @@ public class TerrainManager : MonoBehaviour
 
     public void UpdateStatisticsTexts()
     {
-        terrainPredictedTimeText.text = $"{generationStatistics.predicted.terrainTime * 1000f:F0}";
-        erosionPredictedTimeText.text = $"{generationStatistics.predicted.erosionTime * 1000f:F0}";
-        terrainActualTimeText.text = $"{generationStatistics.actual.terrainTime * 1000f:F0}";
-        erosionActualTimeText.text = $"{generationStatistics.actual.erosionTime * 1000f:F0}";
+        terrainPredictedTimeText.text = $"{generationStatistics.predicted.GetTotalTime(NodeTimeType.Terrain) * 1000f:F0}";
+        erosionPredictedTimeText.text = $"{generationStatistics.predicted.GetTotalTime(NodeTimeType.Erosion) * 1000f:F0}";
+        terrainActualTimeText.text = $"{generationStatistics.actual.GetTotalTime(NodeTimeType.Terrain) * 1000f:F0}";
+        erosionActualTimeText.text = $"{generationStatistics.actual.GetTotalTime(NodeTimeType.Erosion) * 1000f:F0}";
     }
 
     public void ClearActualStatisticsTexts()
@@ -194,6 +193,70 @@ public class GlobalGenerationStatistics
 [System.Serializable]
 public class GenerationStatistics
 {
-    public float terrainTime;
-    public float erosionTime;
+    public List<StatisticsTypeInfo> stats = new List<StatisticsTypeInfo>();
+
+    public float GetTotalTime(NodeTimeType type)
+    {
+        float total = 0f;
+        foreach (var statType in stats)
+        {
+            if (statType.type == type)
+            {
+                foreach (var stat in statType.statistics)
+                    total += stat.value;
+            }
+        }
+
+        return total;
+    }
+
+    public float GetTotalTime()
+    {
+        float total = 0f;
+        foreach (var statType in stats)
+        {
+            foreach (var stat in statType.statistics)
+                total += stat.value;
+        }
+
+        return total;
+    }
+
+    public void AddTime(NodeTimeType type, string name, float time)
+    {
+        StatisticsTypeInfo statType = stats.Find(s => s.type == type);
+        if (statType == null)
+        {
+            statType = new StatisticsTypeInfo { type = type, statistics = new List<StatisticInfo>() };
+            stats.Add(statType);
+        }
+
+        StatisticInfo stat = statType.statistics.Find(s => s.name == name);
+        if (stat == null)
+        {
+            stat = new StatisticInfo { name = name, value = time };
+            statType.statistics.Add(stat);
+        }
+        else
+            stat.value += time;
+    }
+
+    public void Reset()
+    {
+        stats.Clear();
+    }
+}
+
+[System.Serializable]
+public class StatisticsTypeInfo
+{
+    public NodeTimeType type;
+    public List<StatisticInfo> statistics;
+}
+
+[System.Serializable]
+public class StatisticInfo
+{
+    public string name;
+    public float value;
 }

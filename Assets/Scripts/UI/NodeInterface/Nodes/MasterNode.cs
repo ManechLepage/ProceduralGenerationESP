@@ -36,7 +36,7 @@ public class MasterNode : NodeBehaviour
 
     public GenerationStatistics GetPredictedStatistics()
     {
-        GenerationStatistics predictedStats = new GenerationStatistics { terrainTime = 0f, erosionTime = 0f };
+        GenerationStatistics predictedStats = new GenerationStatistics();
         PredictTimeForNode(this, predictedStats);
         return predictedStats;
     }
@@ -44,18 +44,10 @@ public class MasterNode : NodeBehaviour
     void PredictTimeForNode(NodeBehaviour node, GenerationStatistics accumulatedStats)
     {
         float nodeTime = node.GetPredictedTime();
+        NodeTimeType nodeType = node.nodeTimeType;
+        string nodeName = node.prefabName;
 
-        switch (node.nodeTimeType)
-        {
-            case NodeTimeType.Terrain:
-                accumulatedStats.terrainTime += nodeTime;
-                break;
-            case NodeTimeType.Erosion:
-                accumulatedStats.erosionTime += nodeTime;
-                break;
-            default:
-                break;
-        }
+        accumulatedStats.AddTime(nodeType, nodeName, nodeTime);
 
         // Faire la boucle dans les connections pour calculer le temps total.
         foreach (ConnectorBehaviour input in node.inputConnections)

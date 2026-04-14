@@ -187,20 +187,9 @@ public abstract class NodeBehaviour : MonoBehaviour
             }
         }
 
+        // Ajouter le temps de génération seulement si l'arbre complet est lancé.
         if (!onlyIfModified)
-        {
-            switch (nodeTimeType)
-            {
-                case NodeTimeType.Terrain:
-                    TerrainManager.Instance.generationStatistics.actual.terrainTime += elapsedTime;
-                    break;
-                case NodeTimeType.Erosion:
-                    TerrainManager.Instance.generationStatistics.actual.erosionTime += elapsedTime;
-                    break;
-                default:
-                    break;
-            }
-        }
+            TerrainManager.Instance.generationStatistics.actual.AddTime(nodeTimeType, prefabName, elapsedTime);
 
         SetLastOutput(result);
         SetModifiedSinceLastFire(false);

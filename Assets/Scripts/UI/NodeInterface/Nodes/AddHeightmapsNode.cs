@@ -4,14 +4,25 @@ using System.Threading.Tasks;
 
 public class AddHeightmapsNode : NodeBehaviour
 {
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && IsFlagged())
+        {
+            UnpauseGeneration();
+        }
+    }
+    
     public override async Task<Variant> OnFire()
     {
         List<List<float>> x = (await GetInputValue("heightmap1")).GetValue<List<List<float>>>();
         List<List<float>> y = (await GetInputValue("heightmap2")).GetValue<List<List<float>>>();
 
+        List<List<float>> result = new List<List<float>>();
+
+        ShowLoadingIcon(true);
+
         if (x != null && x.Count > 0 && y != null && y.Count > 0)
         {
-            List<List<float>> result = new List<List<float>>();
             for (int i = 0; i < x.Count; i++)
             {
                 List<float> row = new List<float>();
@@ -21,18 +32,25 @@ public class AddHeightmapsNode : NodeBehaviour
                 }
                 result.Add(row);
             }
-
-            return new Variant(result);
         }
         else if (y != null && y.Count > 0)
         {
-            return new Variant(y);
+            result = y;
         }
         else if (x != null && x.Count > 0)
         {
-            return new Variant(x);
+            result = x;
         }
 
-        return new Variant(new List<List<float>>());
+        if (IsFlagged() && result.Count > 0)
+        {
+            TerrainManager.Instance.PreviewHeightMap(result);
+            PauseGeneration();
+            await WaitForUnpause();
+        }
+
+        ShowLoadingIcon(false);
+
+        return new Variant(result);
     }
 }

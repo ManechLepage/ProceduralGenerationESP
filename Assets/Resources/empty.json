@@ -1,0 +1,31 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "prefab": "MasterNode",
+      "offsetX": 1100.30713,
+      "offsetY": 400.256134,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 256.0,
+          "y": 256.0
+        },
+        "height": 1.0,
+        "water": false,
+        "water_level": 0.4,
+        "auto_reload": true
+      }
+    },
+    {
+      "id": "5",
+      "prefab": "SaveGraphNode",
+      "offsetX": 1100.42639,
+      "offsetY": 195.707321,
+      "inputs": {
+        "path": "empty"
+      }
+    }
+  ],
+  "connections": []
+}

@@ -199,11 +199,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1867648651422719410, guid: 7d87f1479cc641b4aa55740a2cdbf57c, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1867648651422719410, guid: 7d87f1479cc641b4aa55740a2cdbf57c, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1867648651422719410, guid: 7d87f1479cc641b4aa55740a2cdbf57c, type: 3}
       propertyPath: m_SizeDelta.x
@@ -211,15 +211,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1867648651422719410, guid: 7d87f1479cc641b4aa55740a2cdbf57c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 35.35
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1867648651422719410, guid: 7d87f1479cc641b4aa55740a2cdbf57c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1928886495216249914, guid: 7d87f1479cc641b4aa55740a2cdbf57c, type: 3}
       propertyPath: inputType
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3120996845247959701, guid: 7d87f1479cc641b4aa55740a2cdbf57c, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4093633162523169963, guid: 7d87f1479cc641b4aa55740a2cdbf57c, type: 3}
       propertyPath: m_text
@@ -1297,6 +1301,7 @@ MonoBehaviour:
   - {fileID: 2111862952872077870}
   - {fileID: 4780972252059654730}
   loadingIcon: {fileID: 2040437605884190095}
+  flagToggle: {fileID: 0}
   hasRandom: 0
   nodeTimeType: 2
   fluvialErosionAlgorithm: {fileID: 1385052108221175615}
@@ -1462,7 +1467,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 52.05
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -1475,6 +1480,14 @@ PrefabInstance:
     - target: {fileID: 1512536012004937382, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_Name
       value: InputHeightMap
+      objectReference: {fileID: 0}
+    - target: {fileID: 2765638057136248964, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2765638057136248964, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
+      propertyPath: m_HorizontalFit
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7771021866619373089, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_Pivot.x
