@@ -20,10 +20,19 @@
     {
       "id": "5",
       "prefab": "SaveGraphNode",
-      "offsetX": 1100.42639,
-      "offsetY": 195.707321,
+      "offsetX": 1098.82617,
+      "offsetY": 214.847137,
       "inputs": {
         "path": "empty"
+      }
+    },
+    {
+      "id": "6",
+      "prefab": "LoadGraphNode",
+      "offsetX": 1099.19971,
+      "offsetY": 101.599625,
+      "inputs": {
+        "path": "graph"
       }
     }
   ],

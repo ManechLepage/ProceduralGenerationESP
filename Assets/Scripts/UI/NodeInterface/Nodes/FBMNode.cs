@@ -31,7 +31,7 @@ public class FBMNode : NodeBehaviour
     {
         FBMSettings settings = await GetSettings();
         List<List<Vector2>> domainMap = await GetDomainMap();
-        Vector2Int terrainSize = await GraphManager.Instance.GetTerrainSize();
+        Vector2Int terrainSize = await GetTerrainSize();
 
         ShowLoadingIcon(true);
         
@@ -65,7 +65,7 @@ public class FBMNode : NodeBehaviour
         List<List<Vector2>> domainMap = await GetDomainMap();
 
         // Make the offset consistent with the preview size and terrain size
-        Vector2Int targetSize = await GraphManager.Instance.GetTerrainSize();
+        Vector2Int targetSize = await GetTerrainSize();
         settings.offset = new Vector2(
             settings.offset.x * previewSize.x / targetSize.x,
             settings.offset.y * previewSize.y / targetSize.y
@@ -137,8 +137,13 @@ public class FBMNode : NodeBehaviour
             return AnimationCurve.Linear(0, 0, 1, 1);
     }
 
-    public override float GetPredictedTime()
+    public override Task<float> GetPredictedTime()
     {
-        return 1f;
+        return Task.FromResult(1f);
+    }
+
+    async public override Task<Vector2Int> GetTerrainSize()
+    {
+        return await GraphManager.Instance.GetTerrainSize();
     }
 }

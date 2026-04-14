@@ -36,7 +36,7 @@ public class DrawTextureNode : NodeBehaviour
         InputUpdated(null);
     }
 
-    async public Task OpenDrawInterface()
+    async public void OpenDrawInterface()
     {
         Vector2 floatSize = (await GetInputValue("size")).GetValue<Vector2>();
         Vector2Int size = new Vector2Int((int)floatSize.x, (int)floatSize.y);

@@ -53,4 +53,11 @@ public class RescaleHeightmapNode : NodeBehaviour
 
         return Mathf.Lerp(Mathf.Lerp(height1, height2, xDiff), Mathf.Lerp(height3, height4, xDiff), yDiff);
     }
+
+    async public override Task<Vector2Int> GetTerrainSize()
+    {
+        Vector2 newSize = (await GetInputValue("size")).GetValue<Vector2>();
+        Debug.Log($"Returning terrain size: {newSize} for node {this.prefabName}");
+        return new Vector2Int(Mathf.RoundToInt(newSize.x), Mathf.RoundToInt(newSize.y));
+    }
 }

@@ -13,7 +13,7 @@ public class MinecraftExportNode : NodeBehaviour
         return Task.FromResult(new Variant());
     }
 
-    public async Task Export()
+    async public void Export()
     {
         float startTime = Time.realtimeSinceStartup;
 

@@ -34,16 +34,16 @@ public class MasterNode : NodeBehaviour
         onInputUpdated.Invoke(connector);
     }
 
-    public GenerationStatistics GetPredictedStatistics()
+    async public Task<GenerationStatistics> GetPredictedStatistics()
     {
         GenerationStatistics predictedStats = new GenerationStatistics();
-        PredictTimeForNode(this, predictedStats);
+        await PredictTimeForNode(this, predictedStats);
         return predictedStats;
     }
 
-    void PredictTimeForNode(NodeBehaviour node, GenerationStatistics accumulatedStats)
+    async Task PredictTimeForNode(NodeBehaviour node, GenerationStatistics accumulatedStats)
     {
-        float nodeTime = node.GetPredictedTime();
+        float nodeTime = await node.GetPredictedTime();
         NodeTimeType nodeType = node.nodeTimeType;
         string nodeName = node.prefabName;
 
@@ -55,7 +55,7 @@ public class MasterNode : NodeBehaviour
             if (input.IsConnected())
             {
                 NodeBehaviour connectedNode = input.multipleConnectedTo[0].node;
-                PredictTimeForNode(connectedNode, accumulatedStats);
+                await PredictTimeForNode(connectedNode, accumulatedStats);
             }
         }
     }

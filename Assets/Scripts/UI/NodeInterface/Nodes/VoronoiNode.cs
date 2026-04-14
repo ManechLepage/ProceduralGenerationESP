@@ -22,7 +22,7 @@ public class VoronoiNode : NodeBehaviour
     {
         VoronoiSettings settings = await GetSettings();
         List<List<Vector2>> domainMap = await GetDomainMap();
-        Vector2Int terrainSize = await GraphManager.Instance.GetTerrainSize();
+        Vector2Int terrainSize = await GetTerrainSize();
         AnimationCurve curve = await GetAnimationCurve();
 
         ShowLoadingIcon(true);
@@ -141,5 +141,10 @@ public class VoronoiNode : NodeBehaviour
             return (await GetInputValue("curve")).GetValue<AnimationCurve>();
         else
             return null;
+    }
+
+    async public override Task<Vector2Int> GetTerrainSize()
+    {
+        return await GraphManager.Instance.GetTerrainSize();
     }
 }

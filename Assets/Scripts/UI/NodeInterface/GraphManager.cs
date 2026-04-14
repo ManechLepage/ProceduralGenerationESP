@@ -198,7 +198,7 @@ public abstract class NodeBehaviour : MonoBehaviour
 
     public virtual Task<Variant> OnFire() { return Task.FromResult(new Variant()); }
 
-    public virtual float GetPredictedTime() { return 0f; }
+    public virtual Task<float> GetPredictedTime() { return Task.FromResult(0f); }
 
     public void PauseGeneration() { paused_generation = true; }
     public void UnpauseGeneration() { paused_generation = false; }
@@ -250,6 +250,8 @@ public abstract class NodeBehaviour : MonoBehaviour
         if (flagToggle == null) { Debug.Log($"Flag toggle not assigned to node {gameObject.name}."); }
         return flagToggle != null && flagToggle.isOn;
     }
+
+    public virtual Task<Vector2Int> GetTerrainSize() { return Task.FromResult(Vector2Int.zero); }
 
     public void SetLastOutput(Variant output) { lastOutput = output; }
     public Variant GetLastOutput() { return lastOutput; }

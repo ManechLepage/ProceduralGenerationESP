@@ -66,6 +66,11 @@ public class TerrainManager : MonoBehaviour
                 _ = masterNode.Fire(onlyIfModified: false);
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            _ = ReloadPredictions();
+        }
     }
 
     public async void GenerateVoid() => await Generate(onlyIfModified: false);
@@ -76,7 +81,7 @@ public class TerrainManager : MonoBehaviour
         Générer le terrain à partir du master node, puis mettre à jour le mesh.
         */
 
-        generationStatistics.predicted = masterNode.GetPredictedStatistics();
+        generationStatistics.predicted = await masterNode.GetPredictedStatistics();
 
         if (!onlyIfModified)
         {
@@ -131,7 +136,7 @@ public class TerrainManager : MonoBehaviour
             return;
         }
 
-        ReloadPredictions();
+        await ReloadPredictions();
 
         if ((await masterNode.GetInputValue("auto_reload")).GetValue<bool>())
         {
@@ -173,9 +178,9 @@ public class TerrainManager : MonoBehaviour
         erosionActualTimeText.text = "0";
     }
 
-    public void ReloadPredictions()
+    public async Task ReloadPredictions()
     {
-        generationStatistics.predicted = masterNode.GetPredictedStatistics();
+        generationStatistics.predicted = await masterNode.GetPredictedStatistics();
         UpdateStatisticsTexts();
     }
 }

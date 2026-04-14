@@ -1,0 +1,65 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "prefab": "MasterNode",
+      "offsetX": 1177.27893,
+      "offsetY": 432.489136,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 256.0,
+          "y": 256.0
+        },
+        "height": 1.0,
+        "water": false,
+        "water_level": 0.4,
+        "auto_reload": true
+      }
+    },
+    {
+      "id": "5",
+      "prefab": "SaveGraphNode",
+      "offsetX": 1177.39783,
+      "offsetY": 227.759766,
+      "inputs": {
+        "path": "drawing"
+      }
+    },
+    {
+      "id": "6",
+      "prefab": "DrawTextureNode",
+      "offsetX": 512.094055,
+      "offsetY": 410.632751,
+      "inputs": {
+        "size": {
+          "x": 256.0,
+          "y": 256.0
+        }
+      }
+    },
+    {
+      "id": "7",
+      "prefab": "TextureToHeightMap",
+      "offsetX": 829.7692,
+      "offsetY": 449.0332,
+      "inputs": {
+        "texture": null
+      }
+    }
+  ],
+  "connections": [
+    {
+      "fromNode": "7",
+      "fromOutputName": "heightmap",
+      "toNode": "0",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "6",
+      "fromOutputName": "texture",
+      "toNode": "7",
+      "toInputName": "texture"
+    }
+  ]
+}
