@@ -4,12 +4,16 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 
+// ExportAll() pour tt exporter
+
 public class DataToExcel : MonoBehaviour
 {
     public AlgorithmRegistry algoData;
     private StatisticsReader statisticsReader;
     public string savePathExcel = "Assets/Data/statistics.xlsx";
     public string savePathCSV = "Assets/Data/statistics.csv";
+
+//trouver les stats deja stoquées
 
     void Awake()
     {
@@ -23,6 +27,8 @@ public class DataToExcel : MonoBehaviour
         ExportToExcel();
         ExportToCSV();
     }
+
+//fonction pour exporter en csv
 
     public void ExportToCSV()
     {
@@ -44,6 +50,8 @@ public class DataToExcel : MonoBehaviour
         File.WriteAllText(savePathCSV, csv.ToString());
         Debug.Log($"CSV exported to {savePathCSV}");
     }
+
+//fonction por exporter en exel
 
     public void ExportToExcel()
     {

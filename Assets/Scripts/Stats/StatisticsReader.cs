@@ -1,5 +1,7 @@
 using UnityEngine;
 
+//ExportAll() pour tout exporter
+
 public class StatisticsReader : MonoBehaviour
 {
     public GenerationStatistics statistics;
