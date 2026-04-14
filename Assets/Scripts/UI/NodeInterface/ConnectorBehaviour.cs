@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public enum Type{
     Input,
@@ -28,15 +29,17 @@ public class ConnectorBehaviour : MonoBehaviour
     public string connectionName;
     public Type type;
     public DataType dataType;
+    public bool multipleOutputs = true;
     
     public GameObject linePrefab;
     
     [HideInInspector] public MultiInputBehaviour multiInput;
 
-    [HideInInspector] public ConnectorBehaviour connectedTo;
+    [HideInInspector] public List<ConnectorBehaviour> multipleConnectedTo = new List<ConnectorBehaviour>();
     [HideInInspector] public NodeBehaviour node;
     
     [HideInInspector] public GameObject currentLine;
+    [HideInInspector] public List<GameObject> connectionLines = new List<GameObject>();
     private bool dragToRemove = false;
     private ConnectionColorUpdater connectionColorUpdater;
 
@@ -48,7 +51,7 @@ public class ConnectorBehaviour : MonoBehaviour
 
     public bool IsConnected()
     {
-        return connectedTo != null;
+        return multipleConnectedTo.Count > 0;
     }
 
     public void InputUpdated()
@@ -79,9 +82,10 @@ public class ConnectorBehaviour : MonoBehaviour
     {
         if (!Input.GetMouseButtonDown(0)) return;
 
-        if (type == Type.Output && GraphManager.Instance.currentLine == null && !IsConnected())
+        if (type == Type.Output && (!IsConnected() || multipleOutputs))
         {
             currentLine = CreateLineFromConnection();
+            connectionLines.Add(currentLine);
             GraphManager.Instance.currentLine = currentLine.GetComponent<LineManager>();
 
             DisableAllConnections();
@@ -89,6 +93,7 @@ public class ConnectorBehaviour : MonoBehaviour
         else if (type == Type.Input && IsConnected())
         {
             dragToRemove = true;
+            currentLine = connectionLines[0];
             currentLine.GetComponent<LineManager>().isRemoving = true;
 
             DisableAllConnections(fromInput: true);
@@ -97,7 +102,7 @@ public class ConnectorBehaviour : MonoBehaviour
 
     void Update()
     {
-        if (currentLine != null && !IsConnected())
+        if (currentLine != null && type == Type.Output)
         {
             if (Input.GetMouseButtonUp(0))
             {
@@ -107,6 +112,8 @@ public class ConnectorBehaviour : MonoBehaviour
                     ReleaseConnection();
                 else if (multiInput != null)
                     multiInput.DisableInputs();
+                
+                currentLine = null;
 
                 EnableAllConnections();
             }
@@ -126,10 +133,13 @@ public class ConnectorBehaviour : MonoBehaviour
 
                     ReleaseConnection();
 
-                    connectedTo.connectedTo = null;
-                    connectedTo = null;
+                    multipleConnectedTo[0].multipleConnectedTo.Remove(this);
+                    this.multipleConnectedTo.Remove(multipleConnectedTo[0]);
+
                     InputUpdated();
                 }
+
+                currentLine = null;
 
                 EnableAllConnections(fromInput: true);
             }
@@ -151,10 +161,10 @@ public class ConnectorBehaviour : MonoBehaviour
     {
         foreach (ConnectorBehaviour connector in GraphManager.Instance.GetAllConnectors())
         {
-            if (!fromInput && (connector == this || connector.node == this.node || connector.type == this.type || !CompatibleTypes(connector.dataType, this.dataType)))
+            if (!fromInput && (connector == this || !CompatibleConnectors(this, connector)))
                 continue;
             
-            if (fromInput && (connector == this || connectedTo.node == connector.node || connector.type != this.type || !CompatibleTypes(connector.dataType, this.dataType)))
+            if (fromInput && (connector == this || !CompatibleFromInput(this, connector)))
                 continue;
             
             if (connector.currentLine != null)
@@ -171,9 +181,13 @@ public class ConnectorBehaviour : MonoBehaviour
                     if (connector.multiInput != null)
                         connector.multiInput.DisableInputs();
 
-                    connectedTo = connector;
-                    connector.connectedTo = this;
+                    multipleConnectedTo.Add(connector);
+
+                    connector.multipleConnectedTo.Add(this);
+
                     connector.currentLine = currentLine;
+                    connector.connectionLines.Add(currentLine);
+
                     connector.InputUpdated();
                 }
                 else
@@ -183,13 +197,19 @@ public class ConnectorBehaviour : MonoBehaviour
                     if (multiInput != null)
                         multiInput.EnableInputs();
 
-                    connectedTo.connectedTo = connector;
-                    connector.connectedTo = connectedTo;
+                    multipleConnectedTo[0].multipleConnectedTo.Remove(this);
+                    multipleConnectedTo[0].multipleConnectedTo.Add(connector);
+
+                    connector.multipleConnectedTo.Add(multipleConnectedTo[0]);
+
                     connector.currentLine = currentLine;
+                    connector.connectionLines.Add(currentLine);
+
                     connector.InputUpdated();
                     InputUpdated();
 
-                    connectedTo = null;
+                    multipleConnectedTo.Remove(multipleConnectedTo[0]);
+                    connectionLines.Remove(currentLine);
                     currentLine = null;
                 }
 
@@ -211,14 +231,13 @@ public class ConnectorBehaviour : MonoBehaviour
     {
         foreach (ConnectorBehaviour connector in GraphManager.Instance.GetAllConnectors())
         {
-            if ((!fromInput && connector == this) || (fromInput && (connectedTo == connector || connector == this)))
+            if ((!fromInput && connector == this) || (fromInput && (multipleConnectedTo[0] == connector || connector == this)))
                 continue;
             
-            if (!fromInput && (connector.node == this.node || connector.type == this.type || !CompatibleTypes(connector.dataType, this.dataType)))
+            if (!fromInput && !CompatibleConnectors(this, connector))
                 connector.Disable();
-            if (fromInput && (connector.type != this.type || !CompatibleTypes(connector.dataType, this.dataType) || (connectedTo != null && connectedTo.node == connector.node)))
-                connector.Disable();
-            if (connector.currentLine != null)
+            
+            if (fromInput && !CompatibleFromInput(this, connector))
                 connector.Disable();
         }
     }
@@ -231,25 +250,83 @@ public class ConnectorBehaviour : MonoBehaviour
         }
     }
 
+    bool CompatibleConnectors(ConnectorBehaviour a, ConnectorBehaviour b)
+    {
+        if (a.type == b.type)
+            return false;
+
+        if (!CompatibleTypes(a.dataType, b.dataType))
+            return false;
+        
+        if (a.node == b.node)
+            return false;
+        
+        if (a.type == Type.Input && a.IsConnected() || b.type == Type.Input && b.IsConnected())
+            return false;
+
+        return true;
+    }
+
+    bool CompatibleFromInput(ConnectorBehaviour current, ConnectorBehaviour target)
+    {
+        if (target.type != Type.Input)
+            return false;
+
+        if (!CompatibleTypes(current.dataType, target.dataType))
+            return false;
+        
+        if (current.multipleConnectedTo[0] != null && current.multipleConnectedTo[0].node == target.node)
+            return false;
+
+        return true;
+    }
+
     public void ReleaseConnection()
     {
         if (currentLine != null)
         {
+            connectionLines.Remove(currentLine);
+            LineManager lineManager = currentLine.GetComponent<LineManager>();
+            ConnectorBehaviour connectedTo = lineManager.output != this ? lineManager.output : lineManager.input;
+            if (connectedTo != null)
+                connectedTo.connectionLines.Remove(currentLine);
+            
             Destroy(currentLine);
             currentLine = null;
         }
     }
 
-    public void RemoveConnection()
+    public void RemoveConnections()
     {
-        if (connectedTo != null)
+        if (IsConnected())
         {
-            connectedTo.currentLine = null;
-            connectedTo.connectedTo = null;
-            connectedTo = null;
-        }
+            foreach (ConnectorBehaviour connectedTo in multipleConnectedTo)
+            {
+                GameObject line;
+                if (type == Type.Input)
+                {
+                    // Only one connection
+                    line = connectionLines[0];
+                }
+                else
+                {
+                    // Multiple lines, so check the input connected to find the right line
+                    line = connectedTo.connectionLines[0];
+                }
 
-        ReleaseConnection();
+                connectionLines.Remove(line);
+                currentLine = null;
+
+                connectedTo.connectionLines.Remove(line);
+                connectedTo.currentLine = null;
+
+                Destroy(line);
+
+                connectedTo.multipleConnectedTo.Remove(this);
+            }
+
+            multipleConnectedTo = new List<ConnectorBehaviour>();
+        }
     }
 
     public void Disable()

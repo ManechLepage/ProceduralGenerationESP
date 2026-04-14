@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.Threading.Tasks;
+
 public class CurveNode : NodeBehaviour
 {
     public float doubleClickInterval = 0.5f;
@@ -43,9 +45,9 @@ public class CurveNode : NodeBehaviour
         RecreateKeys();
     }
 
-    public override Variant OnFire()
+    public override Task<Variant> OnFire()
     {
-        return new Variant(curve);
+        return Task.FromResult(new Variant(curve));
     }
 
     public override void InputUpdated(ConnectorBehaviour connector)

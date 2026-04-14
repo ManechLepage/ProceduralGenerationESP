@@ -953,6 +953,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc03f6ce5bb72274aa3d5428bec4a36b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ThermalErosionNode
+  id: 0
+  prefabName: ThermalErosionNode
   inputConnections:
   - {fileID: 1389809073718440032}
   - {fileID: 2625597523721167991}
@@ -964,7 +966,9 @@ MonoBehaviour:
   outputConnections:
   - {fileID: 2111862952872077870}
   - {fileID: 4780972252059654730}
+  loadingIcon: {fileID: 2040437605884190095}
   hasRandom: 0
+  nodeTimeType: 2
   thermalErosionAlgorithm: {fileID: 4940474794584019353}
 --- !u!114 &4940474794584019353
 MonoBehaviour:
@@ -981,6 +985,11 @@ MonoBehaviour:
 --- !u!224 &1220277798718522412 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6378138601567887067, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+  m_PrefabInstance: {fileID: 5218826936079407863}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2040437605884190095 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6070263250318231416, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
   m_PrefabInstance: {fileID: 5218826936079407863}
   m_PrefabAsset: {fileID: 0}
 --- !u!224 &3680236115733299408 stripped
@@ -1170,6 +1179,7 @@ MonoBehaviour:
   inputFields:
   - {fileID: 4772241108232708790}
   boolToggle: {fileID: 0}
+  dropdown: {fileID: 0}
 --- !u!114 &2625597523721167991 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8153760235976441211, guid: dc47a1ff424fbbf4fb6578c83c40b4b7, type: 3}

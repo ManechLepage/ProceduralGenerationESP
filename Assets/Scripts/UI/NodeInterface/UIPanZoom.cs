@@ -62,6 +62,8 @@ public class UIPanZoom : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
             lastMousePosition = currentMousePos;
 
             nodeContainer.anchoredPosition += delta * panSpeed;
+
+            GraphManager.Instance.currentOffset = nodeContainer.anchoredPosition;
         }
         else
         {
@@ -91,6 +93,7 @@ public class UIPanZoom : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         nodeContainer.localScale *= zoom / lastZoom;
 
         GraphManager.Instance.currentZoom = zoom;
+        GraphManager.Instance.currentOffset = nodeContainer.anchoredPosition;
     }
 
     public void OnPointerEnter(PointerEventData eventData) => isHovered = true;

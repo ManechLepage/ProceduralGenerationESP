@@ -54,13 +54,13 @@ public class TextureHelpers : MonoBehaviour
         Note: la heightmap doit être de dimensions compatibles avec une texture (toutes les sous-listes doivent avoir la même longueur).
         */
 
-        Texture2D texture = new Texture2D((int)heightMap.Count, (int)heightMap[0].Count, TextureFormat.RFloat, false, true);
+        Texture2D texture = new Texture2D((int)heightMap[0].Count, (int)heightMap.Count, TextureFormat.RFloat, false, true);
 
         for (int x=0; x<texture.width; x++)
         {
             for (int y=0; y<texture.height; y++)
             {
-                texture.SetPixel(x, y, new Color(heightMap[x][y], 0, 0, 1));
+                texture.SetPixel(x, y, new Color(heightMap[y][x], 0, 0, 1));
             }
         }
         texture.Apply();
@@ -167,5 +167,43 @@ public class TextureHelpers : MonoBehaviour
         }
 
         return sum / count;
+    }
+
+    public List<List<float>> SmoothHeightMap(List<List<float>> heightMap, int radius)
+    {
+        /*
+        Appliquer un lissage à une heightmap en échantillonnant les valeurs environnantes pour chaque point de la heightmap.
+         - 'heightMap': heightmap à lisser
+         - 'radius': rayon de lissage (nombre de points à considérer autour de chaque point pour calculer la moyenne)
+         - return: heightmap lissée
+        */
+
+        List<List<float>> smoothedMap = new List<List<float>>();
+
+        for (int x = 0; x < heightMap.Count; x++)
+        {
+            smoothedMap.Add(new List<float>());
+            for (int y = 0; y < heightMap[0].Count; y++)
+            {
+                float sum = 0f;
+                int count = 0;
+
+                for (int dx = -radius; dx <= radius; dx++)
+                {
+                    for (int dy = -radius; dy <= radius; dy++)
+                    {
+                        int sx = Mathf.Clamp(x + dx, 0, heightMap.Count - 1);
+                        int sy = Mathf.Clamp(y + dy, 0, heightMap[0].Count - 1);
+
+                        sum += heightMap[sx][sy];
+                        count++;
+                    }
+                }
+
+                smoothedMap[x].Add(sum / count);
+            }
+        }
+
+        return smoothedMap;
     }
 }

@@ -1,0 +1,167 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "prefab": "MasterNode",
+      "offsetX": 1523.3938,
+      "offsetY": 574.6866,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 256.0,
+          "y": 256.0
+        },
+        "height": 1.0,
+        "water": false,
+        "water_level": 0.3,
+        "auto_reload": false
+      }
+    },
+    {
+      "id": "3",
+      "prefab": "PerlinNoiseNode",
+      "offsetX": -332.211334,
+      "offsetY": 544.581055,
+      "inputs": {
+        "scale": 0.75,
+        "octaves": 8,
+        "lacunarity": 2.0,
+        "persistence": 0.5,
+        "seed": 25,
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "ridged": true,
+        "curve": null,
+        "domainmap": null
+      }
+    },
+    {
+      "id": "5",
+      "prefab": "SaveGraphNode",
+      "offsetX": 318.717865,
+      "offsetY": 336.807343,
+      "inputs": {
+        "path": "erosion"
+      }
+    },
+    {
+      "id": "6",
+      "prefab": "LoadGraphNode",
+      "offsetX": 573.398865,
+      "offsetY": 340.06012,
+      "inputs": {
+        "path": "erosion"
+      }
+    },
+    {
+      "id": "7",
+      "prefab": "HydraulicErosionNode",
+      "offsetX": 615.697937,
+      "offsetY": 588.32666,
+      "inputs": {
+        "heightmap": null,
+        "steps": 50000,
+        "water_quantity": 0.75,
+        "intensity": 2.0,
+        "drop_radius": 2.0,
+        "max_steps_per_drop": 50
+      }
+    },
+    {
+      "id": "8",
+      "prefab": "FluvialErosionNode",
+      "offsetX": 22.6769371,
+      "offsetY": 558.803,
+      "inputs": {
+        "heightmap": null,
+        "steps": 5,
+        "intensity": 5.0,
+        "water_quantity": 1.0,
+        "river_threshold": 1.5,
+        "river_intensity": 2.0
+      }
+    },
+    {
+      "id": "9",
+      "prefab": "ThermalErosionNode",
+      "offsetX": 319.8192,
+      "offsetY": 572.098633,
+      "inputs": {
+        "heightmap": null,
+        "steps": 10,
+        "intensity": 0.015,
+        "talus_angle": 0.125,
+        "randomness": 0.1,
+        "sediment_map": true,
+        "talus_production": 0.01
+      }
+    },
+    {
+      "id": "10",
+      "prefab": "RescaleHeightmapNode",
+      "offsetX": 887.8196,
+      "offsetY": 612.4162,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 512.0,
+          "y": 512.0
+        }
+      }
+    },
+    {
+      "id": "11",
+      "prefab": "HydraulicErosionNode",
+      "offsetX": 1212.04822,
+      "offsetY": 601.2115,
+      "inputs": {
+        "heightmap": null,
+        "steps": 50000,
+        "water_quantity": 0.75,
+        "intensity": 2.0,
+        "drop_radius": 2.0,
+        "max_steps_per_drop": 50
+      }
+    }
+  ],
+  "connections": [
+    {
+      "fromNode": "11",
+      "fromOutputName": "heightmap",
+      "toNode": "0",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "9",
+      "fromOutputName": "heightmap",
+      "toNode": "7",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "3",
+      "fromOutputName": "heightmap",
+      "toNode": "8",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "8",
+      "fromOutputName": "heightmap",
+      "toNode": "9",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "7",
+      "fromOutputName": "heightmap",
+      "toNode": "10",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "10",
+      "fromOutputName": "heightmap",
+      "toNode": "11",
+      "toInputName": "heightmap"
+    }
+  ]
+}

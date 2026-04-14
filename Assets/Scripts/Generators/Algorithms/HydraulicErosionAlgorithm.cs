@@ -17,8 +17,16 @@ public class HydraulicErosionAlgorithm : MonoBehaviour
 
     void Start()
     {
-        AlgorithmRegistry.Instance.Register("FBM");
+        if (AlgorithmRegistry.Instance != null)
+            AlgorithmRegistry.Instance.Register("FBM");
     }
+
+    float GetRandomRange(float min, float max)
+    {
+        System.Random rng = new System.Random();
+        return (float)(rng.NextDouble() * (max - min) + min);
+    }
+
     public void ApplyErosionStep(List<List<float>> heightMap, float dropSize, HydraulicErosionSettings settings)
     {
         /*
@@ -43,7 +51,7 @@ public class HydraulicErosionAlgorithm : MonoBehaviour
         int height = heightMap[0].Count;
 
         // Initialisation de la position aléatoire de la goutte et des autres paramètres.
-        Vector2 position = new Vector2(UnityEngine.Random.Range(0, width - 1), UnityEngine.Random.Range(0, height - 1));
+        Vector2 position = new Vector2(GetRandomRange(0, width - 1), GetRandomRange(0, height - 1));
         Vector2 direction = settings.windDirection.normalized * settings.windStrength / 100f;
 
         float speed = 1f;
@@ -180,15 +188,16 @@ public class HydraulicErosionAlgorithm : MonoBehaviour
             // Faire tomber une goutte d'eau avec une quantité d'eau diminuant au fil des inérations.
             float currentDropSize = ProcessDropSize(settings.waterQuantity, i, settings.steps);
             ApplyErosionStep(heightMap, currentDropSize, settings);
+            
+            // Appeler le callback.
+            onProgress?.Invoke(i, settings.steps);
 
             if (i % 1000 == 0)
             {
-                // Appeler le callback.
                 Debug.Log($"Erosion step {i}/{settings.steps}");
-                onProgress?.Invoke(i, settings.steps);
 
                 // Attendre un peu pour que la scène puisse avoir le temps de loader le nouveau terrain.
-                yield return new WaitForSeconds(0.01f);
+                yield return null;
             }
         }
 

@@ -37,7 +37,8 @@ public class FluvialErosionAlgorithm : MonoBehaviour
 
     void Awake()
     {
-        AlgorithmRegistry.Instance.Register("FEA");
+        if (AlgorithmRegistry.Instance != null)
+            AlgorithmRegistry.Instance.Register("FEA");
     }
 
     public void ApplyErosion(List<List<float>> heightMap, FluvialErosionSettings settings)

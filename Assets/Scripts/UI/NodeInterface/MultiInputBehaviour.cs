@@ -9,6 +9,7 @@ public class MultiInputBehaviour : MonoBehaviour
     public DataType dataType;
     public List<TMP_InputField> inputFields = new List<TMP_InputField>();
     public Toggle boolToggle;
+    public TMP_Dropdown dropdown;
 
     public void DisableInputs()
     {
@@ -21,6 +22,10 @@ public class MultiInputBehaviour : MonoBehaviour
         {
             boolToggle.GetComponent<Image>().color = Color.gray;
             boolToggle.interactable = false;
+        }
+        if (dropdown != null)
+        {
+            dropdown.interactable = false;
         }
     }
 
@@ -35,6 +40,10 @@ public class MultiInputBehaviour : MonoBehaviour
         {
             boolToggle.GetComponent<Image>().color = Color.white;
             boolToggle.interactable = true;
+        }
+        if (dropdown != null)
+        {
+            dropdown.interactable = true;
         }
     }
 
@@ -52,7 +61,12 @@ public class MultiInputBehaviour : MonoBehaviour
                 value.asFloat = ParseFloat(inputFields[0]);
                 break;
             case DataType.String:
-                value.asString = ParseString(inputFields[0]);
+            {
+                if (dropdown != null)
+                    value.asString = dropdown.options[dropdown.value].text;
+                else
+                    value.asString = ParseString(inputFields[0]);
+            }
                 break;
             case DataType.Bool:
                 value.asBool = boolToggle.isOn;

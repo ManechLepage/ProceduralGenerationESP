@@ -14,7 +14,14 @@ public class ThermalErosionAlgorithm : MonoBehaviour
 
     void Awake()
     {
-        AlgorithmRegistry.Instance.Register("TEA");
+        if (AlgorithmRegistry.Instance != null)
+            AlgorithmRegistry.Instance.Register("TEA");
+    }
+
+    float GetRandomRange(float min, float max)
+    {
+        System.Random rng = new System.Random();
+        return (float)(rng.NextDouble() * (max - min) + min);
     }
     
     public void ApplyErosionStep(List<List<float>> heightMap, List<List<float>> bedrockMap, List<List<float>> sedimentMap, ThermalErosionSettings settings, float pixelDistance)
@@ -54,7 +61,7 @@ public class ThermalErosionAlgorithm : MonoBehaviour
                 List<Vector2Int> neighbors = GetNeighbors(heightMap, currentPos);
 
                 // Facteur aléatoire influençant la pente pour plus de réalisme
-                float randomFactor = UnityEngine.Random.Range(1f - settings.randomness, 1f + settings.randomness) / 50f;
+                float randomFactor = GetRandomRange(1f - settings.randomness, 1f + settings.randomness) / 50f;
 
                 if (settings.sedimentMap)
                 {

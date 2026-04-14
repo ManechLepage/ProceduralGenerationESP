@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class WarpingNode : NodeBehaviour
 {
@@ -10,16 +11,16 @@ public class WarpingNode : NodeBehaviour
         warpingAlgorithm = GetComponent<WarpingAlgorithm>();
     }
 
-    public override Variant OnFire()
+    async public override Task<Variant> OnFire()
     {
-        int seed = GetInputValue("seed").GetValue<int>();
-        float intensity = GetInputValue("intensity").GetValue<float>();
-        float scale = GetInputValue("scale").GetValue<float>();
-        float flowScale = GetInputValue("flow_scale").GetValue<float>();
-        float noiseScale = GetInputValue("noise_scale").GetValue<float>();
-        Vector2 offset = GetInputValue("offset").GetValue<Vector2>();
+        int seed = (await GetInputValue("seed")).GetValue<int>();
+        float intensity = (await GetInputValue("intensity")).GetValue<float>();
+        float scale = (await GetInputValue("scale")).GetValue<float>();
+        float flowScale = (await GetInputValue("flow_scale")).GetValue<float>();
+        float noiseScale = (await GetInputValue("noise_scale")).GetValue<float>();
+        Vector2 offset = (await GetInputValue("offset")).GetValue<Vector2>();
 
-        Vector2Int terrainSize = GraphManager.Instance.GetTerrainSize();
+        Vector2Int terrainSize = await GraphManager.Instance.GetTerrainSize();
 
         WarpingSettings settings = new WarpingSettings();
         settings.intensity = intensity;

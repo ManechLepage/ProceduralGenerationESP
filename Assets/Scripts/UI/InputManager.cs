@@ -15,7 +15,7 @@ public class InputManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab) && !(GameManager.Instance.openedUI && !nodeGUI.activeSelf))
         {
             if (nodeGUI.activeSelf)
             {

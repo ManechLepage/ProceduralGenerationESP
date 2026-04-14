@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 49.46
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1502724244281169827, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -152,10 +152,13 @@ MonoBehaviour:
   connectionName: 
   type: 0
   dataType: 5
+  multipleOutputs: 1
   linePrefab: {fileID: 1837271905312346381, guid: e213ccf11b98aae469fef6c19cd01df7, type: 3}
   multiInput: {fileID: 0}
-  connectedTo: {fileID: 0}
+  multipleConnectedTo: []
   node: {fileID: 0}
+  currentLine: {fileID: 0}
+  connectionLines: []
 --- !u!114 &7274571100320183971 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8941473247130711914, guid: dd905f171a8bec749aa9c5e75cfd12bf, type: 3}
@@ -326,6 +329,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4905050211979275109, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       insertIndex: 3
       addedObject: {fileID: 8403772036773999950}
+    - targetCorrespondingSourceObject: {fileID: 4905050211979275109, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5360218231962250989}
   m_SourcePrefab: {fileID: 100100000, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
 --- !u!1 &900370678719082898 stripped
 GameObject:
@@ -344,13 +350,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e36b3b2737955c2489654cdd6db50869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HeightMapToTextureNode
+  id: 0
+  prefabName: HeightMapToTextureNode
   inputConnections:
   - {fileID: 7274571100320183971}
   outputConnections:
   - {fileID: 8610696726739139523}
+  loadingIcon: {fileID: 2040437605884190095}
+  hasRandom: 0
+  nodeTimeType: 0
+--- !u!114 &5360218231962250989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900370678719082898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c679e0c608b18124a9c4293f25d2d375, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TextureHelpers
 --- !u!224 &1220277798718522412 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6378138601567887067, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+  m_PrefabInstance: {fileID: 5218826936079407863}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2040437605884190095 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6070263250318231416, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
   m_PrefabInstance: {fileID: 5218826936079407863}
   m_PrefabAsset: {fileID: 0}
 --- !u!224 &3680236115733299408 stripped

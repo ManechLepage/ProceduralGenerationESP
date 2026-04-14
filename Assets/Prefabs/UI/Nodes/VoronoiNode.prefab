@@ -1009,6 +1009,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1.1
       objectReference: {fileID: 0}
+    - target: {fileID: 3452287248309183095, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4380383957051010011, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       propertyPath: Node
       value: 
@@ -1252,6 +1256,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46ab5ffb30ed74d48b00b53445e76a7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VoronoiNode
+  id: 0
+  prefabName: VoronoiNode
   inputConnections:
   - {fileID: 416360433294130853}
   - {fileID: 6800853118982964580}
@@ -1263,7 +1269,10 @@ MonoBehaviour:
   outputConnections:
   - {fileID: 2111862952872077870}
   - {fileID: 3362210264606285601}
+  loadingIcon: {fileID: 2040437605884190095}
+  flagToggle: {fileID: 4498984167114894507}
   hasRandom: 0
+  nodeTimeType: 1
   previewSize: {x: 96, y: 96}
   voronoiAlgorithm: {fileID: 7996292862843154603}
   preview: {fileID: 1121879244649632865}
@@ -1284,11 +1293,27 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6378138601567887067, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
   m_PrefabInstance: {fileID: 5218826936079407863}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2040437605884190095 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6070263250318231416, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+  m_PrefabInstance: {fileID: 5218826936079407863}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &3680236115733299408 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8898598623937829415, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
   m_PrefabInstance: {fileID: 5218826936079407863}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4498984167114894507 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8503751786018747996, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+  m_PrefabInstance: {fileID: 5218826936079407863}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Toggle
 --- !u!1001 &6504275261297508675
 PrefabInstance:
   m_ObjectHideFlags: 0

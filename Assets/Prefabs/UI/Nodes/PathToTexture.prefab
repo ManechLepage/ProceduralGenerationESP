@@ -660,7 +660,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8898598623937829415, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -39.26217
+      value: -99.9
       objectReference: {fileID: 0}
     - target: {fileID: 9091759788163676399, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       propertyPath: m_text
@@ -709,11 +709,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33e69b88ff9c61944bb0324c8b40154b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PathToTextureNode
+  id: 0
+  prefabName: PathToTexture
   inputConnections:
   - {fileID: 6519553749617261985}
   outputConnections:
   - {fileID: 8610696726739139523}
+  loadingIcon: {fileID: 2040437605884190095}
   hasRandom: 0
+  nodeTimeType: 0
   preview: {fileID: 6763770947865187737}
   sizeText: {fileID: 5784283985820438833}
   pathText: {fileID: 1410299035564627057}
@@ -721,6 +725,11 @@ MonoBehaviour:
 --- !u!224 &1220277798718522412 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6378138601567887067, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+  m_PrefabInstance: {fileID: 5218826936079407863}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2040437605884190095 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6070263250318231416, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
   m_PrefabInstance: {fileID: 5218826936079407863}
   m_PrefabAsset: {fileID: 0}
 --- !u!224 &3680236115733299408 stripped

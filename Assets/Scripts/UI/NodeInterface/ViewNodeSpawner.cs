@@ -28,22 +28,25 @@ public class ViewNodeSpawner : MonoBehaviour
         Vector2 nodeBottomRight = new Vector2(transform.position.x + GetComponent<RectTransform>().rect.width, transform.position.y);
         Vector2 spawnPosition = nodeBottomRight + new Vector2(125, -50) * GraphManager.Instance.currentZoom;
 
-        GameObject newNode = SpawnViewNode(spawnPosition);
+        GameObject newNode = GraphManager.Instance.CreateNode(viewNodePrefab, spawnPosition);
         NodeBehaviour nodeBehaviour = newNode.GetComponent<NodeBehaviour>();
 
         ConnectorBehaviour newConnector = nodeBehaviour.GetInputConnection("preview");
-
-        connector.currentLine = connector.CreateLineFromConnection();
-        newConnector.currentLine = connector.currentLine;
-
-        connector.connectedTo = newConnector;
-        newConnector.connectedTo = connector;
-
-        connector.currentLine.GetComponent<LineManager>().output = newConnector;
-        connector.currentLine.GetComponent<LineManager>().isLinked = true;
-
         newConnector.node = nodeBehaviour;
-        newConnector.InputUpdated();
+
+        GraphManager.Instance.LinkConnections(connector, newConnector);
+
+        /*GameObject currentLine = connector.CreateLineFromConnection();
+        connector.connectionLines.Add(currentLine);
+        newConnector.connectionLines.Add(currentLine);
+
+        connector.multipleConnectedTo.Add(newConnector);
+        newConnector.multipleConnectedTo.Add(connector);
+
+        currentLine.GetComponent<LineManager>().output = newConnector;
+        currentLine.GetComponent<LineManager>().isLinked = true;
+
+        newConnector.InputUpdated();*/
     }
 
     public GameObject SpawnViewNode(Vector2 position)

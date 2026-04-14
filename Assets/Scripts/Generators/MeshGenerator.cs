@@ -53,7 +53,7 @@ public class MeshGenerator : MonoBehaviour
         return HeightMapToMesh(heightMap, height, size);
     }
 
-    public Mesh HeightMapToMesh(List<List<float>> heightMap, float height=1f, Vector2 size=default, bool borderNormals=false, MeshColorSettings colorSettings = default, bool lowBorders = false)
+    public Mesh HeightMapToMesh(List<List<float>> heightMap, float height=1f, Vector2 size=default, bool borderNormals=false, MeshColorSettings colorSettings = default, bool lowBorders = false, float pixelDistance=1f)
     {
         /*
         Transformer un heightmap en mesh, en assignant à chaque vertex une hauteur correspondant à la valeur dans le heightmap.
@@ -175,19 +175,28 @@ public class MeshGenerator : MonoBehaviour
                     // Calculer la pente et la hauteur pour assigner la couleur voulue.
                     // Note : les couleurs ne sont affichées que grâce à un shader spécial appliqué sur le matériau du GameObject du mesh
 
-                    float slope = Vector3.Angle(normal, Vector3.up) / 90f;
+                    float slope = Vector3.Angle(normal, Vector3.up) / 90f / pixelDistance;
                     float colorHeight = pixelHeight / height;
 
-                    Color color = Color.white;
+                    Color color;
 
-                    foreach (ColorConstraint constraint in colorSettings.constraints)
+                    if (!colorSettings.useGradient)
                     {
-                        if (slope >= constraint.slopeRange.x && slope <= constraint.slopeRange.y &&
-                            colorHeight >= constraint.heightRange.x && colorHeight <= constraint.heightRange.y)
+                        color = Color.white;
+
+                        foreach (ColorConstraint constraint in colorSettings.constraints)
                         {
-                            color = constraint.color;
-                            break;
+                            if (slope >= constraint.slopeRange.x && slope <= constraint.slopeRange.y &&
+                                colorHeight >= constraint.heightRange.x && colorHeight <= constraint.heightRange.y)
+                            {
+                                color = constraint.color;
+                                break;
+                            }
                         }
+                    }
+                    else
+                    {
+                        color = colorSettings.slopeGradient.Evaluate(slope * 5f);
                     }
 
                     colors.Add(color);
@@ -270,10 +279,12 @@ public class MeshColorSettings
     */
     
     public bool isEnabled = false;
+    public bool useGradient = false;
     public List<ColorConstraint> constraints = new List<ColorConstraint>();
 
     // Ces valeurs sont utiles pour par exemple conserver une version ultérieure pour tester.
     public List<ColorConstraint> constraintsTemp;
+    public Gradient slopeGradient;
 }
 
 

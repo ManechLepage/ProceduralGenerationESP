@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public class FBMNode : NodeBehaviour
 {
@@ -11,39 +12,65 @@ public class FBMNode : NodeBehaviour
     public FBMAlgorithm fbmAlgorithm;
     public PreviewBehaviour preview;
 
-    public override void Start()
+    async public override void Start()
     {
         base.Start();
 
-        UpdatePreview();
+        await UpdatePreview();
     }
 
-    public override Variant OnFire()
+    public void Update()
     {
-        FBMSettings settings = GetSettings();
-        List<List<Vector2>> domainMap = GetDomainMap();
-        Vector2Int terrainSize = GraphManager.Instance.GetTerrainSize();
+        if (Input.GetKeyDown(KeyCode.Space) && IsFlagged())
+        {
+            UnpauseGeneration();
+        }
+    }
 
+    async public override Task<Variant> OnFire()
+    {
+        FBMSettings settings = await GetSettings();
+        List<List<Vector2>> domainMap = await GetDomainMap();
+        Vector2Int terrainSize = await GraphManager.Instance.GetTerrainSize();
+
+        ShowLoadingIcon(true);
+        
         List<List<float>> heightMap = fbmAlgorithm.GetHeightMapThreading(terrainSize, settings, domainMap);
 
         UpdatePreviewWithHeightMap(heightMap);
+
+        if (IsFlagged())
+        {
+            TerrainManager.Instance.PreviewHeightMap(heightMap);
+            PauseGeneration();
+            await WaitForUnpause();
+        }
+        ShowLoadingIcon(false);
 
         Variant output = new Variant(heightMap);
 
         return output;
     }
 
-    public override void InputUpdated(ConnectorBehaviour connector)
+    async public override void InputUpdated(ConnectorBehaviour connector)
     {
         base.InputUpdated(connector);
 
-        UpdatePreview();
+        await UpdatePreview();
     }
 
-    public void UpdatePreview()
+    public async Task UpdatePreview()
     {
-        FBMSettings settings = GetSettings();
-        List<List<Vector2>> domainMap = GetDomainMap();
+        FBMSettings settings = await GetSettings();
+        List<List<Vector2>> domainMap = await GetDomainMap();
+
+        // Make the offset consistent with the preview size and terrain size
+        Vector2Int targetSize = await GraphManager.Instance.GetTerrainSize();
+        settings.offset = new Vector2(
+            settings.offset.x * previewSize.x / targetSize.x,
+            settings.offset.y * previewSize.y / targetSize.y
+        );
+
         List<List<float>> heightMap = fbmAlgorithm.GetHeightMapThreading(previewSize, settings, domainMap);
 
         preview.ApplyHeightMap(heightMap);
@@ -74,39 +101,44 @@ public class FBMNode : NodeBehaviour
         preview.ApplyHeightMap(scaledHeightMap);
     }
 
-    public FBMSettings GetSettings()
+    public async Task<FBMSettings> GetSettings()
     {
         FBMSettings settings = new FBMSettings();
 
-        settings.seed = GetInputValue("seed").GetValue<int>();
-        settings.scale = GetInputValue("scale").GetValue<float>();
-        settings.octaves = GetInputValue("octaves").GetValue<int>();
-        settings.lacunarity = GetInputValue("lacunarity").GetValue<float>();
-        settings.persistence = GetInputValue("persistence").GetValue<float>();
-        settings.offset = GetInputValue("offset").GetValue<Vector2>();
+        settings.seed = (await GetInputValue("seed")).GetValue<int>();
+        settings.scale = (await GetInputValue("scale")).GetValue<float>();
+        settings.octaves = (await GetInputValue("octaves")).GetValue<int>();
+        settings.lacunarity = (await GetInputValue("lacunarity")).GetValue<float>();
+        settings.persistence = (await GetInputValue("persistence")).GetValue<float>();
+        settings.offset = (await GetInputValue("offset")).GetValue<Vector2>();
         
-        bool ridged = GetInputValue("ridged").GetValue<bool>();
+        bool ridged = (await GetInputValue("ridged")).GetValue<bool>();
         settings.absolute = ridged;
         settings.inverted = ridged;
 
-        settings.curve = GetAnimationCurve();
+        settings.curve = await GetAnimationCurve();
 
         return settings;
     }
 
-    public List<List<Vector2>> GetDomainMap()
+    public async Task<List<List<Vector2>>> GetDomainMap()
     {
         if (GetInputConnection("domainmap").IsConnected())
-            return GetInputValue("domainmap").GetValue<List<List<Vector2>>>();
+            return (await GetInputValue("domainmap")).GetValue<List<List<Vector2>>>();
         else
             return new List<List<Vector2>>();
     }
 
-    public AnimationCurve GetAnimationCurve()
+    public async Task<AnimationCurve> GetAnimationCurve()
     {
         if (GetInputConnection("curve").IsConnected())
-            return GetInputValue("curve").GetValue<AnimationCurve>();
+            return (await GetInputValue("curve")).GetValue<AnimationCurve>();
         else
             return AnimationCurve.Linear(0, 0, 1, 1);
+    }
+
+    public override float GetPredictedTime()
+    {
+        return 1f;
     }
 }

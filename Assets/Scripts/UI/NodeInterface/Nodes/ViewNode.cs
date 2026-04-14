@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public class ViewNode : NodeBehaviour
 {
@@ -15,18 +16,18 @@ public class ViewNode : NodeBehaviour
         base.Start();
     }
 
-    public override Variant OnFire()
+    public override Task<Variant> OnFire()
     {
-        return new Variant();
+        return Task.FromResult(new Variant());
     }
 
-    public override void InputUpdated(ConnectorBehaviour connector)
+    async public override void InputUpdated(ConnectorBehaviour connector)
     {
         base.InputUpdated(connector);
 
         if (connector.IsConnected())
         {
-            List<List<float>> heightMap = connector.connectedTo.node.Fire(onlyIfModified: true).GetValue<List<List<float>>>();
+            List<List<float>> heightMap = (await connector.multipleConnectedTo[0].node.Fire(onlyIfModified: true)).GetValue<List<List<float>>>();
             UpdatePreview(heightMap);
         }
         else

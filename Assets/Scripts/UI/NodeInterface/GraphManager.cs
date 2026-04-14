@@ -1,6 +1,14 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.Threading.Tasks;
+
+public enum NodeTimeType
+{
+    Other,
+    Terrain,
+    Erosion
+}
 
 public class GraphManager : MonoBehaviour
 {
@@ -12,12 +20,17 @@ public class GraphManager : MonoBehaviour
     public RectMask2D rectMask;
     [HideInInspector] public LineManager currentLine;
     public float currentZoom = 1f;
+    public Vector2 currentOffset = Vector2.zero;
 
-    public Vector2Int GetTerrainSize()
+    [Space]
+    public GameObject graphInterface;
+    public GameObject drawInterface;
+
+    async public Task<Vector2Int> GetTerrainSize()
     {
         if (masterNode != null)
         {
-            Vector2 size = masterNode.GetInputValue("size").GetValue<Vector2>();
+            Vector2 size = (await masterNode.GetInputValue("size")).GetValue<Vector2>();
             return new Vector2Int((int)size.x, (int)size.y);
         }
         return new Vector2Int(256, 256);
@@ -39,7 +52,7 @@ public class GraphManager : MonoBehaviour
         foreach (NodeBehaviour node in nodes)
         {
             if (node.hasRandom)
-                node.Fire(onlyIfModified: true);
+                _ = node.Fire(onlyIfModified: true);
         }
     }
 
@@ -62,26 +75,93 @@ public class GraphManager : MonoBehaviour
             Debug.Log("Master node not assigned in GraphManager!");
         }
 
+        int id = 0;
         foreach (Transform node in nodeParent.GetComponentInChildren<Transform>())
         {
             NodeBehaviour nodeBehaviour = node.GetComponent<NodeBehaviour>();
             if (nodeBehaviour != null)
+            {
+                nodeBehaviour.id = id;
+                id++;
+
                 nodes.Add(nodeBehaviour);
+            }
         }
     }
+
+    public GameObject CreateNode(GameObject nodePrefab, Vector3 position = default(Vector3), int id = default(int))
+    {
+        if (nodePrefab == null) { return null; }
+        GameObject newNode = Instantiate(nodePrefab, position, Quaternion.identity);
+        newNode.transform.SetParent(nodeParent.transform);
+        newNode.transform.localScale *= currentZoom * 1.4f;
+
+        NodeBehaviour nodeBehaviour = newNode.GetComponent<NodeBehaviour>();
+        if (nodeBehaviour != null)
+        {
+            nodeBehaviour.id = id != default(int) ? id : GetHighestNodeID() + 1;
+            nodes.Add(nodeBehaviour);
+        }
+
+        return newNode;
+    }
+
+    public void LinkConnections(ConnectorBehaviour outputConnector, ConnectorBehaviour inputConnector, bool callInputUpdated = true)
+    {
+        GameObject currentLine = outputConnector.CreateLineFromConnection();
+        outputConnector.connectionLines.Add(currentLine);
+        inputConnector.connectionLines.Add(currentLine);
+
+        outputConnector.multipleConnectedTo.Add(inputConnector);
+        inputConnector.multipleConnectedTo.Add(outputConnector);
+
+        currentLine.GetComponent<LineManager>().output = inputConnector;
+        currentLine.GetComponent<LineManager>().isLinked = true;
+
+        if (callInputUpdated)
+            inputConnector.node.InputUpdated(inputConnector);
+    }
+
+    public int GetHighestNodeID()
+    {
+        int highestID = 0;
+        foreach (NodeBehaviour node in nodes)
+        {
+            if (node.id > highestID)
+                highestID = node.id;
+        }
+        return highestID;
+    }
+
+    public void DisableGraphInterface() { graphInterface.SetActive(false); }
+    public void EnableGraphInterface() { graphInterface.SetActive(true); }
+    public void DisableDrawInterface()
+    {
+        drawInterface.SetActive(false);
+        if (PaintManager.Instance != null)
+            PaintManager.Instance.WillDisable();
+    }
+    public void EnableDrawInterface() { drawInterface.SetActive(true); }
 }
 
 public abstract class NodeBehaviour : MonoBehaviour
 {
+    public int id = 0;
+    public string prefabName = "Node";
     public List<ConnectorBehaviour> inputConnections = new List<ConnectorBehaviour>();
     public List<ConnectorBehaviour> outputConnections = new List<ConnectorBehaviour>();
+    public GameObject loadingIcon;
+    public Toggle flagToggle;
     public bool hasRandom = false;
+    public NodeTimeType nodeTimeType = NodeTimeType.Other;
 
     private Variant lastOutput = new Variant();
     private bool modifiedSinceLastFire = true;
     private bool currentlyFiringOnlyIfModified = false;
 
-    public Variant Fire(bool onlyIfModified = false)
+    private bool paused_generation = false;
+
+    async public Task<Variant> Fire(bool onlyIfModified = false)
     {
         if (onlyIfModified && !IsModifiedSinceLastFire())
         {
@@ -91,13 +171,35 @@ public abstract class NodeBehaviour : MonoBehaviour
         }
 
         currentlyFiringOnlyIfModified = onlyIfModified;
-        var result = OnFire();
+
+        var stopWatch = System.Diagnostics.Stopwatch.StartNew();
+        var result = await OnFire();
+        float elapsedTime = stopWatch.ElapsedMilliseconds / 1000f;
+
         currentlyFiringOnlyIfModified = false;
         
         ConnectorBehaviour previewConnector = GetOutputConnection("preview");
         if (previewConnector != null && previewConnector.IsConnected() && result.dataType == DataType.HeightMap && result.asHeightMap != null)
         {
-            (previewConnector.connectedTo.node as ViewNode).UpdatePreview(result.GetValue<List<List<float>>>());
+            foreach (ConnectorBehaviour connectedTo in previewConnector.multipleConnectedTo)
+            {
+                (connectedTo.node as ViewNode).UpdatePreview(result.GetValue<List<List<float>>>());
+            }
+        }
+
+        if (!onlyIfModified)
+        {
+            switch (nodeTimeType)
+            {
+                case NodeTimeType.Terrain:
+                    TerrainManager.Instance.generationStatistics.actual.terrainTime += elapsedTime;
+                    break;
+                case NodeTimeType.Erosion:
+                    TerrainManager.Instance.generationStatistics.actual.erosionTime += elapsedTime;
+                    break;
+                default:
+                    break;
+            }
         }
 
         SetLastOutput(result);
@@ -105,7 +207,20 @@ public abstract class NodeBehaviour : MonoBehaviour
         return result;
     }
 
-    public virtual Variant OnFire() { return new Variant(); }
+    public virtual Task<Variant> OnFire() { return Task.FromResult(new Variant()); }
+
+    public virtual float GetPredictedTime() { return 0f; }
+
+    public void PauseGeneration() { paused_generation = true; }
+    public void UnpauseGeneration() { paused_generation = false; }
+
+    public bool IsGenerationPaused() { return paused_generation; }
+
+    protected async Task WaitForUnpause()
+    {
+        while (paused_generation)
+            await Task.Delay(100);
+    }
 
     public virtual void Start()
     {
@@ -125,9 +240,26 @@ public abstract class NodeBehaviour : MonoBehaviour
             foreach (ConnectorBehaviour outputConnection in outputConnections)
             {
                 if (outputConnection.IsConnected())
-                    outputConnection.connectedTo.InputUpdated();
+                {
+                    foreach (ConnectorBehaviour connectedTo in outputConnection.multipleConnectedTo)
+                    {
+                        connectedTo.InputUpdated();
+                    }
+                }
             }
         }
+    }
+
+    public void ShowLoadingIcon(bool show)
+    {
+        if (loadingIcon != null)
+            loadingIcon.SetActive(show);
+    }
+
+    public bool IsFlagged()
+    {
+        if (flagToggle == null) { Debug.Log($"Flag toggle not assigned to node {gameObject.name}."); }
+        return flagToggle != null && flagToggle.isOn;
     }
 
     public void SetLastOutput(Variant output) { lastOutput = output; }
@@ -139,12 +271,12 @@ public abstract class NodeBehaviour : MonoBehaviour
     {
         foreach (ConnectorBehaviour connector in inputConnections)
         {
-            connector.RemoveConnection();
+            connector.RemoveConnections();
         }
 
         foreach (ConnectorBehaviour connector in outputConnections)
         {
-            connector.RemoveConnection();
+            connector.RemoveConnections();
         }
     }
 
@@ -158,7 +290,7 @@ public abstract class NodeBehaviour : MonoBehaviour
         return outputConnections.Find(c => c.connectionName == name);
     }
 
-    public Variant GetInputValue(string name, bool onlyIfModified = default)
+    async public Task<Variant> GetInputValue(string name, bool onlyIfModified = default)
     {
         ConnectorBehaviour connector = GetInputConnection(name);
         if (connector != null)
@@ -166,7 +298,7 @@ public abstract class NodeBehaviour : MonoBehaviour
             if (connector.IsConnected())
             {
                 bool varOnlyIfModified = onlyIfModified == default ? currentlyFiringOnlyIfModified : onlyIfModified;
-                return connector.connectedTo.node.Fire(varOnlyIfModified);  // A cheap way to pass the onlyIfModified argument to other nodes.
+                return await connector.multipleConnectedTo[0].node.Fire(varOnlyIfModified);  // A cheap way to pass the onlyIfModified argument to other nodes.
             }
             else
             {
