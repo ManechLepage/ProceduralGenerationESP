@@ -133,14 +133,23 @@ public class HydraulicErosionNode : NodeBehaviour
         ConnectorBehaviour heightmapInput = GetInputConnection("heightmap");
         if (!heightmapInput.IsConnected())
             return 0f;
-        
+
         Vector2Int terrainSize = await heightmapInput.multipleConnectedTo[0].node.GetTerrainSize();
+
+        int steps = (await GetInputValue("steps")).GetValue<int>();
+        int max_steps = (await GetInputValue("max_steps_per_drop")).GetValue<int>();
+
+        float duration = Mathf.Pow(terrainSize.x * terrainSize.y, 1f/7f) * Mathf.Pow(max_steps, 1f/2f) * steps / 500_000f;
         
-        Debug.Log($"Terrain size: {terrainSize}");
+        return duration;
+    }
+
+    async public override Task<Vector2Int> GetTerrainSize()
+    {
+        ConnectorBehaviour heightmapInput = GetInputConnection("heightmap");
+        if (heightmapInput.IsConnected())
+            return await heightmapInput.multipleConnectedTo[0].node.GetTerrainSize();
         
-        int totalDrops = (int)(terrainSize.x * terrainSize.y * (await GetSettings()).steps
-            / hydraulicErosionAlgorithm.ProcessDropSize((await GetSettings()).waterQuantity, 1, (await GetSettings()).steps));
-        
-        return totalDrops / 10_000_000f;
+        return Vector2Int.zero;
     }
 }

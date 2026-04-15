@@ -44,8 +44,17 @@ public class MultiplyHeightmaps : NodeBehaviour
     {
         ConnectorBehaviour heightmapInput1 = GetInputConnection("heightmap1");
         ConnectorBehaviour heightmapInput2 = GetInputConnection("heightmap2");
+        if (heightmapInput1.IsConnected() && heightmapInput2.IsConnected())
+        {
+            Vector2Int size1 = await heightmapInput1.multipleConnectedTo[0].node.GetTerrainSize();
+            Vector2Int size2 = await heightmapInput2.multipleConnectedTo[0].node.GetTerrainSize();
 
-        if (heightmapInput1.IsConnected())
+            if (size1 != size2)
+                return Vector2Int.zero;
+
+            return size1;
+        }
+        else if (heightmapInput1.IsConnected())
             return await heightmapInput1.multipleConnectedTo[0].node.GetTerrainSize();
         else if (heightmapInput2.IsConnected())
             return await heightmapInput2.multipleConnectedTo[0].node.GetTerrainSize();

@@ -150,4 +150,10 @@ public class IslandTexture : NodeBehaviour
 
         preview.ApplyHeightMap(scaledHeightMap);
     }
+
+    async public override Task<Vector2Int> GetTerrainSize()
+    {
+        Vector2 size = (await GetInputValue("size", onlyIfModified: true)).GetValue<Vector2>();
+        return new Vector2Int(Mathf.RoundToInt(size.x), Mathf.RoundToInt(size.y));
+    }
 }

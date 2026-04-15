@@ -61,13 +61,13 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        if (openedUI) CloseStatisticsPanel();
+        if (!enabledStatistics) CloseStatisticsPanel();
         else OpenStatisticsPanel();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P) && !openedUI)
+        if (Input.GetKeyDown(KeyCode.P))
         {
             enabledStatistics = !enabledStatistics;
             if (enabledStatistics)
@@ -92,12 +92,9 @@ public class GameManager : MonoBehaviour
     public void DidCloseUI()
     {
         openedUI = false;
-        if (enabledStatistics)
-            OpenStatisticsPanel();
     }
     public void DidOpenUI()
     {
         openedUI = true;
-        CloseStatisticsPanel();
     }
 }

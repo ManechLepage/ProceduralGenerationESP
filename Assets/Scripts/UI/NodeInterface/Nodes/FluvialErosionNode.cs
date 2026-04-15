@@ -75,4 +75,13 @@ public class FluvialErosionNode : NodeBehaviour
 
         return settings;
     }
+
+    async public override Task<Vector2Int> GetTerrainSize()
+    {
+        ConnectorBehaviour heightmapInput = GetInputConnection("heightmap");
+        if (heightmapInput.IsConnected())
+            return await heightmapInput.multipleConnectedTo[0].node.GetTerrainSize();
+        
+        return Vector2Int.zero;
+    }
 }

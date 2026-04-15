@@ -12,6 +12,7 @@ public class TerrainManager : MonoBehaviour
 
     [Header("Statistics Settings")]
     public GlobalGenerationStatistics generationStatistics = new GlobalGenerationStatistics();
+    public GameObject statsContent;
     public TextMeshProUGUI terrainPredictedTimeText;
     public TextMeshProUGUI erosionPredictedTimeText;
     public TextMeshProUGUI terrainActualTimeText;
@@ -170,16 +171,21 @@ public class TerrainManager : MonoBehaviour
         erosionPredictedTimeText.text = $"{generationStatistics.predicted.GetTotalTime(NodeTimeType.Erosion) * 1000f:F0}";
         terrainActualTimeText.text = $"{generationStatistics.actual.GetTotalTime(NodeTimeType.Terrain) * 1000f:F0}";
         erosionActualTimeText.text = $"{generationStatistics.actual.GetTotalTime(NodeTimeType.Erosion) * 1000f:F0}";
+
+        statsContent.GetComponent<FixInputLayout>().Reload();
     }
 
     public void ClearActualStatisticsTexts()
     {
         terrainActualTimeText.text = "0";
         erosionActualTimeText.text = "0";
+
+        statsContent.GetComponent<FixInputLayout>().Reload();
     }
 
     public async Task ReloadPredictions()
     {
+        Debug.Log("Reloading predictions...");
         generationStatistics.predicted = await masterNode.GetPredictedStatistics();
         UpdateStatisticsTexts();
     }

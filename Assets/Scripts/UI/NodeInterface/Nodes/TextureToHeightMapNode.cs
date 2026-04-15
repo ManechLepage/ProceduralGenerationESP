@@ -28,4 +28,13 @@ public class TextureToHeightMapNode : NodeBehaviour
         List<List<float>> heightMap = textureHelpers.TextureToHeightMap(texture);
         return new Variant(heightMap);
     }
+
+    async public override Task<Vector2Int> GetTerrainSize()
+    {
+        ConnectorBehaviour textureInput = GetInputConnection("texture");
+        if (textureInput.IsConnected())
+            return await textureInput.multipleConnectedTo[0].node.GetTerrainSize();
+        
+        return Vector2Int.zero;
+    }
 }

@@ -78,4 +78,12 @@ public class PathToTextureNode : NodeBehaviour
             pathText.color = Color.red;
         }
     }
+
+    public override Task<Vector2Int> GetTerrainSize()
+    {
+        Texture2D texture = preview.texture as Texture2D;
+        if (texture != null) return Task.FromResult(new Vector2Int(texture.width, texture.height));
+        
+        return Task.FromResult(Vector2Int.zero);
+    }
 }
