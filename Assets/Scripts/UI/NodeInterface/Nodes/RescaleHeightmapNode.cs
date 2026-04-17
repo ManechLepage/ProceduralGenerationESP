@@ -13,6 +13,8 @@ public class RescaleHeightmapNode : NodeBehaviour
 
         Vector2 newSize = (await GetInputValue("size")).GetValue<Vector2>();
         Vector2Int size = new Vector2Int(Mathf.RoundToInt(newSize.x), Mathf.RoundToInt(newSize.y));
+
+        StartStopwatch();
         
         if (heightmap == null || heightmap.Count == 0)
             return new Variant(new List<List<float>>());

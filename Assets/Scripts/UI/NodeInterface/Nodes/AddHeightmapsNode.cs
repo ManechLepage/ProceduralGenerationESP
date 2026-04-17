@@ -20,6 +20,7 @@ public class AddHeightmapsNode : NodeBehaviour
         List<List<float>> result = new List<List<float>>();
 
         ShowLoadingIcon(true);
+        StartStopwatch();
 
         if (x != null && x.Count > 0 && y != null && y.Count > 0)
         {

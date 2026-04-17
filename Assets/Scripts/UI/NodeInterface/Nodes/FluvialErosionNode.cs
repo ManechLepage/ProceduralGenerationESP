@@ -28,6 +28,7 @@ public class FluvialErosionNode : NodeBehaviour
         }
 
         ShowLoadingIcon(true);
+        StartStopwatch();
         /*for (int step = 1; step < steps + 1; step++)
         {
             fluvialErosionAlgorithm.ApplyErosion(heightMap, settings);

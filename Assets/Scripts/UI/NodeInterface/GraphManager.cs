@@ -213,6 +213,7 @@ public abstract class NodeBehaviour : MonoBehaviour
     private bool currentlyFiringOnlyIfModified = false;
 
     private bool paused_generation = false;
+    private System.Diagnostics.Stopwatch stopwatch;
 
     async public Task<Variant> Fire(bool onlyIfModified = false)
     {
@@ -225,9 +226,9 @@ public abstract class NodeBehaviour : MonoBehaviour
 
         currentlyFiringOnlyIfModified = onlyIfModified;
 
-        var stopWatch = System.Diagnostics.Stopwatch.StartNew();
+        StartStopwatch();
         var result = await OnFire();
-        float elapsedTime = stopWatch.ElapsedMilliseconds / 1000f;
+        float elapsedTime = GetStopwatchTime();
 
         currentlyFiringOnlyIfModified = false;
         
@@ -247,6 +248,16 @@ public abstract class NodeBehaviour : MonoBehaviour
         SetLastOutput(result);
         SetModifiedSinceLastFire(false);
         return result;
+    }
+
+    public void StartStopwatch()
+    {
+        stopwatch = System.Diagnostics.Stopwatch.StartNew();
+    }
+
+    public float GetStopwatchTime()
+    {
+        return stopwatch.ElapsedMilliseconds / 1000f;
     }
 
     public virtual Task<Variant> OnFire() { return Task.FromResult(new Variant()); }

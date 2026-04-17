@@ -9,6 +9,8 @@ public class MultiplyHeightmaps : NodeBehaviour
         List<List<float>> x = (await GetInputValue("heightmap1")).GetValue<List<List<float>>>();
         List<List<float>> y = (await GetInputValue("heightmap2")).GetValue<List<List<float>>>();
 
+        StartStopwatch();
+
         if (x != null && x.Count > 0 && y != null && y.Count > 0)
         {
             // S'assurer que les heightmaps ont la même taille

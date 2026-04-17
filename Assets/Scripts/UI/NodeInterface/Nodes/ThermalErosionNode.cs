@@ -28,6 +28,7 @@ public class ThermalErosionNode : NodeBehaviour
         
 
         ShowLoadingIcon(true);
+        StartStopwatch();
         // thermalErosionAlgorithm.ApplyInstantErosion(heightMapCopy, settings, pixelDistanceFactor);
         await Task.Run(() => thermalErosionAlgorithm.ApplyInstantErosion(heightMapCopy, settings, pixelDistanceFactor));
         ShowLoadingIcon(false);

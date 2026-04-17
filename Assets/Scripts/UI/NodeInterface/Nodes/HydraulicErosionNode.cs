@@ -32,6 +32,8 @@ public class HydraulicErosionNode : NodeBehaviour
 
         ShowLoadingIcon(true);
         _running_erosion = true;
+        StartStopwatch();
+        
         await RunErosionCoroutine(heightMapCopy, settings);
         // Task.Run(() => hydraulicErosionAlgorithm.ApplyInstantErosion(heightMapCopy, settings)).Wait();
 
