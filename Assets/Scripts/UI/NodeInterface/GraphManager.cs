@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Threading.Tasks;
+using TMPro;
 
 public enum NodeTimeType
 {
@@ -25,6 +26,10 @@ public class GraphManager : MonoBehaviour
     [Space]
     public GameObject graphInterface;
     public GameObject drawInterface;
+
+    [Space]
+    public GameObject nextButton;
+    public TextMeshProUGUI nextFlagText;
 
     async public Task<Vector2Int> GetTerrainSize()
     {
@@ -54,6 +59,46 @@ public class GraphManager : MonoBehaviour
             if (node.hasRandom)
                 _ = node.Fire(onlyIfModified: true);
         }
+    }
+
+    public void NextButtonPressed()
+    {
+        foreach (NodeBehaviour node in nodes)
+        {
+            if (node.IsLoading() && node.IsFlagged())
+                node.UnpauseGeneration();
+        }
+    }
+
+    public void PauseButtonToggled(bool isOn)
+    {
+        
+    }
+
+    public bool IsLoadingFlaggedNode()
+    {
+        foreach (NodeBehaviour node in nodes)
+        {
+            if (node.IsLoading() && node.IsFlagged())
+            {
+                nextFlagText.text = FormatPrefabName(node.prefabName);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    string FormatPrefabName(string prefabName)
+    {
+        string finalName = "";
+        foreach (char c in prefabName)
+        {
+            if (char.IsUpper(c) && finalName.Length > 0)
+                finalName += " ";
+            finalName += c;
+        }
+        finalName = finalName.Replace("Node", "");
+        return finalName;
     }
 
     void Awake()
@@ -87,6 +132,14 @@ public class GraphManager : MonoBehaviour
                 nodes.Add(nodeBehaviour);
             }
         }
+    }
+
+    void Update()
+    {
+        if (IsLoadingFlaggedNode())
+            nextButton.SetActive(true);
+        else
+            nextButton.SetActive(false);
     }
 
     public GameObject CreateNode(GameObject nodePrefab, Vector3 position = default(Vector3), int id = default(int))
@@ -205,6 +258,8 @@ public abstract class NodeBehaviour : MonoBehaviour
 
     public bool IsGenerationPaused() { return paused_generation; }
 
+    public bool IsLoading() { return loadingIcon.activeSelf; }
+
     protected async Task WaitForUnpause()
     {
         while (paused_generation)
@@ -247,7 +302,6 @@ public abstract class NodeBehaviour : MonoBehaviour
 
     public bool IsFlagged()
     {
-        if (flagToggle == null) { Debug.Log($"Flag toggle not assigned to node {gameObject.name}."); }
         return flagToggle != null && flagToggle.isOn;
     }
 
