@@ -139,7 +139,7 @@ public class HydraulicErosionNode : NodeBehaviour
         int steps = (await GetInputValue("steps")).GetValue<int>();
         int max_steps = (await GetInputValue("max_steps_per_drop")).GetValue<int>();
 
-        float duration = Mathf.Log(Mathf.Sqrt(terrainSize.x * terrainSize.y)) * max_steps * steps / 4_150_000f;
+        float duration = Mathf.Log(Mathf.Sqrt(terrainSize.x * terrainSize.y) / 7.15f) * max_steps * steps / 2_670_000f;
         
         return duration;
     }
