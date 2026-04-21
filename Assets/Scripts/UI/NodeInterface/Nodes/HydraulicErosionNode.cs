@@ -44,6 +44,7 @@ public class HydraulicErosionNode : NodeBehaviour
         }
 
         ShowLoadingIcon(false);
+        _running_erosion = false;
 
         return new Variant(heightMapCopy);
     }
@@ -141,7 +142,8 @@ public class HydraulicErosionNode : NodeBehaviour
         int steps = (await GetInputValue("steps")).GetValue<int>();
         int max_steps = (await GetInputValue("max_steps_per_drop")).GetValue<int>();
 
-        float duration = Mathf.Log(Mathf.Sqrt(terrainSize.x * terrainSize.y) / 7.15f) * max_steps * steps / 2_670_000f;
+        float size = Mathf.Sqrt(terrainSize.x * terrainSize.y);
+        float duration = (Mathf.Log(size) - 1.97f) * (max_steps + 11.95f) * (steps - 1726f) / 3_150_000f;
         
         return duration;
     }

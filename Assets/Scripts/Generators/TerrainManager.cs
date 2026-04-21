@@ -29,6 +29,7 @@ public class TerrainManager : MonoBehaviour
     private MasterNode masterNode;
     private float initialTerrainHeight;
     private float initialWaterLevel;
+    private bool _isGenerating = false;
 
     public static TerrainManager Instance { get; private set; }
 
@@ -82,6 +83,10 @@ public class TerrainManager : MonoBehaviour
         Générer le terrain à partir du master node, puis mettre à jour le mesh.
         */
 
+        if (IsGenerating())
+            return;
+
+
         generationStatistics.predicted = await masterNode.GetPredictedStatistics();
 
         if (!onlyIfModified)
@@ -89,6 +94,8 @@ public class TerrainManager : MonoBehaviour
             ClearActualStatisticsTexts();
             generationStatistics.actual.Reset();
         }
+
+        _isGenerating = true;
 
         heightMap = (await masterNode.GetInputValue("heightmap", onlyIfModified: onlyIfModified)).GetValue<List<List<float>>>();
         terrainHeight = initialTerrainHeight * (await masterNode.GetInputValue("height", onlyIfModified: onlyIfModified)).GetValue<float>();
@@ -99,6 +106,13 @@ public class TerrainManager : MonoBehaviour
         }
 
         UpdateStatisticsTexts();
+
+        _isGenerating = false;
+    }
+
+    public bool IsGenerating()
+    {
+        return _isGenerating;
     }
 
     public void PreviewHeightMap(List<List<float>> heightMap)

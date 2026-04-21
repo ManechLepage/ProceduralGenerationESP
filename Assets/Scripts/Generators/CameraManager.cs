@@ -55,10 +55,10 @@ public class CameraManager : MonoBehaviour
 
         float up = 0f;
 
-        if (Input.GetKey(KeyCode.Space))
+        /*if (Input.GetKey(KeyCode.Space))
             up = 1f;
         else if (Input.GetKey(KeyCode.LeftShift))
-            up = -1f;
+            up = -1f;*/
 
         Vector3 move = new Vector3(h, up, v) * localMoveSpeed * Time.deltaTime;
         transform.Translate(move, Space.Self);

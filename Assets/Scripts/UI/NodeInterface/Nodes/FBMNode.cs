@@ -137,9 +137,16 @@ public class FBMNode : NodeBehaviour
             return AnimationCurve.Linear(0, 0, 1, 1);
     }
 
-    public override Task<float> GetPredictedTime()
+    async public override Task<float> GetPredictedTime()
     {
-        return Task.FromResult(1f);
+        Vector2Int terrainSize = await GetTerrainSize();
+
+        int octaves = (await GetInputValue("octaves")).GetValue<int>();
+
+        float size = Mathf.Sqrt(terrainSize.x * terrainSize.y);
+        float duration = (Mathf.Pow(size, 2f) - 151.6667f * size + 51023.33f) * (octaves + 8.1462168f) / 288_000_000f;
+        
+        return duration;
     }
 
     async public override Task<Vector2Int> GetTerrainSize()

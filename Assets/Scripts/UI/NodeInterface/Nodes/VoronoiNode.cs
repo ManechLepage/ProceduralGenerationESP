@@ -143,6 +143,19 @@ public class VoronoiNode : NodeBehaviour
             return null;
     }
 
+    async public override Task<float> GetPredictedTime()
+    {
+        Vector2Int terrainSize = await GetTerrainSize();
+
+        Vector2 neighborhood_size_ = (await GetInputValue("neighborhood_size")).GetValue<Vector2>();
+        float neighborhood_size = (neighborhood_size_.x + neighborhood_size_.y) / 2f;
+
+        float size = Mathf.Sqrt(terrainSize.x * terrainSize.y);
+        float duration = (Mathf.Pow(size, 2f) + 66f * size - 17720f) * (Mathf.Pow(neighborhood_size, 2f) + 3.93f * neighborhood_size + 43.15f) / 1_200_000_000f;
+        
+        return duration;
+    }
+
     async public override Task<Vector2Int> GetTerrainSize()
     {
         return await GraphManager.Instance.GetTerrainSize();

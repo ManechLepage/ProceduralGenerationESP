@@ -720,6 +720,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1.1
       objectReference: {fileID: 0}
+    - target: {fileID: 3452287248309183095, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4380383957051010011, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
       propertyPath: Node
       value: 
@@ -967,6 +971,7 @@ MonoBehaviour:
   - {fileID: 2111862952872077870}
   - {fileID: 4780972252059654730}
   loadingIcon: {fileID: 2040437605884190095}
+  flagToggle: {fileID: 4498984167114894507}
   hasRandom: 0
   nodeTimeType: 2
   thermalErosionAlgorithm: {fileID: 4940474794584019353}
@@ -997,6 +1002,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8898598623937829415, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
   m_PrefabInstance: {fileID: 5218826936079407863}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4498984167114894507 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8503751786018747996, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+  m_PrefabInstance: {fileID: 5218826936079407863}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Toggle
 --- !u!1001 &6145169055765436684
 PrefabInstance:
   m_ObjectHideFlags: 0
