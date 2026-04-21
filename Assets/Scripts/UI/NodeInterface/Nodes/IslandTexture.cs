@@ -145,9 +145,18 @@ public class IslandTexture : NodeBehaviour
         preview.ApplyHeightMap(scaledHeightMap);
     }
 
+    async public override Task<float> GetPredictedTime()
+    {
+        Vector2Int terrainSize = await GetTerrainSize();
+
+        float size = Mathf.Sqrt(terrainSize.x * terrainSize.y);
+        float duration = (0.0004f * Mathf.Pow(size, 2f) + 0.035f * size) / 1_000f;
+        
+        return duration;
+    }
+
     async public override Task<Vector2Int> GetTerrainSize()
     {
-        Vector2 size = (await GetInputValue("size", onlyIfModified: true)).GetValue<Vector2>();
-        return new Vector2Int(Mathf.RoundToInt(size.x), Mathf.RoundToInt(size.y));
+        return await GraphManager.Instance.GetTerrainSize();
     }
 }
