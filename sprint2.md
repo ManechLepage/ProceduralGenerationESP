@@ -7,12 +7,6 @@ L'ouverture du projet nécessite *Unity 6.3 LTS (6000.3.5f2)*
  - Ouvrir la scène dans *Assets/Scenes/Game.unity*
  - Cliquer sur le bouton *Play* ▶ au dessus de l'écran de la scène
 
-**Pour les contrôles**
- - *E*: appliquer de l'érosion hudraulique
- - *T*: appliquer de l'érosion thermique
- - *F*: appliquer de l'érosion fluviale
- - *R*: réinitialiser le terrain
-
 ## Besoins utilisateurs et critères de réussite
 **Paramètres de génération (interface)**
  
