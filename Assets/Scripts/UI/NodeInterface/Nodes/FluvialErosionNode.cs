@@ -83,6 +83,9 @@ public class FluvialErosionNode : NodeBehaviour
             onProgress?.Invoke(step, steps);
 
             if (IsFlagged())
+                GraphManager.Instance.SetNextButtonSliderValue((float)step / steps);
+
+            if (IsFlagged())
                 TerrainManager.Instance.PreviewHeightMap(heightMap);
             
             yield return null;

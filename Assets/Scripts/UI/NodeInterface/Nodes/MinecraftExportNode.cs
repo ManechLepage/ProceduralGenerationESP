@@ -44,6 +44,7 @@ public class MinecraftExportNode : NodeBehaviour
         string block_palette = (await GetInputValue("block_palette")).GetValue<string>();
 
         settings.height = (await GetInputValue("height")).GetValue<int>();
+        settings.onlySurface = (await GetInputValue("only_surface")).GetValue<bool>();
         settings.blockPalette = GetBlockPaletteByName(block_palette);
 
         return settings;

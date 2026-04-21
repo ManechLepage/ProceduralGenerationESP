@@ -51,6 +51,7 @@ public class MinecraftConverter : MonoBehaviour
                 int blockHeight = heightMapArray[x, z];
 
                 int undergroundStart = -1;
+                int surfaceStart = blockHeight;
 
                 if (settings.blockPalette.hasUnderground)
                 {
@@ -62,11 +63,18 @@ public class MinecraftConverter : MonoBehaviour
                     int minNeighborHeight = Mathf.Min(n1Height, n2Height, n3Height, n4Height);
 
                     int groundLevel = Mathf.Min(blockHeight, minNeighborHeight);
+                    surfaceStart = groundLevel;
                     undergroundStart = Mathf.Min(blockHeight - 1, groundLevel - settings.blockPalette.undergroundDepth);
                 }
                 
                 for (int y = 0; y <= blockHeight; y++)
                 {
+                    if (settings.onlySurface && y < surfaceStart)
+                    {
+                        blockMap[x, y, z] = paletteDict["minecraft:air"];
+                        continue;
+                    }
+
                     if (y > undergroundStart)
                     {
                         float localHeight = y / (float)height;  //normalizedHeight - (blockHeight - y) / (float)height;
@@ -209,6 +217,7 @@ public class MinecraftConverterSettings
 {
     public Vector2Int size = new Vector2Int(16, 16);
     public int height = 50;
+    public bool onlySurface = false;
 
     [Space]
     public BlockPalette blockPalette;

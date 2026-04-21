@@ -89,6 +89,9 @@ public class HydraulicErosionNode : NodeBehaviour
             // Appeler le callback.
             onProgress?.Invoke(i, settings.steps);
 
+            if (IsFlagged())
+                GraphManager.Instance.SetNextButtonSliderValue((float)i / settings.steps);
+
             if (i % 1000 == 0)
                 Debug.Log($"Erosion step {i}/{settings.steps}");
             

@@ -113,6 +113,9 @@ public class ThermalErosionNode : NodeBehaviour
             onProgress?.Invoke(i, settings.steps);
 
             if (IsFlagged())
+                GraphManager.Instance.SetNextButtonSliderValue((float)i / settings.steps);
+
+            if (IsFlagged())
                 TerrainManager.Instance.PreviewHeightMap(heightMap);
             
             yield return null;

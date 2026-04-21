@@ -30,6 +30,7 @@ public class GraphManager : MonoBehaviour
     [Space]
     public GameObject nextButton;
     public TextMeshProUGUI nextFlagText;
+    public Slider nextButtonSlider;
 
     async public Task<Vector2Int> GetTerrainSize()
     {
@@ -75,6 +76,11 @@ public class GraphManager : MonoBehaviour
         
     }
 
+    public void SetNextButtonSliderValue(float value)
+    {
+        nextButtonSlider.value = value;
+    }
+    
     public bool IsLoadingFlaggedNode()
     {
         foreach (NodeBehaviour node in nodes)
