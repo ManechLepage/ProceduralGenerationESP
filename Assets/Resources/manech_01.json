@@ -1,0 +1,296 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "prefab": "MasterNode",
+      "offsetX": 891.5108,
+      "offsetY": 768.071045,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 512.0,
+          "y": 512.0
+        },
+        "height": 1.0,
+        "water": false,
+        "water_level": 0.5,
+        "auto_reload": true
+      }
+    },
+    {
+      "id": "3",
+      "prefab": "PerlinNoiseNode",
+      "offsetX": -552.1695,
+      "offsetY": 380.018,
+      "inputs": {
+        "scale": 3.0,
+        "octaves": 8,
+        "lacunarity": 2.0,
+        "persistence": 0.5,
+        "seed": 0,
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "ridged": true,
+        "curve": null,
+        "domainmap": null
+      }
+    },
+    {
+      "id": "4",
+      "prefab": "SaveGraphNode",
+      "offsetX": 827.5405,
+      "offsetY": 375.167084,
+      "inputs": {
+        "path": "manech_01"
+      }
+    },
+    {
+      "id": "5",
+      "prefab": "VoronoiNode",
+      "offsetX": -545.8583,
+      "offsetY": 677.7914,
+      "inputs": {
+        "scale": 3.0,
+        "variation": 3.0,
+        "seed": 0,
+        "neighborhood_size": {
+          "x": 3.0,
+          "y": 3.0
+        },
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "curve": null,
+        "domainmap": null
+      }
+    },
+    {
+      "id": "6",
+      "prefab": "CurveNode",
+      "offsetX": -931.5484,
+      "offsetY": 344.440155,
+      "inputs": {}
+    },
+    {
+      "id": "7",
+      "prefab": "MultiplyHeightmapsNode",
+      "offsetX": -219.976685,
+      "offsetY": 574.4057,
+      "inputs": {
+        "heightmap1": null,
+        "heightmap2": null
+      }
+    },
+    {
+      "id": "8",
+      "prefab": "ViewNode",
+      "offsetX": 21.0724945,
+      "offsetY": 262.020538,
+      "inputs": {
+        "preview": null
+      }
+    },
+    {
+      "id": "9",
+      "prefab": "ApplyCurveNode",
+      "offsetX": 16.6484871,
+      "offsetY": 537.558655,
+      "inputs": {
+        "heightmap": null,
+        "curve": null
+      }
+    },
+    {
+      "id": "10",
+      "prefab": "CurveNode",
+      "offsetX": -204.6221,
+      "offsetY": 424.550629,
+      "inputs": {}
+    },
+    {
+      "id": "11",
+      "prefab": "ViewNode",
+      "offsetX": 266.582458,
+      "offsetY": 429.6707,
+      "inputs": {
+        "preview": null
+      }
+    },
+    {
+      "id": "12",
+      "prefab": "CurveNode",
+      "offsetX": -920.1749,
+      "offsetY": 730.347,
+      "inputs": {}
+    },
+    {
+      "id": "13",
+      "prefab": "IslandSettings",
+      "offsetX": 54.75388,
+      "offsetY": 754.783447,
+      "inputs": {
+        "seed": 0,
+        "scale": 1.0,
+        "warp": null,
+        "Noise Curve": null,
+        "Distance Curve": null,
+        "Noise Intensity": 2.0
+      }
+    },
+    {
+      "id": "14",
+      "prefab": "CurveNode",
+      "offsetX": -191.950821,
+      "offsetY": 733.732666,
+      "inputs": {}
+    },
+    {
+      "id": "15",
+      "prefab": "MultiplyHeightmapsNode",
+      "offsetX": 333.769653,
+      "offsetY": 723.2391,
+      "inputs": {
+        "heightmap1": null,
+        "heightmap2": null
+      }
+    },
+    {
+      "id": "16",
+      "prefab": "ViewNode",
+      "offsetX": 588.5902,
+      "offsetY": 531.93866,
+      "inputs": {
+        "preview": null
+      }
+    },
+    {
+      "id": "17",
+      "prefab": "WarpingNode",
+      "offsetX": -981.1536,
+      "offsetY": 539.2907,
+      "inputs": {
+        "seed": 0,
+        "intensity": 10.0,
+        "scale": 1.0,
+        "flow_scale": 1.0,
+        "noise_scale": 1.0,
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        }
+      }
+    },
+    {
+      "id": "18",
+      "prefab": "WarpingNode",
+      "offsetX": -989.7912,
+      "offsetY": 156.516754,
+      "inputs": {
+        "seed": 0,
+        "intensity": 10.0,
+        "scale": 1.0,
+        "flow_scale": 1.0,
+        "noise_scale": 1.0,
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "fromNode": "15",
+      "fromOutputName": "heightmap",
+      "toNode": "0",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "6",
+      "fromOutputName": "output",
+      "toNode": "3",
+      "toInputName": "curve"
+    },
+    {
+      "fromNode": "18",
+      "fromOutputName": "domainmap",
+      "toNode": "3",
+      "toInputName": "domainmap"
+    },
+    {
+      "fromNode": "12",
+      "fromOutputName": "output",
+      "toNode": "5",
+      "toInputName": "curve"
+    },
+    {
+      "fromNode": "17",
+      "fromOutputName": "domainmap",
+      "toNode": "5",
+      "toInputName": "domainmap"
+    },
+    {
+      "fromNode": "5",
+      "fromOutputName": "heightmap",
+      "toNode": "7",
+      "toInputName": "heightmap1"
+    },
+    {
+      "fromNode": "3",
+      "fromOutputName": "heightmap",
+      "toNode": "7",
+      "toInputName": "heightmap2"
+    },
+    {
+      "fromNode": "7",
+      "fromOutputName": "preview",
+      "toNode": "8",
+      "toInputName": "preview"
+    },
+    {
+      "fromNode": "7",
+      "fromOutputName": "heightmap",
+      "toNode": "9",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "10",
+      "fromOutputName": "output",
+      "toNode": "9",
+      "toInputName": "curve"
+    },
+    {
+      "fromNode": "9",
+      "fromOutputName": "preview",
+      "toNode": "11",
+      "toInputName": "preview"
+    },
+    {
+      "fromNode": "14",
+      "fromOutputName": "output",
+      "toNode": "13",
+      "toInputName": "Distance Curve"
+    },
+    {
+      "fromNode": "13",
+      "fromOutputName": "heightmap",
+      "toNode": "15",
+      "toInputName": "heightmap1"
+    },
+    {
+      "fromNode": "9",
+      "fromOutputName": "heightmap",
+      "toNode": "15",
+      "toInputName": "heightmap2"
+    },
+    {
+      "fromNode": "15",
+      "fromOutputName": "preview",
+      "toNode": "16",
+      "toInputName": "preview"
+    }
+  ]
+}

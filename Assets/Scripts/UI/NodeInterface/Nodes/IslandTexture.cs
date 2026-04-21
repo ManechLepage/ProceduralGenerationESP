@@ -57,12 +57,6 @@ public class IslandTexture : NodeBehaviour
         List<List<float>> heightmap = new List<List<float>>();
         Vector2Int terrainSize = await GraphManager.Instance.GetTerrainSize();
         float maxDistance = Mathf.Max(terrainSize.x, terrainSize.y) / 2.0f;
-        List<float> maxNoiseValues = new List<float>();
-        for (int theta = 0; theta < 360; theta++)
-        {
-            float maxNoiseDistance = maxDistance + SampleNoise(theta, 2.0f, settings, warp) * noiseIntensity;
-            maxNoiseValues.Add(maxNoiseDistance);
-        }
 
         for (int y = 0; y < terrainSize.y; y++)
         {
@@ -70,10 +64,10 @@ public class IslandTexture : NodeBehaviour
             for (int x = 0; x < terrainSize.x; x++)
             {
                 float angle = Mathf.Atan2(y - terrainSize.y / 2.0f, x - terrainSize.x / 2.0f) * Mathf.Rad2Deg;
-                if (angle < 0) angle += 360;
-                int angleIndex = Mathf.FloorToInt(angle);
+                float maxNoiseDistance = maxDistance + SampleNoise(angle, 2.0f, settings, warp, terrainSize) * noiseIntensity * terrainSize.x / 10.0f;
+
                 float distance = Vector2.Distance(new Vector2(x, y), new Vector2(terrainSize.x / 2.0f, terrainSize.y / 2.0f));
-                float value = 1f - distance / maxNoiseValues[angleIndex];
+                float value = 1f - distance / maxNoiseDistance;
                 value = distanceCurve.Evaluate(value);
                 row.Add(value);
             }
@@ -83,14 +77,14 @@ public class IslandTexture : NodeBehaviour
         return heightmap;
     }
 
-    public float SampleNoise(float angle, float radius, FBMSettings settings, List<List<Vector2>> warp)
+    public float SampleNoise(float angle, float radius, FBMSettings settings, List<List<Vector2>> warp, Vector2Int offset)
     {
         float x = radius * Mathf.Cos(Mathf.Deg2Rad * angle);
         float y = radius * Mathf.Sin(Mathf.Deg2Rad * angle);
 
         Vector2 point = new Vector2(x, y);
         // point += warp[x][y];
-        return fbm.GetValue(point.x, point.y, settings);
+        return fbm.GetValue(point.x + offset.x, point.y + offset.y, settings);
     }
 
     async public Task<FBMSettings> GetSettings()

@@ -1,0 +1,97 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "prefab": "MasterNode",
+      "offsetX": 1392.374,
+      "offsetY": 925.254944,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 2.0,
+          "y": 2.0
+        },
+        "height": 1.0,
+        "water": false,
+        "water_level": 0.4,
+        "auto_reload": true
+      }
+    },
+    {
+      "id": "1",
+      "prefab": "PathToTexture",
+      "offsetX": 180.652374,
+      "offsetY": 932.0643,
+      "inputs": {
+        "path": "washington"
+      }
+    },
+    {
+      "id": "2",
+      "prefab": "TextureToHeightMap",
+      "offsetX": 411.97,
+      "offsetY": 1002.66608,
+      "inputs": {
+        "texture": null
+      }
+    },
+    {
+      "id": "3",
+      "prefab": "MinecraftExportNode",
+      "offsetX": 1028.119,
+      "offsetY": 872.4366,
+      "inputs": {
+        "heightmap": null,
+        "path": "SuperWashington",
+        "size": {
+          "x": 2048.0,
+          "y": 2048.0
+        },
+        "height": 64,
+        "block_palette": "Default"
+      }
+    },
+    {
+      "id": "4",
+      "prefab": "RescaleHeightmapNode",
+      "offsetX": 664.170837,
+      "offsetY": 1008.53149,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 2048.0,
+          "y": 2048.0
+        }
+      }
+    },
+    {
+      "id": "5",
+      "prefab": "SaveGraphNode",
+      "offsetX": 802.8239,
+      "offsetY": 337.875916,
+      "inputs": {
+        "path": "washington2048"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "fromNode": "1",
+      "fromOutputName": "texture",
+      "toNode": "2",
+      "toInputName": "texture"
+    },
+    {
+      "fromNode": "4",
+      "fromOutputName": "heightmap",
+      "toNode": "3",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "2",
+      "fromOutputName": "heightmap",
+      "toNode": "4",
+      "toInputName": "heightmap"
+    }
+  ]
+}
