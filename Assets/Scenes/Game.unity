@@ -847,8 +847,8 @@ MonoBehaviour:
     actual:
       stats: []
   computerSpeedTest:
-    loopDelay: 0
-    threadDelay: 0
+    loopScore: 1
+    threadScore: 1
   statsContent: {fileID: 375812702}
   terrainPredictedTimeText: {fileID: 1280278163}
   erosionPredictedTimeText: {fileID: 790419129}

@@ -31,6 +31,7 @@ public class TerrainManager : MonoBehaviour
     private float initialTerrainHeight;
     private float initialWaterLevel;
     private bool _isGenerating = false;
+    private bool _isRunningSpeedTest = false;
 
     public static TerrainManager Instance { get; private set; }
 
@@ -85,7 +86,7 @@ public class TerrainManager : MonoBehaviour
         Générer le terrain à partir du master node, puis mettre à jour le mesh.
         */
 
-        if (IsGenerating())
+        if (IsGenerating() || IsRunningSpeedTest())
             return;
 
 
@@ -115,6 +116,11 @@ public class TerrainManager : MonoBehaviour
     public bool IsGenerating()
     {
         return _isGenerating;
+    }
+
+    public bool IsRunningSpeedTest()
+    {
+        return _isRunningSpeedTest;
     }
 
     public void PreviewHeightMap(List<List<float>> heightMap)
@@ -208,45 +214,22 @@ public class TerrainManager : MonoBehaviour
 
     async public void LaunchSpeedTest()
     {
+        _isRunningSpeedTest = true;
         ComputerSpeedTest test = new ComputerSpeedTest();
-        test.loopDelay = await GetLoopDelay();
-        test.threadDelay = await GetThreadDelay();
+        test.loopScore = await GetLoopScore();
+        test.threadScore = await GetThreadScore();
         computerSpeedTest = test;
-        Debug.Log($"Loop Delay: {test.loopDelay * 1000f:F0} ms, Thread Delay: {test.threadDelay * 1000f:F0} ms");
+        Debug.Log($"Loop Score: {test.loopScore} ({test.GetLoopScoreFactor():F2}x), Thread Score: {test.threadScore} ({test.GetThreadScoreFactor():F2}x)");
+        Debug.Log($"Nitro Loop Score: {test.GetNitroLoopScore()}, Nitro Thread Score: {test.GetNitroThreadScore()}");
+        Debug.Log($"Loop Score: {test.loopScore}, Thread Score: {test.threadScore}");
+        _isRunningSpeedTest = false;
     }
 
-//on teste combien de loops on peut faire en 0,5 sec pour comparer avec la machine de Alexis
+    //on teste combien de loops on peut faire en 0,5 sec pour comparer avec la machine de Alexis
 
-private async Task<float> GetLoopDelay()
-{
-    return await Task.Run(() =>
+    private async Task<long> GetLoopScore()
     {
-        System.Diagnostics.Stopwatch sw = System.Diagnostics.Stopwatch.StartNew();
-        float dummy = 0f;
-        long iterations = 0;
-
-        while (sw.Elapsed.TotalSeconds < 0.5)
-        {
-            dummy += Mathf.Sqrt(iterations) * Mathf.Sin(iterations * 0.001f);
-            iterations++;
-        }
-
-        sw.Stop();
-        Debug.Log($"Loop benchmark: {iterations} iterations in 0.5s");
-        return (float)iterations;
-    });
-}
-
-private async Task<float> GetThreadDelay()
-{
-    int threadCount = 4;
-    long[] iterationsPerThread = new long[threadCount];
-
-    List<Task> tasks = new List<Task>();
-    for (int t = 0; t < threadCount; t++)
-    {
-        int threadIndex = t;
-        tasks.Add(Task.Run(() =>
+        return await Task.Run(() =>
         {
             System.Diagnostics.Stopwatch sw = System.Diagnostics.Stopwatch.StartNew();
             float dummy = 0f;
@@ -258,19 +241,44 @@ private async Task<float> GetThreadDelay()
                 iterations++;
             }
 
-            iterationsPerThread[threadIndex] = iterations;
-        }));
+            sw.Stop();
+            return iterations;
+        });
     }
 
-    await Task.WhenAll(tasks);
+    private async Task<long> GetThreadScore()
+    {
+        int threadCount = 4;
+        long[] iterationsPerThread = new long[threadCount];
 
-    long totalIterations = 0;
-    foreach (long count in iterationsPerThread)
-        totalIterations += count;
+        List<Task> tasks = new List<Task>();
+        for (int t = 0; t < threadCount; t++)
+        {
+            int threadIndex = t;
+            tasks.Add(Task.Run(() =>
+            {
+                System.Diagnostics.Stopwatch sw = System.Diagnostics.Stopwatch.StartNew();
+                float dummy = 0f;
+                long iterations = 0;
 
-    Debug.Log($"Thread benchmark: {totalIterations} total iterations across {threadCount} threads in 0.5s");
-    return (float)totalIterations;
-}
+                while (sw.Elapsed.TotalSeconds < 0.5)
+                {
+                    dummy += Mathf.Sqrt(iterations) * Mathf.Sin(iterations * 0.001f);
+                    iterations++;
+                }
+
+                iterationsPerThread[threadIndex] = iterations;
+            }));
+        }
+
+        await Task.WhenAll(tasks);
+
+        long totalIterations = 0;
+        foreach (long count in iterationsPerThread)
+            totalIterations += count;
+
+        return totalIterations;
+    }
 }
 
 [System.Serializable]
@@ -357,12 +365,15 @@ public class StatisticInfo
 [System.Serializable]
 public class ComputerSpeedTest
 {
-    public float loopDelay = 1f;
-    public float threadDelay = 1f;
+    public long loopScore = 1;
+    public long threadScore = 1;
 
-    private float nitroLoopDelay = 1f;
-    private float nitroThreadDelay = 1f;
+    private long nitroLoopScore = 5_848_999;
+    private long nitroThreadScore = 20_932_065;
 
-    public float GetLoopDelayFactor() { return loopDelay / nitroLoopDelay; }
-    public float GetThreadDelayFactor() { return threadDelay / nitroThreadDelay; }
+    public float GetLoopScoreFactor() { return (float)nitroLoopScore / (float)loopScore; }
+    public float GetThreadScoreFactor() { return (float)nitroThreadScore / (float)threadScore; }
+
+    public long GetNitroLoopScore() { return nitroLoopScore; }
+    public long GetNitroThreadScore() { return nitroThreadScore; }
 }
