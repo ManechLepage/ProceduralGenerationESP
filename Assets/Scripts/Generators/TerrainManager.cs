@@ -12,6 +12,7 @@ public class TerrainManager : MonoBehaviour
 
     [Header("Statistics Settings")]
     public GlobalGenerationStatistics generationStatistics = new GlobalGenerationStatistics();
+    public ComputerSpeedTest computerSpeedTest = new ComputerSpeedTest();
     public GameObject statsContent;
     public TextMeshProUGUI terrainPredictedTimeText;
     public TextMeshProUGUI erosionPredictedTimeText;
@@ -50,6 +51,7 @@ public class TerrainManager : MonoBehaviour
         initialTerrainHeight = terrainHeight;
         initialWaterLevel = sea != null ? sea.transform.position.y : 0f;
         ClearActualStatisticsTexts();
+        LaunchSpeedTest();
 
         masterNode = GraphManager.Instance.masterNode as MasterNode;
         if (masterNode != null)
@@ -203,6 +205,25 @@ public class TerrainManager : MonoBehaviour
         generationStatistics.predicted = await masterNode.GetPredictedStatistics();
         UpdateStatisticsTexts();
     }
+
+    async public void LaunchSpeedTest()
+    {
+        ComputerSpeedTest test = new ComputerSpeedTest();
+        test.loopDelay = await GetLoopDelay();
+        test.threadDelay = await GetThreadDelay();
+        computerSpeedTest = test;
+        Debug.Log($"Loop Delay: {test.loopDelay} ms, Thread Delay: {test.threadDelay} ms");
+    }
+
+    private async Task<float> GetLoopDelay()
+    {
+        return Task.FromResult(0f).Result;
+    }
+
+    private async Task<float> GetThreadDelay()
+    {
+        return Task.FromResult(0f).Result;
+    }
 }
 
 [System.Serializable]
@@ -284,4 +305,17 @@ public class StatisticInfo
 {
     public string name;
     public float value;
+}
+
+[System.Serializable]
+public class ComputerSpeedTest
+{
+    public float loopDelay = 0f;
+    public float threadDelay = 0f;
+
+    private float nitroLoopDelay = 1f;
+    private float nitroThreadDelay = 1f;
+
+    public float GetLoopDelayFactor() { return loopDelay / nitroLoopDelay; }
+    public float GetThreadDelayFactor() { return threadDelay / nitroThreadDelay; }
 }
