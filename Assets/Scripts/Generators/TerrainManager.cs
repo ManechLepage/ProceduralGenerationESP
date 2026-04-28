@@ -220,8 +220,6 @@ public class TerrainManager : MonoBehaviour
         test.threadScore = await GetThreadScore();
         computerSpeedTest = test;
         Debug.Log($"Loop Score: {test.loopScore} ({test.GetLoopScoreFactor():F2}x), Thread Score: {test.threadScore} ({test.GetThreadScoreFactor():F2}x)");
-        Debug.Log($"Nitro Loop Score: {test.GetNitroLoopScore()}, Nitro Thread Score: {test.GetNitroThreadScore()}");
-        Debug.Log($"Loop Score: {test.loopScore}, Thread Score: {test.threadScore}");
         _isRunningSpeedTest = false;
     }
 
@@ -371,8 +369,16 @@ public class ComputerSpeedTest
     private long nitroLoopScore = 5_848_999;
     private long nitroThreadScore = 20_932_065;
 
-    public float GetLoopScoreFactor() { return (float)nitroLoopScore / (float)loopScore; }
-    public float GetThreadScoreFactor() { return (float)nitroThreadScore / (float)threadScore; }
+    public float GetLoopScoreFactor()
+    {
+        float startFactor = (float)nitroLoopScore / (float)loopScore;
+        return 14.099f * Mathf.Pow(startFactor, 2f) - 24.018f * startFactor + 10.995f;
+    }
+    public float GetThreadScoreFactor()
+    {
+        float startFactor = (float)nitroThreadScore / (float)threadScore;
+        return -0.0883f * Mathf.Pow(startFactor, 2f) + 1.6375f * startFactor;
+    }
 
     public long GetNitroLoopScore() { return nitroLoopScore; }
     public long GetNitroThreadScore() { return nitroThreadScore; }
