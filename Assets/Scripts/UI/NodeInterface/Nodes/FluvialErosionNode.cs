@@ -123,6 +123,7 @@ public class FluvialErosionNode : NodeBehaviour
 
         float size = Mathf.Sqrt(terrainSize.x * terrainSize.y);
         float duration = (steps - 0.436f) * (Mathf.Pow(size, 2f) - 44.352f * size + 4049f) / 340000f;
+        duration *= TerrainManager.Instance.computerSpeedTest.GetLoopScoreFactor();
         
         return duration;
     }

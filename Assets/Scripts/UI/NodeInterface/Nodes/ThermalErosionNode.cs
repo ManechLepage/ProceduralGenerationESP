@@ -151,6 +151,7 @@ public class ThermalErosionNode : NodeBehaviour
 
         float size = Mathf.Sqrt(terrainSize.x * terrainSize.y);
         float duration = (steps - 0.04426f) * (Mathf.Pow(size, 2f) - 8.91f * size + 302.5f) / 292500f;
+        duration *= TerrainManager.Instance.computerSpeedTest.GetLoopScoreFactor();
         
         return duration;
     }

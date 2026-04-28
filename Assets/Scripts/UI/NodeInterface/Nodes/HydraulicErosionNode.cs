@@ -147,6 +147,7 @@ public class HydraulicErosionNode : NodeBehaviour
 
         float size = Mathf.Sqrt(terrainSize.x * terrainSize.y);
         float duration = (Mathf.Log(size) - 1.97f) * (max_steps + 11.95f) * (steps - 1726f) / 3_150_000f;
+        duration *= TerrainManager.Instance.computerSpeedTest.GetLoopScoreFactor();
         
         return duration;
     }
