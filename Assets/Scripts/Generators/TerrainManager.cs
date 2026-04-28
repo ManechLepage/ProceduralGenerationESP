@@ -215,15 +215,62 @@ public class TerrainManager : MonoBehaviour
         Debug.Log($"Loop Delay: {test.loopDelay * 1000f:F0} ms, Thread Delay: {test.threadDelay * 1000f:F0} ms");
     }
 
-    private async Task<float> GetLoopDelay()
+
+
+private async Task<float> GetLoopDelay()
+{
+    return await Task.Run(() =>
     {
-        return Task.FromResult(1f).Result;
+        System.Diagnostics.Stopwatch sw = System.Diagnostics.Stopwatch.StartNew();
+        float dummy = 0f;
+        long iterations = 0;
+
+        while (sw.Elapsed.TotalSeconds < 0.5)
+        {
+            dummy += Mathf.Sqrt(iterations) * Mathf.Sin(iterations * 0.001f);
+            iterations++;
+        }
+
+        sw.Stop();
+        Debug.Log($"Loop benchmark: {iterations} iterations in 0.5s");
+        return (float)iterations;
+    });
+}
+
+private async Task<float> GetThreadDelay()
+{
+    int threadCount = 4;
+    long[] iterationsPerThread = new long[threadCount];
+
+    List<Task> tasks = new List<Task>();
+    for (int t = 0; t < threadCount; t++)
+    {
+        int threadIndex = t;
+        tasks.Add(Task.Run(() =>
+        {
+            System.Diagnostics.Stopwatch sw = System.Diagnostics.Stopwatch.StartNew();
+            float dummy = 0f;
+            long iterations = 0;
+
+            while (sw.Elapsed.TotalSeconds < 0.5)
+            {
+                dummy += Mathf.Sqrt(iterations) * Mathf.Sin(iterations * 0.001f);
+                iterations++;
+            }
+
+            iterationsPerThread[threadIndex] = iterations;
+        }));
     }
 
-    private async Task<float> GetThreadDelay()
-    {
-        return Task.FromResult(1f).Result;
-    }
+    await Task.WhenAll(tasks);
+
+    long totalIterations = 0;
+    foreach (long count in iterationsPerThread)
+        totalIterations += count;
+
+    Debug.Log($"Thread benchmark: {totalIterations} total iterations across {threadCount} threads in 0.5s");
+    return (float)totalIterations;
+}
 }
 
 [System.Serializable]
