@@ -1,0 +1,109 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "prefab": "MasterNode",
+      "offsetX": 1485.53052,
+      "offsetY": 543.5048,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 1024.0,
+          "y": 1024.0
+        },
+        "height": 1.0,
+        "water": false,
+        "water_level": 0.4,
+        "auto_reload": false
+      }
+    },
+    {
+      "id": "5",
+      "prefab": "SaveGraphNode",
+      "offsetX": 1484.05042,
+      "offsetY": 358.0834,
+      "inputs": {
+        "path": "perlin"
+      }
+    },
+    {
+      "id": "6",
+      "prefab": "LoadGraphNode",
+      "offsetX": 1484.42114,
+      "offsetY": 244.738,
+      "inputs": {
+        "path": "graph"
+      }
+    },
+    {
+      "id": "7",
+      "prefab": "PerlinNoiseNode",
+      "offsetX": 723.165,
+      "offsetY": 283.042877,
+      "inputs": {
+        "scale": 1.0,
+        "octaves": 8,
+        "lacunarity": 2.0,
+        "persistence": 0.5,
+        "seed": 2343,
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "ridged": false,
+        "curve": null,
+        "domainmap": null
+      }
+    },
+    {
+      "id": "8",
+      "prefab": "PerlinNoiseNode",
+      "offsetX": 721.544434,
+      "offsetY": 610.521,
+      "inputs": {
+        "scale": 1.0,
+        "octaves": 8,
+        "lacunarity": 2.0,
+        "persistence": 0.5,
+        "seed": 0,
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "ridged": false,
+        "curve": null,
+        "domainmap": null
+      }
+    },
+    {
+      "id": "9",
+      "prefab": "AddHeightmapsNode",
+      "offsetX": 1137.078,
+      "offsetY": 506.16983,
+      "inputs": {
+        "heightmap1": null,
+        "heightmap2": null
+      }
+    }
+  ],
+  "connections": [
+    {
+      "fromNode": "9",
+      "fromOutputName": "heightmap",
+      "toNode": "0",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "8",
+      "fromOutputName": "heightmap",
+      "toNode": "9",
+      "toInputName": "heightmap1"
+    },
+    {
+      "fromNode": "7",
+      "fromOutputName": "heightmap",
+      "toNode": "9",
+      "toInputName": "heightmap2"
+    }
+  ]
+}
