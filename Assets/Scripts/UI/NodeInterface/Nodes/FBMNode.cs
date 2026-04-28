@@ -145,6 +145,7 @@ public class FBMNode : NodeBehaviour
 
         float size = Mathf.Sqrt(terrainSize.x * terrainSize.y);
         float duration = (Mathf.Pow(size, 2f) - 151.6667f * size + 51023.33f) * (octaves + 8.1462168f) / 288_000_000f;
+        duration *= TerrainManager.Instance.computerSpeedTest.GetThreadScoreFactor();
         
         return duration;
     }
