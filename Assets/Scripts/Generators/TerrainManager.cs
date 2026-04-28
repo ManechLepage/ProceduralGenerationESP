@@ -212,17 +212,17 @@ public class TerrainManager : MonoBehaviour
         test.loopDelay = await GetLoopDelay();
         test.threadDelay = await GetThreadDelay();
         computerSpeedTest = test;
-        Debug.Log($"Loop Delay: {test.loopDelay} ms, Thread Delay: {test.threadDelay} ms");
+        Debug.Log($"Loop Delay: {test.loopDelay * 1000f:F0} ms, Thread Delay: {test.threadDelay * 1000f:F0} ms");
     }
 
     private async Task<float> GetLoopDelay()
     {
-        return Task.FromResult(0f).Result;
+        return Task.FromResult(1f).Result;
     }
 
     private async Task<float> GetThreadDelay()
     {
-        return Task.FromResult(0f).Result;
+        return Task.FromResult(1f).Result;
     }
 }
 
@@ -310,8 +310,8 @@ public class StatisticInfo
 [System.Serializable]
 public class ComputerSpeedTest
 {
-    public float loopDelay = 0f;
-    public float threadDelay = 0f;
+    public float loopDelay = 1f;
+    public float threadDelay = 1f;
 
     private float nitroLoopDelay = 1f;
     private float nitroThreadDelay = 1f;
