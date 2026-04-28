@@ -374,7 +374,7 @@ public class ComputerSpeedTest
     public float GetLoopScoreFactor()
     {
         float startFactor = (float)nitroLoopScore / (float)loopScore;
-        return 10.981f * Mathf.Pow(startFactor, 2f) - 10.098f * startFactor;
+        return 1.3005f * Mathf.Pow(startFactor, 3.4846f);
     }
     public float GetThreadScoreFactor()
     {
