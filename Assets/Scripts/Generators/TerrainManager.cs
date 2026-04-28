@@ -215,7 +215,7 @@ public class TerrainManager : MonoBehaviour
         Debug.Log($"Loop Delay: {test.loopDelay * 1000f:F0} ms, Thread Delay: {test.threadDelay * 1000f:F0} ms");
     }
 
-
+//on teste combien de loops on peut faire en 0,5 sec pour comparer avec la machine de Alexis
 
 private async Task<float> GetLoopDelay()
 {
