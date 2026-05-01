@@ -123,10 +123,15 @@ public class TerrainManager : MonoBehaviour
         return _isRunningSpeedTest;
     }
 
-    public void PreviewHeightMap(List<List<float>> heightMap)
+    async public void PreviewHeightMap(List<List<float>> heightMap)
     {
+        float lastTerrainHeight = terrainHeight;
+
+        terrainHeight = initialTerrainHeight * (await masterNode.GetInputValue("height", onlyIfModified: false)).GetValue<float>();
         this.heightMap = heightMap;
         UpdateMesh();
+
+        terrainHeight = lastTerrainHeight;
     }
 
     public void SetActiveSea(bool active)

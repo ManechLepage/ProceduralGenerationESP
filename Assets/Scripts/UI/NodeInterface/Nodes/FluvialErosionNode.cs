@@ -27,11 +27,19 @@ public class FluvialErosionNode : NodeBehaviour
         {
             heightMapCopy.Add(new List<float>(heightMap[i]));
         }
-        
-        if (IsFlagged())
-            TerrainManager.Instance.PreviewHeightMap(heightMapCopy);
 
         ShowLoadingIcon(true);
+        
+        if (IsFlagged())
+        {
+            TerrainManager.Instance.PreviewHeightMap(heightMapCopy);
+            GraphManager.Instance.SetNextButtonTitle("Start");
+            GraphManager.Instance.SetNextButtonSliderValue(0f);
+            PauseGeneration();
+            await WaitForUnpause();
+            GraphManager.Instance.SetNextButtonTitle();
+        }
+
         _running_erosion = true;
         StartStopwatch();
         /*for (int step = 1; step < steps + 1; step++)

@@ -42,6 +42,7 @@ public class FBMNode : NodeBehaviour
         if (IsFlagged())
         {
             TerrainManager.Instance.PreviewHeightMap(heightMap);
+            GraphManager.Instance.SetNextButtonSliderValue(1f);
             PauseGeneration();
             await WaitForUnpause();
         }

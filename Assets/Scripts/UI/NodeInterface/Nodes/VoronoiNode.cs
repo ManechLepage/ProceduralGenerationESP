@@ -37,6 +37,7 @@ public class VoronoiNode : NodeBehaviour
         if (IsFlagged())
         {
             TerrainManager.Instance.PreviewHeightMap(heightMap);
+            GraphManager.Instance.SetNextButtonSliderValue(1f);
             PauseGeneration();
             await WaitForUnpause();
         }

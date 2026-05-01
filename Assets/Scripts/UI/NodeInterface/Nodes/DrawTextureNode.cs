@@ -64,4 +64,10 @@ public class DrawTextureNode : NodeBehaviour
         texture.Apply();
         return texture;
     }
+
+    async public override Task<Vector2Int> GetTerrainSize()
+    {
+        Vector2 size = (await GetInputValue("size")).GetValue<Vector2>();
+        return new Vector2Int((int)size.x, (int)size.y);
+    }
 }

@@ -383,6 +383,9 @@ public class PaintManager : MonoBehaviour
 
         paintTexture.SetPixelData(backup, 0);
         paintTexture.Apply();
+
+        if (enabledHeightCurves)
+            UpdateHeightCurves();
     }
 
     ToolParameters GetToolParameters(ToolType toolType)

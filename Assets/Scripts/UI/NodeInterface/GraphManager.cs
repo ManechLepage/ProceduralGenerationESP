@@ -29,6 +29,7 @@ public class GraphManager : MonoBehaviour
 
     [Space]
     public GameObject nextButton;
+    public TextMeshProUGUI nextButtonTitle;
     public TextMeshProUGUI nextFlagText;
     public Slider nextButtonSlider;
 
@@ -69,6 +70,14 @@ public class GraphManager : MonoBehaviour
             if (node.IsLoading() && node.IsFlagged())
                 node.UnpauseGeneration();
         }
+    }
+
+    public void SetNextButtonTitle(string title = default)
+    {
+        if (title == default)
+            nextButtonTitle.text = "Next";
+        else
+            nextButtonTitle.text = title;
     }
 
     public void PauseButtonToggled(bool isOn)

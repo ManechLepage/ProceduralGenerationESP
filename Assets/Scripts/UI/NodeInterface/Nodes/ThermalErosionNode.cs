@@ -28,11 +28,19 @@ public class ThermalErosionNode : NodeBehaviour
         }
 
         float pixelDistanceFactor = TerrainManager.Instance.previewSize.x / heightMapCopy.Count * 50f / TerrainManager.Instance.terrainHeight;
-        
-        if (IsFlagged())
-            TerrainManager.Instance.PreviewHeightMap(heightMapCopy);
 
         ShowLoadingIcon(true);
+        
+        if (IsFlagged())
+        {
+            TerrainManager.Instance.PreviewHeightMap(heightMapCopy);
+            GraphManager.Instance.SetNextButtonTitle("Start");
+            GraphManager.Instance.SetNextButtonSliderValue(0f);
+            PauseGeneration();
+            await WaitForUnpause();
+            GraphManager.Instance.SetNextButtonTitle();
+        }
+
         _running_erosion = true;
         StartStopwatch();
         // thermalErosionAlgorithm.ApplyInstantErosion(heightMapCopy, settings, pixelDistanceFactor);

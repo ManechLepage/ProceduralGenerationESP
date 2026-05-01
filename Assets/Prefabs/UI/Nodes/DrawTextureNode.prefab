@@ -357,7 +357,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 566949276690984684, guid: d1279843ce9102848a0b531061e2b5fc, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 11.71
       objectReference: {fileID: 0}
     - target: {fileID: 566949276690984684, guid: d1279843ce9102848a0b531061e2b5fc, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -481,7 +481,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4764592051475455730, guid: d1279843ce9102848a0b531061e2b5fc, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 19.22
       objectReference: {fileID: 0}
     - target: {fileID: 4764592051475455730, guid: d1279843ce9102848a0b531061e2b5fc, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -525,7 +525,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7233768635695457595, guid: d1279843ce9102848a0b531061e2b5fc, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 15.17
       objectReference: {fileID: 0}
     - target: {fileID: 7233768635695457595, guid: d1279843ce9102848a0b531061e2b5fc, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -773,7 +773,8 @@ MonoBehaviour:
   - {fileID: 3284039329674565184}
   outputConnections:
   - {fileID: 8610696726739139523}
-  loadingIcon: {fileID: 0}
+  loadingIcon: {fileID: 2040437605884190095}
+  flagToggle: {fileID: 0}
   hasRandom: 0
   nodeTimeType: 0
   preview: {fileID: 6763770947865187737}
@@ -781,6 +782,11 @@ MonoBehaviour:
 --- !u!224 &1220277798718522412 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6378138601567887067, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
+  m_PrefabInstance: {fileID: 5218826936079407863}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2040437605884190095 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6070263250318231416, guid: 1ea4fdbaaf81fd848b851c12ecddb9a7, type: 3}
   m_PrefabInstance: {fileID: 5218826936079407863}
   m_PrefabAsset: {fileID: 0}
 --- !u!224 &3680236115733299408 stripped
