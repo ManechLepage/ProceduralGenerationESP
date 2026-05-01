@@ -25,6 +25,13 @@ public class VoronoiNode : NodeBehaviour
         Vector2Int terrainSize = await GetTerrainSize();
         AnimationCurve curve = await GetAnimationCurve();
 
+        if (TerrainManager.Instance.enabledChunks)
+        {
+            settings.scale *= TerrainManager.Instance.GetCurrentChunkScale();
+            settings.offset += TerrainManager.Instance.GetCurrentChunkOffset();
+            terrainSize = TerrainManager.Instance.GetCurrentChunkSize();
+        }
+
         ShowLoadingIcon(true);
 
         List<List<float>> heightMap = voronoiAlgorithm.GetHeightMapThreading(terrainSize, settings, domainMap);

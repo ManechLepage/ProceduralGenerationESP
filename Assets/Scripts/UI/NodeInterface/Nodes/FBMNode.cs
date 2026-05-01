@@ -33,11 +33,21 @@ public class FBMNode : NodeBehaviour
         List<List<Vector2>> domainMap = await GetDomainMap();
         Vector2Int terrainSize = await GetTerrainSize();
 
+        if (TerrainManager.Instance.enabledChunks)
+        {
+            settings.scale *= TerrainManager.Instance.GetCurrentChunkScale();
+            settings.offset += TerrainManager.Instance.GetCurrentChunkOffset();
+            terrainSize = TerrainManager.Instance.GetCurrentChunkSize();
+        }
+
         ShowLoadingIcon(true);
         
         List<List<float>> heightMap = fbmAlgorithm.GetHeightMapThreading(terrainSize, settings, domainMap);
 
-        UpdatePreviewWithHeightMap(heightMap);
+        if (!TerrainManager.Instance.enabledChunks)
+        {
+            UpdatePreviewWithHeightMap(heightMap);
+        }
 
         if (IsFlagged())
         {

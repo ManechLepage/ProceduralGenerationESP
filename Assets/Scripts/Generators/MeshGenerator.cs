@@ -87,8 +87,8 @@ public class MeshGenerator : MonoBehaviour
         // Adapter les boucles pour include (ou pas) les premières et dernières lignes et colonnes
         int startX = borderNormals ? 1 : 0;
         int startY = borderNormals ? 1 : 0;
-        int endX = borderNormals ? heightMap[0].Count : heightMap[0].Count + 1;
-        int endY = borderNormals ? heightMap.Count : heightMap.Count + 1;
+        int endX = heightMap[0].Count;  //borderNormals ? heightMap[0].Count : heightMap[0].Count + 1;
+        int endY = heightMap.Count;  // borderNormals ? heightMap.Count : heightMap.Count + 1;
 
         float lowBorderValue = -0.25f;
 
@@ -140,10 +140,10 @@ public class MeshGenerator : MonoBehaviour
                 vertices.Add(vertexPosition);
 
                 // Calculer les normales selon les hauteurs à proximité
-                float hL = SampleHeightMap(heightMap, x - 1, y, height, lowBorders: true, lowBorderValue: lowBorderValue);
-                float hR = SampleHeightMap(heightMap, x + 1, y, height, lowBorders: true, lowBorderValue: lowBorderValue);
-                float hD = SampleHeightMap(heightMap, x, y - 1, height, lowBorders: true, lowBorderValue: lowBorderValue);
-                float hU = SampleHeightMap(heightMap, x, y + 1, height, lowBorders: true, lowBorderValue: lowBorderValue);
+                float hL = SampleHeightMap(heightMap, x - 1, y, height, lowBorders: lowBorders, lowBorderValue: lowBorderValue);
+                float hR = SampleHeightMap(heightMap, x + 1, y, height, lowBorders: lowBorders, lowBorderValue: lowBorderValue);
+                float hD = SampleHeightMap(heightMap, x, y - 1, height, lowBorders: lowBorders, lowBorderValue: lowBorderValue);
+                float hU = SampleHeightMap(heightMap, x, y + 1, height, lowBorders: lowBorders, lowBorderValue: lowBorderValue);
 
                 Vector3 normal = new Vector3(hL - hR, 2f, hD - hU).normalized;
 

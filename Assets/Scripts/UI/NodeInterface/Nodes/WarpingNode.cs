@@ -30,6 +30,14 @@ public class WarpingNode : NodeBehaviour
         settings.noiseScale = noiseScale;
         settings.offset = offset;
 
+        if (TerrainManager.Instance.enabledChunks)
+        {
+            settings.scale *= TerrainManager.Instance.GetCurrentChunkScale();
+
+            terrainSize = TerrainManager.Instance.GetCurrentChunkSize();
+            settings.globalOffset += TerrainManager.Instance.GetCurrentChunkOffset();
+        }
+
         List<List<Vector2>> domainMap = warpingAlgorithm.GetWarpedDomainMap(terrainSize, settings);
 
         return new Variant(domainMap);

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using System;
+using System.Threading.Tasks;
 
 public class ChunkLoaderManager : MonoBehaviour
 {
@@ -32,12 +33,12 @@ public class ChunkLoader
     public GameObject chunkParent;
 
     [HideInInspector]
-    public Func<Vector2, Vector2, float, List<List<float>>> heightMapFunction;  // Arguments: Vector2 size, Vector2 offset, float scale
+    public Func<Vector2, Vector2, float, Task<List<List<float>>>> heightMapFunction;  // Arguments: Vector2 size, Vector2 offset, float scale
 
     [HideInInspector]
     public Dictionary<Vector2Int, Chunk> chunks = new Dictionary<Vector2Int, Chunk>();
 
-    public IEnumerator InitializeChunks(Vector2Int position, float scaleFactor = 1f, bool circular = true)
+    async public void InitializeChunks(Vector2Int position, float scaleFactor = 1f, bool circular = true)
     {
         /*
         Loader une première fois tous les chunks autour de l'utilisateur à partir de zero.
@@ -57,22 +58,22 @@ public class ChunkLoader
                     j + position.y
                 );
 
-                Chunk chunk = LoadChunk(chunkPos, scaleFactor);
-                chunks.Add(chunkPos, chunk);
+                Chunk chunk = await LoadChunk(chunkPos, scaleFactor);
+                if (chunk != null)
+                    chunks.Add(chunkPos, chunk);
+                // else
+                //     Debug.Log($"Failed to load chunk at position {chunkPos}");
             }
         }
-
-        yield return new WaitForSeconds(0);
     }
 
-    public IEnumerator UpdateLoadedChunks(Vector2Int position, float scaleFactor = 1f, bool circular = true)
+    async public void UpdateLoadedChunks(Vector2Int position, float scaleFactor = 1f, bool circular = true)
     {
         /*
         Loader les chunks qui ne l'ont pas encore été et unloader ceux qui sont trop éloignés à partir de la position donnée.
          - 'position' : position centrale à partir de laquelle charger les chunks
          - 'scaleFactor' : facteur d'échelle pour la hauteur des chunks
          - 'circular' : si true, charger les chunks dans un rayon circulaire, sinon dans un carré
-         - return : IEnumerator pour pouvoir être utilisé dans une coroutine
         */
         
         List<Chunk> loadedChunks = new List<Chunk>();
@@ -93,9 +94,14 @@ public class ChunkLoader
 
                 if (!chunks.ContainsKey(chunkPos))
                 {
-                    Chunk newChunk = LoadChunk(chunkPos, scaleFactor);
-                    chunks.Add(chunkPos, newChunk);
-                    loadedChunks.Add(newChunk);
+                    Chunk newChunk = await LoadChunk(chunkPos, scaleFactor);
+                    if (newChunk != null)
+                    {
+                        chunks.Add(chunkPos, newChunk);
+                        loadedChunks.Add(newChunk);
+                    }
+                    else
+                        Debug.Log($"Failed to load chunk at position {chunkPos}");
                 }
                 else
                 {
@@ -120,11 +126,9 @@ public class ChunkLoader
         {
             chunks.Remove(chunkPos);
         }
-
-        yield return new WaitForSeconds(0);
     }
 
-    public Chunk LoadChunk(Vector2Int position, float scaleFactor = 1f, bool animate = true)
+    async public Task<Chunk> LoadChunk(Vector2Int position, float scaleFactor = 1f, bool animate = true)
     {
         /*
         Méthode pour loader un unique chunk à une certaine position.
@@ -142,10 +146,13 @@ public class ChunkLoader
         float scale = chunkPhysicalSize.x / 32f;
 
         // Loader le heightmap correspondant à ce chunk
-        List<List<float>> heightMap = heightMapFunction(chunkSize + new Vector2Int(2, 2), offset - new Vector2(1, 1) * chunkSize, scale);
+        List<List<float>> heightMap = await heightMapFunction(chunkSize + new Vector2Int(2, 2), offset - new Vector2(1, 1) * chunkSize, scale);
+
+        if (heightMap == null || heightMap.Count == 0)
+            return null;
 
         // Générer le mesh à partir du heightmap et créer le GameObject correspondant
-        Mesh mesh = GameManager.Instance.meshGenerator.HeightMapToMesh(heightMap, height / scaleFactor, chunkSize, borderNormals: false, colorSettings: colorSettings);
+        Mesh mesh = GameManager.Instance.meshGenerator.HeightMapToMesh(heightMap, height / scaleFactor, chunkSize, borderNormals: true, lowBorders: false, colorSettings: colorSettings);
         GameObject chunkGO = GameManager.Instance.meshGenerator.CreateMeshObject(chunkParent.transform, colorSettings.isEnabled);
 
         GameManager.Instance.meshGenerator.UpdateMesh(chunkGO, mesh, chunkPhysicalSize / chunkSize);
@@ -175,7 +182,7 @@ public class ChunkLoader
         */
         
         ClearChunks();
-        runner.StartCoroutine(InitializeChunks(position));
+        InitializeChunks(position);
     }
 
     public void UpdateChunks(Vector2Int position, MonoBehaviour runner)
@@ -187,7 +194,7 @@ public class ChunkLoader
          - return : void
         */
         
-        runner.StartCoroutine(UpdateLoadedChunks(position));
+        UpdateLoadedChunks(position);
     }
 
     public void ClearChunks()

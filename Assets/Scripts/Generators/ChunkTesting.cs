@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class ChunkTesting : MonoBehaviour
 {
@@ -88,7 +89,7 @@ public class ChunkTesting : MonoBehaviour
         );
     }
 
-    public List<List<float>> HeightMapFunction(Vector2 size, Vector2 offset, float scale=1f)
+    public Task<List<List<float>>> HeightMapFunction(Vector2 size, Vector2 offset, float scale=1f)
     {
         /*
         Fonction qui va être appelée par le ChunkLoader pour générer les chunks.
@@ -113,7 +114,7 @@ public class ChunkTesting : MonoBehaviour
             voronoiSettings.scale /= scale;
         }
 
-        return heightMap;
+        return Task.FromResult(heightMap);
     }
 
     Vector2 GetCameraPosition()

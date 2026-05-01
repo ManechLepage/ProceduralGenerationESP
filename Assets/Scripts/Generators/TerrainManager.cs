@@ -10,6 +10,13 @@ public class TerrainManager : MonoBehaviour
     public float terrainHeight = 50f;
     public int smoothing = 1;
 
+    [Header("Chunk Settings")]
+    public bool enabledChunks = true;
+    public ChunkLoader chunkLoader;
+    public Vector2 currentChunkOffset = new Vector2(0, 0);
+    public float currentChunkScale = 1;
+    public Vector2Int currentChunkSize = new Vector2Int(16, 16);
+
     [Header("Statistics Settings")]
     public GlobalGenerationStatistics generationStatistics = new GlobalGenerationStatistics();
     public ComputerSpeedTest computerSpeedTest = new ComputerSpeedTest();
@@ -25,6 +32,9 @@ public class TerrainManager : MonoBehaviour
     [Header("Environment Settings")]
     public GameObject sea;
 
+    [Header("Other")]
+    public GameObject mainCamera;
+
     private List<List<float>> heightMap;
     private GameObject meshGO;
     private MasterNode masterNode;
@@ -32,6 +42,8 @@ public class TerrainManager : MonoBehaviour
     private float initialWaterLevel;
     private bool _isGenerating = false;
     private bool _isRunningSpeedTest = false;
+
+    private Vector2Int lastGridOrigin = Vector2Int.zero;
 
     public static TerrainManager Instance { get; private set; }
 
@@ -60,6 +72,12 @@ public class TerrainManager : MonoBehaviour
             masterNode.onFire.AddListener(GenerateVoid);
             masterNode.onInputUpdated.AddListener(MasterNodeUpdatedVoid);
         }
+
+        chunkLoader.heightMapFunction = HeightMapFunction;
+        lastGridOrigin = chunkLoader.SnapToChunk(GetCameraPosition());
+
+        if (enabledChunks)
+            ReloadChunks();
     }
 
     void Update()
@@ -76,6 +94,88 @@ public class TerrainManager : MonoBehaviour
         {
             _ = ReloadPredictions();
         }
+
+        Vector2Int gridOrigin = chunkLoader.SnapToChunk(GetCameraPosition());
+        if (enabledChunks && lastGridOrigin != gridOrigin)
+        {
+            lastGridOrigin = gridOrigin;
+            chunkLoader.chunkOffset = lastGridOrigin;
+            chunkLoader.UpdateChunks(
+                chunkLoader.PositionToChunk(lastGridOrigin),
+                this
+            );
+        }
+    }
+
+    public void SetEnabledChunks(bool enabled)
+    {
+        enabledChunks = enabled;
+        if (!enabled)
+        {
+            if (meshGO != null)
+                meshGO.SetActive(true);
+            chunkLoader.ClearChunks();
+        }
+        else
+        {
+            if (meshGO != null)
+                meshGO.SetActive(false);
+            chunkLoader.UpdateChunks(
+                chunkLoader.PositionToChunk(lastGridOrigin),
+                this
+            );
+        }
+    }
+
+    public Vector2 GetCurrentChunkOffset()
+    {
+        return currentChunkOffset;
+    }
+
+    public float GetCurrentChunkScale()
+    {
+        return currentChunkScale;
+    }
+
+    public Vector2Int GetCurrentChunkSize()
+    {
+        return currentChunkSize;
+    }
+
+    public async Task<List<List<float>>> HeightMapFunction(Vector2 size, Vector2 offset, float scale=1f)
+    {
+        currentChunkOffset = offset;
+        currentChunkScale = scale;
+        currentChunkSize = new Vector2Int((int)size.x, (int)size.y);
+
+        List<List<float>> heightMap = (await masterNode.GetInputValue("heightmap", onlyIfModified: false)).GetValue<List<List<float>>>();
+
+        if (heightMap != null && heightMap.Count > 0)
+            return heightMap;
+        
+        return null;
+    }
+
+    async public void ReloadChunks()
+    {
+        /*
+        Recharger tous les chunks.
+        */
+
+        float terrainHeight = (await masterNode.GetInputValue("height", onlyIfModified: true)).GetValue<float>();
+        chunkLoader.height = initialTerrainHeight * terrainHeight;
+
+        lastGridOrigin = chunkLoader.SnapToChunk(GetCameraPosition());
+        chunkLoader.chunkOffset = lastGridOrigin;
+        chunkLoader.ReloadChunks(
+            chunkLoader.PositionToChunk(lastGridOrigin),
+            this
+        );
+    }
+
+    Vector2 GetCameraPosition()
+    {
+        return new Vector2(mainCamera.transform.position.x, mainCamera.transform.position.z);
     }
 
     public async void GenerateVoid() => await Generate(onlyIfModified: false);
@@ -89,6 +189,21 @@ public class TerrainManager : MonoBehaviour
         if (IsGenerating() || IsRunningSpeedTest())
             return;
 
+        bool chunksWereEnabled = enabledChunks;
+        enabledChunks = (await masterNode.GetInputValue("enabled_chunks")).GetValue<bool>();
+        SetEnabledChunks(enabledChunks);
+        
+        if (enabledChunks)
+        {
+            ReloadChunks();
+            return;
+        }
+
+        if (chunksWereEnabled && !enabledChunks)
+        {
+            // Reload all
+            onlyIfModified = false;
+        }
 
         generationStatistics.predicted = await masterNode.GetPredictedStatistics();
 
@@ -134,10 +249,17 @@ public class TerrainManager : MonoBehaviour
         terrainHeight = lastTerrainHeight;
     }
 
-    public void SetActiveSea(bool active)
+    async public void SetActiveSea(bool active)
     {
         if (this.sea != null)
         {
+            if (this.sea.activeSelf)
+            {
+                float waterLevel = (await masterNode.GetInputValue("water_level")).GetValue<float>();
+                float waterGOLevel = initialWaterLevel + waterLevel * initialTerrainHeight;
+                sea.transform.position = new Vector3(sea.transform.position.x, waterGOLevel, sea.transform.position.z);
+            }
+
             this.sea.SetActive(active);
         }
     }
