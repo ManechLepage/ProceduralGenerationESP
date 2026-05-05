@@ -905,12 +905,36 @@ MonoBehaviour:
     isEnabled: 1
     useGradient: 0
     constraints:
-    - color: {r: 1, g: 0.803095, b: 0.4584905, a: 0}
-      slopeRange: {x: 0, y: 0}
-      heightRange: {x: 0, y: 0}
-    - color: {r: 1, g: 0.6213671, b: 0.45882356, a: 0}
-      slopeRange: {x: 0, y: 0}
-      heightRange: {x: 0, y: 0}
+    - color: {r: 0.64705884, g: 0.522056, b: 0.039215688, a: 0}
+      slopeRange: {x: 0, y: 1}
+      heightRange: {x: 0, y: 0.1}
+    - color: {r: 0.5169811, g: 0.27967092, b: 0.053648926, a: 0}
+      slopeRange: {x: 0, y: 1}
+      heightRange: {x: 0.1, y: 0.2}
+    - color: {r: 0.5176471, g: 0.22251672, b: 0.054901943, a: 0}
+      slopeRange: {x: 0, y: 1}
+      heightRange: {x: 0.2, y: 0.3}
+    - color: {r: 0.3882353, g: 0.26758227, b: 0.023529412, a: 0}
+      slopeRange: {x: 0, y: 1}
+      heightRange: {x: 0.3, y: 0.4}
+    - color: {r: 0.35686275, g: 0.09874707, b: 0.027450979, a: 0}
+      slopeRange: {x: 0, y: 1}
+      heightRange: {x: 0.4, y: 0.5}
+    - color: {r: 0.35686275, g: 0.21937287, b: 0.027450979, a: 0}
+      slopeRange: {x: 0, y: 1}
+      heightRange: {x: 0.5, y: 0.6}
+    - color: {r: 0.35686275, g: 0.10664118, b: 0.027450979, a: 0}
+      slopeRange: {x: 0, y: 1}
+      heightRange: {x: 0.6, y: 0.7}
+    - color: {r: 0.5245282, g: 0.44127905, b: 0.026721206, a: 0}
+      slopeRange: {x: 0, y: 1}
+      heightRange: {x: 0.7, y: 0.8}
+    - color: {r: 0.41960785, g: 0.18776943, b: 0.027450984, a: 0}
+      slopeRange: {x: 0, y: 1}
+      heightRange: {x: 0.8, y: 0.9}
+    - color: {r: 0.41960785, g: 0.31487295, b: 0.027450984, a: 0}
+      slopeRange: {x: 0, y: 1}
+      heightRange: {x: 0.9, y: 1}
     constraintsTemp:
     - color: {r: 0.07058824, g: 0.3882353, b: 0.023529412, a: 0}
       slopeRange: {x: 0, y: 0.11}
