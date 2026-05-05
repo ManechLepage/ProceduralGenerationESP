@@ -1,0 +1,53 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "prefab": "MasterNode",
+      "offsetX": 948.2961,
+      "offsetY": 432.83017,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 256.0,
+          "y": 256.0
+        },
+        "height": 1.0,
+        "water": false,
+        "water_level": 0.4,
+        "auto_reload": true,
+        "enabled_chunks": false
+      }
+    },
+    {
+      "id": "5",
+      "prefab": "SaveGraphNode",
+      "offsetX": 946.8149,
+      "offsetY": 246.6207,
+      "inputs": {
+        "path": "draw"
+      }
+    },
+    {
+      "id": "6",
+      "prefab": "LoadGraphNode",
+      "offsetX": 947.18866,
+      "offsetY": 134.172043,
+      "inputs": {
+        "path": "graph"
+      }
+    },
+    {
+      "id": "7",
+      "prefab": "DrawTextureNode",
+      "offsetX": 371.984833,
+      "offsetY": 414.174072,
+      "inputs": {
+        "size": {
+          "x": 256.0,
+          "y": 256.0
+        }
+      }
+    }
+  ],
+  "connections": []
+}

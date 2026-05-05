@@ -64,7 +64,7 @@ public class TerrainManager : MonoBehaviour
         initialTerrainHeight = terrainHeight;
         initialWaterLevel = sea != null ? sea.transform.position.y : 0f;
         ClearActualStatisticsTexts();
-        LaunchSpeedTest();
+        SpeedTest();
 
         masterNode = GraphManager.Instance.masterNode as MasterNode;
         if (masterNode != null)
@@ -339,7 +339,12 @@ public class TerrainManager : MonoBehaviour
         UpdateStatisticsTexts();
     }
 
-    async public void LaunchSpeedTest()
+    async public void SpeedTest()
+    {
+        await LaunchSpeedTest();
+    }
+
+    public async Task LaunchSpeedTest()
     {
         _isRunningSpeedTest = true;
         ComputerSpeedTest test = new ComputerSpeedTest();

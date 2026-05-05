@@ -77,10 +77,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void OpenStatisticsPanel()
+    async public void OpenStatisticsPanel()
     {
         if (statisticsPanel == null) return;
         statisticsPanel.SetActive(true);
+        // await TerrainManager.Instance.LaunchSpeedTest();
+        await TerrainManager.Instance.ReloadPredictions();   
     }
 
     public void CloseStatisticsPanel()
