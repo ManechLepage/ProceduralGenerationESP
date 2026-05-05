@@ -68,6 +68,8 @@ public class IslandTexture : NodeBehaviour
 
                 float distance = Vector2.Distance(new Vector2(x, y), new Vector2(terrainSize.x / 2.0f, terrainSize.y / 2.0f));
                 float value = 1f - distance / maxNoiseDistance;
+                if (distanceCurve == null)
+                    distanceCurve = AnimationCurve.Linear(0, 0, 1, 1);
                 value = distanceCurve.Evaluate(value);
                 row.Add(value);
             }

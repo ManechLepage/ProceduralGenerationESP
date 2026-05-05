@@ -72,7 +72,7 @@
     },
     {
       "id": "10",
-      "prefab": "MultiplyHeightmapsNode",
+      "prefab": "MultiplyHeightmaps",
       "offsetX": 1012.18921,
       "offsetY": 1414.21008,
       "inputs": {
@@ -143,7 +143,7 @@
     },
     {
       "id": "16",
-      "prefab": "MultiplyHeightmapsNode",
+      "prefab": "MultiplyHeightmaps",
       "offsetX": -102.014679,
       "offsetY": 1135.3385,
       "inputs": {
@@ -262,7 +262,7 @@
     },
     {
       "id": "25",
-      "prefab": "MultiplyHeightmapsNode",
+      "prefab": "MultiplyHeightmaps",
       "offsetX": 215.221664,
       "offsetY": 1191.67065,
       "inputs": {
@@ -311,7 +311,7 @@
     },
     {
       "id": "30",
-      "prefab": "MultiplyHeightmapsNode",
+      "prefab": "MultiplyHeightmaps",
       "offsetX": 712.5705,
       "offsetY": 1284.72913,
       "inputs": {

@@ -366,7 +366,7 @@ public abstract class NodeBehaviour : MonoBehaviour
         ConnectorBehaviour connector = GetInputConnection(name);
         if (connector != null)
         {
-            if (connector.IsConnected())
+            if (connector.IsConnected() && connector.multipleConnectedTo[0].node != null)
             {
                 bool varOnlyIfModified = onlyIfModified == default ? currentlyFiringOnlyIfModified : onlyIfModified;
                 return await connector.multipleConnectedTo[0].node.Fire(varOnlyIfModified);  // A cheap way to pass the onlyIfModified argument to other nodes.

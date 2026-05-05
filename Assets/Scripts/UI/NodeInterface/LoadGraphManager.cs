@@ -81,6 +81,19 @@ public class LoadGraphManager : MonoBehaviour
         GameObject node = GraphManager.Instance.CreateNode(prefab, position, int.Parse(nodeData.id));
         NodeBehaviour nodeBehaviour = node.GetComponent<NodeBehaviour>();
 
+        if (nodeBehaviour.prefabName == "CurveNode" && nodeData.curveKeys != null)
+        {
+            CurveNode curveNode = nodeBehaviour as CurveNode;
+            curveNode.curve = new AnimationCurve();
+            foreach (var keyData in nodeData.curveKeys)
+            {
+                Keyframe key = new Keyframe(keyData.time, keyData.value, keyData.inTangent, keyData.outTangent);
+                key.inWeight = keyData.inWeight;
+                key.outWeight = keyData.outWeight;
+                curveNode.curve.AddKey(key);
+            }
+        }
+
         if (nodeBehaviour != null)
         {
             AssignInputs(nodeBehaviour, nodeData.inputs);
@@ -127,8 +140,13 @@ public class LoadGraphManager : MonoBehaviour
                 prefab = nodeToken["prefab"].Value<string>(),
                 offsetX = nodeToken["offsetX"].Value<float>(),
                 offsetY = nodeToken["offsetY"].Value<float>(),
-                inputs = new Dictionary<string, Variant>()
+                inputs = new Dictionary<string, Variant>(),
             };
+
+            if (nodeToken is JObject obj && obj.ContainsKey("curveKeys"))
+            {
+                nodeData.curveKeys = nodeToken["curveKeys"].ToObject<List<CurveKeyData>>();
+            }
 
             foreach (var input in (JObject)nodeToken["inputs"])
             {

@@ -145,10 +145,14 @@ public class FBMAlgorithm : MonoBehaviour
         NativeArray<float> curveLUT =
             new NativeArray<float>(resolution, Allocator.TempJob);
 
+        AnimationCurve curve = settings.curve;
+        if (curve == null)
+            curve = AnimationCurve.Linear(0, 0, 1, 1);
+        
         for (int i = 0; i < resolution; i++)
         {
             float t = i / (float)(resolution - 1);
-            curveLUT[i] = settings.curve.Evaluate(t);
+            curveLUT[i] = curve.Evaluate(t);
         }
 
         NativeArray<Vector2> domainMapArray = new NativeArray<Vector2>(width * height, Allocator.TempJob);

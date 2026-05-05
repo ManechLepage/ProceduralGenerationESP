@@ -82,6 +82,9 @@ public class SaveGraphManager : MonoBehaviour
             nodeObj["offsetX"] = node.offsetX;
             nodeObj["offsetY"] = node.offsetY;
 
+            if (node.curveKeys != null)
+                nodeObj["curveKeys"] = new JObject { ["keys"] = JArray.FromObject(node.curveKeys) };
+
             var inputsObj = new JObject();
             foreach (var input in node.inputs)
             {
@@ -124,6 +127,29 @@ public class SaveGraphManager : MonoBehaviour
             nodeData.inputs = new Dictionary<string, Variant>();
             nodeData.offsetX = node.transform.position.x / GraphManager.Instance.currentZoom + GraphManager.Instance.currentOffset.x;
             nodeData.offsetY = node.transform.position.y / GraphManager.Instance.currentZoom + GraphManager.Instance.currentOffset.y;
+
+            if (node.prefabName == "CurveNode")
+            {
+                CurveNode curveNode = node as CurveNode;
+                // Sauvegarder les points de la courbe dans les inputs du node
+                if (curveNode.curve != null)
+                {
+                    List<CurveKeyData> curveKeys = new List<CurveKeyData>();
+                    foreach (Keyframe key in curveNode.curve.keys)
+                    {
+                        CurveKeyData keyData = new CurveKeyData();
+                        keyData.time = key.time;
+                        keyData.value = key.value;
+                        keyData.inTangent = key.inTangent;
+                        keyData.outTangent = key.outTangent;
+                        keyData.inWeight = key.inWeight;
+                        keyData.outWeight = key.outWeight;
+                        curveKeys.Add(keyData);
+                    }
+
+                    nodeData.curveKeys = curveKeys;
+                }
+            }
 
             foreach (ConnectorBehaviour input in node.inputConnections)
             {
@@ -192,6 +218,7 @@ public class NodeData
     public float offsetX;
     public float offsetY;
     public Dictionary<string, Variant> inputs;
+    public List<CurveKeyData> curveKeys;
 }
 
 [System.Serializable]
@@ -201,4 +228,15 @@ public class ConnectionData
     public string fromOutputName;
     public string toNode;
     public string toInputName;
+}
+
+[System.Serializable]
+public class CurveKeyData
+{
+    public float time;
+    public float value;
+    public float inTangent;
+    public float outTangent;
+    public float inWeight;
+    public float outWeight;
 }

@@ -1,0 +1,125 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "prefab": "MasterNode",
+      "offsetX": 1100.30713,
+      "offsetY": 400.256134,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 256.0,
+          "y": 256.0
+        },
+        "height": 1.0,
+        "water": false,
+        "water_level": 0.4,
+        "auto_reload": true,
+        "enabled_chunks": false
+      }
+    },
+    {
+      "id": "5",
+      "prefab": "SaveGraphNode",
+      "offsetX": 1098.82617,
+      "offsetY": 214.847015,
+      "inputs": {
+        "path": "curve"
+      }
+    },
+    {
+      "id": "6",
+      "prefab": "LoadGraphNode",
+      "offsetX": 1099.2,
+      "offsetY": 101.599457,
+      "inputs": {
+        "path": "graph"
+      }
+    },
+    {
+      "id": "7",
+      "prefab": "PerlinNoiseNode",
+      "offsetX": 745.6,
+      "offsetY": 365.599945,
+      "inputs": {
+        "scale": 1.0,
+        "octaves": 8,
+        "lacunarity": 2.0,
+        "persistence": 0.5,
+        "seed": 0,
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "ridged": true,
+        "curve": null,
+        "domainmap": null
+      }
+    },
+    {
+      "id": "8",
+      "prefab": "CurveNode",
+      "offsetX": 426.3944,
+      "offsetY": 303.2,
+      "curveKeys": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 0.0,
+            "inTangent": 0.8789457,
+            "outTangent": 0.8789457,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343
+          },
+          {
+            "time": 0.18234016,
+            "value": 0.0,
+            "inTangent": 2.069711,
+            "outTangent": 2.069711,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343
+          },
+          {
+            "time": 0.477508336,
+            "value": 0.157635152,
+            "inTangent": 1.74512684,
+            "outTangent": 1.74512684,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343
+          },
+          {
+            "time": 0.6446283,
+            "value": 0.9687407,
+            "inTangent": 0.647434533,
+            "outTangent": 0.647434533,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343
+          },
+          {
+            "time": 1.0,
+            "value": 1.0,
+            "inTangent": 1.06509173,
+            "outTangent": 1.06509173,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0
+          }
+        ]
+      },
+      "inputs": {}
+    }
+  ],
+  "connections": [
+    {
+      "fromNode": "7",
+      "fromOutputName": "heightmap",
+      "toNode": "0",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "8",
+      "fromOutputName": "output",
+      "toNode": "7",
+      "toInputName": "curve"
+    }
+  ]
+}

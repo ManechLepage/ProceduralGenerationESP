@@ -446,7 +446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MultiplyHeightmaps
   id: 0
-  prefabName: MultiplyHeightmapsNode
+  prefabName: MultiplyHeightmaps
   inputConnections:
   - {fileID: 7274571100320183971}
   - {fileID: 3156614106439344078}
@@ -454,6 +454,7 @@ MonoBehaviour:
   - {fileID: 8610696726739139523}
   - {fileID: 1203284527387786157}
   loadingIcon: {fileID: 2040437605884190095}
+  flagToggle: {fileID: 0}
   hasRandom: 0
   nodeTimeType: 0
 --- !u!224 &1220277798718522412 stripped
