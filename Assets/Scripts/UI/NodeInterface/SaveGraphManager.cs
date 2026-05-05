@@ -83,7 +83,7 @@ public class SaveGraphManager : MonoBehaviour
             nodeObj["offsetY"] = node.offsetY;
 
             if (node.curveKeys != null)
-                nodeObj["curveKeys"] = new JObject { ["keys"] = JArray.FromObject(node.curveKeys) };
+                nodeObj["curveKeys"] = JArray.FromObject(node.curveKeys);
 
             var inputsObj = new JObject();
             foreach (var input in node.inputs)

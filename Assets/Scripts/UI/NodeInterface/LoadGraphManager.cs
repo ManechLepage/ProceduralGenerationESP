@@ -144,9 +144,7 @@ public class LoadGraphManager : MonoBehaviour
             };
 
             if (nodeToken is JObject obj && obj.ContainsKey("curveKeys"))
-            {
                 nodeData.curveKeys = nodeToken["curveKeys"].ToObject<List<CurveKeyData>>();
-            }
 
             foreach (var input in (JObject)nodeToken["inputs"])
             {
