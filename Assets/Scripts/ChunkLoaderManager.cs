@@ -59,7 +59,7 @@ public class ChunkLoader
                 );
 
                 Chunk chunk = await LoadChunk(chunkPos, scaleFactor);
-                if (chunk != null)
+                if (chunk != null && !chunks.ContainsKey(chunkPos))
                     chunks.Add(chunkPos, chunk);
                 // else
                 //     Debug.Log($"Failed to load chunk at position {chunkPos}");
@@ -95,7 +95,7 @@ public class ChunkLoader
                 if (!chunks.ContainsKey(chunkPos))
                 {
                     Chunk newChunk = await LoadChunk(chunkPos, scaleFactor);
-                    if (newChunk != null)
+                    if (newChunk != null && !chunks.ContainsKey(chunkPos))
                     {
                         chunks.Add(chunkPos, newChunk);
                         loadedChunks.Add(newChunk);
