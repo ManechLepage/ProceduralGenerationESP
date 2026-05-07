@@ -19,7 +19,7 @@ public class SaveTextureNode : NodeBehaviour
         return Task.FromResult(new Variant());
     }
 
-    public async Task Save()
+    async public void Save()
     {
         if (!GetInputConnection("texture").IsConnected())
             return;
