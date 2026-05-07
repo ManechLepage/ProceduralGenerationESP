@@ -60,7 +60,14 @@ public class DrawTextureNode : NodeBehaviour
     public Texture2D EXRToTexture2D(Texture2D exrTexture)
     {
         Texture2D texture = new Texture2D(exrTexture.width, exrTexture.height, TextureFormat.RGBAFloat, false);
-        texture.SetPixels(exrTexture.GetPixels());
+        for (int x=0; x<texture.width; x++)
+        {
+            for (int y=0; y<texture.height; y++)
+            {
+                float r = exrTexture.GetPixel(x, y).r;
+                texture.SetPixel(x, y, new Color(r, r, r, 1));
+            }
+        }
         texture.Apply();
         return texture;
     }

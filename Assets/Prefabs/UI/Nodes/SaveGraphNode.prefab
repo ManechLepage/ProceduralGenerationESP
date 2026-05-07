@@ -495,6 +495,7 @@ MonoBehaviour:
   - {fileID: 2773295236215526007}
   outputConnections: []
   loadingIcon: {fileID: 2040437605884190095}
+  flagToggle: {fileID: 0}
   hasRandom: 0
   nodeTimeType: 0
   saveFolder: Resources/
@@ -552,7 +553,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1867648651422719410, guid: 8a7046d628caf90448fb38cdb2b7d2d8, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 20.74
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1867648651422719410, guid: 8a7046d628caf90448fb38cdb2b7d2d8, type: 3}
       propertyPath: m_AnchoredPosition.x

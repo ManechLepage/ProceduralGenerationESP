@@ -35,6 +35,12 @@ public class SaveTextureNode : NodeBehaviour
         
         try
         {
+            if (texture.format != TextureFormat.RGBAFloat)
+            {
+                texture = ConvertToEXR(texture);
+                Debug.Log("Converted texture to EXR format for saving.");
+            }
+
             textureHelpers.SaveTexture(texture, path, refreshAssetDatabase: true, makeReadable: true);
         }
         catch (System.Exception e)
@@ -52,10 +58,17 @@ public class SaveTextureNode : NodeBehaviour
     {
         if (texture.format == TextureFormat.RGBAFloat)
             return texture;
-
-        Texture2D exrTexture = new Texture2D(texture.width, texture.height, TextureFormat.RGBAFloat, false);
-        Color[] pixels = texture.GetPixels();
-        exrTexture.SetPixels(pixels);
+        
+        Texture2D exrTexture = new Texture2D(texture.width, texture.height, TextureFormat.RGBAFloat, false, true);
+        for (int x=0; x<texture.width; x++)
+        {
+            for (int y=0; y<texture.height; y++)
+            {
+                float r = texture.GetPixel(x, y).r;
+                exrTexture.SetPixel(x, y, new Color(r, r, r, 1));
+            }
+        }
+        exrTexture.Apply();
         return exrTexture;
     }
 }
