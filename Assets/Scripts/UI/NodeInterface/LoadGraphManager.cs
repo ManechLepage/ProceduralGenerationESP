@@ -28,7 +28,7 @@ public class LoadGraphManager : MonoBehaviour
         {
             // Ne pas recréer le MasterNode, juste lui assigner les valeurs
             if (node.prefab != "MasterNode")
-                CreateNode(node);
+                CreateNode(node, path);
             else
             {
                 AssignInputs(GraphManager.Instance.masterNode, node.inputs);
@@ -60,6 +60,29 @@ public class LoadGraphManager : MonoBehaviour
                 Debug.LogWarning($"Connection skipped: from {connection.fromNode} to {connection.toNode}");
             }
         }
+
+        TerrainManager.Instance.ReloadPredictionsWhenReady();
+    }
+
+    public Texture2D GetSavedTexture(string path, string textureName)
+    {
+        string graphName = System.IO.Path.GetFileNameWithoutExtension(path);
+
+        string graphFolder = System.IO.Path.GetDirectoryName(path);
+        string texturesFolder = System.IO.Path.Combine(graphFolder, "Textures");
+        string graphTexturesFolder = System.IO.Path.Combine(texturesFolder, graphName);
+
+        string texturePath = System.IO.Path.Combine(graphTexturesFolder, textureName + ".exr");
+
+        if (System.IO.File.Exists(texturePath))
+        {
+            return AssetDatabase.LoadAssetAtPath<Texture2D>(texturePath);
+        }
+        else
+        {
+            Debug.LogWarning($"Texture not found at path: {texturePath}");
+            return null;
+        }
     }
 
     NodeBehaviour GetNodeWithID(int id)
@@ -67,7 +90,7 @@ public class LoadGraphManager : MonoBehaviour
         return GraphManager.Instance.nodes.Find(n => n.id == id);
     }
 
-    void CreateNode(NodeData nodeData)
+    void CreateNode(NodeData nodeData, string graphPath = "")
     {
         GameObject prefab = FindNodePrefab(nodeData.prefab);
         if (prefab == null)
@@ -91,6 +114,26 @@ public class LoadGraphManager : MonoBehaviour
                 key.inWeight = keyData.inWeight;
                 key.outWeight = keyData.outWeight;
                 curveNode.curve.AddKey(key);
+            }
+        }
+
+        if (nodeBehaviour.prefabName == "DrawTextureNode")
+        {
+            DrawTextureNode drawTextureNode = nodeBehaviour as DrawTextureNode;
+            if (drawTextureNode != null)
+            {
+                Texture2D texture = GetSavedTexture(graphPath, nodeData.id);
+                if (texture != null)
+                    drawTextureNode.AssignTexture(texture);
+            }
+        }
+
+        if (nodeBehaviour.prefabName == "ViewNode")
+        {
+            ViewNode viewNode = nodeBehaviour as ViewNode;
+            if (viewNode != null)
+            {
+                viewNode.ReloadPreviewWhenReady();
             }
         }
 

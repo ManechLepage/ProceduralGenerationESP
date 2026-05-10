@@ -63,10 +63,48 @@ public class SaveGraphManager : MonoBehaviour
 
     public void SaveGraph(string path)
     {
-        NodeGraphData graphData = CreateGraphData();
+        Dictionary<string, Texture2D> texturesToSave = new Dictionary<string, Texture2D>();
+
+        NodeGraphData graphData = CreateGraphData(texturesToSave);
 
         string json = ToJson(graphData);
         System.IO.File.WriteAllText(path, json);
+
+        ToTexturesFolder(path, texturesToSave);
+    }
+
+    void ToTexturesFolder(string path, Dictionary<string, Texture2D> textures)
+    {
+        if (textures.Count == 0)
+            return;
+
+        string graphName = System.IO.Path.GetFileNameWithoutExtension(path);
+
+        string graphFolder = System.IO.Path.GetDirectoryName(path);
+        string texturesFolder = System.IO.Path.Combine(graphFolder, "Textures");
+        string graphTexturesFolder = System.IO.Path.Combine(texturesFolder, graphName);
+
+        if (!System.IO.Directory.Exists(graphTexturesFolder))
+            System.IO.Directory.CreateDirectory(graphTexturesFolder);
+        else
+        {
+            // Effacer tous les fichiers EXR existants et leurs META
+            string[] existingFiles = System.IO.Directory.GetFiles(graphTexturesFolder, "*.exr");
+            foreach (string file in existingFiles)
+            {
+                System.IO.File.Delete(file);
+                string metaFile = file + ".meta";
+                if (System.IO.File.Exists(metaFile))
+                    System.IO.File.Delete(metaFile);
+            }
+        }
+
+        foreach (var kvp in textures)
+        {
+            TextureHelpers helpers = GetComponent<TextureHelpers>();
+            string texturePath = System.IO.Path.Combine(graphTexturesFolder, kvp.Key + ".exr");
+            helpers.SaveTexture(kvp.Value, texturePath, refreshAssetDatabase: true, makeReadable: true);
+        }
     }
 
     string ToJson(NodeGraphData graphData)
@@ -113,7 +151,7 @@ public class SaveGraphManager : MonoBehaviour
         return jo.ToString(Formatting.Indented);
     }
 
-    NodeGraphData CreateGraphData()
+    NodeGraphData CreateGraphData(Dictionary<string, Texture2D> texturesToSave)
     {
         NodeGraphData graphData = new NodeGraphData();
         graphData.nodes = new List<NodeData>();
@@ -148,6 +186,16 @@ public class SaveGraphManager : MonoBehaviour
                     }
 
                     nodeData.curveKeys = curveKeys;
+                }
+            }
+
+            if (node.prefabName == "DrawTextureNode")
+            {
+                DrawTextureNode drawTextureNode = node as DrawTextureNode;
+                if (drawTextureNode != null && drawTextureNode.HasTexture())
+                {
+                    Texture2D texture = drawTextureNode.GetTexture();
+                    texturesToSave[drawTextureNode.id.ToString()] = texture;
                 }
             }
 

@@ -77,4 +77,19 @@ public class DrawTextureNode : NodeBehaviour
         Vector2 size = (await GetInputValue("size")).GetValue<Vector2>();
         return new Vector2Int((int)size.x, (int)size.y);
     }
+
+    public Texture2D GetTexture()
+    {
+        return EXRToTexture2D(preview.texture as Texture2D);
+    }
+
+    public bool HasTexture()
+    {
+        return preview.texture != null;
+    }
+
+    public void AssignTexture(Texture2D texture)
+    {
+        preview.texture = texture;
+    }
 }

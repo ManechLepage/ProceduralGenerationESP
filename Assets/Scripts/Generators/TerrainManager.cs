@@ -46,6 +46,9 @@ public class TerrainManager : MonoBehaviour
 
     private Vector2Int lastGridOrigin = Vector2Int.zero;
 
+    private bool shouldReloadPredictions = false;
+    private int framesSinceReloadSignal = 0;
+
     public static TerrainManager Instance { get; private set; }
 
     void Awake()
@@ -97,6 +100,18 @@ public class TerrainManager : MonoBehaviour
         {
             _ = ReloadPredictions();
         }
+        else if (shouldReloadPredictions)
+        {
+            if (framesSinceReloadSignal > 1)
+            {
+                Debug.Log("Reloading predictions after graph load...");
+                _ = ReloadPredictions();
+                shouldReloadPredictions = false;
+                framesSinceReloadSignal = 0;
+            }
+            else
+                framesSinceReloadSignal++;
+        }
 
         Vector2Int gridOrigin = chunkLoader.SnapToChunk(GetCameraPosition());
         if (enabledChunks && lastGridOrigin != gridOrigin)
@@ -108,6 +123,11 @@ public class TerrainManager : MonoBehaviour
                 this
             );
         }
+    }
+
+    public void ReloadPredictionsWhenReady()
+    {
+        shouldReloadPredictions = true;
     }
 
     public void SetEnabledChunks(bool enabled)

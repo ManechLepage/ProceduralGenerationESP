@@ -11,6 +11,8 @@ public class ViewNode : NodeBehaviour
     [Space]
     public PreviewBehaviour preview;
 
+    private bool shouldReloadPreview = false;
+
     public override void Start()
     {
         base.Start();
@@ -36,6 +38,12 @@ public class ViewNode : NodeBehaviour
         }
     }
 
+    async void ReloadPreview()
+    {
+        List<List<float>> heightMap = (await GetInputValue("preview", onlyIfModified: true)).GetValue<List<List<float>>>();
+        UpdatePreview(heightMap);
+    }
+
     public void UpdatePreview(List<List<float>> heightMap)
     {
         if (heightMap.Count > 0)
@@ -45,5 +53,19 @@ public class ViewNode : NodeBehaviour
     public void ClearPreview()
     {
         preview.rawImage.texture = null;
+    }
+
+    public void ReloadPreviewWhenReady()
+    {
+        shouldReloadPreview = true;
+    }
+
+    void Update()
+    {
+        if (shouldReloadPreview)
+        {
+            shouldReloadPreview = false;
+            ReloadPreview();
+        }
     }
 }

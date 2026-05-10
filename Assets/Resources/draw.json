@@ -3,8 +3,8 @@
     {
       "id": "0",
       "prefab": "MasterNode",
-      "offsetX": 948.2961,
-      "offsetY": 432.83017,
+      "offsetX": 1133.90771,
+      "offsetY": 454.6562,
       "inputs": {
         "heightmap": null,
         "size": {
@@ -15,14 +15,15 @@
         "water": false,
         "water_level": 0.4,
         "auto_reload": true,
-        "enabled_chunks": false
+        "enabled_chunks": false,
+        "palette": "Default"
       }
     },
     {
       "id": "5",
       "prefab": "SaveGraphNode",
-      "offsetX": 946.8149,
-      "offsetY": 246.6207,
+      "offsetX": 1142.02686,
+      "offsetY": 244.432831,
       "inputs": {
         "path": "draw"
       }
@@ -30,8 +31,8 @@
     {
       "id": "6",
       "prefab": "LoadGraphNode",
-      "offsetX": 947.18866,
-      "offsetY": 134.172043,
+      "offsetX": 1143.2,
+      "offsetY": 127.998993,
       "inputs": {
         "path": "graph"
       }
@@ -39,15 +40,116 @@
     {
       "id": "7",
       "prefab": "DrawTextureNode",
-      "offsetX": 371.984833,
-      "offsetY": 414.174072,
+      "offsetX": 415.761536,
+      "offsetY": 470.399536,
       "inputs": {
         "size": {
           "x": 256.0,
           "y": 256.0
         }
       }
+    },
+    {
+      "id": "8",
+      "prefab": "DrawTextureNode",
+      "offsetX": 400.295319,
+      "offsetY": 174.317474,
+      "inputs": {
+        "size": {
+          "x": 256.0,
+          "y": 256.0
+        }
+      }
+    },
+    {
+      "id": "9",
+      "prefab": "TextureToHeightMap",
+      "offsetX": 649.5998,
+      "offsetY": 407.999939,
+      "inputs": {
+        "texture": null
+      }
+    },
+    {
+      "id": "10",
+      "prefab": "TextureToHeightMap",
+      "offsetX": 658.399353,
+      "offsetY": 290.3998,
+      "inputs": {
+        "texture": null
+      }
+    },
+    {
+      "id": "11",
+      "prefab": "AddHeightmapsNode",
+      "offsetX": 892.7996,
+      "offsetY": 350.3999,
+      "inputs": {
+        "heightmap1": null,
+        "heightmap2": null
+      }
+    },
+    {
+      "id": "12",
+      "prefab": "ViewNode",
+      "offsetX": 696.1757,
+      "offsetY": 133.163223,
+      "inputs": {
+        "preview": null
+      }
+    },
+    {
+      "id": "13",
+      "prefab": "ViewNode",
+      "offsetX": 894.0399,
+      "offsetY": 129.739777,
+      "inputs": {
+        "preview": null
+      }
     }
   ],
-  "connections": []
+  "connections": [
+    {
+      "fromNode": "11",
+      "fromOutputName": "heightmap",
+      "toNode": "0",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "7",
+      "fromOutputName": "texture",
+      "toNode": "9",
+      "toInputName": "texture"
+    },
+    {
+      "fromNode": "8",
+      "fromOutputName": "texture",
+      "toNode": "10",
+      "toInputName": "texture"
+    },
+    {
+      "fromNode": "9",
+      "fromOutputName": "heightmap",
+      "toNode": "11",
+      "toInputName": "heightmap1"
+    },
+    {
+      "fromNode": "10",
+      "fromOutputName": "heightmap",
+      "toNode": "11",
+      "toInputName": "heightmap2"
+    },
+    {
+      "fromNode": "10",
+      "fromOutputName": "preview",
+      "toNode": "12",
+      "toInputName": "preview"
+    },
+    {
+      "fromNode": "11",
+      "fromOutputName": "preview",
+      "toNode": "13",
+      "toInputName": "preview"
+    }
+  ]
 }

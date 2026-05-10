@@ -3,8 +3,8 @@
     {
       "id": "0",
       "prefab": "MasterNode",
-      "offsetX": 1100.30713,
-      "offsetY": 400.256134,
+      "offsetX": 1097.90723,
+      "offsetY": 453.056122,
       "inputs": {
         "heightmap": null,
         "size": {
@@ -14,14 +14,16 @@
         "height": 1.0,
         "water": false,
         "water_level": 0.4,
-        "auto_reload": true
+        "auto_reload": true,
+        "enabled_chunks": false,
+        "palette": "Default"
       }
     },
     {
       "id": "5",
       "prefab": "SaveGraphNode",
-      "offsetX": 1098.82617,
-      "offsetY": 214.847137,
+      "offsetX": 1098.02637,
+      "offsetY": 236.433044,
       "inputs": {
         "path": "empty"
       }
@@ -29,8 +31,8 @@
     {
       "id": "6",
       "prefab": "LoadGraphNode",
-      "offsetX": 1099.19971,
-      "offsetY": 101.599625,
+      "offsetX": 1098.3999,
+      "offsetY": 122.399445,
       "inputs": {
         "path": "graph"
       }
