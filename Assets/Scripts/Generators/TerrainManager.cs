@@ -28,6 +28,7 @@ public class TerrainManager : MonoBehaviour
     
     [Header("Color Settings")]
     public MeshColorSettings colorSettings;
+    public List<PaletteData> palettes;
 
     [Header("Environment Settings")]
     public GameObject sea;
@@ -65,6 +66,8 @@ public class TerrainManager : MonoBehaviour
         initialWaterLevel = sea != null ? sea.transform.position.y : 0f;
         ClearActualStatisticsTexts();
         SpeedTest();
+
+        chunkLoader.colorSettings = colorSettings;
 
         masterNode = GraphManager.Instance.masterNode as MasterNode;
         if (masterNode != null)
@@ -253,14 +256,14 @@ public class TerrainManager : MonoBehaviour
     {
         if (this.sea != null)
         {
+            this.sea.SetActive(active);
+
             if (this.sea.activeSelf)
             {
                 float waterLevel = (await masterNode.GetInputValue("water_level")).GetValue<float>();
                 float waterGOLevel = initialWaterLevel + waterLevel * initialTerrainHeight;
                 sea.transform.position = new Vector3(sea.transform.position.x, waterGOLevel, sea.transform.position.z);
             }
-
-            this.sea.SetActive(active);
         }
     }
 
@@ -269,6 +272,8 @@ public class TerrainManager : MonoBehaviour
     public async Task MasterNodeUpdated(ConnectorBehaviour connector)
     {
         if (connector == null) { return; }
+
+        bool autoReload = (await masterNode.GetInputValue("auto_reload")).GetValue<bool>();
 
         if (connector.connectionName == "water")
         {
@@ -286,9 +291,31 @@ public class TerrainManager : MonoBehaviour
             return;
         }
 
+        if (connector.connectionName == "palette")
+        {
+            // Recharger tout le terrain pour appliquer les nouvelles couleurs.
+            string terrainPalette = (await masterNode.GetInputValue("palette")).GetValue<string>();
+            if (terrainPalette == "Default")
+                colorSettings.useGradient = true;
+            else
+            {
+                colorSettings.useGradient = false;
+                PaletteData palette = palettes.Find(p => p.name == terrainPalette);
+                if (palette != null)
+                    colorSettings.constraints = palette.constraints;
+                else
+                    Debug.LogWarning($"Palette '{terrainPalette}' not found!");
+            }
+            
+            chunkLoader.colorSettings = colorSettings;
+
+            if (!autoReload)
+                UpdateMesh();
+        }
+
         await ReloadPredictions();
 
-        if ((await masterNode.GetInputValue("auto_reload")).GetValue<bool>())
+        if (autoReload)
         {
             await Generate(onlyIfModified: true);
         }
@@ -302,6 +329,9 @@ public class TerrainManager : MonoBehaviour
 
         if (meshGO == null)
             meshGO = GameManager.Instance.meshGenerator.CreateMeshObject(transform, colorSettings.isEnabled);
+        
+        if (heightMap == null || heightMap.Count == 0)
+            return;
         
         if (smoothing > 0)
         {
@@ -516,4 +546,12 @@ public class ComputerSpeedTest
 
     public long GetNitroLoopScore() { return nitroLoopScore; }
     public long GetNitroThreadScore() { return nitroThreadScore; }
+}
+
+
+[System.Serializable]
+public class PaletteData
+{
+    public string name;
+    public List<ColorConstraint> constraints;
 }

@@ -1234,7 +1234,19 @@ MonoBehaviour:
       m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5890202696996012075}
+        m_TargetAssemblyTypeName: ConnectorBehaviour, Assembly-CSharp
+        m_MethodName: InputUpdated
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_AlphaFadeSpeed: 0.15
 --- !u!1001 &5799362144424414200
 PrefabInstance:
@@ -1396,6 +1408,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2257936370582402945, guid: 6cfac09dc4f7a1b4192caaa70c1669a2, type: 3}
   m_PrefabInstance: {fileID: 5799362144424414200}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5890202696996012075 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 127592835153988563, guid: 6cfac09dc4f7a1b4192caaa70c1669a2, type: 3}
+  m_PrefabInstance: {fileID: 5799362144424414200}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7399057235544915814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948acae164443d348a5afef9169c1f30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ConnectorBehaviour
 --- !u!1 &7399057235544915814 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3951278095770842270, guid: 6cfac09dc4f7a1b4192caaa70c1669a2, type: 3}

@@ -3,8 +3,8 @@
     {
       "id": "0",
       "prefab": "MasterNode",
-      "offsetX": 1100.79785,
-      "offsetY": 501.666321,
+      "offsetX": 1095.47961,
+      "offsetY": 478.3689,
       "inputs": {
         "heightmap": null,
         "size": {
@@ -15,14 +15,15 @@
         "water": false,
         "water_level": 0.4,
         "auto_reload": true,
-        "enabled_chunks": false
+        "enabled_chunks": false,
+        "palette": "Default"
       }
     },
     {
       "id": "1",
       "prefab": "PathToTexture",
-      "offsetX": 525.848755,
-      "offsetY": 485.243652,
+      "offsetX": 417.5199,
+      "offsetY": 468.4486,
       "inputs": {
         "path": ""
       }
@@ -30,8 +31,8 @@
     {
       "id": "2",
       "prefab": "TextureToHeightMap",
-      "offsetX": 817.802063,
-      "offsetY": 485.243652,
+      "offsetX": 666.087158,
+      "offsetY": 555.502747,
       "inputs": {
         "texture": null
       }
@@ -39,8 +40,8 @@
     {
       "id": "3",
       "prefab": "PerlinNoiseNode",
-      "offsetX": 914.933167,
-      "offsetY": 191.568359,
+      "offsetX": 729.348267,
+      "offsetY": 288.4622,
       "inputs": {
         "scale": 1.0,
         "octaves": 8,
@@ -58,29 +59,18 @@
     },
     {
       "id": "4",
-      "prefab": "ColorNode",
-      "offsetX": 401.392456,
-      "offsetY": 275.065369,
-      "inputs": {
-        "r": 255,
-        "g": 255,
-        "b": 255
-      }
-    },
-    {
-      "id": "5",
       "prefab": "SaveGraphNode",
-      "offsetX": 564.197266,
-      "offsetY": 117.141968,
+      "offsetX": 1095.47961,
+      "offsetY": 143.18544,
       "inputs": {
         "path": "graph"
       }
     },
     {
-      "id": "6",
+      "id": "5",
       "prefab": "LoadGraphNode",
-      "offsetX": 644.8134,
-      "offsetY": 283.9835,
+      "offsetX": 1095.47961,
+      "offsetY": 260.750427,
       "inputs": {
         "path": "graph"
       }

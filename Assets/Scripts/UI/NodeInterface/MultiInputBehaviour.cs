@@ -93,7 +93,14 @@ public class MultiInputBehaviour : MonoBehaviour
                 inputFields[0].text = value.asFloat.ToString(CultureInfo.InvariantCulture);
                 break;
             case DataType.String:
-                inputFields[0].text = value.asString;
+                if (inputFields.Count > 0)
+                    inputFields[0].text = value.asString;
+                else if (dropdown != null)
+                {
+                    int index = dropdown.options.FindIndex(option => option.text == value.asString);
+                    if (index >= 0)
+                        dropdown.value = index;
+                }
                 break;
             case DataType.Bool:
                 boolToggle.isOn = value.asBool;
