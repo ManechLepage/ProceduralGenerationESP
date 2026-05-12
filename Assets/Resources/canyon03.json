@@ -1,0 +1,939 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "prefab": "MasterNode",
+      "offsetX": 3843.87036,
+      "offsetY": 954.3577,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 256.0,
+          "y": 256.0
+        },
+        "height": 1.5,
+        "water": true,
+        "water_level": 0.27,
+        "auto_reload": false,
+        "enabled_chunks": false,
+        "palette": "Canyon"
+      }
+    },
+    {
+      "id": "5",
+      "prefab": "SaveGraphNode",
+      "offsetX": 883.4004,
+      "offsetY": 104.3475,
+      "inputs": {
+        "path": "canyon03"
+      }
+    },
+    {
+      "id": "6",
+      "prefab": "LoadGraphNode",
+      "offsetX": 884.9159,
+      "offsetY": -7.869294,
+      "inputs": {
+        "path": "graph"
+      }
+    },
+    {
+      "id": "7",
+      "prefab": "PerlinNoiseNode",
+      "offsetX": 378.265656,
+      "offsetY": 788.757446,
+      "inputs": {
+        "scale": 1.0,
+        "octaves": 8,
+        "lacunarity": 2.0,
+        "persistence": 0.5,
+        "seed": 0,
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "ridged": true,
+        "curve": null,
+        "domainmap": null
+      }
+    },
+    {
+      "id": "9",
+      "prefab": "IslandSettings",
+      "offsetX": 1164.74292,
+      "offsetY": 1103.505,
+      "inputs": {
+        "seed": 0,
+        "scale": 0.3,
+        "warp": null,
+        "Noise Curve": null,
+        "Distance Curve": null,
+        "Noise Intensity": 4.0
+      }
+    },
+    {
+      "id": "10",
+      "prefab": "MultiplyHeightmaps",
+      "offsetX": 1922.63611,
+      "offsetY": 1006.36884,
+      "inputs": {
+        "heightmap1": null,
+        "heightmap2": null
+      }
+    },
+    {
+      "id": "11",
+      "prefab": "CurveNode",
+      "offsetX": 958.0726,
+      "offsetY": 1017.06787,
+      "curveKeys": [
+        {
+          "time": 0.0,
+          "value": 0.0,
+          "inTangent": 0.0,
+          "outTangent": 0.0,
+          "inWeight": 0.333333343,
+          "outWeight": 0.333333343
+        },
+        {
+          "time": 0.0184977632,
+          "value": 2.54313164E-07,
+          "inTangent": 0.0657445639,
+          "outTangent": -1.79726362,
+          "inWeight": 0.113825239,
+          "outWeight": 0.429463863
+        },
+        {
+          "time": 0.196381718,
+          "value": 0.0,
+          "inTangent": 0.0,
+          "outTangent": 0.0,
+          "inWeight": 0.333333343,
+          "outWeight": 0.333333343
+        },
+        {
+          "time": 0.399965584,
+          "value": 0.612638056,
+          "inTangent": 2.069711,
+          "outTangent": 1.42166221,
+          "inWeight": 0.333333343,
+          "outWeight": 0.2891726
+        },
+        {
+          "time": 0.592090666,
+          "value": 0.9170212,
+          "inTangent": 1.74512684,
+          "outTangent": 0.788219452,
+          "inWeight": 0.333333343,
+          "outWeight": 0.2169235
+        },
+        {
+          "time": 0.7009337,
+          "value": 0.5471114,
+          "inTangent": 0.171109349,
+          "outTangent": 0.506973147,
+          "inWeight": 0.271852762,
+          "outWeight": 0.0868706256
+        },
+        {
+          "time": 0.970647037,
+          "value": 0.101548895,
+          "inTangent": 0.0,
+          "outTangent": 0.0,
+          "inWeight": 0.333333343,
+          "outWeight": 0.333333343
+        }
+      ],
+      "inputs": {}
+    },
+    {
+      "id": "12",
+      "prefab": "ViewNode",
+      "offsetX": 2148.9314,
+      "offsetY": 865.9282,
+      "inputs": {
+        "preview": null
+      }
+    },
+    {
+      "id": "13",
+      "prefab": "CurveNode",
+      "offsetX": -6.453152,
+      "offsetY": 797.014038,
+      "curveKeys": [
+        {
+          "time": 0.0,
+          "value": 0.0,
+          "inTangent": 0.8789457,
+          "outTangent": 0.8789457,
+          "inWeight": 0.0,
+          "outWeight": 0.333333343
+        },
+        {
+          "time": 0.217417866,
+          "value": 0.813413441,
+          "inTangent": 2.069711,
+          "outTangent": 2.069711,
+          "inWeight": 0.333333343,
+          "outWeight": 0.333333343
+        },
+        {
+          "time": 0.579756,
+          "value": 0.5832143,
+          "inTangent": 1.74512684,
+          "outTangent": 1.74512684,
+          "inWeight": 0.333333343,
+          "outWeight": 0.333333343
+        },
+        {
+          "time": 0.586517,
+          "value": 0.0,
+          "inTangent": 0.0,
+          "outTangent": 0.0,
+          "inWeight": 0.333333343,
+          "outWeight": 0.333333343
+        },
+        {
+          "time": 0.6129838,
+          "value": 0.0,
+          "inTangent": 0.0,
+          "outTangent": 0.0,
+          "inWeight": 0.333333343,
+          "outWeight": 0.333333343
+        },
+        {
+          "time": 1.0,
+          "value": 1.0,
+          "inTangent": 1.06509173,
+          "outTangent": 1.06509173,
+          "inWeight": 0.333333343,
+          "outWeight": 0.0
+        }
+      ],
+      "inputs": {}
+    },
+    {
+      "id": "14",
+      "prefab": "WarpingNode",
+      "offsetX": -87.02114,
+      "offsetY": 613.358459,
+      "inputs": {
+        "seed": 0,
+        "intensity": 1.0,
+        "scale": 1.0,
+        "flow_scale": 1.0,
+        "noise_scale": 1.0,
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        }
+      }
+    },
+    {
+      "id": "15",
+      "prefab": "VoronoiNode",
+      "offsetX": 375.643829,
+      "offsetY": 495.832153,
+      "inputs": {
+        "scale": 4.0,
+        "variation": 1.0,
+        "seed": 0,
+        "neighborhood_size": {
+          "x": 5.0,
+          "y": 5.0
+        },
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "curve": null,
+        "domainmap": null
+      }
+    },
+    {
+      "id": "16",
+      "prefab": "MultiplyHeightmaps",
+      "offsetX": 755.1759,
+      "offsetY": 729.6389,
+      "inputs": {
+        "heightmap1": null,
+        "heightmap2": null
+      }
+    },
+    {
+      "id": "17",
+      "prefab": "CurveNode",
+      "offsetX": -17.26077,
+      "offsetY": 416.2105,
+      "curveKeys": [
+        {
+          "time": 0.00646739546,
+          "value": 0.403820574,
+          "inTangent": -1.03841662,
+          "outTangent": 0.8789457,
+          "inWeight": 0.07737516,
+          "outWeight": 0.333333343
+        },
+        {
+          "time": 0.247536451,
+          "value": 0.618198752,
+          "inTangent": 2.069711,
+          "outTangent": 2.069711,
+          "inWeight": 0.333333343,
+          "outWeight": 0.333333343
+        },
+        {
+          "time": 0.482949853,
+          "value": 0.8790997,
+          "inTangent": 1.74512684,
+          "outTangent": 0.0361156836,
+          "inWeight": 0.333333343,
+          "outWeight": 0.563752055
+        },
+        {
+          "time": 0.651090264,
+          "value": 0.7210501,
+          "inTangent": 0.0,
+          "outTangent": 0.0,
+          "inWeight": 0.333333343,
+          "outWeight": 0.333333343
+        },
+        {
+          "time": 0.8567367,
+          "value": 0.838754356,
+          "inTangent": 0.0,
+          "outTangent": 0.0,
+          "inWeight": 0.333333343,
+          "outWeight": 0.333333343
+        },
+        {
+          "time": 1.0,
+          "value": 0.5066589,
+          "inTangent": 1.06509173,
+          "outTangent": -3.6956017,
+          "inWeight": 0.333333343,
+          "outWeight": 0.485617876
+        }
+      ],
+      "inputs": {}
+    },
+    {
+      "id": "18",
+      "prefab": "WarpingNode",
+      "offsetX": -83.22173,
+      "offsetY": 216.7961,
+      "inputs": {
+        "seed": 0,
+        "intensity": 10.0,
+        "scale": 1.0,
+        "flow_scale": 1.0,
+        "noise_scale": 1.0,
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        }
+      }
+    },
+    {
+      "id": "19",
+      "prefab": "RandomValueNode",
+      "offsetX": -551.4685,
+      "offsetY": 852.133545,
+      "inputs": {
+        "range": {
+          "x": 0.0,
+          "y": 1000.0
+        }
+      }
+    },
+    {
+      "id": "21",
+      "prefab": "ThermalErosionNode",
+      "offsetX": 2455.61353,
+      "offsetY": 1464.55261,
+      "inputs": {
+        "heightmap": null,
+        "steps": 25,
+        "intensity": 0.015,
+        "talus_angle": 0.125,
+        "randomness": 0.1,
+        "sediment_map": true,
+        "talus_production": 0.01
+      }
+    },
+    {
+      "id": "22",
+      "prefab": "PerlinNoiseNode",
+      "offsetX": 763.3047,
+      "offsetY": 416.202881,
+      "inputs": {
+        "scale": 3.0,
+        "octaves": 8,
+        "lacunarity": 1.0,
+        "persistence": 0.5,
+        "seed": 0,
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "ridged": false,
+        "curve": null,
+        "domainmap": null
+      }
+    },
+    {
+      "id": "23",
+      "prefab": "CurveNode",
+      "offsetX": 292.9364,
+      "offsetY": 227.237274,
+      "curveKeys": [
+        {
+          "time": 0.0,
+          "value": 0.8870984,
+          "inTangent": -8.716507,
+          "outTangent": 0.8789457,
+          "inWeight": 0.55014807,
+          "outWeight": 0.333333343
+        },
+        {
+          "time": 0.271781445,
+          "value": 0.7178045,
+          "inTangent": 2.069711,
+          "outTangent": -1.83417237,
+          "inWeight": 0.333333343,
+          "outWeight": 0.5291787
+        },
+        {
+          "time": 0.5063196,
+          "value": 0.3386502,
+          "inTangent": 1.74512684,
+          "outTangent": 1.74512684,
+          "inWeight": 0.333333343,
+          "outWeight": 0.333333343
+        },
+        {
+          "time": 0.643790662,
+          "value": 0.7340558,
+          "inTangent": 0.647434533,
+          "outTangent": 0.647434533,
+          "inWeight": 0.333333343,
+          "outWeight": 0.333333343
+        },
+        {
+          "time": 0.801186442,
+          "value": 0.559603035,
+          "inTangent": 0.0,
+          "outTangent": 0.0,
+          "inWeight": 0.333333343,
+          "outWeight": 0.333333343
+        },
+        {
+          "time": 1.0,
+          "value": 1.0,
+          "inTangent": 1.06509173,
+          "outTangent": 1.06509173,
+          "inWeight": 0.333333343,
+          "outWeight": 0.0
+        }
+      ],
+      "inputs": {}
+    },
+    {
+      "id": "24",
+      "prefab": "WarpingNode",
+      "offsetX": 248.045975,
+      "offsetY": 16.0385914,
+      "inputs": {
+        "seed": 0,
+        "intensity": 40.0,
+        "scale": 0.5,
+        "flow_scale": 1.0,
+        "noise_scale": 1.0,
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        }
+      }
+    },
+    {
+      "id": "25",
+      "prefab": "MultiplyHeightmaps",
+      "offsetX": 1080.38354,
+      "offsetY": 786.286133,
+      "inputs": {
+        "heightmap1": null,
+        "heightmap2": null
+      }
+    },
+    {
+      "id": "26",
+      "prefab": "ViewNode",
+      "offsetX": 1608.55579,
+      "offsetY": 695.1716,
+      "inputs": {
+        "preview": null
+      }
+    },
+    {
+      "id": "27",
+      "prefab": "ViewNode",
+      "offsetX": 1069.86975,
+      "offsetY": 606.298767,
+      "inputs": {
+        "preview": null
+      }
+    },
+    {
+      "id": "28",
+      "prefab": "IslandSettings",
+      "offsetX": 1339.06287,
+      "offsetY": 551.6301,
+      "inputs": {
+        "seed": 0,
+        "scale": 0.5,
+        "warp": null,
+        "Noise Curve": null,
+        "Distance Curve": null,
+        "Noise Intensity": 5.0
+      }
+    },
+    {
+      "id": "29",
+      "prefab": "CurveNode",
+      "offsetX": 1092.74731,
+      "offsetY": 428.785126,
+      "curveKeys": [
+        {
+          "time": 0.0,
+          "value": 1.0,
+          "inTangent": -2.2115,
+          "outTangent": 0.8789457,
+          "inWeight": 0.2534184,
+          "outWeight": 0.333333343
+        },
+        {
+          "time": 0.281585544,
+          "value": 0.999940336,
+          "inTangent": 0.0,
+          "outTangent": 0.0,
+          "inWeight": 0.333333343,
+          "outWeight": 0.333333343
+        },
+        {
+          "time": 0.345796466,
+          "value": 1.0,
+          "inTangent": 0.0,
+          "outTangent": 0.0,
+          "inWeight": 0.333333343,
+          "outWeight": 0.333333343
+        },
+        {
+          "time": 0.490596831,
+          "value": 0.5807474,
+          "inTangent": 0.647434533,
+          "outTangent": 0.647434533,
+          "inWeight": 0.333333343,
+          "outWeight": 0.333333343
+        },
+        {
+          "time": 0.731117666,
+          "value": 1.0,
+          "inTangent": 0.0,
+          "outTangent": 0.0,
+          "inWeight": 0.333333343,
+          "outWeight": 0.333333343
+        },
+        {
+          "time": 0.9912423,
+          "value": 0.9773617,
+          "inTangent": -0.202169225,
+          "outTangent": -2.50737548,
+          "inWeight": 0.2956114,
+          "outWeight": 0.354644418
+        },
+        {
+          "time": 1.0,
+          "value": 1.0,
+          "inTangent": 0.0,
+          "outTangent": 0.0,
+          "inWeight": 0.333333343,
+          "outWeight": 0.333333343
+        }
+      ],
+      "inputs": {}
+    },
+    {
+      "id": "30",
+      "prefab": "MultiplyHeightmaps",
+      "offsetX": 1588.9397,
+      "offsetY": 879.910461,
+      "inputs": {
+        "heightmap1": null,
+        "heightmap2": null
+      }
+    },
+    {
+      "id": "31",
+      "prefab": "ViewNode",
+      "offsetX": 1880.882,
+      "offsetY": 789.485046,
+      "inputs": {
+        "preview": null
+      }
+    },
+    {
+      "id": "32",
+      "prefab": "HydraulicErosionNode",
+      "offsetX": 2695.18018,
+      "offsetY": 1010.99359,
+      "inputs": {
+        "heightmap": null,
+        "steps": 15000,
+        "water_quantity": 0.75,
+        "intensity": 2.0,
+        "drop_radius": 2.0,
+        "max_steps_per_drop": 50
+      }
+    },
+    {
+      "id": "33",
+      "prefab": "ViewNode",
+      "offsetX": 2707.9082,
+      "offsetY": 1293.73181,
+      "inputs": {
+        "preview": null
+      }
+    },
+    {
+      "id": "36",
+      "prefab": "FluvialErosionNode",
+      "offsetX": 2384.08984,
+      "offsetY": 1001.65918,
+      "inputs": {
+        "heightmap": null,
+        "steps": 5,
+        "intensity": 5.0,
+        "water_quantity": 1.0,
+        "river_threshold": 1.5,
+        "river_intensity": 2.0
+      }
+    },
+    {
+      "id": "37",
+      "prefab": "RescaleHeightmapNode",
+      "offsetX": 3561.533,
+      "offsetY": 1047.00928,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 1024.0,
+          "y": 1024.0
+        }
+      }
+    },
+    {
+      "id": "38",
+      "prefab": "DrawTextureNode",
+      "offsetX": 938.2783,
+      "offsetY": 1337.83777,
+      "inputs": {
+        "size": {
+          "x": 256.0,
+          "y": 256.0
+        }
+      }
+    },
+    {
+      "id": "39",
+      "prefab": "TextureToHeightMap",
+      "offsetX": 1203.30066,
+      "offsetY": 1299.71887,
+      "inputs": {
+        "texture": null
+      }
+    },
+    {
+      "id": "40",
+      "prefab": "ApplyCurveNode",
+      "offsetX": 3309.228,
+      "offsetY": 1057.48669,
+      "inputs": {
+        "heightmap": null,
+        "curve": null
+      }
+    },
+    {
+      "id": "41",
+      "prefab": "CurveNode",
+      "offsetX": 3117.97632,
+      "offsetY": 913.229553,
+      "curveKeys": [
+        {
+          "time": 0.0,
+          "value": 0.0,
+          "inTangent": -0.307222962,
+          "outTangent": 0.8789457,
+          "inWeight": 0.2509531,
+          "outWeight": 0.333333343
+        },
+        {
+          "time": 0.4845143,
+          "value": 0.459238946,
+          "inTangent": 0.647434533,
+          "outTangent": 0.6603859,
+          "inWeight": 0.333333343,
+          "outWeight": 0.833221257
+        },
+        {
+          "time": 1.0,
+          "value": 0.78344965,
+          "inTangent": 0.0,
+          "outTangent": 0.0,
+          "inWeight": 0.333333343,
+          "outWeight": 0.333333343
+        }
+      ],
+      "inputs": {}
+    },
+    {
+      "id": "42",
+      "prefab": "MultiplyHeightmaps",
+      "offsetX": 1455.17053,
+      "offsetY": 1205.642,
+      "inputs": {
+        "heightmap1": null,
+        "heightmap2": null
+      }
+    }
+  ],
+  "connections": [
+    {
+      "fromNode": "37",
+      "fromOutputName": "heightmap",
+      "toNode": "0",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "19",
+      "fromOutputName": "random_value",
+      "toNode": "7",
+      "toInputName": "seed"
+    },
+    {
+      "fromNode": "13",
+      "fromOutputName": "output",
+      "toNode": "7",
+      "toInputName": "curve"
+    },
+    {
+      "fromNode": "14",
+      "fromOutputName": "domainmap",
+      "toNode": "7",
+      "toInputName": "domainmap"
+    },
+    {
+      "fromNode": "19",
+      "fromOutputName": "random_value",
+      "toNode": "9",
+      "toInputName": "seed"
+    },
+    {
+      "fromNode": "11",
+      "fromOutputName": "output",
+      "toNode": "9",
+      "toInputName": "Distance Curve"
+    },
+    {
+      "fromNode": "42",
+      "fromOutputName": "heightmap",
+      "toNode": "10",
+      "toInputName": "heightmap1"
+    },
+    {
+      "fromNode": "30",
+      "fromOutputName": "heightmap",
+      "toNode": "10",
+      "toInputName": "heightmap2"
+    },
+    {
+      "fromNode": "10",
+      "fromOutputName": "preview",
+      "toNode": "12",
+      "toInputName": "preview"
+    },
+    {
+      "fromNode": "19",
+      "fromOutputName": "random_value",
+      "toNode": "14",
+      "toInputName": "seed"
+    },
+    {
+      "fromNode": "19",
+      "fromOutputName": "random_value",
+      "toNode": "15",
+      "toInputName": "seed"
+    },
+    {
+      "fromNode": "17",
+      "fromOutputName": "output",
+      "toNode": "15",
+      "toInputName": "curve"
+    },
+    {
+      "fromNode": "18",
+      "fromOutputName": "domainmap",
+      "toNode": "15",
+      "toInputName": "domainmap"
+    },
+    {
+      "fromNode": "7",
+      "fromOutputName": "heightmap",
+      "toNode": "16",
+      "toInputName": "heightmap1"
+    },
+    {
+      "fromNode": "15",
+      "fromOutputName": "heightmap",
+      "toNode": "16",
+      "toInputName": "heightmap2"
+    },
+    {
+      "fromNode": "19",
+      "fromOutputName": "random_value",
+      "toNode": "18",
+      "toInputName": "seed"
+    },
+    {
+      "fromNode": "19",
+      "fromOutputName": "random_value",
+      "toNode": "22",
+      "toInputName": "seed"
+    },
+    {
+      "fromNode": "23",
+      "fromOutputName": "output",
+      "toNode": "22",
+      "toInputName": "curve"
+    },
+    {
+      "fromNode": "24",
+      "fromOutputName": "domainmap",
+      "toNode": "22",
+      "toInputName": "domainmap"
+    },
+    {
+      "fromNode": "19",
+      "fromOutputName": "random_value",
+      "toNode": "24",
+      "toInputName": "seed"
+    },
+    {
+      "fromNode": "16",
+      "fromOutputName": "heightmap",
+      "toNode": "25",
+      "toInputName": "heightmap1"
+    },
+    {
+      "fromNode": "22",
+      "fromOutputName": "heightmap",
+      "toNode": "25",
+      "toInputName": "heightmap2"
+    },
+    {
+      "fromNode": "25",
+      "fromOutputName": "preview",
+      "toNode": "26",
+      "toInputName": "preview"
+    },
+    {
+      "fromNode": "16",
+      "fromOutputName": "preview",
+      "toNode": "27",
+      "toInputName": "preview"
+    },
+    {
+      "fromNode": "19",
+      "fromOutputName": "random_value",
+      "toNode": "28",
+      "toInputName": "seed"
+    },
+    {
+      "fromNode": "29",
+      "fromOutputName": "output",
+      "toNode": "28",
+      "toInputName": "Distance Curve"
+    },
+    {
+      "fromNode": "25",
+      "fromOutputName": "heightmap",
+      "toNode": "30",
+      "toInputName": "heightmap1"
+    },
+    {
+      "fromNode": "28",
+      "fromOutputName": "heightmap",
+      "toNode": "30",
+      "toInputName": "heightmap2"
+    },
+    {
+      "fromNode": "30",
+      "fromOutputName": "preview",
+      "toNode": "31",
+      "toInputName": "preview"
+    },
+    {
+      "fromNode": "36",
+      "fromOutputName": "heightmap",
+      "toNode": "32",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "21",
+      "fromOutputName": "preview",
+      "toNode": "33",
+      "toInputName": "preview"
+    },
+    {
+      "fromNode": "10",
+      "fromOutputName": "heightmap",
+      "toNode": "36",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "40",
+      "fromOutputName": "heightmap",
+      "toNode": "37",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "38",
+      "fromOutputName": "texture",
+      "toNode": "39",
+      "toInputName": "texture"
+    },
+    {
+      "fromNode": "32",
+      "fromOutputName": "heightmap",
+      "toNode": "40",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "41",
+      "fromOutputName": "output",
+      "toNode": "40",
+      "toInputName": "curve"
+    },
+    {
+      "fromNode": "39",
+      "fromOutputName": "heightmap",
+      "toNode": "42",
+      "toInputName": "heightmap1"
+    },
+    {
+      "fromNode": "9",
+      "fromOutputName": "heightmap",
+      "toNode": "42",
+      "toInputName": "heightmap2"
+    }
+  ]
+}

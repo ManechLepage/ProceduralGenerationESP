@@ -23,7 +23,7 @@
       "id": "5",
       "prefab": "SaveGraphNode",
       "offsetX": 1098.02637,
-      "offsetY": 237.23291,
+      "offsetY": 237.232849,
       "inputs": {
         "path": "thermal"
       }
@@ -40,7 +40,7 @@
     {
       "id": "7",
       "prefab": "PerlinNoiseNode",
-      "offsetX": 425.597565,
+      "offsetX": 425.5969,
       "offsetY": 376.799774,
       "inputs": {
         "scale": 0.75,
@@ -60,13 +60,13 @@
     {
       "id": "8",
       "prefab": "ThermalErosionNode",
-      "offsetX": 760.7996,
-      "offsetY": 388.799927,
+      "offsetX": 761.599365,
+      "offsetY": 388.799835,
       "inputs": {
         "heightmap": null,
         "steps": 100,
         "intensity": 0.25,
-        "talus_angle": 0.1,
+        "talus_angle": 0.05,
         "randomness": 0.2,
         "sediment_map": true,
         "talus_production": 0.01

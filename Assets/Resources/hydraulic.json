@@ -4,7 +4,7 @@
       "id": "0",
       "prefab": "MasterNode",
       "offsetX": 1098.24536,
-      "offsetY": 450.7366,
+      "offsetY": 450.736633,
       "inputs": {
         "heightmap": null,
         "size": {
@@ -22,8 +22,8 @@
     {
       "id": "5",
       "prefab": "SaveGraphNode",
-      "offsetX": 1098.36462,
-      "offsetY": 234.113464,
+      "offsetX": 1098.36475,
+      "offsetY": 234.1135,
       "inputs": {
         "path": "hydraulic"
       }
@@ -31,8 +31,8 @@
     {
       "id": "6",
       "prefab": "LoadGraphNode",
-      "offsetX": 1098.738,
-      "offsetY": 120.079941,
+      "offsetX": 1098.73779,
+      "offsetY": 120.079865,
       "inputs": {
         "path": "graph"
       }
@@ -40,8 +40,8 @@
     {
       "id": "7",
       "prefab": "PerlinNoiseNode",
-      "offsetX": 465.66,
-      "offsetY": 450.698059,
+      "offsetX": 465.545959,
+      "offsetY": 450.698,
       "inputs": {
         "scale": 1.0,
         "octaves": 8,
@@ -60,8 +60,8 @@
     {
       "id": "8",
       "prefab": "HydraulicErosionNode",
-      "offsetX": 772.5673,
-      "offsetY": 448.005737,
+      "offsetX": 772.567261,
+      "offsetY": 448.0056,
       "inputs": {
         "heightmap": null,
         "steps": 50000,
@@ -74,17 +74,8 @@
     {
       "id": "9",
       "prefab": "ViewNode",
-      "offsetX": 628.552368,
-      "offsetY": 189.856552,
-      "inputs": {
-        "preview": null
-      }
-    },
-    {
-      "id": "10",
-      "prefab": "ViewNode",
-      "offsetX": 834.073853,
-      "offsetY": 188.690231,
+      "offsetX": 628.552246,
+      "offsetY": 189.800919,
       "inputs": {
         "preview": null
       }
@@ -107,12 +98,6 @@
       "fromNode": "7",
       "fromOutputName": "preview",
       "toNode": "9",
-      "toInputName": "preview"
-    },
-    {
-      "fromNode": "8",
-      "fromOutputName": "preview",
-      "toNode": "10",
       "toInputName": "preview"
     }
   ]

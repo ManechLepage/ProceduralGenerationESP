@@ -1,0 +1,141 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "prefab": "MasterNode",
+      "offsetX": 758.093,
+      "offsetY": 1197.63977,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 256.0,
+          "y": 256.0
+        },
+        "height": 1.0,
+        "water": false,
+        "water_level": 0.4,
+        "auto_reload": false,
+        "enabled_chunks": false,
+        "palette": "Default"
+      }
+    },
+    {
+      "id": "4",
+      "prefab": "SaveGraphNode",
+      "offsetX": 481.645172,
+      "offsetY": 429.641541,
+      "inputs": {
+        "path": "circle"
+      }
+    },
+    {
+      "id": "5",
+      "prefab": "LoadGraphNode",
+      "offsetX": 486.1404,
+      "offsetY": 541.4731,
+      "inputs": {
+        "path": "graph"
+      }
+    },
+    {
+      "id": "6",
+      "prefab": "IslandSettings",
+      "offsetX": 16.4095669,
+      "offsetY": 1246.98633,
+      "inputs": {
+        "seed": 0,
+        "scale": 1.0,
+        "warp": null,
+        "Noise Curve": null,
+        "Distance Curve": null,
+        "Noise Intensity": 0.0
+      }
+    },
+    {
+      "id": "8",
+      "prefab": "ThermalErosionNode",
+      "offsetX": 389.456726,
+      "offsetY": 1263.04211,
+      "inputs": {
+        "heightmap": null,
+        "steps": 10,
+        "intensity": 1000.0,
+        "talus_angle": 0.0,
+        "randomness": 0.1,
+        "sediment_map": true,
+        "talus_production": 0.01
+      }
+    },
+    {
+      "id": "10",
+      "prefab": "CurveNode",
+      "offsetX": -391.082153,
+      "offsetY": 1100.14807,
+      "curveKeys": [
+        {
+          "time": 8.477105E-08,
+          "value": 0.966246963,
+          "inTangent": -2.22068024,
+          "outTangent": 272.562958,
+          "inWeight": 0.0371769,
+          "outWeight": 4.16060972
+        },
+        {
+          "time": 0.205695137,
+          "value": 0.0,
+          "inTangent": 2.069711,
+          "outTangent": 2.069711,
+          "inWeight": 0.333333343,
+          "outWeight": 0.333333343
+        },
+        {
+          "time": 0.472093016,
+          "value": 0.5513871,
+          "inTangent": -893.961243,
+          "outTangent": 1.74512684,
+          "inWeight": 3.29924273,
+          "outWeight": 0.333333343
+        },
+        {
+          "time": 0.6606108,
+          "value": 1.0,
+          "inTangent": 0.0,
+          "outTangent": 275.510559,
+          "inWeight": 0.333333343,
+          "outWeight": 6.699479
+        },
+        {
+          "time": 0.7176095,
+          "value": 0.0,
+          "inTangent": 0.647434533,
+          "outTangent": -219.69696,
+          "inWeight": 0.333333343,
+          "outWeight": 2.08291674
+        },
+        {
+          "time": 0.99999994,
+          "value": 1.0,
+          "inTangent": 1.06509173,
+          "outTangent": -5.050238,
+          "inWeight": 0.333333343,
+          "outWeight": 0.06764715
+        }
+      ],
+      "inputs": {}
+    }
+  ],
+  "connections": [
+    {
+      "fromNode": "6",
+      "fromOutputName": "heightmap",
+      "toNode": "0",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "10",
+      "fromOutputName": "output",
+      "toNode": "6",
+      "toInputName": "Distance Curve"
+    }
+  ]
+}
