@@ -1,0 +1,119 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "prefab": "MasterNode",
+      "offsetX": 1180.07166,
+      "offsetY": 573.7264,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 256.0,
+          "y": 256.0
+        },
+        "height": 1.0,
+        "water": false,
+        "water_level": 0.4,
+        "auto_reload": true,
+        "enabled_chunks": false,
+        "palette": "Default"
+      }
+    },
+    {
+      "id": "5",
+      "prefab": "SaveGraphNode",
+      "offsetX": 1180.193,
+      "offsetY": 356.294617,
+      "inputs": {
+        "path": "fluvial"
+      }
+    },
+    {
+      "id": "6",
+      "prefab": "LoadGraphNode",
+      "offsetX": 1180.5647,
+      "offsetY": 242.252945,
+      "inputs": {
+        "path": "graph"
+      }
+    },
+    {
+      "id": "7",
+      "prefab": "PerlinNoiseNode",
+      "offsetX": 541.7694,
+      "offsetY": 471.864136,
+      "inputs": {
+        "scale": 0.5,
+        "octaves": 8,
+        "lacunarity": 2.0,
+        "persistence": 0.5,
+        "seed": 3423,
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "ridged": true,
+        "curve": null,
+        "domainmap": null
+      }
+    },
+    {
+      "id": "8",
+      "prefab": "FluvialErosionNode",
+      "offsetX": 879.730469,
+      "offsetY": 482.265,
+      "inputs": {
+        "heightmap": null,
+        "steps": 5,
+        "intensity": 5.0,
+        "water_quantity": 1.0,
+        "river_threshold": 1.5,
+        "river_intensity": 2.0
+      }
+    },
+    {
+      "id": "9",
+      "prefab": "ViewNode",
+      "offsetX": 679.3966,
+      "offsetY": 171.459869,
+      "inputs": {
+        "preview": null
+      }
+    },
+    {
+      "id": "10",
+      "prefab": "ViewNode",
+      "offsetX": 877.2106,
+      "offsetY": 175.7473,
+      "inputs": {
+        "preview": null
+      }
+    }
+  ],
+  "connections": [
+    {
+      "fromNode": "8",
+      "fromOutputName": "heightmap",
+      "toNode": "0",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "7",
+      "fromOutputName": "heightmap",
+      "toNode": "8",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "7",
+      "fromOutputName": "preview",
+      "toNode": "9",
+      "toInputName": "preview"
+    },
+    {
+      "fromNode": "8",
+      "fromOutputName": "preview",
+      "toNode": "10",
+      "toInputName": "preview"
+    }
+  ]
+}

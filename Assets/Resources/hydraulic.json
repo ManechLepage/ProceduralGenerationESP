@@ -1,0 +1,119 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "prefab": "MasterNode",
+      "offsetX": 1098.24536,
+      "offsetY": 450.7366,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 256.0,
+          "y": 256.0
+        },
+        "height": 1.0,
+        "water": false,
+        "water_level": 0.4,
+        "auto_reload": false,
+        "enabled_chunks": false,
+        "palette": "Default"
+      }
+    },
+    {
+      "id": "5",
+      "prefab": "SaveGraphNode",
+      "offsetX": 1098.36462,
+      "offsetY": 234.113464,
+      "inputs": {
+        "path": "hydraulic"
+      }
+    },
+    {
+      "id": "6",
+      "prefab": "LoadGraphNode",
+      "offsetX": 1098.738,
+      "offsetY": 120.079941,
+      "inputs": {
+        "path": "graph"
+      }
+    },
+    {
+      "id": "7",
+      "prefab": "PerlinNoiseNode",
+      "offsetX": 465.66,
+      "offsetY": 450.698059,
+      "inputs": {
+        "scale": 1.0,
+        "octaves": 8,
+        "lacunarity": 2.0,
+        "persistence": 0.5,
+        "seed": 45345,
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "ridged": true,
+        "curve": null,
+        "domainmap": null
+      }
+    },
+    {
+      "id": "8",
+      "prefab": "HydraulicErosionNode",
+      "offsetX": 772.5673,
+      "offsetY": 448.005737,
+      "inputs": {
+        "heightmap": null,
+        "steps": 50000,
+        "water_quantity": 0.75,
+        "intensity": 2.0,
+        "drop_radius": 2.0,
+        "max_steps_per_drop": 50
+      }
+    },
+    {
+      "id": "9",
+      "prefab": "ViewNode",
+      "offsetX": 628.552368,
+      "offsetY": 189.856552,
+      "inputs": {
+        "preview": null
+      }
+    },
+    {
+      "id": "10",
+      "prefab": "ViewNode",
+      "offsetX": 834.073853,
+      "offsetY": 188.690231,
+      "inputs": {
+        "preview": null
+      }
+    }
+  ],
+  "connections": [
+    {
+      "fromNode": "8",
+      "fromOutputName": "heightmap",
+      "toNode": "0",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "7",
+      "fromOutputName": "heightmap",
+      "toNode": "8",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "7",
+      "fromOutputName": "preview",
+      "toNode": "9",
+      "toInputName": "preview"
+    },
+    {
+      "fromNode": "8",
+      "fromOutputName": "preview",
+      "toNode": "10",
+      "toInputName": "preview"
+    }
+  ]
+}

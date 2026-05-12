@@ -1,0 +1,90 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "prefab": "MasterNode",
+      "offsetX": 1097.90723,
+      "offsetY": 453.85614,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 256.0,
+          "y": 256.0
+        },
+        "height": 2.0,
+        "water": false,
+        "water_level": 0.4,
+        "auto_reload": false,
+        "enabled_chunks": false,
+        "palette": "Default"
+      }
+    },
+    {
+      "id": "5",
+      "prefab": "SaveGraphNode",
+      "offsetX": 1098.02637,
+      "offsetY": 237.23291,
+      "inputs": {
+        "path": "thermal"
+      }
+    },
+    {
+      "id": "6",
+      "prefab": "LoadGraphNode",
+      "offsetX": 1098.39966,
+      "offsetY": 122.399445,
+      "inputs": {
+        "path": "graph"
+      }
+    },
+    {
+      "id": "7",
+      "prefab": "PerlinNoiseNode",
+      "offsetX": 425.597565,
+      "offsetY": 376.799774,
+      "inputs": {
+        "scale": 0.75,
+        "octaves": 8,
+        "lacunarity": 2.0,
+        "persistence": 0.5,
+        "seed": 45646,
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "ridged": true,
+        "curve": null,
+        "domainmap": null
+      }
+    },
+    {
+      "id": "8",
+      "prefab": "ThermalErosionNode",
+      "offsetX": 760.7996,
+      "offsetY": 388.799927,
+      "inputs": {
+        "heightmap": null,
+        "steps": 100,
+        "intensity": 0.25,
+        "talus_angle": 0.1,
+        "randomness": 0.2,
+        "sediment_map": true,
+        "talus_production": 0.01
+      }
+    }
+  ],
+  "connections": [
+    {
+      "fromNode": "8",
+      "fromOutputName": "heightmap",
+      "toNode": "0",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "7",
+      "fromOutputName": "heightmap",
+      "toNode": "8",
+      "toInputName": "heightmap"
+    }
+  ]
+}

@@ -18,9 +18,10 @@ public class ThermalErosionAlgorithm : MonoBehaviour
             AlgorithmRegistry.Instance.Register("TEA");
     }
 
-    float GetRandomRange(float min, float max)
+    float GetRandomRange(float min, float max, System.Random rng = null)
     {
-        System.Random rng = new System.Random();
+        if (rng == null)
+            rng = new System.Random();
         return (float)(rng.NextDouble() * (max - min) + min);
     }
     
@@ -50,6 +51,8 @@ public class ThermalErosionAlgorithm : MonoBehaviour
         int width = heightMap.Count;
         int height = heightMap[0].Count;
 
+        System.Random rng = new System.Random();
+
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
@@ -61,7 +64,7 @@ public class ThermalErosionAlgorithm : MonoBehaviour
                 List<Vector2Int> neighbors = GetNeighbors(heightMap, currentPos);
 
                 // Facteur aléatoire influençant la pente pour plus de réalisme
-                float randomFactor = GetRandomRange(1f - settings.randomness, 1f + settings.randomness) / 50f;
+                float randomFactor = GetRandomRange(1f - settings.randomness, 1f + settings.randomness, rng) / 50f;
 
                 if (settings.sedimentMap)
                 {
