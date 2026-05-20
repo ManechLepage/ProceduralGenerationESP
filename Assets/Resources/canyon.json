@@ -3,15 +3,15 @@
     {
       "id": "0",
       "prefab": "MasterNode",
-      "offsetX": 788.736938,
-      "offsetY": 382.44516,
+      "offsetX": 811.9217,
+      "offsetY": 687.8293,
       "inputs": {
         "heightmap": null,
         "size": {
           "x": 128.0,
           "y": 128.0
         },
-        "height": 1.0,
+        "height": 1.5,
         "water": false,
         "water_level": 0.4,
         "auto_reload": false,
@@ -22,8 +22,8 @@
     {
       "id": "5",
       "prefab": "SaveGraphNode",
-      "offsetX": 785.3839,
-      "offsetY": 172.832092,
+      "offsetX": 812.290344,
+      "offsetY": 481.4562,
       "inputs": {
         "path": "canyon"
       }
@@ -31,8 +31,8 @@
     {
       "id": "6",
       "prefab": "LoadGraphNode",
-      "offsetX": 786.0464,
-      "offsetY": 60.3789,
+      "offsetX": 809.248,
+      "offsetY": 364.969452,
       "inputs": {
         "path": "graph"
       }
@@ -40,17 +40,17 @@
     {
       "id": "7",
       "prefab": "PerlinNoiseNode",
-      "offsetX": -926.815063,
-      "offsetY": 218.871613,
+      "offsetX": -908.9986,
+      "offsetY": 523.7301,
       "inputs": {
-        "scale": 2.0,
+        "scale": 1.0,
         "octaves": 8,
         "lacunarity": 2.0,
         "persistence": 0.5,
         "seed": 0,
         "offset": {
           "x": 0.0,
-          "y": 0.0
+          "y": 60.0
         },
         "ridged": false,
         "curve": null,
@@ -60,8 +60,8 @@
     {
       "id": "8",
       "prefab": "CurveNode",
-      "offsetX": -1234.2124,
-      "offsetY": 62.0701065,
+      "offsetX": -1215.06909,
+      "offsetY": 366.653931,
       "curveKeys": [
         {
           "time": 0.0,
@@ -101,8 +101,8 @@
     {
       "id": "9",
       "prefab": "FluvialErosionNode",
-      "offsetX": -634.337769,
-      "offsetY": 246.223175,
+      "offsetX": -614.738037,
+      "offsetY": 551.05304,
       "inputs": {
         "heightmap": null,
         "steps": 5,
@@ -115,8 +115,8 @@
     {
       "id": "10",
       "prefab": "RescaleHeightmapNode",
-      "offsetX": -86.59915,
-      "offsetY": 274.0055,
+      "offsetX": -67.55952,
+      "offsetY": 578.8953,
       "inputs": {
         "heightmap": null,
         "size": {
@@ -128,8 +128,8 @@
     {
       "id": "11",
       "prefab": "HydraulicErosionNode",
-      "offsetX": -366.608124,
-      "offsetY": 270.160767,
+      "offsetX": -346.88,
+      "offsetY": 575.034,
       "inputs": {
         "heightmap": null,
         "steps": 25000,
@@ -142,8 +142,8 @@
     {
       "id": "12",
       "prefab": "FluvialErosionNode",
-      "offsetX": 191.661224,
-      "offsetY": 287.451233,
+      "offsetX": 211.706131,
+      "offsetY": 592.3336,
       "inputs": {
         "heightmap": null,
         "steps": 3,
@@ -156,8 +156,8 @@
     {
       "id": "13",
       "prefab": "ThermalErosionNode",
-      "offsetX": 473.2933,
-      "offsetY": 279.8574,
+      "offsetX": 494.061,
+      "offsetY": 584.740845,
       "inputs": {
         "heightmap": null,
         "steps": 5,
@@ -167,6 +167,18 @@
         "sediment_map": true,
         "talus_production": 0.01
       }
+    },
+    {
+      "id": "14",
+      "prefab": "RandomValueNode",
+      "offsetX": -1270.72119,
+      "offsetY": 510.210266,
+      "inputs": {
+        "range": {
+          "x": 0.0,
+          "y": 0.0
+        }
+      }
     }
   ],
   "connections": [
@@ -175,6 +187,12 @@
       "fromOutputName": "heightmap",
       "toNode": "0",
       "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "14",
+      "fromOutputName": "random_value",
+      "toNode": "7",
+      "toInputName": "seed"
     },
     {
       "fromNode": "8",

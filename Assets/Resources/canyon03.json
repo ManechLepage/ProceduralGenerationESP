@@ -3,8 +3,8 @@
     {
       "id": "0",
       "prefab": "MasterNode",
-      "offsetX": 3843.87036,
-      "offsetY": 954.3577,
+      "offsetX": 3722.81421,
+      "offsetY": 1706.4939,
       "inputs": {
         "heightmap": null,
         "size": {
@@ -22,8 +22,8 @@
     {
       "id": "5",
       "prefab": "SaveGraphNode",
-      "offsetX": 883.4004,
-      "offsetY": 104.3475,
+      "offsetX": 761.0213,
+      "offsetY": 857.657043,
       "inputs": {
         "path": "canyon03"
       }
@@ -31,8 +31,8 @@
     {
       "id": "6",
       "prefab": "LoadGraphNode",
-      "offsetX": 884.9159,
-      "offsetY": -7.869294,
+      "offsetX": 762.531555,
+      "offsetY": 744.019653,
       "inputs": {
         "path": "graph"
       }
@@ -40,8 +40,8 @@
     {
       "id": "7",
       "prefab": "PerlinNoiseNode",
-      "offsetX": 378.265656,
-      "offsetY": 788.757446,
+      "offsetX": 254.866714,
+      "offsetY": 1540.84985,
       "inputs": {
         "scale": 1.0,
         "octaves": 8,
@@ -60,8 +60,8 @@
     {
       "id": "9",
       "prefab": "IslandSettings",
-      "offsetX": 1164.74292,
-      "offsetY": 1103.505,
+      "offsetX": 1041.46973,
+      "offsetY": 1855.66687,
       "inputs": {
         "seed": 0,
         "scale": 0.3,
@@ -74,8 +74,8 @@
     {
       "id": "10",
       "prefab": "MultiplyHeightmaps",
-      "offsetX": 1922.63611,
-      "offsetY": 1006.36884,
+      "offsetX": 1800.767,
+      "offsetY": 1758.51709,
       "inputs": {
         "heightmap1": null,
         "heightmap2": null
@@ -84,8 +84,8 @@
     {
       "id": "11",
       "prefab": "CurveNode",
-      "offsetX": 958.0726,
-      "offsetY": 1017.06787,
+      "offsetX": 835.7192,
+      "offsetY": 1769.21265,
       "curveKeys": [
         {
           "time": 0.0,
@@ -142,6 +142,14 @@
           "outTangent": 0.0,
           "inWeight": 0.333333343,
           "outWeight": 0.333333343
+        },
+        {
+          "time": 1.0,
+          "value": 0.2696776,
+          "inTangent": 0.0,
+          "outTangent": 0.0,
+          "inWeight": 0.333333343,
+          "outWeight": 0.333333343
         }
       ],
       "inputs": {}
@@ -149,8 +157,8 @@
     {
       "id": "12",
       "prefab": "ViewNode",
-      "offsetX": 2148.9314,
-      "offsetY": 865.9282,
+      "offsetX": 2027.13574,
+      "offsetY": 1618.01233,
       "inputs": {
         "preview": null
       }
@@ -158,8 +166,8 @@
     {
       "id": "13",
       "prefab": "CurveNode",
-      "offsetX": -6.453152,
-      "offsetY": 797.014038,
+      "offsetX": -130.478333,
+      "offsetY": 1549.108,
       "curveKeys": [
         {
           "time": 0.0,
@@ -215,8 +223,8 @@
     {
       "id": "14",
       "prefab": "WarpingNode",
-      "offsetX": -87.02114,
-      "offsetY": 613.358459,
+      "offsetX": -211.1067,
+      "offsetY": 1365.41431,
       "inputs": {
         "seed": 0,
         "intensity": 1.0,
@@ -232,8 +240,8 @@
     {
       "id": "15",
       "prefab": "VoronoiNode",
-      "offsetX": 375.643829,
-      "offsetY": 495.832153,
+      "offsetX": 252.254791,
+      "offsetY": 1247.88953,
       "inputs": {
         "scale": 4.0,
         "variation": 1.0,
@@ -253,8 +261,8 @@
     {
       "id": "16",
       "prefab": "MultiplyHeightmaps",
-      "offsetX": 755.1759,
-      "offsetY": 729.6389,
+      "offsetX": 632.6944,
+      "offsetY": 1481.76929,
       "inputs": {
         "heightmap1": null,
         "heightmap2": null
@@ -263,8 +271,8 @@
     {
       "id": "17",
       "prefab": "CurveNode",
-      "offsetX": -17.26077,
-      "offsetY": 416.2105,
+      "offsetX": -141.264374,
+      "offsetY": 1168.21265,
       "curveKeys": [
         {
           "time": 0.00646739546,
@@ -320,8 +328,8 @@
     {
       "id": "18",
       "prefab": "WarpingNode",
-      "offsetX": -83.22173,
-      "offsetY": 216.7961,
+      "offsetX": -207.312668,
+      "offsetY": 968.618652,
       "inputs": {
         "seed": 0,
         "intensity": 10.0,
@@ -337,8 +345,8 @@
     {
       "id": "19",
       "prefab": "RandomValueNode",
-      "offsetX": -551.4685,
-      "offsetY": 852.133545,
+      "offsetX": -674.6455,
+      "offsetY": 1604.252,
       "inputs": {
         "range": {
           "x": 0.0,
@@ -349,8 +357,8 @@
     {
       "id": "21",
       "prefab": "ThermalErosionNode",
-      "offsetX": 2455.61353,
-      "offsetY": 1464.55261,
+      "offsetX": 2333.398,
+      "offsetY": 2216.76978,
       "inputs": {
         "heightmap": null,
         "steps": 25,
@@ -364,8 +372,8 @@
     {
       "id": "22",
       "prefab": "PerlinNoiseNode",
-      "offsetX": 763.3047,
-      "offsetY": 416.202881,
+      "offsetX": 640.835938,
+      "offsetY": 1168.21265,
       "inputs": {
         "scale": 3.0,
         "octaves": 8,
@@ -384,8 +392,8 @@
     {
       "id": "23",
       "prefab": "CurveNode",
-      "offsetX": 292.9364,
-      "offsetY": 227.237274,
+      "offsetX": 169.328735,
+      "offsetY": 979.0808,
       "curveKeys": [
         {
           "time": 0.0,
@@ -441,8 +449,8 @@
     {
       "id": "24",
       "prefab": "WarpingNode",
-      "offsetX": 248.045975,
-      "offsetY": 16.0385914,
+      "offsetX": 124.415939,
+      "offsetY": 767.9182,
       "inputs": {
         "seed": 0,
         "intensity": 40.0,
@@ -458,8 +466,8 @@
     {
       "id": "25",
       "prefab": "MultiplyHeightmaps",
-      "offsetX": 1080.38354,
-      "offsetY": 786.286133,
+      "offsetX": 957.1704,
+      "offsetY": 1538.37732,
       "inputs": {
         "heightmap1": null,
         "heightmap2": null
@@ -468,8 +476,8 @@
     {
       "id": "26",
       "prefab": "ViewNode",
-      "offsetX": 1608.55579,
-      "offsetY": 695.1716,
+      "offsetX": 1485.82056,
+      "offsetY": 1447.29407,
       "inputs": {
         "preview": null
       }
@@ -477,8 +485,8 @@
     {
       "id": "27",
       "prefab": "ViewNode",
-      "offsetX": 1069.86975,
-      "offsetY": 606.298767,
+      "offsetX": 946.5897,
+      "offsetY": 1358.35938,
       "inputs": {
         "preview": null
       }
@@ -486,8 +494,8 @@
     {
       "id": "28",
       "prefab": "IslandSettings",
-      "offsetX": 1339.06287,
-      "offsetY": 551.6301,
+      "offsetX": 1216.03,
+      "offsetY": 1303.6626,
       "inputs": {
         "seed": 0,
         "scale": 0.5,
@@ -500,8 +508,8 @@
     {
       "id": "29",
       "prefab": "CurveNode",
-      "offsetX": 1092.74731,
-      "offsetY": 428.785126,
+      "offsetX": 969.490051,
+      "offsetY": 1180.8075,
       "curveKeys": [
         {
           "time": 0.0,
@@ -565,8 +573,8 @@
     {
       "id": "30",
       "prefab": "MultiplyHeightmaps",
-      "offsetX": 1588.9397,
-      "offsetY": 879.910461,
+      "offsetX": 1466.21045,
+      "offsetY": 1631.98645,
       "inputs": {
         "heightmap1": null,
         "heightmap2": null
@@ -575,8 +583,8 @@
     {
       "id": "31",
       "prefab": "ViewNode",
-      "offsetX": 1880.882,
-      "offsetY": 789.485046,
+      "offsetX": 1758.95642,
+      "offsetY": 1541.57751,
       "inputs": {
         "preview": null
       }
@@ -584,8 +592,8 @@
     {
       "id": "32",
       "prefab": "HydraulicErosionNode",
-      "offsetX": 2695.18018,
-      "offsetY": 1010.99359,
+      "offsetX": 2573.17847,
+      "offsetY": 1763.13977,
       "inputs": {
         "heightmap": null,
         "steps": 15000,
@@ -598,8 +606,8 @@
     {
       "id": "33",
       "prefab": "ViewNode",
-      "offsetX": 2707.9082,
-      "offsetY": 1293.73181,
+      "offsetX": 2585.9104,
+      "offsetY": 2045.92212,
       "inputs": {
         "preview": null
       }
@@ -607,8 +615,8 @@
     {
       "id": "36",
       "prefab": "FluvialErosionNode",
-      "offsetX": 2384.08984,
-      "offsetY": 1001.65918,
+      "offsetX": 2261.81177,
+      "offsetY": 1753.80408,
       "inputs": {
         "heightmap": null,
         "steps": 5,
@@ -621,8 +629,8 @@
     {
       "id": "37",
       "prefab": "RescaleHeightmapNode",
-      "offsetX": 3561.533,
-      "offsetY": 1047.00928,
+      "offsetX": 3440.48779,
+      "offsetY": 1799.1626,
       "inputs": {
         "heightmap": null,
         "size": {
@@ -634,8 +642,8 @@
     {
       "id": "38",
       "prefab": "DrawTextureNode",
-      "offsetX": 938.2783,
-      "offsetY": 1337.83777,
+      "offsetX": 815.930359,
+      "offsetY": 2090.03638,
       "inputs": {
         "size": {
           "x": 256.0,
@@ -646,8 +654,8 @@
     {
       "id": "39",
       "prefab": "TextureToHeightMap",
-      "offsetX": 1203.30066,
-      "offsetY": 1299.71887,
+      "offsetX": 1080.05591,
+      "offsetY": 2051.90723,
       "inputs": {
         "texture": null
       }
@@ -655,8 +663,8 @@
     {
       "id": "40",
       "prefab": "ApplyCurveNode",
-      "offsetX": 3309.228,
-      "offsetY": 1057.48669,
+      "offsetX": 3188.13013,
+      "offsetY": 1809.64233,
       "inputs": {
         "heightmap": null,
         "curve": null
@@ -665,8 +673,8 @@
     {
       "id": "41",
       "prefab": "CurveNode",
-      "offsetX": 3117.97632,
-      "offsetY": 913.229553,
+      "offsetX": 2996.524,
+      "offsetY": 1665.35938,
       "curveKeys": [
         {
           "time": 0.0,
@@ -698,8 +706,8 @@
     {
       "id": "42",
       "prefab": "MultiplyHeightmaps",
-      "offsetX": 1455.17053,
-      "offsetY": 1205.642,
+      "offsetX": 1332.22192,
+      "offsetY": 1957.81653,
       "inputs": {
         "heightmap1": null,
         "heightmap2": null
@@ -922,12 +930,6 @@
       "fromOutputName": "output",
       "toNode": "40",
       "toInputName": "curve"
-    },
-    {
-      "fromNode": "39",
-      "fromOutputName": "heightmap",
-      "toNode": "42",
-      "toInputName": "heightmap1"
     },
     {
       "fromNode": "9",

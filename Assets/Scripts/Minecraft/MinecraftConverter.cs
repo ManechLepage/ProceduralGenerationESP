@@ -53,19 +53,18 @@ public class MinecraftConverter : MonoBehaviour
                 int undergroundStart = -1;
                 int surfaceStart = blockHeight;
 
+                int n1Height = (z > 0) ? heightMapArray[x, z - 1] : blockHeight;
+                int n2Height = (z < length - 1) ? heightMapArray[x, z + 1] : blockHeight;
+                int n3Height = (x > 0) ? heightMapArray[x - 1, z] : blockHeight;
+                int n4Height = (x < width - 1) ? heightMapArray[x + 1, z] : blockHeight;
+
+                int minNeighborHeight = Mathf.Min(n1Height, n2Height, n3Height, n4Height);
+
+                int groundLevel = Mathf.Min(blockHeight, minNeighborHeight);
+                surfaceStart = groundLevel;
+
                 if (settings.blockPalette.hasUnderground)
-                {
-                    int n1Height = (z > 0) ? heightMapArray[x, z - 1] : blockHeight;
-                    int n2Height = (z < length - 1) ? heightMapArray[x, z + 1] : blockHeight;
-                    int n3Height = (x > 0) ? heightMapArray[x - 1, z] : blockHeight;
-                    int n4Height = (x < width - 1) ? heightMapArray[x + 1, z] : blockHeight;
-
-                    int minNeighborHeight = Mathf.Min(n1Height, n2Height, n3Height, n4Height);
-
-                    int groundLevel = Mathf.Min(blockHeight, minNeighborHeight);
-                    surfaceStart = groundLevel;
                     undergroundStart = Mathf.Min(blockHeight - 1, groundLevel - settings.blockPalette.undergroundDepth);
-                }
                 
                 for (int y = 0; y <= blockHeight; y++)
                 {

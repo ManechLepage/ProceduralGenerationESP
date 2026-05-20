@@ -1,0 +1,113 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "prefab": "MasterNode",
+      "offsetX": -4345.38672,
+      "offsetY": 307.010071,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 256.0,
+          "y": 256.0
+        },
+        "height": 1.0,
+        "water": false,
+        "water_level": 0.6,
+        "auto_reload": true,
+        "enabled_chunks": false,
+        "palette": "Elevation"
+      }
+    },
+    {
+      "id": "5",
+      "prefab": "SaveGraphNode",
+      "offsetX": -4346.05273,
+      "offsetY": 89.9157944,
+      "inputs": {
+        "path": "thermal1"
+      }
+    },
+    {
+      "id": "6",
+      "prefab": "LoadGraphNode",
+      "offsetX": -4345.69434,
+      "offsetY": -24.9482689,
+      "inputs": {
+        "path": "graph"
+      }
+    },
+    {
+      "id": "7",
+      "prefab": "PerlinNoiseNode",
+      "offsetX": -5021.391,
+      "offsetY": 229.579971,
+      "inputs": {
+        "scale": 2.0,
+        "octaves": 8,
+        "lacunarity": 2.0,
+        "persistence": 0.5,
+        "seed": 45646,
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "ridged": true,
+        "curve": null,
+        "domainmap": null
+      }
+    },
+    {
+      "id": "8",
+      "prefab": "ThermalErosionNode",
+      "offsetX": -4685.08057,
+      "offsetY": 241.566925,
+      "inputs": {
+        "heightmap": null,
+        "steps": 300,
+        "intensity": 0.25,
+        "talus_angle": 0.003,
+        "randomness": 0.2,
+        "sediment_map": true,
+        "talus_production": 0.01
+      }
+    },
+    {
+      "id": "9",
+      "prefab": "WarpingNode",
+      "offsetX": -5397.93262,
+      "offsetY": 122.57885,
+      "inputs": {
+        "seed": 0,
+        "intensity": 10.0,
+        "scale": 1.0,
+        "flow_scale": 1.0,
+        "noise_scale": 1.0,
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "fromNode": "8",
+      "fromOutputName": "heightmap",
+      "toNode": "0",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "9",
+      "fromOutputName": "domainmap",
+      "toNode": "7",
+      "toInputName": "domainmap"
+    },
+    {
+      "fromNode": "7",
+      "fromOutputName": "heightmap",
+      "toNode": "8",
+      "toInputName": "heightmap"
+    }
+  ]
+}

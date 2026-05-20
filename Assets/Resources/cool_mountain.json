@@ -1,0 +1,233 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "prefab": "MasterNode",
+      "offsetX": -3631.97241,
+      "offsetY": -156.168243,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 128.0,
+          "y": 128.0
+        },
+        "height": 2.0,
+        "water": false,
+        "water_level": 0.4,
+        "auto_reload": false,
+        "enabled_chunks": false,
+        "palette": "Default"
+      }
+    },
+    {
+      "id": "5",
+      "prefab": "SaveGraphNode",
+      "offsetX": -3628.74585,
+      "offsetY": -373.9446,
+      "inputs": {
+        "path": "cool_mountain"
+      }
+    },
+    {
+      "id": "6",
+      "prefab": "LoadGraphNode",
+      "offsetX": -3628.36572,
+      "offsetY": -488.023071,
+      "inputs": {
+        "path": "graph"
+      }
+    },
+    {
+      "id": "7",
+      "prefab": "PerlinNoiseNode",
+      "offsetX": -4788.79346,
+      "offsetY": 351.2564,
+      "inputs": {
+        "scale": 0.5,
+        "octaves": 8,
+        "lacunarity": 2.0,
+        "persistence": 0.5,
+        "seed": 3423,
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "ridged": true,
+        "curve": null,
+        "domainmap": null
+      }
+    },
+    {
+      "id": "8",
+      "prefab": "FluvialErosionNode",
+      "offsetX": -4530.89746,
+      "offsetY": 225.2789,
+      "inputs": {
+        "heightmap": null,
+        "steps": 5,
+        "intensity": 5.0,
+        "water_quantity": 1.0,
+        "river_threshold": 1.5,
+        "river_intensity": 2.0
+      }
+    },
+    {
+      "id": "9",
+      "prefab": "ViewNode",
+      "offsetX": -4480.05225,
+      "offsetY": 466.57782,
+      "inputs": {
+        "preview": null
+      }
+    },
+    {
+      "id": "10",
+      "prefab": "ThermalErosionNode",
+      "offsetX": -4237.40234,
+      "offsetY": 193.459976,
+      "inputs": {
+        "heightmap": null,
+        "steps": 75,
+        "intensity": 0.25,
+        "talus_angle": 0.05,
+        "randomness": 0.1,
+        "sediment_map": true,
+        "talus_production": 0.01
+      }
+    },
+    {
+      "id": "12",
+      "prefab": "RescaleHeightmapNode",
+      "offsetX": -4558.32129,
+      "offsetY": -101.753868,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 512.0,
+          "y": 512.0
+        }
+      }
+    },
+    {
+      "id": "13",
+      "prefab": "FluvialErosionNode",
+      "offsetX": -4252.94727,
+      "offsetY": -118.863846,
+      "inputs": {
+        "heightmap": null,
+        "steps": 5,
+        "intensity": 1.5,
+        "water_quantity": 1.0,
+        "river_threshold": 1.5,
+        "river_intensity": 2.0
+      }
+    },
+    {
+      "id": "14",
+      "prefab": "RescaleHeightmapNode",
+      "offsetX": -3987.685,
+      "offsetY": -123.196304,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 1024.0,
+          "y": 1024.0
+        }
+      }
+    },
+    {
+      "id": "15",
+      "prefab": "HydraulicErosionNode",
+      "offsetX": -3932.853,
+      "offsetY": 207.367935,
+      "inputs": {
+        "heightmap": null,
+        "steps": 25000,
+        "water_quantity": 0.75,
+        "intensity": 2.0,
+        "drop_radius": 2.0,
+        "max_steps_per_drop": 50
+      }
+    },
+    {
+      "id": "16",
+      "prefab": "ViewNode",
+      "offsetX": -3900.828,
+      "offsetY": 448.4921,
+      "inputs": {
+        "preview": null
+      }
+    },
+    {
+      "id": "17",
+      "prefab": "ViewNode",
+      "offsetX": -4192.993,
+      "offsetY": 452.6751,
+      "inputs": {
+        "preview": null
+      }
+    }
+  ],
+  "connections": [
+    {
+      "fromNode": "14",
+      "fromOutputName": "heightmap",
+      "toNode": "0",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "7",
+      "fromOutputName": "heightmap",
+      "toNode": "8",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "8",
+      "fromOutputName": "preview",
+      "toNode": "9",
+      "toInputName": "preview"
+    },
+    {
+      "fromNode": "8",
+      "fromOutputName": "heightmap",
+      "toNode": "10",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "15",
+      "fromOutputName": "heightmap",
+      "toNode": "12",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "12",
+      "fromOutputName": "heightmap",
+      "toNode": "13",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "13",
+      "fromOutputName": "heightmap",
+      "toNode": "14",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "10",
+      "fromOutputName": "heightmap",
+      "toNode": "15",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "15",
+      "fromOutputName": "preview",
+      "toNode": "16",
+      "toInputName": "preview"
+    },
+    {
+      "fromNode": "10",
+      "fromOutputName": "preview",
+      "toNode": "17",
+      "toInputName": "preview"
+    }
+  ]
+}
