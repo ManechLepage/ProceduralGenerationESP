@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class SchematicConverter : MonoBehaviour
 {
-    public static void Export(int[,,] blockMap, Dictionary<string, int> paletteDict, string filePath)
+    public static void Export(int[,,] blockMap, Dictionary<string, int> paletteDict, string filePath, int dataVersion = 4125)
     {
         int W = blockMap.GetLength(0);
         int H = blockMap.GetLength(1);
@@ -31,7 +31,7 @@ public class SchematicConverter : MonoBehaviour
 
         var schematic = new NbtCompound("Schematic") {
             new NbtInt("Version", 2),
-            new NbtInt("DataVersion", 4125),
+            new NbtInt("DataVersion", dataVersion),
             new NbtShort("Width",  (short)W),
             new NbtShort("Height", (short)H),
             new NbtShort("Length", (short)L),
