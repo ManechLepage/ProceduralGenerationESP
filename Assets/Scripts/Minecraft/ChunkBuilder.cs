@@ -34,7 +34,8 @@ public static class ChunkBuilder
         int worldMinY,
         string biomeName = "minecraft:plains",
         int dataVersion = 4325,
-        int maxNonAirY = int.MaxValue)
+        int maxNonAirY = int.MaxValue,
+        int waterLevel = -1)
     {
         int height = blocks.GetLength(1);
         if (height % SectionHeight != 0)
@@ -53,7 +54,7 @@ public static class ChunkBuilder
             sbyte sectionY = (sbyte)(lowestSectionY + s);
             int yOffset = s * SectionHeight;
 
-            if (yOffset > maxNonAirY)
+            if (yOffset > maxNonAirY && (yOffset - worldMinY > waterLevel))
             {
                 sectionsList.Add(SectionEncoder.EncodeUniformSection((sbyte)(lowestSectionY + s), "minecraft:air"));
                 continue;

@@ -218,6 +218,8 @@ public class MinecraftConverterSettings
     public int height = 50;
     public bool onlySurface = false;
 
+    public int waterLevel = -1; // -1 means no water, otherwise it's the y level of water surface
+
     [Space]
     public BlockPalette blockPalette;
 }

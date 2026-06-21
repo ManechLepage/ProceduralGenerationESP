@@ -26,7 +26,7 @@ public static class WorldExporter
     public delegate (BlockState[,,] Blocks, int MaxNonAirY) ChunkBlockGenerator(int chunkWorldX, int chunkWorldZ);
 
     public static void ExportWorld(string worldFolderPath, int sizeX, int height, int sizeZ, ChunkBlockGenerator generateChunk, int worldMinY,
-    string worldName = "Exported World", int originChunkX = 0, int originChunkZ = 0, string biome = "minecraft:plains")
+    string worldName = "Exported World", int originChunkX = 0, int originChunkZ = 0, string biome = "minecraft:plains", int waterLevel = -1)
     {
         if (sizeX % ChunkBuilder.ChunkSize != 0 || sizeZ % ChunkBuilder.ChunkSize != 0)
             throw new ArgumentException("X et Z doivent être multiples de 16");
@@ -41,7 +41,7 @@ public static class WorldExporter
         {
             int chunkWorldX = originChunkX + cx, chunkWorldZ = originChunkZ + cz;
             var (chunkBlocks, maxNonAirY) = generateChunk(chunkWorldX, chunkWorldZ);
-            var chunk = ChunkBuilder.BuildChunk(chunkWorldX, chunkWorldZ, chunkBlocks, worldMinY, biome, maxNonAirY: maxNonAirY);
+            var chunk = ChunkBuilder.BuildChunk(chunkWorldX, chunkWorldZ, chunkBlocks, worldMinY, biome, maxNonAirY: maxNonAirY, waterLevel: waterLevel);
 
             var regionKey = (chunkWorldX >> 5, chunkWorldZ >> 5);
             if (!regions.TryGetValue(regionKey, out var regionChunks))

@@ -1,0 +1,285 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "prefab": "MasterNode",
+      "offsetX": 997.880066,
+      "offsetY": 739.8883,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 256.0,
+          "y": 256.0
+        },
+        "height": 1.0,
+        "water": false,
+        "water_level": 0.4,
+        "auto_reload": true,
+        "enabled_chunks": false,
+        "palette": "Default"
+      }
+    },
+    {
+      "id": "3",
+      "prefab": "PerlinNoiseNode",
+      "offsetX": -238.1515,
+      "offsetY": 499.435516,
+      "inputs": {
+        "scale": 4.0,
+        "octaves": 16,
+        "lacunarity": 2.0,
+        "persistence": 0.5,
+        "seed": 345,
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "ridged": false,
+        "curve": null,
+        "domainmap": null
+      }
+    },
+    {
+      "id": "4",
+      "prefab": "SaveGraphNode",
+      "offsetX": 992.7823,
+      "offsetY": 372.3996,
+      "inputs": {
+        "path": "curve_mountains"
+      }
+    },
+    {
+      "id": "5",
+      "prefab": "LoadGraphNode",
+      "offsetX": 1000.06219,
+      "offsetY": 505.19043,
+      "inputs": {
+        "path": "graph"
+      }
+    },
+    {
+      "id": "6",
+      "prefab": "VoronoiNode",
+      "offsetX": -243.594131,
+      "offsetY": 839.487366,
+      "inputs": {
+        "scale": 2.0,
+        "variation": 0.75,
+        "seed": 324,
+        "neighborhood_size": {
+          "x": 3.0,
+          "y": 3.0
+        },
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "curve": null,
+        "domainmap": null
+      }
+    },
+    {
+      "id": "7",
+      "prefab": "WarpingNode",
+      "offsetX": -606.9611,
+      "offsetY": 686.976868,
+      "inputs": {
+        "seed": 0,
+        "intensity": 10.0,
+        "scale": 1.0,
+        "flow_scale": 1.0,
+        "noise_scale": 1.0,
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        }
+      }
+    },
+    {
+      "id": "8",
+      "prefab": "AddHeightmapsNode",
+      "offsetX": 81.8136139,
+      "offsetY": 663.4863,
+      "inputs": {
+        "heightmap1": null,
+        "heightmap2": null
+      }
+    },
+    {
+      "id": "9",
+      "prefab": "ViewNode",
+      "offsetX": 106.9715,
+      "offsetY": 416.922119,
+      "inputs": {
+        "preview": null
+      }
+    },
+    {
+      "id": "10",
+      "prefab": "CurveNode",
+      "offsetX": -562.6499,
+      "offsetY": 889.1179,
+      "curveKeys": [
+        {
+          "time": 0.0,
+          "value": 0.119660184,
+          "inTangent": 0.93043685,
+          "outTangent": 0.09833414,
+          "inWeight": 0.07246294,
+          "outWeight": 1.21043289
+        },
+        {
+          "time": 0.507767141,
+          "value": 0.727557361,
+          "inTangent": 1.01540422,
+          "outTangent": 0.9375428,
+          "inWeight": 0.347230136,
+          "outWeight": 0.4745806
+        },
+        {
+          "time": 1.0,
+          "value": 1.0,
+          "inTangent": 0.0207695551,
+          "outTangent": 1.65589976,
+          "inWeight": 0.953459561,
+          "outWeight": 0.0550156161
+        }
+      ],
+      "inputs": {}
+    },
+    {
+      "id": "11",
+      "prefab": "CurveNode",
+      "offsetX": -544.522156,
+      "offsetY": 353.825073,
+      "curveKeys": [
+        {
+          "time": 8.477105E-08,
+          "value": 0.0,
+          "inTangent": 6.14226675,
+          "outTangent": 0.6507954,
+          "inWeight": 0.0146258343,
+          "outWeight": 0.437662184
+        },
+        {
+          "time": 0.99999994,
+          "value": 0.465400279,
+          "inTangent": 0.6455914,
+          "outTangent": 1.06509173,
+          "inWeight": 0.4172296,
+          "outWeight": 0.0
+        }
+      ],
+      "inputs": {}
+    },
+    {
+      "id": "12",
+      "prefab": "FluvialErosionNode",
+      "offsetX": 342.334167,
+      "offsetY": 649.7248,
+      "inputs": {
+        "heightmap": null,
+        "steps": 5,
+        "intensity": 5.0,
+        "water_quantity": 1.0,
+        "river_threshold": 1.5,
+        "river_intensity": 2.0
+      }
+    },
+    {
+      "id": "13",
+      "prefab": "HydraulicErosionNode",
+      "offsetX": 644.3451,
+      "offsetY": 715.7132,
+      "inputs": {
+        "heightmap": null,
+        "steps": 50000,
+        "water_quantity": 0.75,
+        "intensity": 2.0,
+        "drop_radius": 2.0,
+        "max_steps_per_drop": 50
+      }
+    },
+    {
+      "id": "14",
+      "prefab": "MinecraftWorldExportNode",
+      "offsetX": 726.0686,
+      "offsetY": 360.962616,
+      "inputs": {
+        "heightmap": null,
+        "path": "Curves",
+        "size": {
+          "x": 1024.0,
+          "y": 1024.0
+        },
+        "height": 176,
+        "only_surface": null,
+        "block_palette": "Default",
+        "biome": "Forest",
+        "water_level": 48
+      }
+    }
+  ],
+  "connections": [
+    {
+      "fromNode": "13",
+      "fromOutputName": "heightmap",
+      "toNode": "0",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "11",
+      "fromOutputName": "output",
+      "toNode": "3",
+      "toInputName": "curve"
+    },
+    {
+      "fromNode": "10",
+      "fromOutputName": "output",
+      "toNode": "6",
+      "toInputName": "curve"
+    },
+    {
+      "fromNode": "7",
+      "fromOutputName": "domainmap",
+      "toNode": "6",
+      "toInputName": "domainmap"
+    },
+    {
+      "fromNode": "6",
+      "fromOutputName": "heightmap",
+      "toNode": "8",
+      "toInputName": "heightmap1"
+    },
+    {
+      "fromNode": "3",
+      "fromOutputName": "heightmap",
+      "toNode": "8",
+      "toInputName": "heightmap2"
+    },
+    {
+      "fromNode": "8",
+      "fromOutputName": "preview",
+      "toNode": "9",
+      "toInputName": "preview"
+    },
+    {
+      "fromNode": "8",
+      "fromOutputName": "heightmap",
+      "toNode": "12",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "12",
+      "fromOutputName": "heightmap",
+      "toNode": "13",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "13",
+      "fromOutputName": "heightmap",
+      "toNode": "14",
+      "toInputName": "heightmap"
+    }
+  ]
+}

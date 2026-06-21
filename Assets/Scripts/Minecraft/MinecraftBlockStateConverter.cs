@@ -5,6 +5,7 @@ public class MinecraftBlockStateConverter
 {
     private static readonly BlockState Air = new BlockState("minecraft:air");
     private static readonly BlockState Stone = new BlockState("minecraft:stone");
+    private static readonly BlockState Water = new BlockState("minecraft:water");
 
     public (BlockState[,,] Blocks, int MaxNonAirY) CreateChunkBlockState(List<List<float>> heightMap, MinecraftConverterSettings settings, int chunkWorldX, int chunkWorldZ)
     {
@@ -95,7 +96,14 @@ public class MinecraftBlockStateConverter
 
                 for (int y = blockHeight + 1; y < height; y++)
                 {
-                    blockState[x, y, z] = Air;
+                    if (y <= settings.waterLevel)
+                    {
+                        blockState[x, y, z] = Water;
+                    }
+                    else
+                    {
+                        blockState[x, y, z] = Air;
+                    }
                 }
             }
         }

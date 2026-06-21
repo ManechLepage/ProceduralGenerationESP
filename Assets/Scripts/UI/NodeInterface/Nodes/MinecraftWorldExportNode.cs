@@ -32,7 +32,7 @@ public class MinecraftWorldExportNode : NodeBehaviour
         MinecraftBlockStateConverter minecraftBlockStateConverter = new MinecraftBlockStateConverter();
         WorldExporter.ExportWorld(worldPath, settings.size.x, settings.height, settings.size.y, 
             (chunkX, chunkZ) => minecraftBlockStateConverter.CreateChunkBlockState(heightMap, settings, chunkX, chunkZ), 
-            worldMinY: 0, worldName: path, biome: biome);
+            worldMinY: 0, worldName: path, biome: biome, waterLevel: settings.waterLevel);
 
         UnityEditor.AssetDatabase.Refresh();
 
@@ -52,6 +52,7 @@ public class MinecraftWorldExportNode : NodeBehaviour
         string block_palette = (await GetInputValue("block_palette")).GetValue<string>();
 
         settings.height = (await GetInputValue("height")).GetValue<int>();
+        settings.waterLevel = (await GetInputValue("water_level")).GetValue<int>();
         settings.onlySurface = (await GetInputValue("only_surface")).GetValue<bool>();
         settings.blockPalette = GetBlockPaletteByName(block_palette);
 
