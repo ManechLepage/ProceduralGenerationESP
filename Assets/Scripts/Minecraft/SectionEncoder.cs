@@ -194,4 +194,20 @@ public static class SectionEncoder
         }
         return bits;
     }
+
+    public static NbtCompound EncodeUniformSection(sbyte sectionY, string blockName, string biomeName = "minecraft:plains")
+    {
+        return new NbtCompound
+        {
+            new NbtByte("Y", (byte)sectionY),
+            new NbtCompound("block_states")
+            {
+                new NbtList("palette", NbtTagType.Compound) { new NbtCompound { new NbtString("Name", blockName) } }
+            },
+            new NbtCompound("biomes")
+            {
+                new NbtList("palette", NbtTagType.String) { new NbtString(biomeName) }
+            }
+        };
+    }
 }

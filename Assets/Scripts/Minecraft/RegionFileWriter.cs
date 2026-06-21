@@ -30,7 +30,7 @@ Format (à vérifier contre un vrai fichier région si quelque chose ne charge p
 public class RegionFileWriter
 {
     private const int SectorSize = 4096;
-    private const int ChunksPerRegion = 32;
+    public const int ChunksPerRegion = 32;
 
     // chunks : clé = coordonnées locales (0-31, 0-31) dans la région, valeur = chunk NBT (root, sans nom)
     public static void WriteRegionFile(string path, Dictionary<(int x, int z), NbtCompound> chunks)

@@ -33,7 +33,8 @@ public static class ChunkBuilder
         BlockState[,,] blocks,
         int worldMinY,
         string biomeName = "minecraft:plains",
-        int dataVersion = 4325)
+        int dataVersion = 4325,
+        int maxNonAirY = int.MaxValue)
     {
         int height = blocks.GetLength(1);
         if (height % SectionHeight != 0)
@@ -51,6 +52,12 @@ public static class ChunkBuilder
         {
             sbyte sectionY = (sbyte)(lowestSectionY + s);
             int yOffset = s * SectionHeight;
+
+            if (yOffset > maxNonAirY)
+            {
+                sectionsList.Add(SectionEncoder.EncodeUniformSection((sbyte)(lowestSectionY + s), "minecraft:air"));
+                continue;
+            }
 
             var sectionBlocks = new BlockState[SectionEncoder.BlocksPerSection];
             for (int x = 0; x < ChunkSize; x++)
@@ -88,13 +95,28 @@ public static class ChunkBuilder
             new NbtInt("xPos", chunkX),
             new NbtInt("zPos", chunkZ),
             new NbtInt("yPos", lowestSectionY),
-            new NbtString("Status", "minecraft:full"),
+            new NbtString("Status", "minecraft:carvers"),   // au lieu de "minecraft:full"
             new NbtLong("LastUpdate", 0),
             new NbtLong("InhabitedTime", 0),
             new NbtByte("isLightOn", 0), // force le recalcul de la lumière au premier chargement
             sectionsList,
             heightmaps
         };
+    }
+
+    public static NbtCompound BuildChunkFromGrid(
+        int chunkX, int chunkZ,
+        BlockState[,,] fullGrid, int gridOffsetX, int gridOffsetZ,
+        int worldMinY, string biomeName = "minecraft:plains", int dataVersion = 4325)
+    {
+        int height = fullGrid.GetLength(1);
+        var blocks = new BlockState[ChunkSize, height, ChunkSize];
+        for (int x = 0; x < ChunkSize; x++)
+        for (int y = 0; y < height; y++)
+        for (int z = 0; z < ChunkSize; z++)
+            blocks[x, y, z] = fullGrid[gridOffsetX + x, y, gridOffsetZ + z];
+
+        return BuildChunk(chunkX, chunkZ, blocks, worldMinY, biomeName, dataVersion);
     }
 
     // Raccourci pour un chunk de test 100% pierre sous Y=0, air au-dessus.

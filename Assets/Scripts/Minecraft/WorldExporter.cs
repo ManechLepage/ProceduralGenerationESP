@@ -23,7 +23,41 @@ level.dat d'un vrai monde 1.21.5 fraîchement créé.
 
 public static class WorldExporter
 {
-    public static void ExportTestWorld(string worldFolderPath, string worldName = "Test Stone World")
+    public delegate (BlockState[,,] Blocks, int MaxNonAirY) ChunkBlockGenerator(int chunkWorldX, int chunkWorldZ);
+
+    public static void ExportWorld(string worldFolderPath, int sizeX, int height, int sizeZ, ChunkBlockGenerator generateChunk, int worldMinY,
+    string worldName = "Exported World", int originChunkX = 0, int originChunkZ = 0, string biome = "minecraft:plains")
+    {
+        if (sizeX % ChunkBuilder.ChunkSize != 0 || sizeZ % ChunkBuilder.ChunkSize != 0)
+            throw new ArgumentException("X et Z doivent être multiples de 16");
+
+        Directory.CreateDirectory(worldFolderPath);
+        Directory.CreateDirectory(Path.Combine(worldFolderPath, "region"));
+
+        var regions = new Dictionary<(int, int), Dictionary<(int, int), NbtCompound>>();
+
+        for (int cx = 0; cx < sizeX / ChunkBuilder.ChunkSize; cx++)
+        for (int cz = 0; cz < sizeZ / ChunkBuilder.ChunkSize; cz++)
+        {
+            int chunkWorldX = originChunkX + cx, chunkWorldZ = originChunkZ + cz;
+            var (chunkBlocks, maxNonAirY) = generateChunk(chunkWorldX, chunkWorldZ);
+            var chunk = ChunkBuilder.BuildChunk(chunkWorldX, chunkWorldZ, chunkBlocks, worldMinY, biome, maxNonAirY: maxNonAirY);
+
+            var regionKey = (chunkWorldX >> 5, chunkWorldZ >> 5);
+            if (!regions.TryGetValue(regionKey, out var regionChunks))
+                regions[regionKey] = regionChunks = new Dictionary<(int, int), NbtCompound>();
+            regionChunks[(chunkWorldX & 31, chunkWorldZ & 31)] = chunk;
+        }
+
+        foreach (var kvp in regions)
+            RegionFileWriter.WriteRegionFile(
+                Path.Combine(worldFolderPath, "region", $"r.{kvp.Key.Item1}.{kvp.Key.Item2}.mca"),
+                kvp.Value);
+
+        WriteLevelDat(Path.Combine(worldFolderPath, "level.dat"), worldName, biome);
+    }
+
+    public static void ExportTestWorld(string worldFolderPath, string worldName = "Test Stone World", string biome = "minecraft:plains")
     {
         Directory.CreateDirectory(worldFolderPath);
         Directory.CreateDirectory(Path.Combine(worldFolderPath, "region"));
@@ -37,13 +71,14 @@ public static class WorldExporter
         RegionFileWriter.WriteRegionFile(regionPath, chunks);
 
         // 3. level.dat minimal
-        WriteLevelDat(Path.Combine(worldFolderPath, "level.dat"), worldName);
+        WriteLevelDat(Path.Combine(worldFolderPath, "level.dat"), worldName, biome);
     }
 
-    private static void WriteLevelDat(string path, string worldName)
+    private static void WriteLevelDat(string path, string worldName, string biome = "minecraft:plains")
     {
         var data = new NbtCompound("Data")
         {
+            new NbtInt("version", 19133),
             new NbtInt("DataVersion", 4325),
             new NbtCompound("Version")
             {
@@ -52,7 +87,7 @@ public static class WorldExporter
                 new NbtString("Series", "main"),
                 new NbtByte("Snapshot", 0)
             },
-            BuildWorldGenSettings(seed: 0),
+            BuildWorldGenSettings(seed: 0, biome),
             new NbtString("LevelName", worldName),
             new NbtLong("LastPlayed", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()),
             new NbtInt("SpawnX", 8),
@@ -82,7 +117,7 @@ public static class WorldExporter
     // que "minecraft:noise", donc moins risqué à deviner sans pouvoir vérifier en ce moment.
     // Le contenu réel généré n'a pas d'importance ici puisque notre seul chunk a Status=full
     // (le jeu ne le régénère pas) -- ceci sert juste à satisfaire le codec de WorldGenSettings.
-    private static NbtCompound BuildWorldGenSettings(long seed)
+    private static NbtCompound BuildWorldGenSettings(long seed, string biome = "minecraft:plains")
     {
         return new NbtCompound("WorldGenSettings")
         {
@@ -91,17 +126,17 @@ public static class WorldExporter
             new NbtByte("bonus_chest", 0),
             new NbtCompound("dimensions")
             {
-                FlatDimension("minecraft:overworld", seed, "minecraft:plains",
+                FlatDimension("minecraft:overworld", seed, biome, true,
                     ("minecraft:bedrock", 1), ("minecraft:stone", 1)),
-                FlatDimension("minecraft:the_nether", seed, "minecraft:nether_wastes",
+                FlatDimension("minecraft:the_nether", seed, "minecraft:nether_wastes", false,
                     ("minecraft:bedrock", 1), ("minecraft:netherrack", 1)),
-                FlatDimension("minecraft:the_end", seed, "minecraft:the_end",
+                FlatDimension("minecraft:the_end", seed, "minecraft:the_end", false,
                     ("minecraft:end_stone", 1))
             }
         };
     }
 
-    private static NbtCompound FlatDimension(string dimensionType, long seed, string biome, params (string block, int height)[] layers)
+    private static NbtCompound FlatDimension(string dimensionType, long seed, string biome, bool features, params (string block, int height)[] layers)
     {
         var layerList = new NbtList("layers", NbtTagType.Compound);
         foreach (var (block, height) in layers)
@@ -116,6 +151,7 @@ public static class WorldExporter
                 new NbtCompound("settings")
                 {
                     new NbtString("biome", biome),
+                    new NbtByte("features", (byte)(features ? 1 : 0)),
                     layerList
                 }
             }
