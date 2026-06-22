@@ -1,0 +1,200 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "prefab": "MasterNode",
+      "offsetX": 1421.32251,
+      "offsetY": 572.673035,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 256.0,
+          "y": 256.0
+        },
+        "height": 1.0,
+        "water": false,
+        "water_level": 0.4,
+        "auto_reload": false,
+        "enabled_chunks": false,
+        "palette": "Default"
+      }
+    },
+    {
+      "id": "4",
+      "prefab": "SaveGraphNode",
+      "offsetX": 1662.13977,
+      "offsetY": 520.025757,
+      "inputs": {
+        "path": "thing"
+      }
+    },
+    {
+      "id": "5",
+      "prefab": "LoadGraphNode",
+      "offsetX": 1653.3385,
+      "offsetY": 638.198853,
+      "inputs": {
+        "path": "graph"
+      }
+    },
+    {
+      "id": "7",
+      "prefab": "TextureToHeightMap",
+      "offsetX": 914.761047,
+      "offsetY": 723.9134,
+      "inputs": {
+        "texture": null
+      }
+    },
+    {
+      "id": "8",
+      "prefab": "DrawTextureNode",
+      "offsetX": 633.131348,
+      "offsetY": 651.430359,
+      "inputs": {
+        "size": {
+          "x": 256.0,
+          "y": 256.0
+        }
+      }
+    },
+    {
+      "id": "9",
+      "prefab": "FluvialErosionNode",
+      "offsetX": 862.8682,
+      "offsetY": 576.904846,
+      "inputs": {
+        "heightmap": null,
+        "steps": 5,
+        "intensity": 3.0,
+        "water_quantity": 1.0,
+        "river_threshold": 1.5,
+        "river_intensity": 2.0
+      }
+    },
+    {
+      "id": "10",
+      "prefab": "HydraulicErosionNode",
+      "offsetX": 1129.71411,
+      "offsetY": 573.008362,
+      "inputs": {
+        "heightmap": null,
+        "steps": 15000,
+        "water_quantity": 0.75,
+        "intensity": 2.0,
+        "drop_radius": 2.0,
+        "max_steps_per_drop": 50
+      }
+    },
+    {
+      "id": "11",
+      "prefab": "RescaleHeightmapNode",
+      "offsetX": 589.353455,
+      "offsetY": 362.60614,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 512.0,
+          "y": 512.0
+        }
+      }
+    },
+    {
+      "id": "12",
+      "prefab": "FluvialErosionNode",
+      "offsetX": 844.679932,
+      "offsetY": 309.715759,
+      "inputs": {
+        "heightmap": null,
+        "steps": 2,
+        "intensity": 3.0,
+        "water_quantity": 1.0,
+        "river_threshold": 1.5,
+        "river_intensity": 2.0
+      }
+    },
+    {
+      "id": "13",
+      "prefab": "HydraulicErosionNode",
+      "offsetX": 1097.71277,
+      "offsetY": 300.158234,
+      "inputs": {
+        "heightmap": null,
+        "steps": 50000,
+        "water_quantity": 0.75,
+        "intensity": 2.0,
+        "drop_radius": 2.0,
+        "max_steps_per_drop": 50
+      }
+    },
+    {
+      "id": "14",
+      "prefab": "MinecraftWorldExportNode",
+      "offsetX": 1420.92249,
+      "offsetY": 256.130219,
+      "inputs": {
+        "heightmap": null,
+        "path": "Thing",
+        "size": {
+          "x": 1024.0,
+          "y": 1024.0
+        },
+        "height": 320,
+        "only_surface": null,
+        "block_palette": "Default",
+        "biome": "Forest",
+        "water_level": 54
+      }
+    }
+  ],
+  "connections": [
+    {
+      "fromNode": "13",
+      "fromOutputName": "heightmap",
+      "toNode": "0",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "8",
+      "fromOutputName": "texture",
+      "toNode": "7",
+      "toInputName": "texture"
+    },
+    {
+      "fromNode": "7",
+      "fromOutputName": "heightmap",
+      "toNode": "9",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "9",
+      "fromOutputName": "heightmap",
+      "toNode": "10",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "10",
+      "fromOutputName": "heightmap",
+      "toNode": "11",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "11",
+      "fromOutputName": "heightmap",
+      "toNode": "12",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "12",
+      "fromOutputName": "heightmap",
+      "toNode": "13",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "13",
+      "fromOutputName": "heightmap",
+      "toNode": "14",
+      "toInputName": "heightmap"
+    }
+  ]
+}

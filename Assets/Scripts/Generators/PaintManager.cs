@@ -112,7 +112,25 @@ public class PaintManager : MonoBehaviour
 
     public void SetTexture(Texture2D texture)
     {
-        paintTexture = texture;
+        if (texture.format != TextureFormat.RFloat)
+        {
+            Texture2D converted = new Texture2D(texture.width, texture.height, TextureFormat.RFloat, false, true);
+            for (int x = 0; x < texture.width; x++)
+            {
+                for (int y = 0; y < texture.height; y++)
+                {
+                    float r = texture.GetPixel(x, y).r;
+                    converted.SetPixel(x, y, new Color(r, r, r, r));
+                }
+            }
+            converted.Apply();
+            paintTexture = converted;
+        }
+        else
+        {
+            paintTexture = texture;
+        }
+        
         paintGO.GetComponent<RawImage>().texture = paintTexture;
 
         if (enabledHeightCurves)
