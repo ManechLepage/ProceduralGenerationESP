@@ -2119,6 +2119,58 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &149371754
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 149371755}
+  - component: {fileID: 149371756}
+  m_Layer: 0
+  m_Name: Decoration Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &149371755
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149371754}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &149371756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149371754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89e6bb885d64bbb4eb03a008e13f605f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  enabled: 0
+  settings:
+    density: 0.001
+    minScale: 0.4
+    maxScale: 0.8
+    maxSlope: 30
+  treeVariants:
+  - {fileID: 488262924451800762, guid: 6b16f281e5a288d4f99228b11ce869ed, type: 3}
 --- !u!1 &163143469
 GameObject:
   m_ObjectHideFlags: 0
@@ -16326,6 +16378,7 @@ SceneRoots:
   - {fileID: 133142318}
   - {fileID: 2098608292}
   - {fileID: 716217740}
+  - {fileID: 149371755}
   - {fileID: 267802180}
   - {fileID: 1352869814}
   - {fileID: 1374050086}
