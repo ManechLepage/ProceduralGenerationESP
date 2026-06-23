@@ -1,0 +1,88 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "prefab": "MasterNode",
+      "offsetX": 1095.47961,
+      "offsetY": 478.3689,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 256.0,
+          "y": 256.0
+        },
+        "height": 1.0,
+        "water": false,
+        "water_level": 0.4,
+        "auto_reload": true,
+        "enabled_chunks": false,
+        "palette": "Default"
+      }
+    },
+    {
+      "id": "3",
+      "prefab": "PerlinNoiseNode",
+      "offsetX": 464.197,
+      "offsetY": 436.462158,
+      "inputs": {
+        "scale": 1.5,
+        "octaves": 8,
+        "lacunarity": 2.0,
+        "persistence": 0.5,
+        "seed": 0,
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "ridged": true,
+        "curve": null,
+        "domainmap": null
+      }
+    },
+    {
+      "id": "4",
+      "prefab": "SaveGraphNode",
+      "offsetX": 1095.47961,
+      "offsetY": 143.18544,
+      "inputs": {
+        "path": "a"
+      }
+    },
+    {
+      "id": "5",
+      "prefab": "LoadGraphNode",
+      "offsetX": 1095.47961,
+      "offsetY": 260.750427,
+      "inputs": {
+        "path": "graph"
+      }
+    },
+    {
+      "id": "6",
+      "prefab": "MinecraftWorldExportNode",
+      "offsetX": 791.1999,
+      "offsetY": 418.399963,
+      "inputs": {
+        "heightmap": null,
+        "path": "Truc",
+        "size": {
+          "x": 2048.0,
+          "y": 2048.0
+        },
+        "height": 320,
+        "only_surface": null,
+        "block_palette": "Default",
+        "biome": "Forest",
+        "water_level": 96
+      }
+    }
+  ],
+  "connections": [
+    {
+      "fromNode": "3",
+      "fromOutputName": "heightmap",
+      "toNode": "6",
+      "toInputName": "heightmap"
+    }
+  ]
+}

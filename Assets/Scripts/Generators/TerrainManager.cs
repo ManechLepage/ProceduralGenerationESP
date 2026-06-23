@@ -363,7 +363,7 @@ public class TerrainManager : MonoBehaviour
         Mesh mesh = GameManager.Instance.meshGenerator.HeightMapToMesh(heightMap, terrainHeight, previewSize, false, colorSettings, lowBorders: true, pixelDistance: pixelDistanceMultiplier);
         GameManager.Instance.meshGenerator.UpdateMesh(meshGO, mesh, previewSize);
 
-        if (DecorationManager.Instance.enabled)
+        if (DecorationManager.Instance.isEnabled)
         {
             DecorationManager.Instance.ClearDecorations();
             DecorationManager.Instance.PopulateMesh(mesh, new Vector3(previewSize.x, 1f, previewSize.y));

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class DecorationManager : MonoBehaviour
 {
     [Header("Settings")]
-    public bool enabled = true;
+    public bool isEnabled = true;
     public DecorationSettings settings;
 
     [Header("Decoration Variants")]

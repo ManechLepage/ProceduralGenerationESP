@@ -57,6 +57,43 @@ public static class WorldExporter
         WriteLevelDat(Path.Combine(worldFolderPath, "level.dat"), worldName, biome);
     }
 
+    public static void ExportWorldThreading(string worldFolderPath, int sizeX, int height, int sizeZ, ChunkBlockGenerator generateChunk, int worldMinY,
+    string worldName = "Exported World", int originChunkX = 0, int originChunkZ = 0, string biome = "minecraft:plains", int waterLevel = -1)
+    {
+        if (sizeX % ChunkBuilder.ChunkSize != 0 || sizeZ % ChunkBuilder.ChunkSize != 0)
+            throw new ArgumentException("X et Z doivent être multiples de 16");
+
+        Directory.CreateDirectory(worldFolderPath);
+        Directory.CreateDirectory(Path.Combine(worldFolderPath, "region"));
+
+        var regions = new Dictionary<(int, int), Dictionary<(int, int), NbtCompound>>();
+
+        System.Threading.Tasks.Parallel.For(0, sizeX / ChunkBuilder.ChunkSize, cx =>
+        {
+            for (int cz = 0; cz < sizeZ / ChunkBuilder.ChunkSize; cz++)
+            {
+                int chunkWorldX = originChunkX + cx, chunkWorldZ = originChunkZ + cz;
+                var (chunkBlocks, maxNonAirY) = generateChunk(chunkWorldX, chunkWorldZ);
+                var chunk = ChunkBuilder.BuildChunk(chunkWorldX, chunkWorldZ, chunkBlocks, worldMinY, biome, maxNonAirY: maxNonAirY, waterLevel: waterLevel);
+
+                var regionKey = (chunkWorldX >> 5, chunkWorldZ >> 5);
+                lock (regions)
+                {
+                    if (!regions.TryGetValue(regionKey, out var regionChunks))
+                        regions[regionKey] = regionChunks = new Dictionary<(int, int), NbtCompound>();
+                    regionChunks[(chunkWorldX & 31, chunkWorldZ & 31)] = chunk;
+                }
+            }
+        });
+
+        foreach (var kvp in regions)
+            RegionFileWriter.WriteRegionFile(
+                Path.Combine(worldFolderPath, "region", $"r.{kvp.Key.Item1}.{kvp.Key.Item2}.mca"),
+                kvp.Value);
+        
+        WriteLevelDat(Path.Combine(worldFolderPath, "level.dat"), worldName, biome);
+    }
+
     public static void ExportTestWorld(string worldFolderPath, string worldName = "Test Stone World", string biome = "minecraft:plains")
     {
         Directory.CreateDirectory(worldFolderPath);

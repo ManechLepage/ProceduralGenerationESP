@@ -30,7 +30,7 @@ public class MinecraftWorldExportNode : NodeBehaviour
         Debug.Log("Exporting Minecraft world...");
 
         MinecraftBlockStateConverter minecraftBlockStateConverter = new MinecraftBlockStateConverter();
-        WorldExporter.ExportWorld(worldPath, settings.size.x, settings.height, settings.size.y, 
+        WorldExporter.ExportWorldThreading(worldPath, settings.size.x, settings.height, settings.size.y, 
             (chunkX, chunkZ) => minecraftBlockStateConverter.CreateChunkBlockState(heightMap, settings, chunkX, chunkZ), 
             worldMinY: 0, worldName: path, biome: biome, waterLevel: settings.waterLevel);
 

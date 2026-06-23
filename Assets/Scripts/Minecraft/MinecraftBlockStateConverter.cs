@@ -1,11 +1,15 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Threading;
 
 public class MinecraftBlockStateConverter
 {
     private static readonly BlockState Air = new BlockState("minecraft:air");
     private static readonly BlockState Stone = new BlockState("minecraft:stone");
     private static readonly BlockState Water = new BlockState("minecraft:water");
+
+    private static readonly ThreadLocal<System.Random> ThreadRandom =
+    new(() => new System.Random(System.Guid.NewGuid().GetHashCode()));
 
     public (BlockState[,,] Blocks, int MaxNonAirY) CreateChunkBlockState(List<List<float>> heightMap, MinecraftConverterSettings settings, int chunkWorldX, int chunkWorldZ)
     {
@@ -55,7 +59,7 @@ public class MinecraftBlockStateConverter
         {
             for (int x = 0; x < width; x++)
             {
-                float slope = CalculateSlope(heightMap, x + startX, z + startZ, settings.size) * 5.5f * (settings.size.x / 128f);
+                float slope = CalculateSlope(heightMapArray, x + 1, z + 1) / (settings.size.x / 512f);
                 int blockHeight = heightMapArray[x + 1, z + 1];
 
                 int undergroundStart = -1;
@@ -166,7 +170,7 @@ public class MinecraftBlockStateConverter
             totalProportion += bp.proportion;
         }
 
-        float randomValue = Random.Range(0f, totalProportion);
+         float randomValue = (float)(ThreadRandom.Value!.NextDouble() * totalProportion);
         float cumulative = 0f;
 
         foreach (BlockProportion bp in blockProportions)
@@ -199,6 +203,35 @@ public class MinecraftBlockStateConverter
         float slopeZ = Mathf.Abs(heightU - heightD);
 
         return Mathf.Sqrt(slopeX * slopeX + slopeZ * slopeZ);
+    }
+
+    public float CalculateSlope(int[,] heights, int x, int z)
+    {
+        int width = heights.GetLength(0);
+        int length = heights.GetLength(1);
+
+        int center = heights[x, z];
+
+        float maxDelta = 0f;
+
+        for (int oz = -1; oz <= 1; oz++)
+        {
+            for (int ox = -1; ox <= 1; ox++)
+            {
+                if (ox == 0 && oz == 0)
+                    continue;
+
+                int nx = Mathf.Clamp(x + ox, 0, width - 1);
+                int nz = Mathf.Clamp(z + oz, 0, length - 1);
+
+                float delta = Mathf.Abs(heights[nx, nz] - center);
+
+                if (delta > maxDelta)
+                    maxDelta = delta;
+            }
+        }
+
+        return maxDelta;
     }
 
     public Dictionary<string, int> CreateBlockPalette(BlockPalette blockPalette)
