@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using fNbt;
+using System.Threading.Tasks;
 
 /*
 WorldExporter.cs
@@ -25,8 +26,8 @@ public static class WorldExporter
 {
     public delegate (BlockState[,,] Blocks, int MaxNonAirY) ChunkBlockGenerator(int chunkWorldX, int chunkWorldZ);
 
-    public static void ExportWorld(string worldFolderPath, int sizeX, int height, int sizeZ, ChunkBlockGenerator generateChunk, int worldMinY,
-    string worldName = "Exported World", int originChunkX = 0, int originChunkZ = 0, string biome = "minecraft:plains", int waterLevel = -1)
+    async public static void ExportWorld(string worldFolderPath, int sizeX, int height, int sizeZ, ChunkBlockGenerator generateChunk, int worldMinY,
+    string worldName = "Exported World", int originChunkX = 0, int originChunkZ = 0, string biome = "minecraft:plains", int waterLevel = -1, Func<int, int, Task> callback = null)
     {
         if (sizeX % ChunkBuilder.ChunkSize != 0 || sizeZ % ChunkBuilder.ChunkSize != 0)
             throw new ArgumentException("X et Z doivent être multiples de 16");
@@ -35,6 +36,9 @@ public static class WorldExporter
         Directory.CreateDirectory(Path.Combine(worldFolderPath, "region"));
 
         var regions = new Dictionary<(int, int), Dictionary<(int, int), NbtCompound>>();
+
+        int totalSteps = (sizeX / ChunkBuilder.ChunkSize) * (sizeZ / ChunkBuilder.ChunkSize);
+        int currentStep = 0;
 
         for (int cx = 0; cx < sizeX / ChunkBuilder.ChunkSize; cx++)
         for (int cz = 0; cz < sizeZ / ChunkBuilder.ChunkSize; cz++)
@@ -47,6 +51,11 @@ public static class WorldExporter
             if (!regions.TryGetValue(regionKey, out var regionChunks))
                 regions[regionKey] = regionChunks = new Dictionary<(int, int), NbtCompound>();
             regionChunks[(chunkWorldX & 31, chunkWorldZ & 31)] = chunk;
+
+            currentStep++;
+
+            if (callback != null)
+                await callback(currentStep, totalSteps);
         }
 
         foreach (var kvp in regions)
@@ -57,8 +66,8 @@ public static class WorldExporter
         WriteLevelDat(Path.Combine(worldFolderPath, "level.dat"), worldName, biome);
     }
 
-    public static void ExportWorldThreading(string worldFolderPath, int sizeX, int height, int sizeZ, ChunkBlockGenerator generateChunk, int worldMinY,
-    string worldName = "Exported World", int originChunkX = 0, int originChunkZ = 0, string biome = "minecraft:plains", int waterLevel = -1)
+    async public static Task ExportWorldThreading(string worldFolderPath, int sizeX, int height, int sizeZ, ChunkBlockGenerator generateChunk, int worldMinY,
+    string worldName = "Exported World", int originChunkX = 0, int originChunkZ = 0, string biome = "minecraft:plains", int waterLevel = -1, IProgress<float> progress = null)
     {
         if (sizeX % ChunkBuilder.ChunkSize != 0 || sizeZ % ChunkBuilder.ChunkSize != 0)
             throw new ArgumentException("X et Z doivent être multiples de 16");
@@ -68,29 +77,40 @@ public static class WorldExporter
 
         var regions = new Dictionary<(int, int), Dictionary<(int, int), NbtCompound>>();
 
-        System.Threading.Tasks.Parallel.For(0, sizeX / ChunkBuilder.ChunkSize, cx =>
-        {
-            for (int cz = 0; cz < sizeZ / ChunkBuilder.ChunkSize; cz++)
-            {
-                int chunkWorldX = originChunkX + cx, chunkWorldZ = originChunkZ + cz;
-                var (chunkBlocks, maxNonAirY) = generateChunk(chunkWorldX, chunkWorldZ);
-                var chunk = ChunkBuilder.BuildChunk(chunkWorldX, chunkWorldZ, chunkBlocks, worldMinY, biome, maxNonAirY: maxNonAirY, waterLevel: waterLevel);
+        int totalChunksX = sizeX / ChunkBuilder.ChunkSize;
+        int totalChunksZ = sizeZ / ChunkBuilder.ChunkSize;
+        int totalSteps = totalChunksX * totalChunksZ;
+        int currentStep = 0;
 
-                var regionKey = (chunkWorldX >> 5, chunkWorldZ >> 5);
-                lock (regions)
+        await Task.Run(() =>
+        {
+            Parallel.For(0, totalChunksX, cx =>
+            {
+                for (int cz = 0; cz < totalChunksZ; cz++)
                 {
-                    if (!regions.TryGetValue(regionKey, out var regionChunks))
-                        regions[regionKey] = regionChunks = new Dictionary<(int, int), NbtCompound>();
-                    regionChunks[(chunkWorldX & 31, chunkWorldZ & 31)] = chunk;
+                    int chunkWorldX = originChunkX + cx, chunkWorldZ = originChunkZ + cz;
+                    var (chunkBlocks, maxNonAirY) = generateChunk(chunkWorldX, chunkWorldZ);
+                    var chunk = ChunkBuilder.BuildChunk(chunkWorldX, chunkWorldZ, chunkBlocks, worldMinY, biome, maxNonAirY: maxNonAirY, waterLevel: waterLevel);
+
+                    var regionKey = (chunkWorldX >> 5, chunkWorldZ >> 5);
+                    lock (regions)
+                    {
+                        if (!regions.TryGetValue(regionKey, out var regionChunks))
+                            regions[regionKey] = regionChunks = new Dictionary<(int, int), NbtCompound>();
+                        regionChunks[(chunkWorldX & 31, chunkWorldZ & 31)] = chunk;
+                    }
+
+                    int step = System.Threading.Interlocked.Increment(ref currentStep);
+                    progress?.Report((float)step / totalSteps);
                 }
-            }
+            });
         });
 
         foreach (var kvp in regions)
             RegionFileWriter.WriteRegionFile(
                 Path.Combine(worldFolderPath, "region", $"r.{kvp.Key.Item1}.{kvp.Key.Item2}.mca"),
                 kvp.Value);
-        
+
         WriteLevelDat(Path.Combine(worldFolderPath, "level.dat"), worldName, biome);
     }
 

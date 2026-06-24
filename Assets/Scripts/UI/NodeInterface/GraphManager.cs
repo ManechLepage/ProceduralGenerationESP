@@ -32,6 +32,8 @@ public class GraphManager : MonoBehaviour
     public TextMeshProUGUI nextButtonTitle;
     public TextMeshProUGUI nextFlagText;
     public Slider nextButtonSlider;
+    
+    private bool nextButtonActivated = false;
 
     async public Task<Vector2Int> GetTerrainSize()
     {
@@ -89,7 +91,27 @@ public class GraphManager : MonoBehaviour
     {
         nextButtonSlider.value = value;
     }
-    
+
+    public void SendNextButtonToFront()
+    {
+        nextButton.transform.SetAsLastSibling();
+    }
+
+    public void SendNextButtonToBack()
+    {
+        nextButton.transform.SetAsFirstSibling();
+    }
+
+    public void ShowNextButton(bool show)
+    {
+        nextButtonActivated = show;
+    }
+
+    public void SetNextFlagText(string text)
+    {
+        nextFlagText.text = text;
+    }
+
     public bool IsLoadingFlaggedNode()
     {
         foreach (NodeBehaviour node in nodes)
@@ -151,7 +173,7 @@ public class GraphManager : MonoBehaviour
 
     void Update()
     {
-        if (IsLoadingFlaggedNode())
+        if (IsLoadingFlaggedNode() || nextButtonActivated)
             nextButton.SetActive(true);
         else
             nextButton.SetActive(false);

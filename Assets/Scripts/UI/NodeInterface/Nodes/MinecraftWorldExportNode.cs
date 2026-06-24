@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
 
 public class MinecraftWorldExportNode : NodeBehaviour
 {
@@ -27,12 +28,25 @@ public class MinecraftWorldExportNode : NodeBehaviour
         string biome_name = (await GetInputValue("biome")).GetValue<string>();
         string biome = "minecraft:" + biome_name.ToLower().Replace(" ", "_");
 
+        GraphManager graphManager = GraphManager.Instance;
+        graphManager.ShowNextButton(true);
+        graphManager.SendNextButtonToFront();
+        graphManager.SetNextButtonTitle("Exporting...");
+        graphManager.SetNextFlagText("MC World Exporter");
+
         Debug.Log("Exporting Minecraft world...");
 
+        ShowLoadingIcon(true);
+
+        var progress = new Progress<float>(value =>
+        {
+            graphManager.SetNextButtonSliderValue(value);
+        });
+
         MinecraftBlockStateConverter minecraftBlockStateConverter = new MinecraftBlockStateConverter();
-        WorldExporter.ExportWorldThreading(worldPath, settings.size.x, settings.height, settings.size.y, 
+        await WorldExporter.ExportWorldThreading(worldPath, settings.size.x, settings.height, settings.size.y, 
             (chunkX, chunkZ) => minecraftBlockStateConverter.CreateChunkBlockState(heightMap, settings, chunkX, chunkZ), 
-            worldMinY: 0, worldName: path, biome: biome, waterLevel: settings.waterLevel);
+            worldMinY: 0, worldName: path, biome: biome, waterLevel: settings.waterLevel, progress: progress);
 
         UnityEditor.AssetDatabase.Refresh();
 
@@ -40,6 +54,20 @@ public class MinecraftWorldExportNode : NodeBehaviour
         float dt = endTime - startTime;
 
         Debug.Log($"Exported Minecraft world to {worldPath} in {dt:F3} seconds.");
+
+        graphManager.ShowNextButton(false);
+        graphManager.SendNextButtonToBack();
+
+        ShowLoadingIcon(false);
+    }
+
+    public async Task ExportCallback(int step, int totalSteps)
+    {
+        if (step % 10 != 0 && step != totalSteps) return;
+        GraphManager graphManager = GraphManager.Instance;
+        graphManager.SetNextButtonSliderValue((float)step / totalSteps);
+        
+        await Task.Yield();
     }
 
     public async Task<MinecraftConverterSettings> GetSettings()
