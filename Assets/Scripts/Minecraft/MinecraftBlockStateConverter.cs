@@ -11,14 +11,14 @@ public class MinecraftBlockStateConverter
     private static readonly ThreadLocal<System.Random> ThreadRandom =
     new(() => new System.Random(System.Guid.NewGuid().GetHashCode()));
 
-    public (BlockState[,,] Blocks, int MaxNonAirY) CreateChunkBlockState(List<List<float>> heightMap, MinecraftConverterSettings settings, int chunkWorldX, int chunkWorldZ)
+    public (BlockState[,,] Blocks, int MaxNonAirY, bool IsWater) CreateChunkBlockState(List<List<float>> heightMap, MinecraftConverterSettings settings, int chunkWorldX, int chunkWorldZ)
     {
-        var blocks = CreateBlockState(heightMap, settings, out int maxColumnHeight, chunkWorldX * ChunkBuilder.ChunkSize, chunkWorldZ * ChunkBuilder.ChunkSize,
+        var (blocks, isWater) = CreateBlockState(heightMap, settings, out int maxColumnHeight, chunkWorldX * ChunkBuilder.ChunkSize, chunkWorldZ * ChunkBuilder.ChunkSize,
             regionSizeX: ChunkBuilder.ChunkSize, regionSizeZ: ChunkBuilder.ChunkSize);
-        return (blocks, maxColumnHeight);
+        return (blocks, maxColumnHeight, isWater);
     }
 
-    public BlockState[,,] CreateBlockState(List<List<float>> heightMap, MinecraftConverterSettings settings, out int maxColumnHeight,
+    public (BlockState[,,] Blocks, bool IsWater) CreateBlockState(List<List<float>> heightMap, MinecraftConverterSettings settings, out int maxColumnHeight,
         int regionStartX = 0, int regionStartZ = 0, int regionSizeX = default, int regionSizeZ = default)
     {
         if (regionSizeX == default) { regionSizeX = settings.size.x; }
@@ -30,6 +30,8 @@ public class MinecraftBlockStateConverter
 
         int startX = regionStartX;
         int startZ = regionStartZ;
+
+        bool isWater = false;
 
         BlockState[,,] blockState = new BlockState[width, height, length];
         maxColumnHeight = 0;
@@ -59,7 +61,7 @@ public class MinecraftBlockStateConverter
         {
             for (int x = 0; x < width; x++)
             {
-                float slope = CalculateSlope(heightMapArray, x + 1, z + 1) / (settings.size.x / 512f);
+                float slope = CalculateSlope(heightMapArray, x + 1, z + 1) / (Mathf.Pow(256f, 2) / settings.size.x);
                 int blockHeight = heightMapArray[x + 1, z + 1];
 
                 int undergroundStart = -1;
@@ -102,6 +104,7 @@ public class MinecraftBlockStateConverter
                 {
                     if (y <= settings.waterLevel)
                     {
+                        isWater = true;
                         blockState[x, y, z] = Water;
                     }
                     else
@@ -112,7 +115,7 @@ public class MinecraftBlockStateConverter
             }
         }
 
-        return blockState;
+        return (blockState, isWater);
     }
 
     public int GetBlockHeight(float normalizedHeight, int maxHeight)
@@ -210,28 +213,22 @@ public class MinecraftBlockStateConverter
         int width = heights.GetLength(0);
         int length = heights.GetLength(1);
 
-        int center = heights[x, z];
+        // Échantillonne les 8 voisins (avec clamp aux bords)
+        float h00 = heights[Mathf.Clamp(x-1, 0, width-1), Mathf.Clamp(z-1, 0, length-1)];
+        float h10 = heights[Mathf.Clamp(x  , 0, width-1), Mathf.Clamp(z-1, 0, length-1)];
+        float h20 = heights[Mathf.Clamp(x+1, 0, width-1), Mathf.Clamp(z-1, 0, length-1)];
+        float h01 = heights[Mathf.Clamp(x-1, 0, width-1), Mathf.Clamp(z  , 0, length-1)];
+        float h21 = heights[Mathf.Clamp(x+1, 0, width-1), Mathf.Clamp(z  , 0, length-1)];
+        float h02 = heights[Mathf.Clamp(x-1, 0, width-1), Mathf.Clamp(z+1, 0, length-1)];
+        float h12 = heights[Mathf.Clamp(x  , 0, width-1), Mathf.Clamp(z+1, 0, length-1)];
+        float h22 = heights[Mathf.Clamp(x+1, 0, width-1), Mathf.Clamp(z+1, 0, length-1)];
 
-        float maxDelta = 0f;
+        // Sobel : gradient horizontal et vertical
+        float gx = (h20 + 2*h21 + h22) - (h00 + 2*h01 + h02);
+        float gz = (h02 + 2*h12 + h22) - (h00 + 2*h10 + h20);
 
-        for (int oz = -1; oz <= 1; oz++)
-        {
-            for (int ox = -1; ox <= 1; ox++)
-            {
-                if (ox == 0 && oz == 0)
-                    continue;
-
-                int nx = Mathf.Clamp(x + ox, 0, width - 1);
-                int nz = Mathf.Clamp(z + oz, 0, length - 1);
-
-                float delta = Mathf.Abs(heights[nx, nz] - center);
-
-                if (delta > maxDelta)
-                    maxDelta = delta;
-            }
-        }
-
-        return maxDelta;
+        // Magnitude du gradient
+        return Mathf.Sqrt(gx * gx + gz * gz);
     }
 
     public Dictionary<string, int> CreateBlockPalette(BlockPalette blockPalette)

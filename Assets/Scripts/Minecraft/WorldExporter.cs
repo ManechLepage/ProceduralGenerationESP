@@ -24,7 +24,7 @@ level.dat d'un vrai monde 1.21.5 fraîchement créé.
 
 public static class WorldExporter
 {
-    public delegate (BlockState[,,] Blocks, int MaxNonAirY) ChunkBlockGenerator(int chunkWorldX, int chunkWorldZ);
+    public delegate (BlockState[,,] Blocks, int MaxNonAirY, bool IsWater) ChunkBlockGenerator(int chunkWorldX, int chunkWorldZ);
 
     async public static void ExportWorld(string worldFolderPath, int sizeX, int height, int sizeZ, ChunkBlockGenerator generateChunk, int worldMinY,
     string worldName = "Exported World", int originChunkX = 0, int originChunkZ = 0, string biome = "minecraft:plains", int waterLevel = -1, Func<int, int, Task> callback = null)
@@ -44,8 +44,9 @@ public static class WorldExporter
         for (int cz = 0; cz < sizeZ / ChunkBuilder.ChunkSize; cz++)
         {
             int chunkWorldX = originChunkX + cx, chunkWorldZ = originChunkZ + cz;
-            var (chunkBlocks, maxNonAirY) = generateChunk(chunkWorldX, chunkWorldZ);
-            var chunk = ChunkBuilder.BuildChunk(chunkWorldX, chunkWorldZ, chunkBlocks, worldMinY, biome, maxNonAirY: maxNonAirY, waterLevel: waterLevel);
+            var (chunkBlocks, maxNonAirY, isWater) = generateChunk(chunkWorldX, chunkWorldZ);
+            string biomeForChunk = isWater ? "minecraft:deep_ocean" : biome;
+            var chunk = ChunkBuilder.BuildChunk(chunkWorldX, chunkWorldZ, chunkBlocks, worldMinY, biomeForChunk, maxNonAirY: maxNonAirY, waterLevel: waterLevel);
 
             var regionKey = (chunkWorldX >> 5, chunkWorldZ >> 5);
             if (!regions.TryGetValue(regionKey, out var regionChunks))
@@ -89,8 +90,9 @@ public static class WorldExporter
                 for (int cz = 0; cz < totalChunksZ; cz++)
                 {
                     int chunkWorldX = originChunkX + cx, chunkWorldZ = originChunkZ + cz;
-                    var (chunkBlocks, maxNonAirY) = generateChunk(chunkWorldX, chunkWorldZ);
-                    var chunk = ChunkBuilder.BuildChunk(chunkWorldX, chunkWorldZ, chunkBlocks, worldMinY, biome, maxNonAirY: maxNonAirY, waterLevel: waterLevel);
+                    var (chunkBlocks, maxNonAirY, isWater) = generateChunk(chunkWorldX, chunkWorldZ);
+                    string biomeForChunk = isWater ? "minecraft:deep_ocean" : biome;
+                    var chunk = ChunkBuilder.BuildChunk(chunkWorldX, chunkWorldZ, chunkBlocks, worldMinY, biomeForChunk, maxNonAirY: maxNonAirY, waterLevel: waterLevel);
 
                     var regionKey = (chunkWorldX >> 5, chunkWorldZ >> 5);
                     lock (regions)

@@ -1,0 +1,134 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "prefab": "MasterNode",
+      "offsetX": 1279.02429,
+      "offsetY": 634.1862,
+      "inputs": {
+        "heightmap": null,
+        "size": {
+          "x": 256.0,
+          "y": 256.0
+        },
+        "height": 1.0,
+        "water": false,
+        "water_level": 0.4,
+        "auto_reload": true,
+        "enabled_chunks": false,
+        "palette": "Default"
+      }
+    },
+    {
+      "id": "3",
+      "prefab": "PerlinNoiseNode",
+      "offsetX": 268.3981,
+      "offsetY": 600.9452,
+      "inputs": {
+        "scale": 2.0,
+        "octaves": 8,
+        "lacunarity": 2.0,
+        "persistence": 0.5,
+        "seed": 32424,
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "ridged": true,
+        "curve": null,
+        "domainmap": null
+      }
+    },
+    {
+      "id": "4",
+      "prefab": "SaveGraphNode",
+      "offsetX": 1279.02429,
+      "offsetY": 299.7955,
+      "inputs": {
+        "path": "truc"
+      }
+    },
+    {
+      "id": "5",
+      "prefab": "LoadGraphNode",
+      "offsetX": 1279.02429,
+      "offsetY": 416.5251,
+      "inputs": {
+        "path": "graph"
+      }
+    },
+    {
+      "id": "6",
+      "prefab": "FluvialErosionNode",
+      "offsetX": 593.604431,
+      "offsetY": 605.059937,
+      "inputs": {
+        "heightmap": null,
+        "steps": 3,
+        "intensity": 5.0,
+        "water_quantity": 1.0,
+        "river_threshold": 1.5,
+        "river_intensity": 2.0
+      }
+    },
+    {
+      "id": "7",
+      "prefab": "HydraulicErosionNode",
+      "offsetX": 876.306152,
+      "offsetY": 618.7542,
+      "inputs": {
+        "heightmap": null,
+        "steps": 25000,
+        "water_quantity": 0.75,
+        "intensity": 2.0,
+        "drop_radius": 2.0,
+        "max_steps_per_drop": 50
+      }
+    },
+    {
+      "id": "8",
+      "prefab": "MinecraftWorldExportNode",
+      "offsetX": 1023.30304,
+      "offsetY": 334.6786,
+      "inputs": {
+        "heightmap": null,
+        "path": "Truc",
+        "size": {
+          "x": 1024.0,
+          "y": 1024.0
+        },
+        "height": 256,
+        "only_surface": null,
+        "block_palette": "Default",
+        "biome": "Forest",
+        "water_level": 64
+      }
+    }
+  ],
+  "connections": [
+    {
+      "fromNode": "7",
+      "fromOutputName": "heightmap",
+      "toNode": "0",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "3",
+      "fromOutputName": "heightmap",
+      "toNode": "6",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "6",
+      "fromOutputName": "heightmap",
+      "toNode": "7",
+      "toInputName": "heightmap"
+    },
+    {
+      "fromNode": "7",
+      "fromOutputName": "heightmap",
+      "toNode": "8",
+      "toInputName": "heightmap"
+    }
+  ]
+}
